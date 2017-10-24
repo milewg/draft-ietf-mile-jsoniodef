@@ -1,0 +1,3262 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- This template is for creating an Internet Draft using xml2rfc,
+    which is available here: http://xml.resource.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!-- One method to get references from the online citation libraries.
+    There has to be one entity for each item to be referenced. 
+    An alternate method (rfc include) is described in the references. -->
+
+<!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC2629 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2629.xml">
+<!ENTITY RFC3552 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3552.xml">
+<!ENTITY RFC5226 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5226.xml">
+<!ENTITY RFC7970 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7970.xml">
+]>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs), 
+    please see http://xml.resource.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+    (Here they are set differently than their defaults in xml2rfc v1.32) -->
+<?rfc strict="yes" ?>
+<!-- give errors regarding ID-nits and DTD validation -->
+<!-- control the table of contents (ToC) -->
+<?rfc toc="yes"?>
+<!-- generate a ToC -->
+<?rfc tocdepth="4"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<!-- control references -->
+<?rfc symrefs="yes"?>
+<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
+<?rfc sortrefs="yes" ?>
+<!-- sort the reference entries alphabetically -->
+<!-- control vertical white space 
+    (using these PIs as follows is recommended by the RFC Editor) -->
+<?rfc compact="yes" ?>
+<!-- do not start each main section on a new page -->
+<?rfc subcompact="no" ?>
+<!-- keep one blank line between list items -->
+<!-- end of list of popular I-D processing instructions -->
+<rfc category="std" docName="draft-ietf-mile-jsoniodef-01" ipr="trust200902">
+ <!-- category values: std, bcp, info, exp, and historic
+    ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
+       or pre5378Trust200902
+    you can add the attributes updates="NNNN" and obsoletes="NNNN" 
+    they will automatically be output with "(if approved)" -->
+
+ <!-- ***** FRONT MATTER ***** -->
+
+ <front>
+   <!-- The abbreviated title is used in the page header - it is only necessary if the 
+        full title is longer than 39 characters -->
+
+   <title abbrev="JSON-IODEF">JSON binding of IODEF</title>
+
+   <!-- add 'role="editor"' below for the editors if appropriate -->
+
+   <!-- Another author who claims to be an editor -->
+
+   <author fullname="Takeshi Takahashi" initials="T.T." surname="Takahashi">
+     <organization>NICT</organization>
+
+     <address>
+       <postal>
+         <street>4-2-1 Nukui-Kitamachi</street>
+         <city>Koganei</city>
+         <region>Tokyo</region>
+         <code>184-8795</code>
+         <country>Japan</country>
+       </postal>
+
+       <phone>+81 42 327 5862</phone>
+
+       <email>takeshi_takahashi@nict.go.jp</email>
+
+       <!-- uri and facsimile elements may also be added -->
+     </address>
+   </author>
+   <author fullname="Mio Suzuki" initials="M.S." surname="Suzuki">
+     <organization>NICT</organization>
+
+     <address>
+       <postal>
+         <street>4-2-1 Nukui-Kitamachi</street>
+         <city>Koganei</city>
+         <region>Tokyo</region>
+         <code>184-8795</code>
+         <country>Japan</country>
+       </postal>
+
+       <email>mio@nict.go.jp</email>
+
+       <!-- uri and facsimile elements may also be added -->
+     </address>
+   </author>
+
+
+   <date year="2017" />
+
+   <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
+        in the current day for you. If only the current year is specified, xml2rfc will fill 
+	 in the current day and month for you. If the year is not the current one, it is 
+	 necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the 
+	 purpose of calculating the expiry date).  With drafts it is normally sufficient to 
+	 specify just the year. -->
+
+   <!-- Meta-data Declarations -->
+
+   <area>Security</area>
+
+   <workgroup>MILE</workgroup>
+
+   <!-- WG name at the upperleft corner of the doc,
+        IETF is fine for individual submissions.  
+	 If this element is not present, the default is "Network Working Group",
+        which is used by the RFC Editor as a nod to the history of the IETF. -->
+
+   <keyword>JSON, IODEF</keyword>
+
+   <!-- Keywords will be incorporated into HTML output
+        files in a meta tag but they have no effect on text or nroff
+        output. If you submit your draft to the RFC Editor, the
+        keywords will be used for the search engine. -->
+
+   <abstract>
+     <t><xref target="RFC7970">RFC 7970</xref> provides XML-based data representation on incident information, but the use of the IODEF data model is not limited to XML. JSON representation is sometimes preferred since it is easy to handle from certain programming environments. This draft represents the IODEF data model in JSON.</t>
+   </abstract>
+ </front>
+
+ <middle>
+   <section title="Introduction">
+     <t><xref target="RFC7970">RFC 7970</xref> defines an data model for sharing incident information. It facilitates automated exchange of information among parties over networks. The data model can be implemented in a form of XML, but it is not always suitable for implementation. JSON-based representation is often useful.</t>
+
+<t>Therefore, in this document, we provide a means to represent IODEF data model in JSON.</t>
+
+     <section title="Requirements Language">
+       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+       document are to be interpreted as described in <xref
+       target="RFC2119">RFC 2119</xref>.</t>
+     </section>
+   </section>
+
+
+   <section title="IODEF Data Types">
+     <t> The IODEF Data Types, defined in <xref target="RFC7970">RFC 7970</xref>are used for the JSON IODEF, with some syntax changes for some of the types.</t>
+
+<section title="Integers">
+<t>An integer is represented in the information model by the INTEGER data type. Integer data MUST be encoded in Base 10.</t>
+<t>The INTEGER data type is implemented in the data model as an "xs:integer" type per Section 3.3.13 of [W3C.SCHEMA.DTYPES].</t>
+</section>
+
+<section title="Real Numbers">
+
+<t>A real (floating-point) number is represented in the information model by the REAL data type.  Real data MUST be encoded in Base 10.</t>
+<t>The REAL data type is implemented in the data model as an "xs:float" type per Section 3.2.4 of [W3C.SCHEMA.DTYPES].</t>
+</section>
+
+
+<section title="Characters and Strings">
+
+<t>A single character is represented in the information model by the CHARACTER data type.  A string is represented by the STRING data type. Special characters MUST be encoded using entity references.</t>
+<t>The CHARACTER and STRING data types are implemented in the data model as an "xs:string" type per Section 3.2.1 of [W3C.SCHEMA.DTYPES].</t>
+</section>
+
+
+<section title="Multilingual Strings">
+
+<t>A string that needs to be represented in a human-readable language different than the default encoding of the document is represented in the information model by the ML_STRING data type.</t>
+<t>The ML_STRING data type is implemented in the data model as the "iodef:MLStringType" type.  This type extends the "xs:string" to include two attributes.</t>
+
+
+<figure align="center"><artwork align="left"><![CDATA[
+"MLStringType": {
+  "value": "free-form text",                              //STRING
+  "lang": "en",                                             //ENUM
+  "translation-id": "jp2en0023"                           //STRING
+}
+]]></artwork></figure>
+
+</section>
+
+
+
+<section title="Binary Strings">
+<section title="Base64 Bytes">
+<t>A binary octet encoded with base64 is represented in the information model by the BYTE data type.  A sequence of these octets is of the BYTE[] data type.</t>
+<t>The BYTE and BYTE[] data types are implemented in the data model as an "xs:base64Binary" type per Section 3.2.16 of [W3C.SCHEMA.DTYPES].</t>
+</section>
+
+<section title="Hexadecimal Bytes">
+<t>A binary octet encoded as a character tuple consistent of two hexadecimal digits is represented in the information model by the HEXBIN data type.  A sequence of these octets is of the HEXBIN[] data type.</t>
+<t>The HEXBIN and HEXBIN[] data types are implemented in the data model as an "xs:hexBinary" type per Section 3.2.15 of [W3C.SCHEMA.DTYPES].</t>
+</section>
+
+</section>
+
+<section title="Enumerated Types">
+
+<t>An enumerated type is represented in the information model by the ENUM data type.  It is an ordered list of acceptable string values. Each value has a representative keyword.  Within the data model, the enumerated type keywords are used as attribute values.</t>
+<t>The ENUM data type is implemented in the data model as values of an "xs:NMTOKEN" type per Section 3.3.4 of [W3C.SCHEMA.DTYPES].</t>
+</section>
+
+<section title="Date-Time String">
+<t>A date-time string that describes a particular instant in time is represented in the information model by the DATETIME data type. Ranges are not supported.</t>
+<t>The DATETIME data type is implemented in the data model as an "xs:dateTime" type per Section 3.2.7 of [W3C.SCHEMA.DTYPES].</t>
+</section>
+
+<section title=" Timezone String">
+<t>A timezone offset from UTC is represented in the information model by the TIMEZONE data type.  It is formatted according to the following regular expression: "Z|[\+\-](0[0-9]|1[0-4]):[0-5][0-9]".</t>
+<t>The TIMEZONE data type is implemented in the data model as an "iodef:TimezoneType" type.</t>
+</section>
+
+<section title="Port Lists">
+<t>A list of network ports is represented in the information model by the PORTLIST data type.  A PORTLIST consists of a comma-separated list of numbers and ranges (N-M means ports N through M, inclusive). It is formatted according to the following regular expression: "\d+(\-\d+)?(,\d+(\-\d+)?)*".  For example, "2,5-15,30,32,40-50,55-60".</t>
+<t>The PORTLIST data type is implemented in the data model as an "iodef:PortlistType" type</t>
+</section>
+
+<section title="Postal Address">
+<t>A postal address is represented in the information model by the POSTAL data type.  The format of the POSTAL data type is documented in Section 2.23 of [RFC4519] as a free-form multi-line string separated by the "$" character.</t>
+<t>The POSTAL data type is implemented in the data model as an "iodef:MLStringType" type.</t>
+</section>
+
+<section title="Telephone Number">
+<t>A telephone number is represented in the information model by the PHONE data type.  The format of the PHONE data type is documented in [E.164].</t>
+<t>The PHONE data type is implemented in the data model as an "xs:string" type per Section 3.2.1 of [W3C.SCHEMA.DTYPES].</t>
+</section>
+
+<section title="Email String">
+<t>An email address is represented in the information model by the EMAIL data type.  The format of the EMAIL data type is documented in Section 3.4.1 of [RFC5322] and Section 3.3 of [RFC6531].</t>
+<t>The EMAIL data type is implemented in the data model as an "xs:string" type per Section 3.2.1 of [W3C.SCHEMA.DTYPES].</t>
+</section>
+
+<section title="Uniform Resource Locator Strings">
+<t>A uniform resource locator (URL) is represented in the information model by the URL data type.  The format of the URL data type is documented in [RFC3986].</t>
+<t>The URL data type is implemented as an "xs:anyURI" type per Section 3.2.17 of [W3C.SCHEMA.DTYPES].</t>
+</section>
+
+<section title=" Identifiers and Identifier References">
+<t>An identifier unique to the IODEF document is represented in the information model by the ID data type.  A reference to this identifier is represented by the IDREF data type.</t>
+<t>The ID and IDREF data types are implemented in the model as "xs:ID" and "xs:IDREF" types per Sections 3.3.8 and 3.3.9 of [W3C.SCHEMA.DTYPES].</t>
+</section>
+
+<section title="Software">
+<t>A particular version of software is represented in the information model by the SOFTWARE data type.  This software can be described by using a reference, a URL, or with free-form text.</t>
+<t>The SOFTWARE data type is implemented in the data model as the "iodef:SoftwareType" type.</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"SoftwareType": {
+  "SoftwareReference": {...},                  //SoftwareReference
+  "Description": "MS Windows",                         //ML_STRING
+}
+]]></artwork></figure>
+
+</section>
+
+
+
+<section title="Structured Information">
+<t>Information provided in a form of structured string, such as ID, or structured information, such as XML documents, is represented with this data type. Note that this type was originally specified in RFC7203.</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"StructuredInformation": {
+  "SpecID": "cve",                                          //ENUM
+  "ContentID": "CVE-2007-5000",                           //STRING
+}
+]]></artwork></figure>
+
+<t>When embedding the raw data, base64 conversion should be used for encoding the data in order to embed the data as a string.</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"StructuredInformation": {
+  "SpecID": "oval",                                         //ENUM
+  "RawData": "<<<strings encoded with base64>>>",          //STRING
+}
+]]></artwork></figure>
+
+</section>
+
+
+</section>
+
+
+
+
+   <section title="The IODEF Information Model in JSON">
+      <t> The data model of IODEF is defined in <xref target="RFC7970">RFC 7970</xref>, and this section illustrates their representations in JSON. Note that the complete JSON schema is defined in <xref target="jsonSchemaSection"/>.</t>
+
+   <section title="IODEF-Document Class">
+
+   <t>The IODEF-Document class is the top level class in the IODEF data model.
+This class is defined in Section 3.1 of <xref target="RFC7970">RFC 7970</xref> and has the following fields: "version", "lang", "format-id", "private-enum-name", "private-enum-id", "Incident", and "AdditionalData".
+An example of this class in JSON is as follows.
+Note that JSON representation in this draft treats attributes and elements of each class defined in <xref target="RFC7970">RFC 7970</xref> equally and is agnostic on the order of their appearances.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"IODEF-Document": {
+  "version": "2.0",                                       //STRING
+  "lang": "en",                                             //ENUM
+  "format-id": "RFC7970",                                 //STRING
+  "Incident": [ ... ]                                   //Incident
+}
+]]></artwork></figure>
+
+   </section>
+
+
+<section title="Incident Class">
+
+<t>
+   The Incident class describes commonly exchanged information when
+   reporting or sharing derived analysis from security incidents.
+   This class is defined in Section 3.2 of <xref target="RFC7970">RFC 7970</xref>.
+It has the following fields: "purpose", "lang", "restriction", "ext-restriction", "IncidentID", "RelatedActivity", "GenrationTime", "Description", "Assessment", "Methods", "Contact", "EventData", "IndicatorData", "History", and "AdditionalData".
+An example of this class in JSON is as follows.
+</t>
+
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+"Incident": {
+  "purpose": "reporting",                                   //ENUM
+  "lang": "en",                                           //STRING
+  "restriction": "green",                                   //ENUM
+  "IncidentID": { ... },                        //IncidentID Class
+  "RelatedActivity": [ ... ],              //RelatedActivity Class
+  "GenerationTime": "2015-10-02T11:18:00-05:00",        //DateTime
+  "Description": ["Incident class description field"], //ML_STRING
+  "Assessment": [ ... ],                              //Assessment
+  "Method": [ ... ],                                      //Method
+  "Contact": [ ... ]                                     //Contact
+  "EventData": [ ... ],                                //EventData
+  "IndicatorData": { ... }                         //IndicatorData
+  "History": { ... },                                    //History
+  "AdditionalData": [ ... ],                      //AdditionalData
+}
+]]></artwork>
+     </figure>
+
+
+</section>
+
+<section title="Common Attributes">
+
+<t>
+   There are a number of recurring attributes used in the information
+   model.  They are documented in this section.
+</t>
+
+
+<section title="restriction Attribute">
+
+<t><xref target="RFC7970">RFC 7970</xref> defines the restriction Attribute as one of common attributes. It is defined as below:</t>
+
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+"restriction":{"enum": ["public", "partner", "need-to-know", "private",
+              "default", "white", "green", "amber", "red", "ext-value"]}
+]]></artwork>
+     </figure>
+
+
+<t>Note that you must use "ext-restriction" field (STRING type) when the value of "restriction" field is set to "ext-value".</t>
+
+</section>
+
+<section title="observable-id Attribute">
+
+<t><xref target="RFC7970">RFC 7970</xref> defines the observable-id attribute as one of common attributes.
+The value of this attribute is a unique identifier, in string type, in the scope of the document.It is defined as below:</t>
+
+
+</section>
+
+</section>
+
+
+<section title="IncidentID Class">
+
+<t>
+   This class is defined in Section 3.4 of <xref target="RFC7970">RFC 7970</xref>.
+It has the following fields: "IncidentID", "id", "name", "instance", "restriction", and "ext-restriction".
+ The example below represents how to describe this class in JSON.
+</t>
+
+
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+"IncidentID": {
+  "id": "nict20150518-0001",                             // STRING
+  "name": "NICT_cert",                                   // STRING
+  "instance": "cyberlab"                                 // STRING
+  "restriction": "ext-value"                               // ENUM
+  "ext-restriction": "registration required"             // STRING
+}
+]]></artwork>
+     </figure>
+
+
+
+</section>
+
+<section title="AlternativeID Class">
+
+<t>
+   This class is defined in Section 3.5 of <xref target="RFC7970">RFC 7970</xref>. The example below represents how to describe this class in JSON.
+</t>
+
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+"AltervativeID": {
+  "restriction": "private",                                 //ENUM
+  "IncidentID": [<<<omitted>>>]                       //IncidentID
+}
+]]></artwork>
+     </figure>
+
+
+</section>
+
+
+<section title="RelatedActivity Class">
+
+<t>
+   This class is defined in Section 3.6 of <xref target="RFC7970">RFC 7970</xref>. The example below represents how to describe this class in JSON.
+</t>
+
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+"RelatedActivity": {
+  "restriction": "private",                                 //ENUM
+  "ThreatActor": [{...}],                      //ThreatActor class
+  "Campaign": [{...}]                             //Campaign class
+}
+]]></artwork>
+     </figure>
+
+</section>
+
+
+
+<section title="ThreatActor Class">
+
+<t>
+   This class is defined in Section 3.7 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"ThreatActor": {
+  "ThreatActorID": "TA-12-AGGRESSIVE-BUTTERFLY",          //STRING
+  "Description": "Aggressive Butterfly"                //ML_STRING
+}
+]]></artwork></figure>
+
+</section>
+
+
+<section title="Campaign Class">
+
+<t>
+   This class is defined in Section 3.8 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"Campaign": {
+  "CampaignID": "C-2015-59405",                           //STRING
+  "Description": "Orange Giraffe"                      //ML_STRING
+}
+]]></artwork></figure>
+
+
+</section>
+
+<section title="Contact Class">
+
+<t>
+   This class is defined in Section 3.9 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"Contact": {
+  "role": "creator",                                        //ENUM
+  "type": "organization",                                   //ENUM
+  "ContactName": "CSIRT for example.com",              //ML_STRING
+  "ContactTitle": "Senior Research Engineer"           //ML_STRING
+  "email": {...},                                    //Email Class
+  "Telephone": {...},                            //Telephone Class
+  "Timezone": "+09:00"                            //Timezone Class
+}
+]]></artwork></figure>
+
+
+
+
+<section title="RegistryHandle Class">
+
+<t>
+   This class is defined in Section 3.9.1 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"RegistryHandle": {
+  "handlename": "MyAPNIC",                                //STRING
+  "registry": "apnic",                                      //ENUM
+}
+]]></artwork></figure>
+
+</section>
+
+
+<section title="PostalAddress Class">
+
+<t>
+   This class is defined in Section 3.9.2 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"PostalAddress": {
+  "type": "mailing",                                        //ENUM
+  "PAddress": "1-2-3 Kitamachi Koganei Tokyo, Japan",     //POSTAL
+  "Description": "Office address"                      //ML_STRING
+},
+]]></artwork></figure>
+</section>
+
+
+<section title="Email Class">
+
+<t>
+   This class is defined in Section 3.9.3 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"Email": {
+  "type": "direct",                                         //ENUM
+  "emailTo": "contact@csirt.example.com",                  //EMAIL
+  "Description": "Administrator's address"             //ML_STRING
+},
+]]></artwork></figure>
+</section>
+
+<section title="Telephone Class">
+
+<t>
+   This class is defined in Section 3.9.4 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"Telephone": {
+  "type": "wired",                                          //ENUM
+  "TelephoneNumber": "+81423275862",                       //PHONE
+  "Description": "Administrator's phone at the office" //ML_STRING
+},
+]]></artwork></figure>
+</section>
+
+</section>
+
+<section title="Discovery Class">
+
+<t>
+   This class is defined in Section 3.10 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"Discovery": {
+  "source": "nidps",                                        //ENUM
+  "restriction": "need-to-know"                             //ENUM
+  "Contact": {...},                                //Contact class
+  "DetectionPattern": {...},              //DetectionPattern class
+  "Description":"IDS provided an alert"                //ML_STRING
+  }
+}
+]]></artwork></figure>
+
+
+<section title="DetectionPattern Class">
+
+<t>
+   This class is defined in Section 3.10.1 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"DetectionPattern": {
+  "Application": {...},                                 //SOFTWARE
+  "Description": "The specified application needs
+                 to be reviewed",                      //ML_STRING
+  }
+}
+]]></artwork>
+     </figure>
+</section>
+
+</section>
+
+<section title="Method Class">
+
+<t>
+   This class is defined in Section 3.11 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+"Method": {
+  "AttackPattern": {...}                   //StructuredInformation
+  "Vulnerability": {...}                   //StructuredInformation
+}
+]]></artwork></figure>
+
+
+
+<section title="Reference Class">
+<t>
+   This class is defined in Section 3.11.1 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"Reference":{
+  "URL":"http://www.nict.go.jp"                              //URL
+}
+]]></artwork></figure>
+</section>
+
+</section>
+
+<section title="Assessment Class">
+<t>
+   This class is defined in Section 3.12 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+"Assessment": {
+  "SystemImpact": {...},                      //SystemImpact class
+  "BusinessImpact": {...},                  //BusinessImpact class
+  "TimeImpact": {...},                          //TimeImpact class
+  "MonetaryImpact": {...},                  //MonetaryImpact class
+  "IntendedImpact": {...},                  //IntendedImpact class
+  "Counter": "5",                                  //Counter class
+  "MitigationFactor": "Rebooting is required"          //ML_STRING
+  "Cause": "Malware Infection"                         //ML_STRING
+  }
+}
+]]></artwork>
+     </figure>
+
+<section title="SystemImpact Class">
+<t>
+This class is defined in Section 3.12.1 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"SystemImpact":{
+  "severity":"high",                                        //ENUM
+  "completion": "successful"                                //ENUM
+  "type":"integrity-data"                                   //ENUM
+  "Description":"The web page was falsified"           //ML_STRING
+},
+]]></artwork></figure>
+</section>
+
+<section title="BusinessImpact Class">
+
+<t>This class is defined in Section 3.12.2 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"BusinessImpact": {
+  "severity":"medium",                                      //ENUM
+  "completion": "successful"                                //ENUM
+  "type": "degraded-reputation"                             //ENUM
+  "Description":"The web page was falsified"           //ML_STRING
+}
+]]></artwork></figure>
+</section>
+
+<section title="TimeImpact Class">
+<t>
+   This class is defined in Section 3.12.3 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"TimeImpact":{
+  "time": "240"                                             //REAL
+  "metric": "elapsed"                                       //ENUM
+  "duration": "minutes"                                     //ENUM
+}
+]]></artwork></figure>
+</section>
+
+<section title="MonetaryImpact Class">
+
+<t>This class is defined in Section 3.12.4 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"MonetaryImpact":{
+  "money": "10000",                                         //REAL
+  "severity": "medium",                                     //ENUM
+  "currency": "USD",                                      //STRING
+}
+]]></artwork></figure>
+</section>
+
+<section title="Confidence Class">
+<t>
+   This class is defined in Section 3.12.5 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"Confidence": {
+  "value": "5"                                              //REAL
+  "rating": "medium"                                        //ENUM
+}
+]]></artwork></figure>
+</section>
+
+
+</section>
+
+<section title="History Class">
+
+<t>This class is defined in Section 3.13 of <xref target="RFC7970">RFC 7970</xref>. The example below represents how to describe this class in JSON.</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"History": {
+  "restriction": "need-to-know"                             //ENUM
+  "HistoryItem": { ... }                       //HistoryItem class
+},
+]]></artwork></figure>
+
+<section title="HistoryItem Class">
+
+<t>This class is defined in Section 3.13.1 of <xref target="RFC7970">RFC 7970</xref>. The example below represents how to describe this class in JSON.</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"HistoryItem": {
+  "action": "investigate"                                   //ENUM
+  "restriction": "need-to-know"                             //ENUM
+  "DateTime": "2015-10-15T11:18:00-05:00",              //DateTime
+  "IncidentID" { ...},                          //IncidentID class
+}
+]]></artwork></figure>
+</section>
+
+</section>
+
+<section title="EventData Class">
+<t>This class is defined in Section 3.14 of <xref target="RFC7970">RFC 7970</xref>. The example below represents how to describe this class in JSON.</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"EventData": {
+  "ReportTime": "2016-06-01 18:05:33",
+  "Contact": { ...},                               //Contact class
+  "Assessment": { ...},                         //Assessment class
+  "Method": { ...},                                 //Method class
+  "System": { ... },                                //System class
+  "Expectation": { ...},                       //Expectation class
+]]></artwork></figure>
+</section>
+
+<section title="Expectation Class">
+<t>This class is defined in Section 3.15 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"Expectation": {
+  "action": "investigate"                                   //ENUM
+  "severity": "medium"                                      //ENUM
+  "restriction": "need-to-know"                             //ENUM
+},
+]]></artwork></figure>
+
+</section>
+
+<section title="System Class">
+<t>This class is defined in Section 3.17 of <xref target="RFC7970">RFC 7970</xref>.The example below represents how to describe this class in JSON.</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"System": {
+  "category": "source",                                     //ENUM
+  "Node": { ... },                                    //Node class
+  "Service": { ... },                              //Service class
+},]]></artwork></figure>
+</section>
+
+
+<section title="Node Class">
+<t>
+   This class is defined in Section 3.18 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"Node": {
+  "Address": {
+    "category": "ipv4-addr",
+    "AddressValue": "192.228.139.118"
+    "Location": "OrgID=7"
+  },
+}
+]]></artwork></figure>
+
+<section title="Address Class">
+<t>
+   This class is defined in Section 3.18.1 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"Address": {
+  "category": "ipv4-addr",
+  "AddressValue": "192.228.139.118"
+},
+]]></artwork>
+</figure></section>
+
+<section title="NodeRole Class">
+<t>
+   This class is defined in Section 3.18.2 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"NodeRole": {
+  "category": "client"
+},
+]]></artwork></figure>
+</section>
+
+<section title="Counter Class">
+<t>
+   This class is defined in Section 3.18.3 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"Counter": {
+  "value": "3",
+  "type": "count",
+  "unit": "packet"
+}
+]]></artwork></figure>
+</section>
+
+</section>
+
+<section title="DomainData Class">
+<t>
+   This class is defined in Section 3.19 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"DomainData": {
+  "system-status": "innocent-hacked",         //ENUM
+  "domain-status": "assignedAndInactive",   //STRING
+  "Name": "temp1.nict.go.jp"                //STRING
+},
+]]></artwork></figure>
+
+<section title="Nameserver Class">
+<t>
+   This class is defined in Section 3.19.1 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"NameServers": {
+  "Server": "vgw.nict.go.jp",             //STRING
+  "Address": {
+    "AddressValue": "133.243.18.5",       //STRING
+    "category": "ipv4-addr"                 //ENUM
+  }
+}
+]]></artwork></figure>
+
+</section>
+
+<section title="DomainContacts Class">
+<t>
+   This class is defined in Section 3.19.2 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"DomainContacts": {
+  "Contact": {
+    "role": "user",                       //ENUM
+    "type": "organization"                //ENUM
+  }
+}
+]]></artwork></figure>
+</section>
+
+</section>
+
+<section title="Service Class">
+<t>
+   This class is defined in Section 3.20 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"Service": {
+  "ServiceName": {
+    "Description": "It seems to be a scan from an infected machine."
+  },
+  "ip-protocol": 6,                  //INTEGER
+  "Port": 49183                      //INTEGER
+}
+]]></artwork></figure>
+
+<section title="ServiceName Class">
+<t>
+   This class is defined in Section 3.20.1 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center" anchor="ServiceName_Class" title="ServiceName Class in JSON">
+
+<artwork align="left"><![CDATA[
+"ServiceName": {
+  "Description": "It seems to be a scan from an infected machine." //STRING
+},
+]]></artwork></figure>
+</section>
+
+<section title="ApplicationHeader Class">
+<t>
+   This class is defined in Section 3.20.2 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+<figure align="center"><artwork align="left"><![CDATA[
+"ApplicationHeader": {}
+]]></artwork>
+     </figure>
+</section>
+
+</section>
+
+<section title="EmailData Class">
+<t>
+   This class is defined in Section 3.21 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"EmailData":{}
+]]></artwork>
+     </figure>
+</section>
+
+<section title="Record Class">
+<t>
+   This class is defined in Section 3.22.1 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"Record": {
+  "RecordPattern": {
+    "type": "regex",
+    "value": "[0-9][A-Z]"
+  },
+  "RecordItem": {}
+},
+]]></artwork>
+     </figure>
+
+
+<section title="RecordPattern Class">
+<t>
+   This class is defined in Section 3.22.2 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"RecordPattern": {
+  "type": "regex",
+  "value": "[0-9][A-Z]"
+},
+]]></artwork>
+     </figure>
+
+</section>
+</section>
+
+<section title="WindowsRegistryKeysModified Class">
+<t>
+   This class is defined in Section 3.23 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+            "WindowsRegistryKeysModified": {
+              "Key": {
+                "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",
+                "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",
+              }
+            }
+]]></artwork>
+     </figure>
+
+<section title="Key Class">
+<t>
+   This class is defined in Section 3.23.1 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+              "Key": {
+                "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",
+                "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",
+              }
+]]></artwork>
+     </figure>
+</section>
+</section>
+
+<section title="CertificateData Class">
+<t>
+   This class is defined in Section 3.24 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+            "CertificateData": {
+              "Certificate": {
+                "X509Data": {
+                  "X509IssuerSerial": {
+                    "X509IssuerName": "CN=TAMURA Kent, OU=TRL, O=IBM, L=Yamato-shi, ST=Kanagawa, C=JP",
+                    "X509SerialNumber": "12345678"
+                  },
+                  "X509SKI": "31d97bd7"
+                }
+              }
+            }
+]]></artwork>
+     </figure>
+
+<section title="Certificate Class">
+<t>
+   This class is defined in Section 3.24.1 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+              "Certificate": {
+                "X509Data": {
+                  "X509IssuerSerial": {
+                    "X509IssuerName": "CN=TAMURA Kent, OU=TRL, O=IBM, L=Yamato-shi, ST=Kanagawa, C=JP",
+                    "X509SerialNumber": "12345678"
+                  },
+                  "X509SKI": "31d97bd7"
+                }
+              }
+]]></artwork>
+     </figure>
+
+</section>
+
+</section>
+
+<section title="FileData Class">
+<t>
+   This class is defined in Section 3.25 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+            "FileData": {
+              "File": {
+                "FileName": "dummy.exe"
+              }
+            },
+]]></artwork>
+     </figure>
+
+<section title="File Class">
+<t>
+   This class is defined in Section 3.25.1 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+              "File": {
+                "FileName": "dummy.exe"
+              }
+]]></artwork>
+     </figure>
+
+</section>
+</section>
+
+<section title="HashData Class">
+<t>
+   This class is defined in Section 3.26 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+                "HashData": {
+                  "scope": "file-contents",
+                  "Hash": {
+                    "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1",
+                    "DigestValue": "xxxxxxxxxxx"
+                  }
+                }
+]]></artwork>
+     </figure>
+
+<section title="Hash Class">
+<t>
+   This class is defined in Section 3.26.1 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+                  "Hash": {
+                    "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1",
+                    "DigestValue": "xxxxxxxxxxx"
+                  }
+]]></artwork>
+     </figure>
+
+</section>
+
+<section title="FuzzyHash Class">
+<t>
+   This class is defined in Section 3.26.2 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+                  "FuzzyHash": {
+                    "FuzzyHashValue": {}
+                  }
+]]></artwork>
+     </figure>
+
+</section>
+</section>
+
+<section title="SignatureData Class">
+<t>
+   This class is defined in Section 3.27 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+                "SignatureData": {
+                  "Signature": "xxxxxxxx"
+                }
+]]></artwork>
+     </figure>
+</section>
+
+<section title="Indicator Class">
+<t>
+   This class is defined in Section 3.29 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+          "Indicator": {
+            "IndicatorID": {
+              "id": "G90823490",
+              "name": "csirt.example.com",
+              "version": "1"
+            },
+            "Description": "C2 domains",
+            "StartTime": "2014-12-02T11:18:00-05:00",
+            "Observable": {
+              "BulkObservable": {
+                "type": "fqdn"
+              },
+              "BulkObservableList": [
+                "kj290023j09r34.example.com",
+                "09ijk23jfj0k8.example.net",
+                "klknjwfjiowjefr923.example.org",
+                "oimireik79msd.example.org"
+              ]
+            }
+          }
+]]></artwork>
+     </figure>
+
+<section title="IndicatorID Class">
+<t>
+   This class is defined in Section 3.29.1 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+            "IndicatorID": {
+              "id": "G90823490",
+              "name": "csirt.example.com",
+              "version": "1"
+            },
+]]></artwork>
+     </figure>
+</section>
+<section title="AlternativeIndicatorID Class">
+<t>
+   This class is defined in Section 3.29.2 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+            "AlternativeIndicatorID": {
+              "IndicatorReference": {
+                "uid-ref": "xxxxx"
+              }
+            },
+]]></artwork>
+     </figure>
+</section>
+<section title="Observable Class">
+<t>
+   This class is defined in Section 3.29.3 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+            "Observable": {
+              "BulkObservable": {
+                "type": "fqdn"
+              },
+              "BulkObservableList": [
+                "kj290023j09r34.example.com",
+                "09ijk23jfj0k8.example.net",
+                "klknjwfjiowjefr923.example.org",
+                "oimireik79msd.example.org"
+              ]
+            }
+]]></artwork>
+     </figure>
+</section>
+<section title="IndicatorExpression Class">
+<t>
+   This class is defined in Section 3.29.4 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+            "IndicatorExpression": {}
+]]></artwork>
+     </figure>
+</section>
+<section title="ObservableReference Class">
+<t>
+   This class is defined in Section 3.29.6 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+            "ObservableReference": {
+              "uid-ref": "xxxxx"
+            },
+]]></artwork>
+     </figure>
+</section>
+<section title="IndicatorReference Class">
+<t>
+   This class is defined in Section 3.29.7 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+              "IndicatorReference": {
+                "uid-ref": "xxxxx"
+              }
+]]></artwork>
+     </figure>
+</section>
+<section title="AttackPhase Class">
+<t>
+   This class is defined in Section 3.29.8 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+            "AttackPhase": {
+              "Description": "Currently, the infected host is scanning arbitrary hosts to find next targets."
+            }
+]]></artwork>
+     </figure>
+
+</section>
+
+</section>
+
+</section>
+
+<section title="Notable differences from RFC 7970 (to be deleted)">
+
+<t>
+<list style="symbols">
+<t>Flow class is deleted, and EventData class now has the instance of System class.</t>
+<t>Record class is deleted, and the link to the Record class are directly connected to RecordData class, which is then renamed to Record class.</t>
+</list>
+</t>
+
+</section>
+
+<section title="Examples">
+
+<t>
+   This section provides example of IODEF documents.  These examples do
+   not represent the full capabilities of the data model or the the only
+   way to encode particular information.
+</t>
+
+
+<section title="Minimal Example">
+
+<t>
+   A document containing only the mandatory elements and attributes.</t>
+
+
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+{
+  "version": "2.0",
+  "lang": "en",
+  "Incident": [
+    {
+      "purpose": "reporting",
+      "restriction": "private",
+      "IncidentID": {
+        "id": 492382,
+        "name": "csirt.example.com"
+      },
+      "GenerationTime": "2015-07-18T09:00:00-05:00",
+      "Contact": [
+        {
+          "type": "organization",
+          "role": "creator",
+          "email": {
+            "emailTo": "contact@csirt.example.com"
+          }
+        }
+      ]
+    }
+  ]
+}
+]]></artwork>
+     </figure>
+
+
+
+</section>
+
+
+<section title="Indicators from a Campaign">
+
+<t>
+   An example of C2 domains from a given campaign.</t>
+
+
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+{
+  "version": "2.0",
+  "lang": "en",
+  "Incidents": [
+    {
+      "purpose": "watch",
+      "restriction": "green",
+      "IncidentID": {
+        "id": "897923",
+        "name": "csirt.example.com"
+      },
+      "RelatedActivity": [
+        {
+          "ThreatActor": [
+            {
+              "ThreatActorID": "TA-12-AGGRESSIVE-BUTTERFLY",
+              "Description": "Aggressive Butterfly"
+            }
+          ],
+          "Campaign": [
+            {
+              "CampaignID": "C-2015-59405",
+              "Description": "Orange Giraffe"
+            }
+          ]
+        }
+      ],
+      "GenerationTime": "2015-10-02T11:18:00-05:00",
+      "Description": [
+        "Summarizes the Indicators of Compromise for the Orange Giraffe campaign of the Aggressive Butterfly crime gang."
+      ],
+      "Assessment": [
+        {
+          "BusinessImpact": {
+            "type": "breach-proprietary"
+          }
+        }
+      ],
+      "Contacts": [
+        {
+          "type": "organization",
+          "role": "creator",
+          "ContactName": "CSIRT for example.com",
+          "Email": {
+            "emailTo": "contact@csirt.example.com"
+          }
+        }
+      ],
+      "IndicatorList": [
+        {
+          "IndicatorID": {
+            "id": "G90823490",
+            "name": "csirt.example.com",
+            "version": "1"
+          },
+          "Description": "C2 domains",
+          "StartTime": "2014-12-02T11:18:00-05:00",
+          "Observable": {
+            "BulkObservable": {
+              "type": "fqdn"
+            },
+            "BulkObservableList": [
+              "kj290023j09r34.example.com",
+              "09ijk23jfj0k8.example.net",
+              "klknjwfjiowjefr923.example.org",
+              "oimireik79msd.example.org"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}]]></artwork>
+     </figure>
+
+
+</section>
+</section>
+
+
+<section title="The IODEF Data Model (JSON Schema)" anchor="jsonSchemaSection">
+
+     <figure align="center" anchor="jsonSchema" title="JSON schema">
+       <artwork align="left"><![CDATA[
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "lang": {
+      "enum": [
+        "en",
+        "jp"
+      ]
+    },
+    "restriction": {
+      "enum": [
+        "public",
+        "partner",
+        "need-to-know",
+        "private",
+        "default",
+        "white",
+        "green",
+        "amber",
+        "red",
+        "ext-value"
+      ]
+    },
+    "URLtype": {
+      "type": "string"
+    },
+    "IDtype": {
+      "type": "string"
+    },
+    "ExtensionType": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "dtype": {
+          "enum": [
+            "boolean",
+            "byte",
+            "bytes",
+            "character",
+            "date-time",
+            "ntpstamp",
+            "integer",
+            "portlist",
+            "real",
+            "string",
+            "file",
+            "path",
+            "frame",
+            "packet",
+            "ipv4-packet",
+            "ipv6-packet",
+            "url",
+            "csv",
+            "winreg",
+            "xml",
+            "ext-value"
+          ]
+        },
+        "ext-dtype": {
+          "type": "string"
+        },
+        "meaning": {
+          "type": "string"
+        },
+        "formatid": {
+          "type": "string"
+        },
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        }
+      }
+    },
+    "SoftwareType": {
+      "type": "object",
+      "properties": {
+        "SoftwareReference": {
+          "$ref": "#/definitions/SoftwareReference"
+        },
+        "URL": {
+          "$ref": "#/definitions/URLtype"
+        },
+        "Description": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "SoftwareReference": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "spec-name": {
+          "type": "string"
+        },
+        "ext-spec-name": {
+          "type": "string"
+        },
+        "dtype": {
+          "type": "string"
+        },
+        "ext-dtype": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "spec-name"
+      ],
+      "additionalProperties": false
+    },
+    "Incident": {
+      "title": "Incident",
+      "description": "JSON schema for Incident class",
+      "type": "object",
+      "properties": {
+        "purpose": {
+          "enum": [
+            "traceback",
+            "mitigation",
+            "reporting",
+            "watch",
+            "other",
+            "ext-value"
+          ]
+        },
+        "ext-purpose": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "blabla"
+          ]
+        },
+        "ext-status": {
+          "type": "string"
+        },
+        "lang": {
+          "$ref": "#/definitions/lang"
+        },
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "IncidentID": {
+          "$ref": "#/definitions/IncidentID"
+        },
+        "AlternativeID": {
+          "type": "object"
+        },
+        "RelatedActivity": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RelatedActivity"
+          }
+        },
+        "DetectTime": {
+          "type": "string"
+        },
+        "StartTime": {
+          "type": "string"
+        },
+        "EndTime": {
+          "type": "string"
+        },
+        "RecoveryTime": {
+          "type": "string"
+        },
+        "ReportTime": {
+          "type": "string"
+        },
+        "GenerationTime": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Discovery": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Discovery"
+          }
+        },
+        "Assessment": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Assessment"
+          }
+        },
+        "Methods": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Method"
+          }
+        },
+        "Contacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Contact"
+          }
+        },
+        "EventData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EventData"
+          }
+        },
+        "IndicatorList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Indicator"
+          }
+        },
+        "History": {
+          "$ref": "#/definitions/History"
+        },
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "required": [
+        "IncidentID",
+        "GenerationTime",
+        "Contacts",
+        "purpose"
+      ],
+      "additionalProperties": false
+    },
+    "IncidentID": {
+      "title": "IncidentID",
+      "description": "JSON schema for IncidentID class",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "instance": {
+          "type": "string"
+        },
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "RelatedActivity": {
+      "properties": {
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "IncidentID": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IncidentID"
+          }
+        },
+        "URL": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/URLtype"
+          }
+        },
+        "ThreatActor": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ThreatActor"
+          }
+        },
+        "Campaign": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Campaign"
+          }
+        },
+        "IndicatorID": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IndicatorID"
+          }
+        },
+        "Confidence": {
+          "$ref": "#/definitions/Confidence"
+        },
+        "Description": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ThreatActor": {
+      "properties": {
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "ThreatActorID": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "URL": {
+          "$ref": "#/definitions/URLtype"
+        },
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Campaign": {
+      "properties": {
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "CampaignID": {
+          "type": "string"
+        },
+        "URL": {
+          "$ref": "#/definitions/URLtype"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      }
+    },
+    "Contact": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "enum": [
+            "creator",
+            "reporter",
+            "admin",
+            "tech",
+            "provider",
+            "user",
+            "billing",
+            "legal",
+            "irt",
+            "abuse",
+            "cc",
+            "cc-irt",
+            "leo",
+            "vendor",
+            "vendor-support",
+            "victim",
+            "victim-notified",
+            "ext-value"
+          ]
+        },
+        "ext-role": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "person",
+            "organization",
+            "ext-value"
+          ]
+        },
+        "ext-type": {
+          "type": "string"
+        },
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "ContactName": {
+          "type": "string"
+        },
+        "ContactTitle": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "RegistryHandle": {
+          "$ref": "#/definitions/RegistryHandle"
+        },
+        "PostalAddress": {
+          "$ref": "#/definitions/PostalAddress"
+        },
+        "Email": {
+          "$ref": "#/definitions/Email"
+        },
+        "Telephone": {
+          "$ref": "#/definitions/Telephone"
+        },
+        "Timezone": {},
+        "Contact": {
+          "$ref": "#/definitions/Contact"
+        },
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "required": [
+        "role",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "RegistryHandle": {
+      "type": "object",
+      "properties": {
+        "RegistryHandleName": {},
+        "registry": {},
+        "ext-registry": {}
+      },
+      "required": [
+        "registry"
+      ],
+      "additionalProperties": false
+    },
+    "PostalAddress": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "ext-type": {
+          "type": "string"
+        },
+        "PAddress": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "PAddress"
+      ],
+      "additionalProperties": false
+    },
+    "Email": {
+      "type": "object",
+      "properties": {
+        "type": {},
+        "ext-type": {},
+        "EmailTo": {},
+        "Description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "EmailTo"
+      ],
+      "additionalProperties": false
+    },
+    "Telephone": {
+      "type": "object",
+      "properties": {
+        "type": {},
+        "ext-type": {},
+        "TelephoneNumber": {},
+        "Description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "TelephoneNumber"
+      ],
+      "additionalProperties": false
+    },
+    "Discovery": {
+      "type": "object",
+      "properties": {
+        "source": {},
+        "ext-source": {},
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Contact": {
+          "$ref": "#/definitions/Contact"
+        },
+        "DetectionPattern": {
+          "$ref": "#/definitions/DetectionPattern"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "DetectionPattern": {
+      "type": "object",
+      "properties": {
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "Application": {
+          "$ref": "#/definitions/SoftwareType"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "DetectionConfiguration": {}
+      },
+      "required": [
+        "Application"
+      ],
+      "additionalProperties": false
+    },
+    "Method": {
+      "type": "object",
+      "properties": {
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "References": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Reference"
+          }
+        },
+        "Description": {
+          "type": "string"
+        },
+        "AttackPattern": {},
+        "Vulnerability": {},
+        "Weakness": {},
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "Reference": {
+      "type": "object",
+      "properties": {
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "ReferenceName": {},
+        "URL": {
+          "$ref": "#/definitions/URLtype"
+        },
+        "Description": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "Assessment": {
+      "type": "object",
+      "properties": {
+        "occurrence": {},
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "IncidentCategory": {},
+        "SystemImpact": {
+          "$ref": "#/definitions/SystemImpact"
+        },
+        "BusinessImpact": {
+          "$ref": "#/definitions/BusinessImpact"
+        },
+        "TimeImpact": {
+          "$ref": "#/definitions/TimeImpact"
+        },
+        "MonetaryImpact": {
+          "$ref": "#/definitions/MonetaryImpact"
+        },
+        "IntendedImpact": {},
+        "Counter": {
+          "$ref": "#/definitions/Counter"
+        },
+        "MitigatingFactor": {},
+        "Cause": {},
+        "Confidence": {
+          "$ref": "#/definitions/Confidence"
+        },
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "SystemImpact": {
+      "type": "object",
+      "properties": {
+        "severity": {},
+        "completion": {},
+        "type": {},
+        "ext-type": {},
+        "Description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "BusinessImpact": {
+      "type": "object",
+      "properties": {
+        "severity": {},
+        "ext-severity": {},
+        "type": {},
+        "ext-type": {},
+        "Description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "TimeImpact": {
+      "type": "object",
+      "properties": {
+        "value": {},
+        "severity": {},
+        "metric": {},
+        "ext-metric": {},
+        "duration": {},
+        "ext-duration": {}
+      },
+      "required": [
+        "metric"
+      ],
+      "additionalProperties": false
+    },
+    "MonetaryImpact": {
+      "type": "object",
+      "properties": {
+        "MonetaryImpactValue": {},
+        "severity": {},
+        "currency": {}
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "Confidence": {
+      "type": "object",
+      "properties": {
+        "ConfidenceValue": {},
+        "rating": {},
+        "ext-rating": {}
+      },
+      "required": [
+        "rating"
+      ],
+      "additionalProperties": false
+    },
+    "History": {
+      "type": "object",
+      "properties": {
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "HistoryItem": {}
+      },
+      "required": [
+        "HistoryItem"
+      ],
+      "additionalProperties": false
+    },
+    "HistoryItem": {
+      "type": "object",
+      "properties": {
+        "action": {},
+        "ext-action": {},
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "DateTime": {},
+        "IncidentID": {},
+        "Contact": {
+          "$ref": "#/definitions/Contact"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "DefinedCOA": {},
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "required": [
+        "DateTime",
+        "action"
+      ],
+      "additionalProperties": false
+    },
+    "EventData": {
+      "type": "object",
+      "properties": {
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "DetectTime": {},
+        "StartTime": {},
+        "EndTime": {},
+        "RecoveryTime": {},
+        "ReportTime": {
+          "type": "string"
+        },
+        "Contact": {
+          "$ref": "#/definitions/Contact"
+        },
+        "Discovery": {
+          "$ref": "#/definitions/Discovery"
+        },
+        "Assessment": {},
+        "Method": {
+          "$ref": "#/definitions/Method"
+        },
+        "System": {
+          "$ref": "#/definitions/System"
+        },
+        "Expectation": {
+          "$ref": "#/definitions/Expectation"
+        },
+        "Record": {
+          "$ref": "#/definitions/Record"
+        },
+        "EventData": {
+          "$ref": "#/definitions/EventData"
+        },
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "required": [
+        "ReportTime"
+      ],
+      "additionalProperties": false
+    },
+    "Expectation": {
+      "type": "object",
+      "properties": {
+        "action": {},
+        "ext-action": {},
+        "severity": {},
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "DefinedCOA": {},
+        "StartTime": {},
+        "EndTime": {},
+        "Contact": {
+          "$ref": "#/definitions/Contact"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "System": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "enum": [
+            "source",
+            "target",
+            "intermediate",
+            "sensor",
+            "infrastructure",
+            "ext-value"
+          ]
+        },
+        "ext-category": {},
+        "interface": {},
+        "spoofed": {},
+        "virtual": {},
+        "ownership": {},
+        "ext-ownership": {},
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "Node": {
+          "$ref": "#/definitions/Node"
+        },
+        "NodeRole": {
+          "$ref": "#/definitions/NodeRole"
+        },
+        "Service": {
+          "$ref": "#/definitions/Service"
+        },
+        "OperatingSystem": {},
+        "Counter": {
+          "$ref": "#/definitions/Counter"
+        },
+        "AssetID": {},
+        "Description": {
+          "type": "string"
+        },
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "required": [
+        "Node"
+      ],
+      "additionalProperties": false
+    },
+    "Node": {
+      "type": "object",
+      "properties": {
+        "DomainData": {
+          "$ref": "#/definitions/DomainData"
+        },
+        "Address": {
+          "$ref": "#/definitions/Address"
+        },
+        "PostalAddress": {},
+        "Location": {
+          "type": "string"
+        },
+        "Counter": {
+          "$ref": "#/definitions/Counter"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "Address": {
+      "type": "object",
+      "properties": {
+        "AddressValue": {},
+        "category": {},
+        "ext-category": {},
+        "vlan-name": {},
+        "vlan-num": {
+          "type": "integer"
+        },
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        }
+      },
+      "required": [
+        "category"
+      ],
+      "additionalProperties": false
+    },
+    "NodeRole": {
+      "type": "object",
+      "properties": {
+        "category": {},
+        "ext-category": {},
+        "Description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "category"
+      ],
+      "additionalProperties": false
+    },
+    "Counter": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "type": {},
+        "ext-type": {},
+        "unit": {},
+        "ext-unit": {},
+        "meaning": {},
+        "duration": {},
+        "ext-duration": {}
+      },
+      "required": [
+        "type",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "DomainData": {
+      "type": "object",
+      "properties": {
+        "system-status": {
+          "enum": [
+            "spoofed",
+            "fraudulent",
+            "innocent-hacked",
+            "innocent-hijacked",
+            "unknown",
+            "ext-value"
+          ]
+        },
+        "ext-system-status": {
+          "type": "string"
+        },
+        "domain-status": {
+          "enum": [
+            "reservedDelegation",
+            "assignedAndActive",
+            "assignedAndInactive",
+            "assignedAndOnHold",
+            "revoked",
+            "transferPending",
+            "registryLock",
+            "registrarLock",
+            "other",
+            "unknown",
+            "ext-value"
+          ]
+        },
+        "ext-domain-status": {
+          "type": "string"
+        },
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "DateDomainWasChecked": {},
+        "RegistrationDate": {},
+        "ExpirationDate": {},
+        "RelatedDNS": {},
+        "NameServers": {
+          "$ref": "#/definitions/NameServers"
+        },
+        "DomainContacts": {
+          "$ref": "#/definitions/DomainContacts"
+        }
+      },
+      "required": [
+        "Name",
+        "system-status",
+        "domain-status"
+      ],
+      "additionalProperties": false
+    },
+    "NameServers": {
+      "type": "object",
+      "properties": {
+        "Server": {
+          "type": "string"
+        },
+        "Address": {
+          "$ref": "#/definitions/Address"
+        }
+      },
+      "required": [
+        "Server",
+        "Address"
+      ],
+      "additionalProperties": false
+    },
+    "DomainContacts": {
+      "type": "object",
+      "properties": {
+        "SameDomainContact": {
+          "type": "string"
+        },
+        "Contact": {
+          "$ref": "#/definitions/Contact"
+        }
+      },
+      "required": [
+        "Contact"
+      ],
+      "additionalProperties": false
+    },
+    "Service": {
+      "type": "object",
+      "properties": {
+        "ip-protocol": {
+          "type": "integer"
+        },
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "ServiceName": {
+          "$ref": "#/definitions/ServiceName"
+        },
+        "Port": {
+          "type": "integer"
+        },
+        "Portlist": {},
+        "ProtoCode": {
+          "type": "integer"
+        },
+        "ProtoType": {
+          "type": "integer"
+        },
+        "ProtoField": {
+          "type": "integer"
+        },
+        "ApplicationHeader": {
+          "$ref": "#/definitions/ApplicationHeader"
+        },
+        "EmailData": {
+          "$ref": "#/definitions/EmailData"
+        },
+        "Application": {}
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "ServiceName": {
+      "type": "object",
+      "properties": {
+        "IANAService": {
+          "type": "string"
+        },
+        "URL": {
+          "$ref": "#/definitions/URLtype"
+        },
+        "Description": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "ApplicationHeader": {
+      "type": "object",
+      "properties": {
+        "ApplicationHeaderField": {}
+      },
+      "required": [
+        "ApplicationHeaderField"
+      ],
+      "additionalProperties": false
+    },
+    "EmailData": {
+      "type": "object",
+      "properties": {
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "EmailTo": {},
+        "EmailFrom": {},
+        "EmailSubject": {
+          "type": "string"
+        },
+        "EmailX-Mailer": {
+          "type": "string"
+        },
+        "EmailHeaderField": {},
+        "EmailHeaders": {
+          "type": "string"
+        },
+        "EmailBody": {
+          "type": "string"
+        },
+        "EmailMessage": {
+          "type": "string"
+        },
+        "HashData": {
+          "$ref": "#/definitions/HashData"
+        },
+        "SignatureData": {
+          "$ref": "#/definitions/SignatureData"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "Record": {
+      "type": "object",
+      "properties": {
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "DateTime": {},
+        "Description": {
+          "type": "string"
+        },
+        "Applicadtion": {},
+        "RecordPattern": {},
+        "RecordItem": {},
+        "URL": {
+          "$ref": "#/definitions/URLtype"
+        },
+        "FileData": {
+          "$ref": "#/definitions/FileData"
+        },
+        "WindowsRegistryKeysModified": {},
+        "CertificateData": {
+          "$ref": "#/definitions/CertificateData"
+        },
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "RecordPattern": {
+      "type": "object",
+      "properties": {
+        "RecordPatternValue": {},
+        "type": {},
+        "ext-type": {},
+        "offset": {},
+        "offsetunit": {},
+        "ext-offsetunit": {},
+        "instance": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "WindowsRegistryKeysModified": {
+      "type": "object",
+      "properties": {
+        "observabile-id": {},
+        "Key": {}
+      },
+      "required": [
+        "Key"
+      ],
+      "additionalProperties": false
+    },
+    "Key": {
+      "type": "object",
+      "properties": {
+        "registryaction": {},
+        "ext-registryaction": {},
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "KeyName": {},
+        "KeyValue": {}
+      },
+      "required": [
+        "KeyName"
+      ],
+      "additionalProperties": false
+    },
+    "CertificateData": {
+      "type": "object",
+      "properties": {
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "Certificate": {
+          "$ref": "#/definitions/Certificate"
+        }
+      },
+      "required": [
+        "Certificate"
+      ],
+      "additionalProperties": false
+    },
+    "Certificate": {
+      "type": "object",
+      "properties": {
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "X509Data": {},
+        "Description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "X509Data"
+      ],
+      "additionalProperties": false
+    },
+    "FileData": {
+      "type": "object",
+      "properties": {
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "observable-id": {
+          "$ref": "#/definitions/IDtype"
+        },
+        "File": {
+          "$ref": "#/definitions/File"
+        }
+      },
+      "required": [
+        "File"
+      ],
+      "additionalProperties": false
+    },
+    "File": {
+      "type": "object",
+      "properties": {
+        "FileName": {
+          "type": "string"
+        },
+        "FileSize": {},
+        "FileType": {},
+        "URL": {
+          "$ref": "#/definitions/URLtype"
+        },
+        "HashData": {
+          "$ref": "#/definitions/HashData"
+        },
+        "SignatureData": {
+          "$ref": "#/definitions/SignatureData"
+        },
+        "AssociatedSoftware": {},
+        "FileProperties": {}
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "HashData": {
+      "type": "object",
+      "properties": {
+        "scope": {},
+        "HashTargetID": {},
+        "Hash": {
+          "$ref": "#/definitions/Hash"
+        },
+        "FuzzyHash": {
+          "$ref": "#/definitions/FuzzyHash"
+        }
+      },
+      "required": [
+        "scope"
+      ],
+      "additionalProperties": false
+    },
+    "Hash": {
+      "type": "object",
+      "properties": {
+        "DigestMethod": {
+          "type": "string"
+        },
+        "DigestValue": {
+          "type": "string"
+        },
+        "CanonicalizationMethod": {},
+        "Application": {}
+      },
+      "required": [
+        "DigestMethod",
+        "DigestValue"
+      ],
+      "additionalProperties": false
+    },
+    "FuzzyHash": {
+      "type": "object",
+      "properties": {
+        "FuzzyHashValue": {
+          "$ref": "#/definitions/ExtensionType"
+        },
+        "Application": {},
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "required": [
+        "FuzzyHashValue"
+      ],
+      "additionalProperties": false
+    },
+    "SignatureData": {
+      "type": "object",
+      "properties": {
+        "Signature": {
+          "SignatureValue": "xxxxxxxx",
+          "id": "xxxxxxxx"
+        }
+      },
+      "required": [
+        "Signature"
+      ],
+      "additionalProperties": false
+    },
+    "Indicator": {
+      "type": "object",
+      "properties": {
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "IndicatorID": {
+          "$ref": "#/definitions/IndicatorID"
+        },
+        "AlternativeIndicatorID": {
+          "$ref": "#/definitions/AlternativeIndicatorID"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "StartTime": {},
+        "EndTime": {},
+        "Confidence": {
+          "$ref": "#/definitions/Confidence"
+        },
+        "Contact": {
+          "$ref": "#/definitions/Contact"
+        },
+        "Observable": {},
+        "ObservableReference": {
+          "$ref": "#/definitions/ObservableReference"
+        },
+        "IndicatorExpression": {
+          "$ref": "#/definitions/IndicatorExpression"
+        },
+        "IndicatorReference": {
+          "$ref": "#/definitions/IndicatorReference"
+        },
+        "NodeRole": {
+          "$ref": "#/definitions/NodeRole"
+        },
+        "AttackPhase": {
+          "$ref": "#/definitions/AttackPhase"
+        },
+        "Reference": {
+          "$ref": "#/definitions/Reference"
+        },
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "required": [
+        "IndicatorID"
+      ],
+      "additionalProperties": false
+    },
+    "IndicatorID": {
+      "type": "object",
+      "properties": {
+        "id": {},
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "AlternativeIndicatorID": {
+      "type": "object",
+      "properties": {
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "IndicatorReference": {
+          "$ref": "#/definitions/IndicatorReference"
+        }
+      },
+      "required": [
+        "IndicatorReference"
+      ],
+      "additionalProperties": false
+    },
+    "Observable": {
+      "type": "object",
+      "properties": {
+        "restriction": {
+          "$ref": "#/definitions/restriction"
+        },
+        "ext-restriction": {
+          "type": "string"
+        },
+        "System": {},
+        "Address": {},
+        "DomainData": {
+          "$ref": "#/definitions/DomainData"
+        },
+        "EmailData": {
+          "$ref": "#/definitions/EmailData"
+        },
+        "Service": {
+          "$ref": "#/definitions/Service"
+        },
+        "WindowsRegistryKeysModified": {},
+        "FileData": {
+          "$ref": "#/definitions/FileData"
+        },
+        "CertificateData": {
+          "$ref": "#/definitions/CertificateData"
+        },
+        "RegistryHandle": {},
+        "Record": {
+          "$ref": "#/definitions/Record"
+        },
+        "EventData": {},
+        "Incident": {},
+        "Expectation": {
+          "$ref": "#/definitions/Expectation"
+        },
+        "Reference": {
+          "$ref": "#/definitions/Reference"
+        },
+        "Assessment": {},
+        "DetectionPattern": {},
+        "HistoryItem": {
+          "$ref": "#/definitions/HistoryItem"
+        },
+        "BulkObservable": {
+          "type": "string"
+        },
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "BulkObservable": {
+      "type": "object",
+      "properties": {
+        "type": {},
+        "ext-type": {},
+        "BulkObservableFormant": {},
+        "BulkObservableList": {
+          "type": "string"
+        },
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "BulkObservableFormat": {
+      "type": "object",
+      "properties": {
+        "Hash": {
+          "$ref": "#/definitions/Hash"
+        },
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "IndicatorExpression": {
+      "type": "object",
+      "properties": {
+        "operator": {},
+        "ext-operator": {
+          "type": "string"
+        },
+        "IndicatorExpression": {
+          "$ref": "#/definitions/IndicatorExpression"
+        },
+        "Observable": {},
+        "ObservableReference": {
+          "$ref": "#/definitions/ObservableReference"
+        },
+        "IndicatorReference": {
+          "$ref": "#/definitions/IndicatorReference"
+        },
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "ObservableReference": {
+      "type": "object",
+      "properties": {
+        "uid-ref": {}
+      },
+      "required": [
+        "uid-ref"
+      ],
+      "additionalProperties": false
+    },
+    "IndicatorReference": {
+      "type": "object",
+      "properties": {
+        "uid-ref": {},
+        "euid-ref": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "AttackPhase": {
+      "type": "object",
+      "properties": {
+        "AttackPhaseID": {
+          "type": "string"
+        },
+        "URL": {
+          "$ref": "#/definitions/URLtype"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "AdditionalData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtensionType"
+          }
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  "title": "IODEF-Document",
+  "description": "JSON schema for IODEF-Document class",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "lang": {
+      "$ref": "#/definitions/lang"
+    },
+    "format-id": {
+      "type": "string"
+    },
+    "private-enum-name": {
+      "type": "string"
+    },
+    "private-enum-id": {
+      "type": "string"
+    },
+    "Incidents": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Incident"
+      }
+    },
+    "AdditionalData": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ExtensionType"
+      }
+    }
+  },
+  "required": [
+    "version",
+    "Incidents"
+  ],
+  "additionalProperties": false
+}
+]]></artwork>
+     </figure>
+
+
+</section>
+
+   <section anchor="Acknowledgements" title="Acknowledgements">
+     <t>TBD.</t>
+   </section>
+
+   <section anchor="IANA" title="IANA Considerations">
+     <t>This memo includes no request to IANA.</t>
+   </section>
+
+   <section anchor="Security" title="Security Considerations">
+     <t>This memo does not provide any further security considerations than the one described in <xref target="RFC7970">RFC 7970</xref>.</t>
+   </section>
+
+
+
+
+ </middle>
+
+ <!--  *****BACK MATTER ***** -->
+
+ <back>
+   <!-- References split into informative and normative -->
+
+   <!-- There are 2 ways to insert reference entries from the citation libraries:
+    1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+    2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+       (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+
+    Both are cited textually in the same manner: by using xref elements.
+    If you use the PI option, xml2rfc will, by default, try to find included files in the same
+    directory as the including file. You can also define the XML_LIBRARY environment variable
+    with a value containing a set of directories to search.  These can be either in the local
+    filing system or remote ones accessed by http (http://domain/dir/... ).-->
+
+   <references title="Normative References">
+     <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+     &RFC2119;
+
+     &RFC7970;
+
+     <reference anchor="min_ref">
+       <!-- the following is the minimum to make xml2rfc happy -->
+
+       <front>
+         <title>Minimal Reference</title>
+
+         <author initials="authInitials" surname="authSurName">
+           <organization></organization>
+         </author>
+
+         <date year="2006" />
+       </front>
+     </reference>
+   </references>
+
+   <references title="Informative References">
+     <!-- Here we use entities that we defined at the beginning. -->
+
+     &RFC2629;
+
+     &RFC3552;
+
+     &RFC5226;
+
+     <!-- A reference written by by an organization not a person. -->
+
+     <reference anchor="DOMINATION"
+                target="http://www.example.com/dominator.html">
+       <front>
+         <title>Ultimate Plan for Taking Over the World</title>
+
+         <author>
+           <organization>Mad Dominators, Inc.</organization>
+         </author>
+
+         <date year="1984" />
+       </front>
+     </reference>
+   </references>
+
+
+ </back>
+</rfc>

@@ -1,0 +1,3528 @@
+
+
+
+
+MILE                                                        T. Takahashi
+Internet-Draft                                                 M. Suzuki
+Intended status: Standards Track                                    NICT
+Expires: April 23, 2018                                 October 20, 2017
+
+
+                         JSON binding of IODEF
+                      draft-ietf-mile-jsoniodef-01
+
+Abstract
+
+   RFC 7970 [RFC7970] provides XML-based data representation on incident
+   information, but the use of the IODEF data model is not limited to
+   XML.  JSON representation is sometimes preferred since it is easy to
+   handle from certain programming environments.  This draft represents
+   the IODEF data model in JSON.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on April 23, 2018.
+
+Copyright Notice
+
+   Copyright (c) 2017 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (https://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                 [Page 1]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   4
+     1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   4
+   2.  IODEF Data Types  . . . . . . . . . . . . . . . . . . . . . .   4
+     2.1.  Integers  . . . . . . . . . . . . . . . . . . . . . . . .   4
+     2.2.  Real Numbers  . . . . . . . . . . . . . . . . . . . . . .   4
+     2.3.  Characters and Strings  . . . . . . . . . . . . . . . . .   4
+     2.4.  Multilingual Strings  . . . . . . . . . . . . . . . . . .   5
+     2.5.  Binary Strings  . . . . . . . . . . . . . . . . . . . . .   5
+       2.5.1.  Base64 Bytes  . . . . . . . . . . . . . . . . . . . .   5
+       2.5.2.  Hexadecimal Bytes . . . . . . . . . . . . . . . . . .   5
+     2.6.  Enumerated Types  . . . . . . . . . . . . . . . . . . . .   5
+     2.7.  Date-Time String  . . . . . . . . . . . . . . . . . . . .   6
+     2.8.  Timezone String . . . . . . . . . . . . . . . . . . . . .   6
+     2.9.  Port Lists  . . . . . . . . . . . . . . . . . . . . . . .   6
+     2.10. Postal Address  . . . . . . . . . . . . . . . . . . . . .   6
+     2.11. Telephone Number  . . . . . . . . . . . . . . . . . . . .   6
+     2.12. Email String  . . . . . . . . . . . . . . . . . . . . . .   7
+     2.13. Uniform Resource Locator Strings  . . . . . . . . . . . .   7
+     2.14. Identifiers and Identifier References . . . . . . . . . .   7
+     2.15. Software  . . . . . . . . . . . . . . . . . . . . . . . .   7
+     2.16. Structured Information  . . . . . . . . . . . . . . . . .   7
+   3.  The IODEF Information Model in JSON . . . . . . . . . . . . .   8
+     3.1.  IODEF-Document Class  . . . . . . . . . . . . . . . . . .   8
+     3.2.  Incident Class  . . . . . . . . . . . . . . . . . . . . .   8
+     3.3.  Common Attributes . . . . . . . . . . . . . . . . . . . .   9
+       3.3.1.  restriction Attribute . . . . . . . . . . . . . . . .   9
+       3.3.2.  observable-id Attribute . . . . . . . . . . . . . . .   9
+     3.4.  IncidentID Class  . . . . . . . . . . . . . . . . . . . .   9
+     3.5.  AlternativeID Class . . . . . . . . . . . . . . . . . . .  10
+     3.6.  RelatedActivity Class . . . . . . . . . . . . . . . . . .  10
+     3.7.  ThreatActor Class . . . . . . . . . . . . . . . . . . . .  10
+     3.8.  Campaign Class  . . . . . . . . . . . . . . . . . . . . .  10
+     3.9.  Contact Class . . . . . . . . . . . . . . . . . . . . . .  11
+       3.9.1.  RegistryHandle Class  . . . . . . . . . . . . . . . .  11
+       3.9.2.  PostalAddress Class . . . . . . . . . . . . . . . . .  11
+       3.9.3.  Email Class . . . . . . . . . . . . . . . . . . . . .  11
+       3.9.4.  Telephone Class . . . . . . . . . . . . . . . . . . .  12
+     3.10. Discovery Class . . . . . . . . . . . . . . . . . . . . .  12
+       3.10.1.  DetectionPattern Class . . . . . . . . . . . . . . .  12
+     3.11. Method Class  . . . . . . . . . . . . . . . . . . . . . .  12
+       3.11.1.  Reference Class  . . . . . . . . . . . . . . . . . .  13
+     3.12. Assessment Class  . . . . . . . . . . . . . . . . . . . .  13
+       3.12.1.  SystemImpact Class . . . . . . . . . . . . . . . . .  13
+       3.12.2.  BusinessImpact Class . . . . . . . . . . . . . . . .  13
+       3.12.3.  TimeImpact Class . . . . . . . . . . . . . . . . . .  14
+       3.12.4.  MonetaryImpact Class . . . . . . . . . . . . . . . .  14
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                 [Page 2]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+       3.12.5.  Confidence Class . . . . . . . . . . . . . . . . . .  14
+     3.13. History Class . . . . . . . . . . . . . . . . . . . . . .  14
+       3.13.1.  HistoryItem Class  . . . . . . . . . . . . . . . . .  15
+     3.14. EventData Class . . . . . . . . . . . . . . . . . . . . .  15
+     3.15. Expectation Class . . . . . . . . . . . . . . . . . . . .  15
+     3.16. System Class  . . . . . . . . . . . . . . . . . . . . . .  15
+     3.17. Node Class  . . . . . . . . . . . . . . . . . . . . . . .  16
+       3.17.1.  Address Class  . . . . . . . . . . . . . . . . . . .  16
+       3.17.2.  NodeRole Class . . . . . . . . . . . . . . . . . . .  16
+       3.17.3.  Counter Class  . . . . . . . . . . . . . . . . . . .  16
+     3.18. DomainData Class  . . . . . . . . . . . . . . . . . . . .  16
+       3.18.1.  Nameserver Class . . . . . . . . . . . . . . . . . .  17
+       3.18.2.  DomainContacts Class . . . . . . . . . . . . . . . .  17
+     3.19. Service Class . . . . . . . . . . . . . . . . . . . . . .  17
+       3.19.1.  ServiceName Class  . . . . . . . . . . . . . . . . .  18
+       3.19.2.  ApplicationHeader Class  . . . . . . . . . . . . . .  18
+     3.20. EmailData Class . . . . . . . . . . . . . . . . . . . . .  18
+     3.21. Record Class  . . . . . . . . . . . . . . . . . . . . . .  18
+       3.21.1.  RecordPattern Class  . . . . . . . . . . . . . . . .  18
+     3.22. WindowsRegistryKeysModified Class . . . . . . . . . . . .  19
+       3.22.1.  Key Class  . . . . . . . . . . . . . . . . . . . . .  19
+     3.23. CertificateData Class . . . . . . . . . . . . . . . . . .  19
+       3.23.1.  Certificate Class  . . . . . . . . . . . . . . . . .  19
+     3.24. FileData Class  . . . . . . . . . . . . . . . . . . . . .  20
+       3.24.1.  File Class . . . . . . . . . . . . . . . . . . . . .  20
+     3.25. HashData Class  . . . . . . . . . . . . . . . . . . . . .  20
+       3.25.1.  Hash Class . . . . . . . . . . . . . . . . . . . . .  20
+       3.25.2.  FuzzyHash Class  . . . . . . . . . . . . . . . . . .  21
+     3.26. SignatureData Class . . . . . . . . . . . . . . . . . . .  21
+     3.27. Indicator Class . . . . . . . . . . . . . . . . . . . . .  21
+       3.27.1.  IndicatorID Class  . . . . . . . . . . . . . . . . .  22
+       3.27.2.  AlternativeIndicatorID Class . . . . . . . . . . . .  22
+       3.27.3.  Observable Class . . . . . . . . . . . . . . . . . .  22
+       3.27.4.  IndicatorExpression Class  . . . . . . . . . . . . .  22
+       3.27.5.  ObservableReference Class  . . . . . . . . . . . . .  23
+       3.27.6.  IndicatorReference Class . . . . . . . . . . . . . .  23
+       3.27.7.  AttackPhase Class  . . . . . . . . . . . . . . . . .  23
+   4.  Notable differences from RFC 7970 (to be deleted) . . . . . .  23
+   5.  Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .  23
+     5.1.  Minimal Example . . . . . . . . . . . . . . . . . . . . .  23
+     5.2.  Indicators from a Campaign  . . . . . . . . . . . . . . .  24
+   6.  The IODEF Data Model (JSON Schema)  . . . . . . . . . . . . .  26
+   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  62
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  62
+   9.  Security Considerations . . . . . . . . . . . . . . . . . . .  62
+   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  62
+     10.1.  Normative References . . . . . . . . . . . . . . . . . .  62
+     10.2.  Informative References . . . . . . . . . . . . . . . . .  62
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                 [Page 3]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  63
+
+1.  Introduction
+
+   RFC 7970 [RFC7970] defines an data model for sharing incident
+   information.  It facilitates automated exchange of information among
+   parties over networks.  The data model can be implemented in a form
+   of XML, but it is not always suitable for implementation.  JSON-based
+   representation is often useful.
+
+   Therefore, in this document, we provide a means to represent IODEF
+   data model in JSON.
+
+1.1.  Requirements Language
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in RFC 2119 [RFC2119].
+
+2.  IODEF Data Types
+
+   The IODEF Data Types, defined in RFC 7970 [RFC7970]are used for the
+   JSON IODEF, with some syntax changes for some of the types.
+
+2.1.  Integers
+
+   An integer is represented in the information model by the INTEGER
+   data type.  Integer data MUST be encoded in Base 10.
+
+   The INTEGER data type is implemented in the data model as an
+   "xs:integer" type per Section 3.3.13 of [W3C.SCHEMA.DTYPES].
+
+2.2.  Real Numbers
+
+   A real (floating-point) number is represented in the information
+   model by the REAL data type.  Real data MUST be encoded in Base 10.
+
+   The REAL data type is implemented in the data model as an "xs:float"
+   type per Section 3.2.4 of [W3C.SCHEMA.DTYPES].
+
+2.3.  Characters and Strings
+
+   A single character is represented in the information model by the
+   CHARACTER data type.  A string is represented by the STRING data
+   type.  Special characters MUST be encoded using entity references.
+
+   The CHARACTER and STRING data types are implemented in the data model
+   as an "xs:string" type per Section 3.2.1 of [W3C.SCHEMA.DTYPES].
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                 [Page 4]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+2.4.  Multilingual Strings
+
+   A string that needs to be represented in a human-readable language
+   different than the default encoding of the document is represented in
+   the information model by the ML_STRING data type.
+
+   The ML_STRING data type is implemented in the data model as the
+   "iodef:MLStringType" type.  This type extends the "xs:string" to
+   include two attributes.
+
+   "MLStringType": {
+     "value": "free-form text",                              //STRING
+     "lang": "en",                                             //ENUM
+     "translation-id": "jp2en0023"                           //STRING
+   }
+
+2.5.  Binary Strings
+
+2.5.1.  Base64 Bytes
+
+   A binary octet encoded with base64 is represented in the information
+   model by the BYTE data type.  A sequence of these octets is of the
+   BYTE[] data type.
+
+   The BYTE and BYTE[] data types are implemented in the data model as
+   an "xs:base64Binary" type per Section 3.2.16 of [W3C.SCHEMA.DTYPES].
+
+2.5.2.  Hexadecimal Bytes
+
+   A binary octet encoded as a character tuple consistent of two
+   hexadecimal digits is represented in the information model by the
+   HEXBIN data type.  A sequence of these octets is of the HEXBIN[] data
+   type.
+
+   The HEXBIN and HEXBIN[] data types are implemented in the data model
+   as an "xs:hexBinary" type per Section 3.2.15 of [W3C.SCHEMA.DTYPES].
+
+2.6.  Enumerated Types
+
+   An enumerated type is represented in the information model by the
+   ENUM data type.  It is an ordered list of acceptable string values.
+   Each value has a representative keyword.  Within the data model, the
+   enumerated type keywords are used as attribute values.
+
+   The ENUM data type is implemented in the data model as values of an
+   "xs:NMTOKEN" type per Section 3.3.4 of [W3C.SCHEMA.DTYPES].
+
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                 [Page 5]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+2.7.  Date-Time String
+
+   A date-time string that describes a particular instant in time is
+   represented in the information model by the DATETIME data type.
+   Ranges are not supported.
+
+   The DATETIME data type is implemented in the data model as an
+   "xs:dateTime" type per Section 3.2.7 of [W3C.SCHEMA.DTYPES].
+
+2.8.  Timezone String
+
+   A timezone offset from UTC is represented in the information model by
+   the TIMEZONE data type.  It is formatted according to the following
+   regular expression: "Z|[\+\-](0[0-9]|1[0-4]):[0-5][0-9]".
+
+   The TIMEZONE data type is implemented in the data model as an
+   "iodef:TimezoneType" type.
+
+2.9.  Port Lists
+
+   A list of network ports is represented in the information model by
+   the PORTLIST data type.  A PORTLIST consists of a comma-separated
+   list of numbers and ranges (N-M means ports N through M, inclusive).
+   It is formatted according to the following regular expression:
+   "\d+(\-\d+)?(,\d+(\-\d+)?)*".  For example,
+   "2,5-15,30,32,40-50,55-60".
+
+   The PORTLIST data type is implemented in the data model as an
+   "iodef:PortlistType" type
+
+2.10.  Postal Address
+
+   A postal address is represented in the information model by the
+   POSTAL data type.  The format of the POSTAL data type is documented
+   in Section 2.23 of [RFC4519] as a free-form multi-line string
+   separated by the "$" character.
+
+   The POSTAL data type is implemented in the data model as an
+   "iodef:MLStringType" type.
+
+2.11.  Telephone Number
+
+   A telephone number is represented in the information model by the
+   PHONE data type.  The format of the PHONE data type is documented in
+   [E.164].
+
+   The PHONE data type is implemented in the data model as an
+   "xs:string" type per Section 3.2.1 of [W3C.SCHEMA.DTYPES].
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                 [Page 6]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+2.12.  Email String
+
+   An email address is represented in the information model by the EMAIL
+   data type.  The format of the EMAIL data type is documented in
+   Section 3.4.1 of [RFC5322] and Section 3.3 of [RFC6531].
+
+   The EMAIL data type is implemented in the data model as an
+   "xs:string" type per Section 3.2.1 of [W3C.SCHEMA.DTYPES].
+
+2.13.  Uniform Resource Locator Strings
+
+   A uniform resource locator (URL) is represented in the information
+   model by the URL data type.  The format of the URL data type is
+   documented in [RFC3986].
+
+   The URL data type is implemented as an "xs:anyURI" type per
+   Section 3.2.17 of [W3C.SCHEMA.DTYPES].
+
+2.14.  Identifiers and Identifier References
+
+   An identifier unique to the IODEF document is represented in the
+   information model by the ID data type.  A reference to this
+   identifier is represented by the IDREF data type.
+
+   The ID and IDREF data types are implemented in the model as "xs:ID"
+   and "xs:IDREF" types per Sections 3.3.8 and 3.3.9 of
+   [W3C.SCHEMA.DTYPES].
+
+2.15.  Software
+
+   A particular version of software is represented in the information
+   model by the SOFTWARE data type.  This software can be described by
+   using a reference, a URL, or with free-form text.
+
+   The SOFTWARE data type is implemented in the data model as the
+   "iodef:SoftwareType" type.
+
+   "SoftwareType": {
+     "SoftwareReference": {...},                  //SoftwareReference
+     "Description": "MS Windows",                         //ML_STRING
+   }
+
+2.16.  Structured Information
+
+   Information provided in a form of structured string, such as ID, or
+   structured information, such as XML documents, is represented with
+   this data type.  Note that this type was originally specified in
+   RFC7203.
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                 [Page 7]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+   "StructuredInformation": {
+     "SpecID": "cve",                                          //ENUM
+     "ContentID": "CVE-2007-5000",                           //STRING
+   }
+
+   When embedding the raw data, base64 conversion should be used for
+   encoding the data in order to embed the data as a string.
+
+   "StructuredInformation": {
+     "SpecID": "oval",                                         //ENUM
+     "RawData": "<<<strings encoded with base64>>>",          //STRING
+   }
+
+3.  The IODEF Information Model in JSON
+
+   The data model of IODEF is defined in RFC 7970 [RFC7970], and this
+   section illustrates their representations in JSON.  Note that the
+   complete JSON schema is defined in Section 6.
+
+3.1.  IODEF-Document Class
+
+   The IODEF-Document class is the top level class in the IODEF data
+   model.  This class is defined in Section 3.1 of RFC 7970 [RFC7970]
+   and has the following fields: "version", "lang", "format-id",
+   "private-enum-name", "private-enum-id", "Incident", and
+   "AdditionalData".  An example of this class in JSON is as follows.
+   Note that JSON representation in this draft treats attributes and
+   elements of each class defined in RFC 7970 [RFC7970] equally and is
+   agnostic on the order of their appearances.
+
+   "IODEF-Document": {
+     "version": "2.0",                                       //STRING
+     "lang": "en",                                             //ENUM
+     "format-id": "RFC7970",                                 //STRING
+     "Incident": [ ... ]                                   //Incident
+   }
+
+3.2.  Incident Class
+
+   The Incident class describes commonly exchanged information when
+   reporting or sharing derived analysis from security incidents.  This
+   class is defined in Section 3.2 of RFC 7970 [RFC7970].  It has the
+   following fields: "purpose", "lang", "restriction", "ext-
+   restriction", "IncidentID", "RelatedActivity", "GenrationTime",
+   "Description", "Assessment", "Methods", "Contact", "EventData",
+   "IndicatorData", "History", and "AdditionalData".  An example of this
+   class in JSON is as follows.
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                 [Page 8]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+   "Incident": {
+     "purpose": "reporting",                                   //ENUM
+     "lang": "en",                                           //STRING
+     "restriction": "green",                                   //ENUM
+     "IncidentID": { ... },                        //IncidentID Class
+     "RelatedActivity": [ ... ],              //RelatedActivity Class
+     "GenerationTime": "2015-10-02T11:18:00-05:00",        //DateTime
+     "Description": ["Incident class description field"], //ML_STRING
+     "Assessment": [ ... ],                              //Assessment
+     "Method": [ ... ],                                      //Method
+     "Contact": [ ... ]                                     //Contact
+     "EventData": [ ... ],                                //EventData
+     "IndicatorData": { ... }                         //IndicatorData
+     "History": { ... },                                    //History
+     "AdditionalData": [ ... ],                      //AdditionalData
+   }
+
+3.3.  Common Attributes
+
+   There are a number of recurring attributes used in the information
+   model.  They are documented in this section.
+
+3.3.1.  restriction Attribute
+
+   RFC 7970 [RFC7970] defines the restriction Attribute as one of common
+   attributes.  It is defined as below:
+
+"restriction":{"enum": ["public", "partner", "need-to-know", "private",
+              "default", "white", "green", "amber", "red", "ext-value"]}
+
+   Note that you must use "ext-restriction" field (STRING type) when the
+   value of "restriction" field is set to "ext-value".
+
+3.3.2.  observable-id Attribute
+
+   RFC 7970 [RFC7970] defines the observable-id attribute as one of
+   common attributes.  The value of this attribute is a unique
+   identifier, in string type, in the scope of the document.It is
+   defined as below:
+
+3.4.  IncidentID Class
+
+   This class is defined in Section 3.4 of RFC 7970 [RFC7970].  It has
+   the following fields: "IncidentID", "id", "name", "instance",
+   "restriction", and "ext-restriction".  The example below represents
+   how to describe this class in JSON.
+
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                 [Page 9]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+   "IncidentID": {
+     "id": "nict20150518-0001",                             // STRING
+     "name": "NICT_cert",                                   // STRING
+     "instance": "cyberlab"                                 // STRING
+     "restriction": "ext-value"                               // ENUM
+     "ext-restriction": "registration required"             // STRING
+   }
+
+3.5.  AlternativeID Class
+
+   This class is defined in Section 3.5 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "AltervativeID": {
+     "restriction": "private",                                 //ENUM
+     "IncidentID": [<<<omitted>>>]                       //IncidentID
+   }
+
+3.6.  RelatedActivity Class
+
+   This class is defined in Section 3.6 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "RelatedActivity": {
+     "restriction": "private",                                 //ENUM
+     "ThreatActor": [{...}],                      //ThreatActor class
+     "Campaign": [{...}]                             //Campaign class
+   }
+
+3.7.  ThreatActor Class
+
+   This class is defined in Section 3.7 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "ThreatActor": {
+     "ThreatActorID": "TA-12-AGGRESSIVE-BUTTERFLY",          //STRING
+     "Description": "Aggressive Butterfly"                //ML_STRING
+   }
+
+3.8.  Campaign Class
+
+   This class is defined in Section 3.8 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "Campaign": {
+     "CampaignID": "C-2015-59405",                           //STRING
+     "Description": "Orange Giraffe"                      //ML_STRING
+   }
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 10]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+3.9.  Contact Class
+
+   This class is defined in Section 3.9 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "Contact": {
+     "role": "creator",                                        //ENUM
+     "type": "organization",                                   //ENUM
+     "ContactName": "CSIRT for example.com",              //ML_STRING
+     "ContactTitle": "Senior Research Engineer"           //ML_STRING
+     "email": {...},                                    //Email Class
+     "Telephone": {...},                            //Telephone Class
+     "Timezone": "+09:00"                            //Timezone Class
+   }
+
+3.9.1.  RegistryHandle Class
+
+   This class is defined in Section 3.9.1 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "RegistryHandle": {
+     "handlename": "MyAPNIC",                                //STRING
+     "registry": "apnic",                                      //ENUM
+   }
+
+3.9.2.  PostalAddress Class
+
+   This class is defined in Section 3.9.2 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "PostalAddress": {
+     "type": "mailing",                                        //ENUM
+     "PAddress": "1-2-3 Kitamachi Koganei Tokyo, Japan",     //POSTAL
+     "Description": "Office address"                      //ML_STRING
+   },
+
+3.9.3.  Email Class
+
+   This class is defined in Section 3.9.3 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "Email": {
+     "type": "direct",                                         //ENUM
+     "emailTo": "contact@csirt.example.com",                  //EMAIL
+     "Description": "Administrator's address"             //ML_STRING
+   },
+
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 11]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+3.9.4.  Telephone Class
+
+   This class is defined in Section 3.9.4 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "Telephone": {
+     "type": "wired",                                          //ENUM
+     "TelephoneNumber": "+81423275862",                       //PHONE
+     "Description": "Administrator's phone at the office" //ML_STRING
+   },
+
+3.10.  Discovery Class
+
+   This class is defined in Section 3.10 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "Discovery": {
+     "source": "nidps",                                        //ENUM
+     "restriction": "need-to-know"                             //ENUM
+     "Contact": {...},                                //Contact class
+     "DetectionPattern": {...},              //DetectionPattern class
+     "Description":"IDS provided an alert"                //ML_STRING
+     }
+   }
+
+3.10.1.  DetectionPattern Class
+
+   This class is defined in Section 3.10.1 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "DetectionPattern": {
+     "Application": {...},                                 //SOFTWARE
+     "Description": "The specified application needs
+                    to be reviewed",                      //ML_STRING
+     }
+   }
+
+3.11.  Method Class
+
+   This class is defined in Section 3.11 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "Method": {
+     "AttackPattern": {...}                   //StructuredInformation
+     "Vulnerability": {...}                   //StructuredInformation
+   }
+
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 12]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+3.11.1.  Reference Class
+
+   This class is defined in Section 3.11.1 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "Reference":{
+     "URL":"http://www.nict.go.jp"                              //URL
+   }
+
+3.12.  Assessment Class
+
+   This class is defined in Section 3.12 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "Assessment": {
+     "SystemImpact": {...},                      //SystemImpact class
+     "BusinessImpact": {...},                  //BusinessImpact class
+     "TimeImpact": {...},                          //TimeImpact class
+     "MonetaryImpact": {...},                  //MonetaryImpact class
+     "IntendedImpact": {...},                  //IntendedImpact class
+     "Counter": "5",                                  //Counter class
+     "MitigationFactor": "Rebooting is required"          //ML_STRING
+     "Cause": "Malware Infection"                         //ML_STRING
+     }
+   }
+
+3.12.1.  SystemImpact Class
+
+   This class is defined in Section 3.12.1 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "SystemImpact":{
+     "severity":"high",                                        //ENUM
+     "completion": "successful"                                //ENUM
+     "type":"integrity-data"                                   //ENUM
+     "Description":"The web page was falsified"           //ML_STRING
+   },
+
+3.12.2.  BusinessImpact Class
+
+   This class is defined in Section 3.12.2 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+
+
+
+
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 13]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+   "BusinessImpact": {
+     "severity":"medium",                                      //ENUM
+     "completion": "successful"                                //ENUM
+     "type": "degraded-reputation"                             //ENUM
+     "Description":"The web page was falsified"           //ML_STRING
+   }
+
+3.12.3.  TimeImpact Class
+
+   This class is defined in Section 3.12.3 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "TimeImpact":{
+     "time": "240"                                             //REAL
+     "metric": "elapsed"                                       //ENUM
+     "duration": "minutes"                                     //ENUM
+   }
+
+3.12.4.  MonetaryImpact Class
+
+   This class is defined in Section 3.12.4 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "MonetaryImpact":{
+     "money": "10000",                                         //REAL
+     "severity": "medium",                                     //ENUM
+     "currency": "USD",                                      //STRING
+   }
+
+3.12.5.  Confidence Class
+
+   This class is defined in Section 3.12.5 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "Confidence": {
+     "value": "5"                                              //REAL
+     "rating": "medium"                                        //ENUM
+   }
+
+3.13.  History Class
+
+   This class is defined in Section 3.13 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "History": {
+     "restriction": "need-to-know"                             //ENUM
+     "HistoryItem": { ... }                       //HistoryItem class
+   },
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 14]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+3.13.1.  HistoryItem Class
+
+   This class is defined in Section 3.13.1 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "HistoryItem": {
+     "action": "investigate"                                   //ENUM
+     "restriction": "need-to-know"                             //ENUM
+     "DateTime": "2015-10-15T11:18:00-05:00",              //DateTime
+     "IncidentID" { ...},                          //IncidentID class
+   }
+
+3.14.  EventData Class
+
+   This class is defined in Section 3.14 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "EventData": {
+     "ReportTime": "2016-06-01 18:05:33",
+     "Contact": { ...},                               //Contact class
+     "Assessment": { ...},                         //Assessment class
+     "Method": { ...},                                 //Method class
+     "System": { ... },                                //System class
+     "Expectation": { ...},                       //Expectation class
+
+3.15.  Expectation Class
+
+   This class is defined in Section 3.15 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "Expectation": {
+     "action": "investigate"                                   //ENUM
+     "severity": "medium"                                      //ENUM
+     "restriction": "need-to-know"                             //ENUM
+   },
+
+3.16.  System Class
+
+   This class is defined in Section 3.17 of RFC 7970 [RFC7970].The
+   example below represents how to describe this class in JSON.
+
+   "System": {
+     "category": "source",                                     //ENUM
+     "Node": { ... },                                    //Node class
+     "Service": { ... },                              //Service class
+   },
+
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 15]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+3.17.  Node Class
+
+   This class is defined in Section 3.18 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "Node": {
+     "Address": {
+       "category": "ipv4-addr",
+       "AddressValue": "192.228.139.118"
+       "Location": "OrgID=7"
+     },
+   }
+
+3.17.1.  Address Class
+
+   This class is defined in Section 3.18.1 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "Address": {
+     "category": "ipv4-addr",
+     "AddressValue": "192.228.139.118"
+   },
+
+3.17.2.  NodeRole Class
+
+   This class is defined in Section 3.18.2 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "NodeRole": {
+     "category": "client"
+   },
+
+3.17.3.  Counter Class
+
+   This class is defined in Section 3.18.3 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "Counter": {
+     "value": "3",
+     "type": "count",
+     "unit": "packet"
+   }
+
+3.18.  DomainData Class
+
+   This class is defined in Section 3.19 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 16]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+   "DomainData": {
+     "system-status": "innocent-hacked",         //ENUM
+     "domain-status": "assignedAndInactive",   //STRING
+     "Name": "temp1.nict.go.jp"                //STRING
+   },
+
+3.18.1.  Nameserver Class
+
+   This class is defined in Section 3.19.1 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "NameServers": {
+     "Server": "vgw.nict.go.jp",             //STRING
+     "Address": {
+       "AddressValue": "133.243.18.5",       //STRING
+       "category": "ipv4-addr"                 //ENUM
+     }
+   }
+
+3.18.2.  DomainContacts Class
+
+   This class is defined in Section 3.19.2 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "DomainContacts": {
+     "Contact": {
+       "role": "user",                       //ENUM
+       "type": "organization"                //ENUM
+     }
+   }
+
+3.19.  Service Class
+
+   This class is defined in Section 3.20 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "Service": {
+     "ServiceName": {
+       "Description": "It seems to be a scan from an infected machine."
+     },
+     "ip-protocol": 6,                  //INTEGER
+     "Port": 49183                      //INTEGER
+   }
+
+
+
+
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 17]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+3.19.1.  ServiceName Class
+
+   This class is defined in Section 3.20.1 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+"ServiceName": {
+  "Description": "It seems to be a scan from an infected machine." //STRING
+},
+
+                    Figure 1: ServiceName Class in JSON
+
+3.19.2.  ApplicationHeader Class
+
+   This class is defined in Section 3.20.2 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "ApplicationHeader": {}
+
+3.20.  EmailData Class
+
+   This class is defined in Section 3.21 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "EmailData":{}
+
+3.21.  Record Class
+
+   This class is defined in Section 3.22.1 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "Record": {
+     "RecordPattern": {
+       "type": "regex",
+       "value": "[0-9][A-Z]"
+     },
+     "RecordItem": {}
+   },
+
+3.21.1.  RecordPattern Class
+
+   This class is defined in Section 3.22.2 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+   "RecordPattern": {
+     "type": "regex",
+     "value": "[0-9][A-Z]"
+   },
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 18]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+3.22.  WindowsRegistryKeysModified Class
+
+   This class is defined in Section 3.23 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+               "WindowsRegistryKeysModified": {
+                 "Key": {
+                   "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",
+                   "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",
+                 }
+               }
+
+3.22.1.  Key Class
+
+   This class is defined in Section 3.23.1 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+                 "Key": {
+                   "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",
+                   "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",
+                 }
+
+3.23.  CertificateData Class
+
+   This class is defined in Section 3.24 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+            "CertificateData": {
+              "Certificate": {
+                "X509Data": {
+                  "X509IssuerSerial": {
+                    "X509IssuerName": "CN=TAMURA Kent, OU=TRL, O=IBM, L=Yamato-shi, ST=Kanagawa, C=JP",
+                    "X509SerialNumber": "12345678"
+                  },
+                  "X509SKI": "31d97bd7"
+                }
+              }
+            }
+
+3.23.1.  Certificate Class
+
+   This class is defined in Section 3.24.1 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+
+
+
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 19]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+              "Certificate": {
+                "X509Data": {
+                  "X509IssuerSerial": {
+                    "X509IssuerName": "CN=TAMURA Kent, OU=TRL, O=IBM, L=Yamato-shi, ST=Kanagawa, C=JP",
+                    "X509SerialNumber": "12345678"
+                  },
+                  "X509SKI": "31d97bd7"
+                }
+              }
+
+3.24.  FileData Class
+
+   This class is defined in Section 3.25 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+               "FileData": {
+                 "File": {
+                   "FileName": "dummy.exe"
+                 }
+               },
+
+3.24.1.  File Class
+
+   This class is defined in Section 3.25.1 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+                 "File": {
+                   "FileName": "dummy.exe"
+                 }
+
+3.25.  HashData Class
+
+   This class is defined in Section 3.26 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+                "HashData": {
+                  "scope": "file-contents",
+                  "Hash": {
+                    "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1",
+                    "DigestValue": "xxxxxxxxxxx"
+                  }
+                }
+
+3.25.1.  Hash Class
+
+   This class is defined in Section 3.26.1 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 20]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+                  "Hash": {
+                    "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1",
+                    "DigestValue": "xxxxxxxxxxx"
+                  }
+
+3.25.2.  FuzzyHash Class
+
+   This class is defined in Section 3.26.2 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+                     "FuzzyHash": {
+                       "FuzzyHashValue": {}
+                     }
+
+3.26.  SignatureData Class
+
+   This class is defined in Section 3.27 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+                   "SignatureData": {
+                     "Signature": "xxxxxxxx"
+                   }
+
+3.27.  Indicator Class
+
+   This class is defined in Section 3.29 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+             "Indicator": {
+               "IndicatorID": {
+                 "id": "G90823490",
+                 "name": "csirt.example.com",
+                 "version": "1"
+               },
+               "Description": "C2 domains",
+               "StartTime": "2014-12-02T11:18:00-05:00",
+               "Observable": {
+                 "BulkObservable": {
+                   "type": "fqdn"
+                 },
+                 "BulkObservableList": [
+                   "kj290023j09r34.example.com",
+                   "09ijk23jfj0k8.example.net",
+                   "klknjwfjiowjefr923.example.org",
+                   "oimireik79msd.example.org"
+                 ]
+               }
+             }
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 21]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+3.27.1.  IndicatorID Class
+
+   This class is defined in Section 3.29.1 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+               "IndicatorID": {
+                 "id": "G90823490",
+                 "name": "csirt.example.com",
+                 "version": "1"
+               },
+
+3.27.2.  AlternativeIndicatorID Class
+
+   This class is defined in Section 3.29.2 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+               "AlternativeIndicatorID": {
+                 "IndicatorReference": {
+                   "uid-ref": "xxxxx"
+                 }
+               },
+
+3.27.3.  Observable Class
+
+   This class is defined in Section 3.29.3 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+               "Observable": {
+                 "BulkObservable": {
+                   "type": "fqdn"
+                 },
+                 "BulkObservableList": [
+                   "kj290023j09r34.example.com",
+                   "09ijk23jfj0k8.example.net",
+                   "klknjwfjiowjefr923.example.org",
+                   "oimireik79msd.example.org"
+                 ]
+               }
+
+3.27.4.  IndicatorExpression Class
+
+   This class is defined in Section 3.29.4 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+               "IndicatorExpression": {}
+
+
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 22]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+3.27.5.  ObservableReference Class
+
+   This class is defined in Section 3.29.6 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+               "ObservableReference": {
+                 "uid-ref": "xxxxx"
+               },
+
+3.27.6.  IndicatorReference Class
+
+   This class is defined in Section 3.29.7 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+                 "IndicatorReference": {
+                   "uid-ref": "xxxxx"
+                 }
+
+3.27.7.  AttackPhase Class
+
+   This class is defined in Section 3.29.8 of RFC 7970 [RFC7970].  The
+   example below represents how to describe this class in JSON.
+
+            "AttackPhase": {
+              "Description": "Currently, the infected host is scanning arbitrary hosts to find next targets."
+            }
+
+4.  Notable differences from RFC 7970 (to be deleted)
+
+   o  Flow class is deleted, and EventData class now has the instance of
+      System class.
+
+   o  Record class is deleted, and the link to the Record class are
+      directly connected to RecordData class, which is then renamed to
+      Record class.
+
+5.  Examples
+
+   This section provides example of IODEF documents.  These examples do
+   not represent the full capabilities of the data model or the the only
+   way to encode particular information.
+
+5.1.  Minimal Example
+
+   A document containing only the mandatory elements and attributes.
+
+
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 23]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+   {
+     "version": "2.0",
+     "lang": "en",
+     "Incident": [
+       {
+         "purpose": "reporting",
+         "restriction": "private",
+         "IncidentID": {
+           "id": 492382,
+           "name": "csirt.example.com"
+         },
+         "GenerationTime": "2015-07-18T09:00:00-05:00",
+         "Contact": [
+           {
+             "type": "organization",
+             "role": "creator",
+             "email": {
+               "emailTo": "contact@csirt.example.com"
+             }
+           }
+         ]
+       }
+     ]
+   }
+
+5.2.  Indicators from a Campaign
+
+   An example of C2 domains from a given campaign.
+
+{
+  "version": "2.0",
+  "lang": "en",
+  "Incidents": [
+    {
+      "purpose": "watch",
+      "restriction": "green",
+      "IncidentID": {
+        "id": "897923",
+        "name": "csirt.example.com"
+      },
+      "RelatedActivity": [
+        {
+          "ThreatActor": [
+            {
+              "ThreatActorID": "TA-12-AGGRESSIVE-BUTTERFLY",
+              "Description": "Aggressive Butterfly"
+            }
+          ],
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 24]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+          "Campaign": [
+            {
+              "CampaignID": "C-2015-59405",
+              "Description": "Orange Giraffe"
+            }
+          ]
+        }
+      ],
+      "GenerationTime": "2015-10-02T11:18:00-05:00",
+      "Description": [
+        "Summarizes the Indicators of Compromise for the Orange Giraffe campaign of the Aggressive Butterfly crime gang."
+      ],
+      "Assessment": [
+        {
+          "BusinessImpact": {
+            "type": "breach-proprietary"
+          }
+        }
+      ],
+      "Contacts": [
+        {
+          "type": "organization",
+          "role": "creator",
+          "ContactName": "CSIRT for example.com",
+          "Email": {
+            "emailTo": "contact@csirt.example.com"
+          }
+        }
+      ],
+      "IndicatorList": [
+        {
+          "IndicatorID": {
+            "id": "G90823490",
+            "name": "csirt.example.com",
+            "version": "1"
+          },
+          "Description": "C2 domains",
+          "StartTime": "2014-12-02T11:18:00-05:00",
+          "Observable": {
+            "BulkObservable": {
+              "type": "fqdn"
+            },
+            "BulkObservableList": [
+              "kj290023j09r34.example.com",
+              "09ijk23jfj0k8.example.net",
+              "klknjwfjiowjefr923.example.org",
+              "oimireik79msd.example.org"
+            ]
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 25]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+          }
+        }
+      ]
+    }
+  ]
+}
+
+6.  The IODEF Data Model (JSON Schema)
+
+   {
+     "$schema": "http://json-schema.org/draft-04/schema#",
+     "definitions": {
+       "lang": {
+         "enum": [
+           "en",
+           "jp"
+         ]
+       },
+       "restriction": {
+         "enum": [
+           "public",
+           "partner",
+           "need-to-know",
+           "private",
+           "default",
+           "white",
+           "green",
+           "amber",
+           "red",
+           "ext-value"
+         ]
+       },
+       "URLtype": {
+         "type": "string"
+       },
+       "IDtype": {
+         "type": "string"
+       },
+       "ExtensionType": {
+         "type": "object",
+         "properties": {
+           "name": {
+             "type": "string"
+           },
+           "dtype": {
+             "enum": [
+               "boolean",
+               "byte",
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 26]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+               "bytes",
+               "character",
+               "date-time",
+               "ntpstamp",
+               "integer",
+               "portlist",
+               "real",
+               "string",
+               "file",
+               "path",
+               "frame",
+               "packet",
+               "ipv4-packet",
+               "ipv6-packet",
+               "url",
+               "csv",
+               "winreg",
+               "xml",
+               "ext-value"
+             ]
+           },
+           "ext-dtype": {
+             "type": "string"
+           },
+           "meaning": {
+             "type": "string"
+           },
+           "formatid": {
+             "type": "string"
+           },
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           }
+         }
+       },
+       "SoftwareType": {
+         "type": "object",
+         "properties": {
+           "SoftwareReference": {
+             "$ref": "#/definitions/SoftwareReference"
+           },
+           "URL": {
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 27]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+             "$ref": "#/definitions/URLtype"
+           },
+           "Description": {
+             "type": "string"
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "SoftwareReference": {
+         "type": "object",
+         "properties": {
+           "value": {
+             "type": "string"
+           },
+           "spec-name": {
+             "type": "string"
+           },
+           "ext-spec-name": {
+             "type": "string"
+           },
+           "dtype": {
+             "type": "string"
+           },
+           "ext-dtype": {
+             "type": "string"
+           }
+         },
+         "required": [
+           "spec-name"
+         ],
+         "additionalProperties": false
+       },
+       "Incident": {
+         "title": "Incident",
+         "description": "JSON schema for Incident class",
+         "type": "object",
+         "properties": {
+           "purpose": {
+             "enum": [
+               "traceback",
+               "mitigation",
+               "reporting",
+               "watch",
+               "other",
+               "ext-value"
+             ]
+           },
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 28]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           "ext-purpose": {
+             "type": "string"
+           },
+           "status": {
+             "enum": [
+               "blabla"
+             ]
+           },
+           "ext-status": {
+             "type": "string"
+           },
+           "lang": {
+             "$ref": "#/definitions/lang"
+           },
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "IncidentID": {
+             "$ref": "#/definitions/IncidentID"
+           },
+           "AlternativeID": {
+             "type": "object"
+           },
+           "RelatedActivity": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/RelatedActivity"
+             }
+           },
+           "DetectTime": {
+             "type": "string"
+           },
+           "StartTime": {
+             "type": "string"
+           },
+           "EndTime": {
+             "type": "string"
+           },
+           "RecoveryTime": {
+             "type": "string"
+           },
+           "ReportTime": {
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 29]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+             "type": "string"
+           },
+           "GenerationTime": {
+             "type": "string"
+           },
+           "Description": {
+             "type": "array",
+             "items": {
+               "type": "string"
+             }
+           },
+           "Discovery": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/Discovery"
+             }
+           },
+           "Assessment": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/Assessment"
+             }
+           },
+           "Methods": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/Method"
+             }
+           },
+           "Contacts": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/Contact"
+             }
+           },
+           "EventData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/EventData"
+             }
+           },
+           "IndicatorList": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/Indicator"
+             }
+           },
+           "History": {
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 30]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+             "$ref": "#/definitions/History"
+           },
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+         },
+         "required": [
+           "IncidentID",
+           "GenerationTime",
+           "Contacts",
+           "purpose"
+         ],
+         "additionalProperties": false
+       },
+       "IncidentID": {
+         "title": "IncidentID",
+         "description": "JSON schema for IncidentID class",
+         "type": "object",
+         "properties": {
+           "id": {
+             "type": "string"
+           },
+           "name": {
+             "type": "string"
+           },
+           "instance": {
+             "type": "string"
+           },
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           }
+         },
+         "required": [
+           "name"
+         ],
+         "additionalProperties": false
+       },
+       "RelatedActivity": {
+         "properties": {
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 31]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           "ext-restriction": {
+             "type": "string"
+           },
+           "IncidentID": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/IncidentID"
+             }
+           },
+           "URL": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/URLtype"
+             }
+           },
+           "ThreatActor": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ThreatActor"
+             }
+           },
+           "Campaign": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/Campaign"
+             }
+           },
+           "IndicatorID": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/IndicatorID"
+             }
+           },
+           "Confidence": {
+             "$ref": "#/definitions/Confidence"
+           },
+           "Description": {
+             "type": "array",
+             "items": {
+               "type": "string"
+             }
+           },
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 32]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+         },
+         "additionalProperties": false
+       },
+       "ThreatActor": {
+         "properties": {
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "ThreatActorID": {
+             "type": "string"
+           },
+           "Description": {
+             "type": "string"
+           },
+           "URL": {
+             "$ref": "#/definitions/URLtype"
+           },
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+         },
+         "additionalProperties": false
+       },
+       "Campaign": {
+         "properties": {
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "CampaignID": {
+             "type": "string"
+           },
+           "URL": {
+             "$ref": "#/definitions/URLtype"
+           },
+           "Description": {
+             "type": "string"
+           },
+           "AdditionalData": {
+             "type": "array",
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 33]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+         }
+       },
+       "Contact": {
+         "type": "object",
+         "properties": {
+           "role": {
+             "enum": [
+               "creator",
+               "reporter",
+               "admin",
+               "tech",
+               "provider",
+               "user",
+               "billing",
+               "legal",
+               "irt",
+               "abuse",
+               "cc",
+               "cc-irt",
+               "leo",
+               "vendor",
+               "vendor-support",
+               "victim",
+               "victim-notified",
+               "ext-value"
+             ]
+           },
+           "ext-role": {
+             "type": "string"
+           },
+           "type": {
+             "enum": [
+               "person",
+               "organization",
+               "ext-value"
+             ]
+           },
+           "ext-type": {
+             "type": "string"
+           },
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 34]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+             "type": "string"
+           },
+           "ContactName": {
+             "type": "string"
+           },
+           "ContactTitle": {
+             "type": "string"
+           },
+           "Description": {
+             "type": "string"
+           },
+           "RegistryHandle": {
+             "$ref": "#/definitions/RegistryHandle"
+           },
+           "PostalAddress": {
+             "$ref": "#/definitions/PostalAddress"
+           },
+           "Email": {
+             "$ref": "#/definitions/Email"
+           },
+           "Telephone": {
+             "$ref": "#/definitions/Telephone"
+           },
+           "Timezone": {},
+           "Contact": {
+             "$ref": "#/definitions/Contact"
+           },
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+         },
+         "required": [
+           "role",
+           "type"
+         ],
+         "additionalProperties": false
+       },
+       "RegistryHandle": {
+         "type": "object",
+         "properties": {
+           "RegistryHandleName": {},
+           "registry": {},
+           "ext-registry": {}
+         },
+         "required": [
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 35]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           "registry"
+         ],
+         "additionalProperties": false
+       },
+       "PostalAddress": {
+         "type": "object",
+         "properties": {
+           "type": {
+             "type": "string"
+           },
+           "ext-type": {
+             "type": "string"
+           },
+           "PAddress": {
+             "type": "string"
+           },
+           "Description": {
+             "type": "string"
+           }
+         },
+         "required": [
+           "PAddress"
+         ],
+         "additionalProperties": false
+       },
+       "Email": {
+         "type": "object",
+         "properties": {
+           "type": {},
+           "ext-type": {},
+           "EmailTo": {},
+           "Description": {
+             "type": "string"
+           }
+         },
+         "required": [
+           "EmailTo"
+         ],
+         "additionalProperties": false
+       },
+       "Telephone": {
+         "type": "object",
+         "properties": {
+           "type": {},
+           "ext-type": {},
+           "TelephoneNumber": {},
+           "Description": {
+             "type": "string"
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 36]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           }
+         },
+         "required": [
+           "TelephoneNumber"
+         ],
+         "additionalProperties": false
+       },
+       "Discovery": {
+         "type": "object",
+         "properties": {
+           "source": {},
+           "ext-source": {},
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "Description": {
+             "type": "string"
+           },
+           "Contact": {
+             "$ref": "#/definitions/Contact"
+           },
+           "DetectionPattern": {
+             "$ref": "#/definitions/DetectionPattern"
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "DetectionPattern": {
+         "type": "object",
+         "properties": {
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "Application": {
+             "$ref": "#/definitions/SoftwareType"
+           },
+           "Description": {
+             "type": "string"
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 37]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           },
+           "DetectionConfiguration": {}
+         },
+         "required": [
+           "Application"
+         ],
+         "additionalProperties": false
+       },
+       "Method": {
+         "type": "object",
+         "properties": {
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "References": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/Reference"
+             }
+           },
+           "Description": {
+             "type": "string"
+           },
+           "AttackPattern": {},
+           "Vulnerability": {},
+           "Weakness": {},
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "Reference": {
+         "type": "object",
+         "properties": {
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "ReferenceName": {},
+           "URL": {
+             "$ref": "#/definitions/URLtype"
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 38]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           },
+           "Description": {
+             "type": "string"
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "Assessment": {
+         "type": "object",
+         "properties": {
+           "occurrence": {},
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "IncidentCategory": {},
+           "SystemImpact": {
+             "$ref": "#/definitions/SystemImpact"
+           },
+           "BusinessImpact": {
+             "$ref": "#/definitions/BusinessImpact"
+           },
+           "TimeImpact": {
+             "$ref": "#/definitions/TimeImpact"
+           },
+           "MonetaryImpact": {
+             "$ref": "#/definitions/MonetaryImpact"
+           },
+           "IntendedImpact": {},
+           "Counter": {
+             "$ref": "#/definitions/Counter"
+           },
+           "MitigatingFactor": {},
+           "Cause": {},
+           "Confidence": {
+             "$ref": "#/definitions/Confidence"
+           },
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 39]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "SystemImpact": {
+         "type": "object",
+         "properties": {
+           "severity": {},
+           "completion": {},
+           "type": {},
+           "ext-type": {},
+           "Description": {
+             "type": "string"
+           }
+         },
+         "required": [
+           "type"
+         ],
+         "additionalProperties": false
+       },
+       "BusinessImpact": {
+         "type": "object",
+         "properties": {
+           "severity": {},
+           "ext-severity": {},
+           "type": {},
+           "ext-type": {},
+           "Description": {
+             "type": "string"
+           }
+         },
+         "required": [
+           "type"
+         ],
+         "additionalProperties": false
+       },
+       "TimeImpact": {
+         "type": "object",
+         "properties": {
+           "value": {},
+           "severity": {},
+           "metric": {},
+           "ext-metric": {},
+           "duration": {},
+           "ext-duration": {}
+         },
+         "required": [
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 40]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           "metric"
+         ],
+         "additionalProperties": false
+       },
+       "MonetaryImpact": {
+         "type": "object",
+         "properties": {
+           "MonetaryImpactValue": {},
+           "severity": {},
+           "currency": {}
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "Confidence": {
+         "type": "object",
+         "properties": {
+           "ConfidenceValue": {},
+           "rating": {},
+           "ext-rating": {}
+         },
+         "required": [
+           "rating"
+         ],
+         "additionalProperties": false
+       },
+       "History": {
+         "type": "object",
+         "properties": {
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "HistoryItem": {}
+         },
+         "required": [
+           "HistoryItem"
+         ],
+         "additionalProperties": false
+       },
+       "HistoryItem": {
+         "type": "object",
+         "properties": {
+           "action": {},
+           "ext-action": {},
+           "restriction": {
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 41]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "DateTime": {},
+           "IncidentID": {},
+           "Contact": {
+             "$ref": "#/definitions/Contact"
+           },
+           "Description": {
+             "type": "string"
+           },
+           "DefinedCOA": {},
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+         },
+         "required": [
+           "DateTime",
+           "action"
+         ],
+         "additionalProperties": false
+       },
+       "EventData": {
+         "type": "object",
+         "properties": {
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "Description": {
+             "type": "string"
+           },
+           "DetectTime": {},
+           "StartTime": {},
+           "EndTime": {},
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 42]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           "RecoveryTime": {},
+           "ReportTime": {
+             "type": "string"
+           },
+           "Contact": {
+             "$ref": "#/definitions/Contact"
+           },
+           "Discovery": {
+             "$ref": "#/definitions/Discovery"
+           },
+           "Assessment": {},
+           "Method": {
+             "$ref": "#/definitions/Method"
+           },
+           "System": {
+             "$ref": "#/definitions/System"
+           },
+           "Expectation": {
+             "$ref": "#/definitions/Expectation"
+           },
+           "Record": {
+             "$ref": "#/definitions/Record"
+           },
+           "EventData": {
+             "$ref": "#/definitions/EventData"
+           },
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+         },
+         "required": [
+           "ReportTime"
+         ],
+         "additionalProperties": false
+       },
+       "Expectation": {
+         "type": "object",
+         "properties": {
+           "action": {},
+           "ext-action": {},
+           "severity": {},
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 43]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+             "type": "string"
+           },
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "Description": {
+             "type": "string"
+           },
+           "DefinedCOA": {},
+           "StartTime": {},
+           "EndTime": {},
+           "Contact": {
+             "$ref": "#/definitions/Contact"
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "System": {
+         "type": "object",
+         "properties": {
+           "category": {
+             "enum": [
+               "source",
+               "target",
+               "intermediate",
+               "sensor",
+               "infrastructure",
+               "ext-value"
+             ]
+           },
+           "ext-category": {},
+           "interface": {},
+           "spoofed": {},
+           "virtual": {},
+           "ownership": {},
+           "ext-ownership": {},
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "Node": {
+             "$ref": "#/definitions/Node"
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 44]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           },
+           "NodeRole": {
+             "$ref": "#/definitions/NodeRole"
+           },
+           "Service": {
+             "$ref": "#/definitions/Service"
+           },
+           "OperatingSystem": {},
+           "Counter": {
+             "$ref": "#/definitions/Counter"
+           },
+           "AssetID": {},
+           "Description": {
+             "type": "string"
+           },
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+         },
+         "required": [
+           "Node"
+         ],
+         "additionalProperties": false
+       },
+       "Node": {
+         "type": "object",
+         "properties": {
+           "DomainData": {
+             "$ref": "#/definitions/DomainData"
+           },
+           "Address": {
+             "$ref": "#/definitions/Address"
+           },
+           "PostalAddress": {},
+           "Location": {
+             "type": "string"
+           },
+           "Counter": {
+             "$ref": "#/definitions/Counter"
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "Address": {
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 45]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+         "type": "object",
+         "properties": {
+           "AddressValue": {},
+           "category": {},
+           "ext-category": {},
+           "vlan-name": {},
+           "vlan-num": {
+             "type": "integer"
+           },
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           }
+         },
+         "required": [
+           "category"
+         ],
+         "additionalProperties": false
+       },
+       "NodeRole": {
+         "type": "object",
+         "properties": {
+           "category": {},
+           "ext-category": {},
+           "Description": {
+             "type": "string"
+           }
+         },
+         "required": [
+           "category"
+         ],
+         "additionalProperties": false
+       },
+       "Counter": {
+         "type": "object",
+         "properties": {
+           "value": {
+             "type": "string"
+           },
+           "type": {},
+           "ext-type": {},
+           "unit": {},
+           "ext-unit": {},
+           "meaning": {},
+           "duration": {},
+           "ext-duration": {}
+         },
+         "required": [
+           "type",
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 46]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           "unit"
+         ],
+         "additionalProperties": false
+       },
+       "DomainData": {
+         "type": "object",
+         "properties": {
+           "system-status": {
+             "enum": [
+               "spoofed",
+               "fraudulent",
+               "innocent-hacked",
+               "innocent-hijacked",
+               "unknown",
+               "ext-value"
+             ]
+           },
+           "ext-system-status": {
+             "type": "string"
+           },
+           "domain-status": {
+             "enum": [
+               "reservedDelegation",
+               "assignedAndActive",
+               "assignedAndInactive",
+               "assignedAndOnHold",
+               "revoked",
+               "transferPending",
+               "registryLock",
+               "registrarLock",
+               "other",
+               "unknown",
+               "ext-value"
+             ]
+           },
+           "ext-domain-status": {
+             "type": "string"
+           },
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "Name": {
+             "type": "string"
+           },
+           "DateDomainWasChecked": {},
+           "RegistrationDate": {},
+           "ExpirationDate": {},
+           "RelatedDNS": {},
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 47]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           "NameServers": {
+             "$ref": "#/definitions/NameServers"
+           },
+           "DomainContacts": {
+             "$ref": "#/definitions/DomainContacts"
+           }
+         },
+         "required": [
+           "Name",
+           "system-status",
+           "domain-status"
+         ],
+         "additionalProperties": false
+       },
+       "NameServers": {
+         "type": "object",
+         "properties": {
+           "Server": {
+             "type": "string"
+           },
+           "Address": {
+             "$ref": "#/definitions/Address"
+           }
+         },
+         "required": [
+           "Server",
+           "Address"
+         ],
+         "additionalProperties": false
+       },
+       "DomainContacts": {
+         "type": "object",
+         "properties": {
+           "SameDomainContact": {
+             "type": "string"
+           },
+           "Contact": {
+             "$ref": "#/definitions/Contact"
+           }
+         },
+         "required": [
+           "Contact"
+         ],
+         "additionalProperties": false
+       },
+       "Service": {
+         "type": "object",
+         "properties": {
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 48]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           "ip-protocol": {
+             "type": "integer"
+           },
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "ServiceName": {
+             "$ref": "#/definitions/ServiceName"
+           },
+           "Port": {
+             "type": "integer"
+           },
+           "Portlist": {},
+           "ProtoCode": {
+             "type": "integer"
+           },
+           "ProtoType": {
+             "type": "integer"
+           },
+           "ProtoField": {
+             "type": "integer"
+           },
+           "ApplicationHeader": {
+             "$ref": "#/definitions/ApplicationHeader"
+           },
+           "EmailData": {
+             "$ref": "#/definitions/EmailData"
+           },
+           "Application": {}
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "ServiceName": {
+         "type": "object",
+         "properties": {
+           "IANAService": {
+             "type": "string"
+           },
+           "URL": {
+             "$ref": "#/definitions/URLtype"
+           },
+           "Description": {
+             "type": "string"
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 49]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+       },
+       "ApplicationHeader": {
+         "type": "object",
+         "properties": {
+           "ApplicationHeaderField": {}
+         },
+         "required": [
+           "ApplicationHeaderField"
+         ],
+         "additionalProperties": false
+       },
+       "EmailData": {
+         "type": "object",
+         "properties": {
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "EmailTo": {},
+           "EmailFrom": {},
+           "EmailSubject": {
+             "type": "string"
+           },
+           "EmailX-Mailer": {
+             "type": "string"
+           },
+           "EmailHeaderField": {},
+           "EmailHeaders": {
+             "type": "string"
+           },
+           "EmailBody": {
+             "type": "string"
+           },
+           "EmailMessage": {
+             "type": "string"
+           },
+           "HashData": {
+             "$ref": "#/definitions/HashData"
+           },
+           "SignatureData": {
+             "$ref": "#/definitions/SignatureData"
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "Record": {
+         "type": "object",
+         "properties": {
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 50]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "DateTime": {},
+           "Description": {
+             "type": "string"
+           },
+           "Applicadtion": {},
+           "RecordPattern": {},
+           "RecordItem": {},
+           "URL": {
+             "$ref": "#/definitions/URLtype"
+           },
+           "FileData": {
+             "$ref": "#/definitions/FileData"
+           },
+           "WindowsRegistryKeysModified": {},
+           "CertificateData": {
+             "$ref": "#/definitions/CertificateData"
+           },
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "RecordPattern": {
+         "type": "object",
+         "properties": {
+           "RecordPatternValue": {},
+           "type": {},
+           "ext-type": {},
+           "offset": {},
+           "offsetunit": {},
+           "ext-offsetunit": {},
+           "instance": {
+             "type": "integer"
+           }
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 51]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+         },
+         "required": [
+           "type"
+         ],
+         "additionalProperties": false
+       },
+       "WindowsRegistryKeysModified": {
+         "type": "object",
+         "properties": {
+           "observabile-id": {},
+           "Key": {}
+         },
+         "required": [
+           "Key"
+         ],
+         "additionalProperties": false
+       },
+       "Key": {
+         "type": "object",
+         "properties": {
+           "registryaction": {},
+           "ext-registryaction": {},
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "KeyName": {},
+           "KeyValue": {}
+         },
+         "required": [
+           "KeyName"
+         ],
+         "additionalProperties": false
+       },
+       "CertificateData": {
+         "type": "object",
+         "properties": {
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "Certificate": {
+             "$ref": "#/definitions/Certificate"
+           }
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 52]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+         },
+         "required": [
+           "Certificate"
+         ],
+         "additionalProperties": false
+       },
+       "Certificate": {
+         "type": "object",
+         "properties": {
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "X509Data": {},
+           "Description": {
+             "type": "string"
+           }
+         },
+         "required": [
+           "X509Data"
+         ],
+         "additionalProperties": false
+       },
+       "FileData": {
+         "type": "object",
+         "properties": {
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "observable-id": {
+             "$ref": "#/definitions/IDtype"
+           },
+           "File": {
+             "$ref": "#/definitions/File"
+           }
+         },
+         "required": [
+           "File"
+         ],
+         "additionalProperties": false
+       },
+       "File": {
+         "type": "object",
+         "properties": {
+           "FileName": {
+             "type": "string"
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 53]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           },
+           "FileSize": {},
+           "FileType": {},
+           "URL": {
+             "$ref": "#/definitions/URLtype"
+           },
+           "HashData": {
+             "$ref": "#/definitions/HashData"
+           },
+           "SignatureData": {
+             "$ref": "#/definitions/SignatureData"
+           },
+           "AssociatedSoftware": {},
+           "FileProperties": {}
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "HashData": {
+         "type": "object",
+         "properties": {
+           "scope": {},
+           "HashTargetID": {},
+           "Hash": {
+             "$ref": "#/definitions/Hash"
+           },
+           "FuzzyHash": {
+             "$ref": "#/definitions/FuzzyHash"
+           }
+         },
+         "required": [
+           "scope"
+         ],
+         "additionalProperties": false
+       },
+       "Hash": {
+         "type": "object",
+         "properties": {
+           "DigestMethod": {
+             "type": "string"
+           },
+           "DigestValue": {
+             "type": "string"
+           },
+           "CanonicalizationMethod": {},
+           "Application": {}
+         },
+         "required": [
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 54]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           "DigestMethod",
+           "DigestValue"
+         ],
+         "additionalProperties": false
+       },
+       "FuzzyHash": {
+         "type": "object",
+         "properties": {
+           "FuzzyHashValue": {
+             "$ref": "#/definitions/ExtensionType"
+           },
+           "Application": {},
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+         },
+         "required": [
+           "FuzzyHashValue"
+         ],
+         "additionalProperties": false
+       },
+       "SignatureData": {
+         "type": "object",
+         "properties": {
+           "Signature": {
+             "SignatureValue": "xxxxxxxx",
+             "id": "xxxxxxxx"
+           }
+         },
+         "required": [
+           "Signature"
+         ],
+         "additionalProperties": false
+       },
+       "Indicator": {
+         "type": "object",
+         "properties": {
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "IndicatorID": {
+             "$ref": "#/definitions/IndicatorID"
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 55]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           },
+           "AlternativeIndicatorID": {
+             "$ref": "#/definitions/AlternativeIndicatorID"
+           },
+           "Description": {
+             "type": "string"
+           },
+           "StartTime": {},
+           "EndTime": {},
+           "Confidence": {
+             "$ref": "#/definitions/Confidence"
+           },
+           "Contact": {
+             "$ref": "#/definitions/Contact"
+           },
+           "Observable": {},
+           "ObservableReference": {
+             "$ref": "#/definitions/ObservableReference"
+           },
+           "IndicatorExpression": {
+             "$ref": "#/definitions/IndicatorExpression"
+           },
+           "IndicatorReference": {
+             "$ref": "#/definitions/IndicatorReference"
+           },
+           "NodeRole": {
+             "$ref": "#/definitions/NodeRole"
+           },
+           "AttackPhase": {
+             "$ref": "#/definitions/AttackPhase"
+           },
+           "Reference": {
+             "$ref": "#/definitions/Reference"
+           },
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+         },
+         "required": [
+           "IndicatorID"
+         ],
+         "additionalProperties": false
+       },
+       "IndicatorID": {
+         "type": "object",
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 56]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+         "properties": {
+           "id": {},
+           "name": {
+             "type": "string"
+           },
+           "version": {
+             "type": "string"
+           }
+         },
+         "required": [
+           "name",
+           "version"
+         ],
+         "additionalProperties": false
+       },
+       "AlternativeIndicatorID": {
+         "type": "object",
+         "properties": {
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "IndicatorReference": {
+             "$ref": "#/definitions/IndicatorReference"
+           }
+         },
+         "required": [
+           "IndicatorReference"
+         ],
+         "additionalProperties": false
+       },
+       "Observable": {
+         "type": "object",
+         "properties": {
+           "restriction": {
+             "$ref": "#/definitions/restriction"
+           },
+           "ext-restriction": {
+             "type": "string"
+           },
+           "System": {},
+           "Address": {},
+           "DomainData": {
+             "$ref": "#/definitions/DomainData"
+           },
+           "EmailData": {
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 57]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+             "$ref": "#/definitions/EmailData"
+           },
+           "Service": {
+             "$ref": "#/definitions/Service"
+           },
+           "WindowsRegistryKeysModified": {},
+           "FileData": {
+             "$ref": "#/definitions/FileData"
+           },
+           "CertificateData": {
+             "$ref": "#/definitions/CertificateData"
+           },
+           "RegistryHandle": {},
+           "Record": {
+             "$ref": "#/definitions/Record"
+           },
+           "EventData": {},
+           "Incident": {},
+           "Expectation": {
+             "$ref": "#/definitions/Expectation"
+           },
+           "Reference": {
+             "$ref": "#/definitions/Reference"
+           },
+           "Assessment": {},
+           "DetectionPattern": {},
+           "HistoryItem": {
+             "$ref": "#/definitions/HistoryItem"
+           },
+           "BulkObservable": {
+             "type": "string"
+           },
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "BulkObservable": {
+         "type": "object",
+         "properties": {
+           "type": {},
+           "ext-type": {},
+           "BulkObservableFormant": {},
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 58]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+           "BulkObservableList": {
+             "type": "string"
+           },
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "BulkObservableFormat": {
+         "type": "object",
+         "properties": {
+           "Hash": {
+             "$ref": "#/definitions/Hash"
+           },
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "IndicatorExpression": {
+         "type": "object",
+         "properties": {
+           "operator": {},
+           "ext-operator": {
+             "type": "string"
+           },
+           "IndicatorExpression": {
+             "$ref": "#/definitions/IndicatorExpression"
+           },
+           "Observable": {},
+           "ObservableReference": {
+             "$ref": "#/definitions/ObservableReference"
+           },
+           "IndicatorReference": {
+             "$ref": "#/definitions/IndicatorReference"
+           },
+           "AdditionalData": {
+             "type": "array",
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 59]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+             }
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "ObservableReference": {
+         "type": "object",
+         "properties": {
+           "uid-ref": {}
+         },
+         "required": [
+           "uid-ref"
+         ],
+         "additionalProperties": false
+       },
+       "IndicatorReference": {
+         "type": "object",
+         "properties": {
+           "uid-ref": {},
+           "euid-ref": {
+             "type": "string"
+           },
+           "version": {
+             "type": "string"
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+       },
+       "AttackPhase": {
+         "type": "object",
+         "properties": {
+           "AttackPhaseID": {
+             "type": "string"
+           },
+           "URL": {
+             "$ref": "#/definitions/URLtype"
+           },
+           "Description": {
+             "type": "string"
+           },
+           "AdditionalData": {
+             "type": "array",
+             "items": {
+               "$ref": "#/definitions/ExtensionType"
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 60]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+             }
+           }
+         },
+         "required": [],
+         "additionalProperties": false
+       }
+     },
+     "title": "IODEF-Document",
+     "description": "JSON schema for IODEF-Document class",
+     "type": "object",
+     "properties": {
+       "version": {
+         "type": "string"
+       },
+       "lang": {
+         "$ref": "#/definitions/lang"
+       },
+       "format-id": {
+         "type": "string"
+       },
+       "private-enum-name": {
+         "type": "string"
+       },
+       "private-enum-id": {
+         "type": "string"
+       },
+       "Incidents": {
+         "type": "array",
+         "items": {
+           "$ref": "#/definitions/Incident"
+         }
+       },
+       "AdditionalData": {
+         "type": "array",
+         "items": {
+           "$ref": "#/definitions/ExtensionType"
+         }
+       }
+     },
+     "required": [
+       "version",
+       "Incidents"
+     ],
+     "additionalProperties": false
+   }
+
+                           Figure 2: JSON schema
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 61]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+7.  Acknowledgements
+
+   TBD.
+
+8.  IANA Considerations
+
+   This memo includes no request to IANA.
+
+9.  Security Considerations
+
+   This memo does not provide any further security considerations than
+   the one described in RFC 7970 [RFC7970].
+
+10.  References
+
+10.1.  Normative References
+
+   [min_ref]  authSurName, authInitials., "Minimal Reference", 2006.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC7970]  Danyliw, R., "The Incident Object Description Exchange
+              Format Version 2", RFC 7970, DOI 10.17487/RFC7970,
+              November 2016, <https://www.rfc-editor.org/info/rfc7970>.
+
+10.2.  Informative References
+
+   [DOMINATION]
+              Mad Dominators, Inc., "Ultimate Plan for Taking Over the
+              World", 1984, <http://www.example.com/dominator.html>.
+
+   [RFC2629]  Rose, M., "Writing I-Ds and RFCs using XML", RFC 2629,
+              DOI 10.17487/RFC2629, June 1999,
+              <https://www.rfc-editor.org/info/rfc2629>.
+
+   [RFC3552]  Rescorla, E. and B. Korver, "Guidelines for Writing RFC
+              Text on Security Considerations", BCP 72, RFC 3552,
+              DOI 10.17487/RFC3552, July 2003,
+              <https://www.rfc-editor.org/info/rfc3552>.
+
+   [RFC5226]  Narten, T. and H. Alvestrand, "Guidelines for Writing an
+              IANA Considerations Section in RFCs", RFC 5226,
+              DOI 10.17487/RFC5226, May 2008,
+              <https://www.rfc-editor.org/info/rfc5226>.
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 62]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+Authors' Addresses
+
+   Takeshi Takahashi
+   NICT
+   4-2-1 Nukui-Kitamachi
+   Koganei, Tokyo  184-8795
+   Japan
+
+   Phone: +81 42 327 5862
+   Email: takeshi_takahashi@nict.go.jp
+
+
+   Mio Suzuki
+   NICT
+   4-2-1 Nukui-Kitamachi
+   Koganei, Tokyo  184-8795
+   Japan
+
+   Email: mio@nict.go.jp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Takahashi & Suzuki       Expires April 23, 2018                [Page 63]
