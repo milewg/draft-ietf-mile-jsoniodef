@@ -5,7 +5,7 @@
 MILE                                                        T. Takahashi
 Internet-Draft                                                 M. Suzuki
 Intended status: Standards Track                                    NICT
-Expires: April 23, 2018                                 October 20, 2017
+Expires: April 26, 2018                                 October 23, 2017
 
 
                          JSON binding of IODEF
@@ -34,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on April 23, 2018.
+   This Internet-Draft will expire on April 26, 2018.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                 [Page 1]
+Takahashi & Suzuki       Expires April 26, 2018                 [Page 1]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -71,16 +71,16 @@ Table of Contents
        2.5.1.  Base64 Bytes  . . . . . . . . . . . . . . . . . . . .   5
        2.5.2.  Hexadecimal Bytes . . . . . . . . . . . . . . . . . .   5
      2.6.  Enumerated Types  . . . . . . . . . . . . . . . . . . . .   5
-     2.7.  Date-Time String  . . . . . . . . . . . . . . . . . . . .   6
+     2.7.  Date-Time String  . . . . . . . . . . . . . . . . . . . .   5
      2.8.  Timezone String . . . . . . . . . . . . . . . . . . . . .   6
      2.9.  Port Lists  . . . . . . . . . . . . . . . . . . . . . . .   6
      2.10. Postal Address  . . . . . . . . . . . . . . . . . . . . .   6
      2.11. Telephone Number  . . . . . . . . . . . . . . . . . . . .   6
-     2.12. Email String  . . . . . . . . . . . . . . . . . . . . . .   7
-     2.13. Uniform Resource Locator Strings  . . . . . . . . . . . .   7
+     2.12. Email String  . . . . . . . . . . . . . . . . . . . . . .   6
+     2.13. Uniform Resource Locator Strings  . . . . . . . . . . . .   6
      2.14. Identifiers and Identifier References . . . . . . . . . .   7
      2.15. Software  . . . . . . . . . . . . . . . . . . . . . . . .   7
-     2.16. Structured Information  . . . . . . . . . . . . . . . . .   7
+     2.16. StructuredInfo  . . . . . . . . . . . . . . . . . . . . .   7
    3.  The IODEF Information Model in JSON . . . . . . . . . . . . .   8
      3.1.  IODEF-Document Class  . . . . . . . . . . . . . . . . . .   8
      3.2.  Incident Class  . . . . . . . . . . . . . . . . . . . . .   8
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                 [Page 2]
+Takahashi & Suzuki       Expires April 26, 2018                 [Page 2]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -165,7 +165,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                 [Page 3]
+Takahashi & Suzuki       Expires April 26, 2018                 [Page 3]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -197,31 +197,31 @@ Internet-Draft                 JSON-IODEF                   October 2017
 2.1.  Integers
 
    An integer is represented in the information model by the INTEGER
-   data type.  Integer data MUST be encoded in Base 10.
-
-   The INTEGER data type is implemented in the data model as an
-   "xs:integer" type per Section 3.3.13 of [W3C.SCHEMA.DTYPES].
+   data type.  Integer data MUST be encoded in Base 10, and is
+   implemented as an "integer" type per JSON schema [jsonschema].
 
 2.2.  Real Numbers
 
    A real (floating-point) number is represented in the information
-   model by the REAL data type.  Real data MUST be encoded in Base 10.
-
-   The REAL data type is implemented in the data model as an "xs:float"
-   type per Section 3.2.4 of [W3C.SCHEMA.DTYPES].
+   model by the REAL data type.  Real data MUST be encoded in Base 10,
+   and is implemented in the data model as an "number" type per JSON
+   schema [jsonschema].
 
 2.3.  Characters and Strings
 
    A single character is represented in the information model by the
    CHARACTER data type.  A string is represented by the STRING data
-   type.  Special characters MUST be encoded using entity references.
-
-   The CHARACTER and STRING data types are implemented in the data model
-   as an "xs:string" type per Section 3.2.1 of [W3C.SCHEMA.DTYPES].
-
+   type.  Special characters MUST be encoded using entity references.The
+   CHARACTER and STRING data types are implemented in the data model as
+   an "string" type per JSON schema [jsonschema].
 
 
-Takahashi & Suzuki       Expires April 23, 2018                 [Page 4]
+
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                 [Page 4]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -230,11 +230,9 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    A string that needs to be represented in a human-readable language
    different than the default encoding of the document is represented in
-   the information model by the ML_STRING data type.
-
-   The ML_STRING data type is implemented in the data model as the
-   "iodef:MLStringType" type.  This type extends the "xs:string" to
-   include two attributes.
+   the information model by the ML_STRING data type.  This data type is
+   implemented as an object with "value", "lang", and "translation-id"
+   elements as defined in Section 6.  Examples are shown below.
 
    "MLStringType": {
      "value": "free-form text",                              //STRING
@@ -248,57 +246,49 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    A binary octet encoded with base64 is represented in the information
    model by the BYTE data type.  A sequence of these octets is of the
-   BYTE[] data type.
-
-   The BYTE and BYTE[] data types are implemented in the data model as
-   an "xs:base64Binary" type per Section 3.2.16 of [W3C.SCHEMA.DTYPES].
+   BYTE[] data type.  The BYTE and BYTE[] data types are implemented in
+   the data model as an "string" type per JSON schema [jsonschema].
 
 2.5.2.  Hexadecimal Bytes
 
    A binary octet encoded as a character tuple consistent of two
    hexadecimal digits is represented in the information model by the
    HEXBIN data type.  A sequence of these octets is of the HEXBIN[] data
-   type.
-
-   The HEXBIN and HEXBIN[] data types are implemented in the data model
-   as an "xs:hexBinary" type per Section 3.2.15 of [W3C.SCHEMA.DTYPES].
+   type.  The HEXBIN and HEXBIN[] data types are implemented in the data
+   model as an "string" type per JSON schema [jsonschema].
 
 2.6.  Enumerated Types
 
    An enumerated type is represented in the information model by the
    ENUM data type.  It is an ordered list of acceptable string values.
-   Each value has a representative keyword.  Within the data model, the
-   enumerated type keywords are used as attribute values.
-
-   The ENUM data type is implemented in the data model as values of an
-   "xs:NMTOKEN" type per Section 3.3.4 of [W3C.SCHEMA.DTYPES].
-
-
-
-
-
-Takahashi & Suzuki       Expires April 23, 2018                 [Page 5]
-
-Internet-Draft                 JSON-IODEF                   October 2017
-
+   Each value has a representative keyword.  The ENUM data type is
+   implemented in the data model as values of an enum array per JSON
+   schema [jsonschema].
 
 2.7.  Date-Time String
 
    A date-time string that describes a particular instant in time is
    represented in the information model by the DATETIME data type.
-   Ranges are not supported.
+   Ranges are not supported.  The DATETIME data type is implemented in
+   the data model as an "string" type per JSON schema [jsonschema].
 
-   The DATETIME data type is implemented in the data model as an
-   "xs:dateTime" type per Section 3.2.7 of [W3C.SCHEMA.DTYPES].
+
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                 [Page 5]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
 
 2.8.  Timezone String
 
    A timezone offset from UTC is represented in the information model by
    the TIMEZONE data type.  It is formatted according to the following
-   regular expression: "Z|[\+\-](0[0-9]|1[0-4]):[0-5][0-9]".
-
-   The TIMEZONE data type is implemented in the data model as an
-   "iodef:TimezoneType" type.
+   regular expression: "Z|[\+\-](0[0-9]|1[0-4]):[0-5][0-9]".  The
+   TIMEZONE data type is implemented in the data model as an "string"
+   type per JSON schema [jsonschema].
 
 2.9.  Port Lists
 
@@ -307,45 +297,31 @@ Internet-Draft                 JSON-IODEF                   October 2017
    list of numbers and ranges (N-M means ports N through M, inclusive).
    It is formatted according to the following regular expression:
    "\d+(\-\d+)?(,\d+(\-\d+)?)*".  For example,
-   "2,5-15,30,32,40-50,55-60".
-
-   The PORTLIST data type is implemented in the data model as an
-   "iodef:PortlistType" type
+   "2,5-15,30,32,40-50,55-60".  The PORTLIST data type is implemented in
+   the data model as an "string" type per JSON schema [jsonschema]
 
 2.10.  Postal Address
 
    A postal address is represented in the information model by the
    POSTAL data type.  The format of the POSTAL data type is documented
    in Section 2.23 of [RFC4519] as a free-form multi-line string
-   separated by the "$" character.
-
-   The POSTAL data type is implemented in the data model as an
-   "iodef:MLStringType" type.
+   separated by the "$" character.  The POSTAL data type is implemented
+   in the data model as the aforementioned ML_STRING type.
 
 2.11.  Telephone Number
 
    A telephone number is represented in the information model by the
    PHONE data type.  The format of the PHONE data type is documented in
-   [E.164].
-
-   The PHONE data type is implemented in the data model as an
-   "xs:string" type per Section 3.2.1 of [W3C.SCHEMA.DTYPES].
-
-
-
-Takahashi & Suzuki       Expires April 23, 2018                 [Page 6]
-
-Internet-Draft                 JSON-IODEF                   October 2017
-
+   [E.164].  The PHONE data type is implemented in the data model as an
+   "string" type per JSON schema [jsonschema].
 
 2.12.  Email String
 
    An email address is represented in the information model by the EMAIL
    data type.  The format of the EMAIL data type is documented in
-   Section 3.4.1 of [RFC5322] and Section 3.3 of [RFC6531].
-
-   The EMAIL data type is implemented in the data model as an
-   "xs:string" type per Section 3.2.1 of [W3C.SCHEMA.DTYPES].
+   Section 3.4.1 of [RFC5322] and Section 3.3 of [RFC6531].  The EMAIL
+   data type is implemented in the data model as an "string" type per
+   JSON schema [jsonschema].
 
 2.13.  Uniform Resource Locator Strings
 
@@ -353,46 +329,49 @@ Internet-Draft                 JSON-IODEF                   October 2017
    model by the URL data type.  The format of the URL data type is
    documented in [RFC3986].
 
-   The URL data type is implemented as an "xs:anyURI" type per
-   Section 3.2.17 of [W3C.SCHEMA.DTYPES].
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                 [Page 6]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+   The URL data type is implemented as an "string" type per JSON schema
+   [jsonschema].
 
 2.14.  Identifiers and Identifier References
 
    An identifier unique to the IODEF document is represented in the
    information model by the ID data type.  A reference to this
-   identifier is represented by the IDREF data type.
-
-   The ID and IDREF data types are implemented in the model as "xs:ID"
-   and "xs:IDREF" types per Sections 3.3.8 and 3.3.9 of
-   [W3C.SCHEMA.DTYPES].
+   identifier is represented by the IDREF data type.  These data types
+   are implemented in the model as an "string" type per JSON schema
+   [jsonschema].
 
 2.15.  Software
 
    A particular version of software is represented in the information
    model by the SOFTWARE data type.  This software can be described by
-   using a reference, a URL, or with free-form text.
-
-   The SOFTWARE data type is implemented in the data model as the
-   "iodef:SoftwareType" type.
+   using a reference, a URL, or with free-form text.  The SOFTWARE data
+   type is implemented as an object with "SoftwareReference", "URL", and
+   "Description" elements as defined in Section 6.  Examples are shown
+   below.
 
    "SoftwareType": {
      "SoftwareReference": {...},                  //SoftwareReference
      "Description": "MS Windows",                         //ML_STRING
    }
 
-2.16.  Structured Information
+2.16.  StructuredInfo
 
    Information provided in a form of structured string, such as ID, or
-   structured information, such as XML documents, is represented with
-   this data type.  Note that this type was originally specified in
-   RFC7203.
-
-
-
-Takahashi & Suzuki       Expires April 23, 2018                 [Page 7]
-
-Internet-Draft                 JSON-IODEF                   October 2017
-
+   structured information, such as XML documents, is represented in the
+   information model by the StructuredInfo data type.  Note that this
+   type was originally specified in RFC7203.  The StructuredInfo data
+   type is implemented as an object with "SpecID", "ext-SpecID",
+   "ContentID", "RawData", "Reference" elements.  An example for
+   embedding a structured ID is shown below.
 
    "StructuredInformation": {
      "SpecID": "cve",                                          //ENUM
@@ -400,12 +379,20 @@ Internet-Draft                 JSON-IODEF                   October 2017
    }
 
    When embedding the raw data, base64 conversion should be used for
-   encoding the data in order to embed the data as a string.
+   encoding the data, as shown below.
 
    "StructuredInformation": {
      "SpecID": "oval",                                         //ENUM
-     "RawData": "<<<strings encoded with base64>>>",          //STRING
+     "RawData": "<<<strings encoded with base64>>>",         //STRING
    }
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                 [Page 7]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
 
 3.  The IODEF Information Model in JSON
 
@@ -445,7 +432,20 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                 [Page 8]
+
+
+
+
+
+
+
+
+
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                 [Page 8]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -501,7 +501,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                 [Page 9]
+Takahashi & Suzuki       Expires April 26, 2018                 [Page 9]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -557,7 +557,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 10]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 10]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -613,7 +613,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 11]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 11]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -661,15 +661,15 @@ Internet-Draft                 JSON-IODEF                   October 2017
    example below represents how to describe this class in JSON.
 
    "Method": {
-     "AttackPattern": {...}                   //StructuredInformation
-     "Vulnerability": {...}                   //StructuredInformation
+     "AttackPattern": {...}                          //StructuredInfo
+     "Vulnerability": {...}                          //StructuredInfo
    }
 
 
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 12]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 12]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -725,7 +725,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 13]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 13]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -781,7 +781,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 14]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 14]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -837,7 +837,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 15]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 15]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -848,11 +848,8 @@ Internet-Draft                 JSON-IODEF                   October 2017
    example below represents how to describe this class in JSON.
 
    "Node": {
-     "Address": {
-       "category": "ipv4-addr",
-       "AddressValue": "192.228.139.118"
-       "Location": "OrgID=7"
-     },
+     "Address": { ... },                              //Address class
+     "Location": "OrgID=7"                                //ML_STRING
    }
 
 3.17.1.  Address Class
@@ -861,8 +858,8 @@ Internet-Draft                 JSON-IODEF                   October 2017
    example below represents how to describe this class in JSON.
 
    "Address": {
-     "category": "ipv4-addr",
-     "AddressValue": "192.228.139.118"
+     "value": """192.228.139.118",                           //STRING
+     "category": "ipv4-addr",                                  //ENUM
    },
 
 3.17.2.  NodeRole Class
@@ -871,7 +868,8 @@ Internet-Draft                 JSON-IODEF                   October 2017
    example below represents how to describe this class in JSON.
 
    "NodeRole": {
-     "category": "client"
+     "category": "client"                                      //ENUM
+     "Description": "This computer resides at room A"     //ML_STRING
    },
 
 3.17.3.  Counter Class
@@ -880,9 +878,10 @@ Internet-Draft                 JSON-IODEF                   October 2017
    example below represents how to describe this class in JSON.
 
    "Counter": {
-     "value": "3",
-     "type": "count",
-     "unit": "packet"
+     "value": "3",                                             //REAL
+     "type": "count",                                          //ENUM
+     "unit": "packet"                                          //ENUM
+     "meaning": "The number of scan packets are counted", //ML_STRING
    }
 
 3.18.  DomainData Class
@@ -893,15 +892,16 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 16]
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 16]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
 
    "DomainData": {
-     "system-status": "innocent-hacked",         //ENUM
-     "domain-status": "assignedAndInactive",   //STRING
-     "Name": "temp1.nict.go.jp"                //STRING
+     "system-status": "innocent-hacked",                       //ENUM
+     "domain-status": "assignedAndInactive",                 //STRING
+     "Name": "temp1.nict.go.jp"                              //STRING
    },
 
 3.18.1.  Nameserver Class
@@ -910,10 +910,10 @@ Internet-Draft                 JSON-IODEF                   October 2017
    example below represents how to describe this class in JSON.
 
    "NameServers": {
-     "Server": "vgw.nict.go.jp",             //STRING
+     "Server": "vgw.nict.go.jp",                             //STRING
      "Address": {
-       "AddressValue": "133.243.18.5",       //STRING
-       "category": "ipv4-addr"                 //ENUM
+       "AddressValue": "133.243.18.5",                       //STRING
+       "category": "ipv4-addr"                                 //ENUM
      }
    }
 
@@ -924,8 +924,8 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    "DomainContacts": {
      "Contact": {
-       "role": "user",                       //ENUM
-       "type": "organization"                //ENUM
+       "role": "user",                                         //ENUM
+       "type": "organization"                                  //ENUM
      }
    }
 
@@ -938,8 +938,8 @@ Internet-Draft                 JSON-IODEF                   October 2017
      "ServiceName": {
        "Description": "It seems to be a scan from an infected machine."
      },
-     "ip-protocol": 6,                  //INTEGER
-     "Port": 49183                      //INTEGER
+     "ip-protocol": 6,                                      //INTEGER
+     "Port": 49183                                          //INTEGER
    }
 
 
@@ -949,7 +949,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 17]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 17]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1005,7 +1005,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 18]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 18]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1061,7 +1061,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 19]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 19]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1117,7 +1117,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 20]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 20]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1173,7 +1173,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 21]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 21]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1229,7 +1229,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 22]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 22]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1285,7 +1285,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 23]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 23]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1341,7 +1341,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 24]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 24]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1397,7 +1397,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 25]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 25]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1453,7 +1453,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 26]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 26]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1509,7 +1509,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 27]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 27]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1565,7 +1565,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 28]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 28]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1621,7 +1621,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 29]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 29]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1677,7 +1677,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 30]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 30]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1733,7 +1733,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 31]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 31]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1789,7 +1789,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 32]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 32]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1845,7 +1845,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 33]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 33]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1901,7 +1901,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 34]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 34]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1957,7 +1957,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 35]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 35]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2013,7 +2013,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 36]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 36]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2069,7 +2069,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 37]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 37]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2125,7 +2125,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 38]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 38]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2181,7 +2181,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 39]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 39]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2237,7 +2237,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 40]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 40]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2293,7 +2293,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 41]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 41]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2349,7 +2349,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 42]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 42]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2405,7 +2405,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 43]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 43]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2461,7 +2461,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 44]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 44]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2517,7 +2517,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 45]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 45]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2573,7 +2573,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 46]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 46]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2629,7 +2629,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 47]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 47]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2685,7 +2685,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 48]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 48]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2741,7 +2741,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 49]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 49]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2797,7 +2797,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 50]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 50]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2853,7 +2853,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 51]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 51]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2909,7 +2909,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 52]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 52]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2965,7 +2965,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 53]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 53]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3021,7 +3021,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 54]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 54]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3077,7 +3077,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 55]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 55]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3133,7 +3133,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 56]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 56]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3189,7 +3189,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 57]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 57]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3245,7 +3245,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 58]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 58]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3301,7 +3301,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 59]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 59]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3357,7 +3357,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 60]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 60]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3413,7 +3413,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 23, 2018                [Page 61]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 61]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3435,7 +3435,10 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 10.1.  Normative References
 
-   [min_ref]  authSurName, authInitials., "Minimal Reference", 2006.
+   [jsonschema]
+              "JSON Schema", 2006.
+
+              http://json-schema.org/
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -3461,18 +3464,20 @@ Internet-Draft                 JSON-IODEF                   October 2017
               DOI 10.17487/RFC3552, July 2003,
               <https://www.rfc-editor.org/info/rfc3552>.
 
+
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 62]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
    [RFC5226]  Narten, T. and H. Alvestrand, "Guidelines for Writing an
               IANA Considerations Section in RFCs", RFC 5226,
               DOI 10.17487/RFC5226, May 2008,
               <https://www.rfc-editor.org/info/rfc5226>.
-
-
-
-
-Takahashi & Suzuki       Expires April 23, 2018                [Page 62]
-
-Internet-Draft                 JSON-IODEF                   October 2017
-
 
 Authors' Addresses
 
@@ -3520,9 +3525,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-Takahashi & Suzuki       Expires April 23, 2018                [Page 63]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 63]
