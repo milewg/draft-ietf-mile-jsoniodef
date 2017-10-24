@@ -269,12 +269,13 @@
 
 
 <section title="IODEF-Document Class">
-<t>The IODEF-Document class is the top level class in the IODEF data model.
-This class is defined in Section 3.1 of <xref target="RFC7970">RFC 7970</xref> and has the following fields: "version", "lang", "format-id", "private-enum-name", "private-enum-id", "Incident", and "AdditionalData".
-An example of this class in JSON is as follows.
-Note that JSON representation in this draft treats attributes and elements of each class defined in <xref target="RFC7970">RFC 7970</xref> equally and is agnostic on the order of their appearances.
-</t>
+<t>This class is the top level class in the IODEF data model. Its class elements and an example are shown below. See Section 3.1 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
 
+<t>Class elements:</t>
+<t>version, lang?, format-id?, private-enum-name?, private-enum-id?, Incident+, AdditionalData*</t>
+
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "IODEF-Document": {
   "version": "2.0",                                       //STRING
@@ -289,14 +290,13 @@ Note that JSON representation in this draft treats attributes and elements of ea
 
 <section title="Incident Class">
 
-<t>
-   The Incident class describes commonly exchanged information when
-   reporting or sharing derived analysis from security incidents.
-   This class is defined in Section 3.2 of <xref target="RFC7970">RFC 7970</xref>.
-It has the following fields: "purpose", "lang", "restriction", "ext-restriction", "IncidentID", "RelatedActivity", "GenrationTime", "Description", "Assessment", "Methods", "Contact", "EventData", "IndicatorData", "History", and "AdditionalData".
-An example of this class in JSON is as follows.
-</t>
+<t>The Incident class describes commonly exchanged information when reporting or sharing derived analysis from security incidents.
+Its class elements and an example are shown below. See Section 3.2 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
 
+<t>Class elements:</t>
+<t>purpose, ext-purpose?, status?, ext-status?, lang?, restriction?, ext-restriction?, observable-id?, IncidentID, AlternativeID?, RelatedActivity*, DetectTime?, StartTime?, EndTime?, RecoveryTime?, ReportTime?, GenrationTime?, Description*, Assessment*, Method*, Contact+, EventData*, IndicatorData?, History?, AdditionalData*</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "Incident": {
   "purpose": "reporting",                                   //ENUM
@@ -358,6 +358,11 @@ It has the following fields: "IncidentID", "id", "name", "instance", "restrictio
 </t>
 
 
+<t>Class elements:</t>
+<t>value, name, instance?, restriction?, ext-restriction?</t>
+
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "IncidentID": {
   "id": "nict20150518-0001",                             // STRING
@@ -377,6 +382,11 @@ It has the following fields: "IncidentID", "id", "name", "instance", "restrictio
    This class is defined in Section 3.5 of <xref target="RFC7970">RFC 7970</xref>. The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>restriction?, ext-restriction?, IncidentID+</t>
+
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "AltervativeID": {
   "restriction": "private",                                 //ENUM
@@ -394,6 +404,11 @@ It has the following fields: "IncidentID", "id", "name", "instance", "restrictio
    This class is defined in Section 3.6 of <xref target="RFC7970">RFC 7970</xref>. The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>restriction?, ext-restriction?, IncidentID*, URL*, ThreatActor*, Campaign*, IndicatorID*, Confidence?, Description*, AdditionalData*</t>
+
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "RelatedActivity": {
   "restriction": "private",                                 //ENUM
@@ -413,6 +428,11 @@ It has the following fields: "IncidentID", "id", "name", "instance", "restrictio
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>restriction?, ext-restriction?, ThreatActorID*, URL*, Description*, AdditionalData*</t>
+
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "ThreatActor": {
   "ThreatActorID": "TA-12-AGGRESSIVE-BUTTERFLY",          //STRING
@@ -430,6 +450,11 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>restriction?, ext-restriction?, CampaignID*, URL*, Description*, AdditionalData*</t>
+
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "Campaign": {
   "CampaignID": "C-2015-59405",                           //STRING
@@ -447,6 +472,11 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>role, ext-role?, type, ext-type?, restriction?, ext-restriction?, ContactName*, ContactTitle*, Description*, RegistryHandle*, PostalAddress*, Email*, Telephone*, Timezone?, Contact*, AdditionalData*</t>
+
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "Contact": {
   "role": "creator",                                        //ENUM
@@ -469,6 +499,11 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>value, registry, ext-registry?</t>
+
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "RegistryHandle": {
   "handlename": "MyAPNIC",                                //STRING
@@ -486,6 +521,11 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>type?, ext-type?, PAddress, Description*</t>
+
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "PostalAddress": {
   "type": "mailing",                                        //ENUM
@@ -503,6 +543,11 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>type?, ext-type?, EmailTo, Description*</t>
+
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "Email": {
   "type": "direct",                                         //ENUM
@@ -519,6 +564,10 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>type?, ext-type?, TelephoneNumber, Description*</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "Telephone": {
   "type": "wired",                                          //ENUM
@@ -537,6 +586,10 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>source?, ext-source?, restriction?, ext-restriction?, Description*, Contact*, DetectionPattern*</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "Discovery": {
   "source": "nidps",                                        //ENUM
@@ -556,6 +609,10 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>restriction?, ext-restriction?, observable-id?, Application, Description*, DetectionConfiguration*</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "DetectionPattern": {
   "Application": {...},                                 //SOFTWARE
@@ -575,8 +632,12 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.11 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
+
+<t>Class elements:</t>
+<t>restriction?, ext-restriction?, Reference*, Description*, AttackPatterm*, Vulnerability*, Weakness*</t>
+
+<t>Example:</t>
+<figure align="center"><artwork align="left"><![CDATA[
 "Method": {
   "AttackPattern": {...}                          //StructuredInfo
   "Vulnerability": {...}                          //StructuredInfo
@@ -591,6 +652,10 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>observable-id?, ReferenceName?, URL*, Description*</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "Reference":{
   "URL":"http://www.nict.go.jp"                              //URL
@@ -605,8 +670,12 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.12 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
+
+<t>Class elements:</t>
+<t>occurence?, restriction?, ext-restriction?, observable-id?, IncidentCategory*, SystemImpact*, BusinessImpact*, TimeImpact*, MonetaryImpact*, IntendedImpact*, Counter*, MitigationFactor*, Cause*, Confidence?, AdditionalData*</t>
+
+<t>Example:</t>
+<figure align="center"><artwork align="left"><![CDATA[
 "Assessment": {
   "SystemImpact": {...},                      //SystemImpact class
   "BusinessImpact": {...},                  //BusinessImpact class
@@ -627,6 +696,10 @@ This class is defined in Section 3.12.1 of <xref target="RFC7970">RFC 7970</xref
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>severity?, completion?, type, ext-type?, Description*</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "SystemImpact":{
   "severity":"high",                                        //ENUM
@@ -642,6 +715,10 @@ The example below represents how to describe this class in JSON.
 <t>This class is defined in Section 3.12.2 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.</t>
 
+<t>Class elements:</t>
+<t>severity?, ext-severity?, type, ext-type?, Description*</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "BusinessImpact": {
   "severity":"medium",                                      //ENUM
@@ -658,6 +735,10 @@ The example below represents how to describe this class in JSON.</t>
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>value, severity?, metric, ext-metric?, duration?, ext-duration?</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "TimeImpact":{
   "time": "240"                                             //REAL
@@ -672,6 +753,10 @@ The example below represents how to describe this class in JSON.
 <t>This class is defined in Section 3.12.4 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.</t>
 
+<t>Class elements:</t>
+<t>value, severity?, currency?</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "MonetaryImpact":{
   "money": "10000",                                         //REAL
@@ -687,6 +772,10 @@ The example below represents how to describe this class in JSON.</t>
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>value, rating, ext-rating?</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "Confidence": {
   "value": "5"                                              //REAL
@@ -702,6 +791,10 @@ The example below represents how to describe this class in JSON.
 
 <t>This class is defined in Section 3.13 of <xref target="RFC7970">RFC 7970</xref>. The example below represents how to describe this class in JSON.</t>
 
+<t>Class elements:</t>
+<t>restriction?, ext-restriction?, HistoryItem+</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "History": {
   "restriction": "need-to-know"                             //ENUM
@@ -713,6 +806,10 @@ The example below represents how to describe this class in JSON.
 
 <t>This class is defined in Section 3.13.1 of <xref target="RFC7970">RFC 7970</xref>. The example below represents how to describe this class in JSON.</t>
 
+<t>Class elements:</t>
+<t>action, ext-action?, restriction?, ext-restriction?, observable-id?, DateTime, IncidentID?, Contact?, Description*, DefinedCOA*, AdditionalData*</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "HistoryItem": {
   "action": "investigate"                                   //ENUM
@@ -728,6 +825,10 @@ The example below represents how to describe this class in JSON.
 <section title="EventData Class">
 <t>This class is defined in Section 3.14 of <xref target="RFC7970">RFC 7970</xref>. The example below represents how to describe this class in JSON.</t>
 
+<t>Class elements:</t>
+<t>restriction?, ext-restriction?, observable-id?, Description*, DetectTime?, StartTime?, EndTime?, RecoveryTime?, ReportTime?, Contact*, Discovery*, Assessment?, Method*, Flow*, Expectation*, Record?, EventData*, AdditionalData*</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "EventData": {
   "ReportTime": "2016-06-01 18:05:33",
@@ -743,6 +844,10 @@ The example below represents how to describe this class in JSON.
 <t>This class is defined in Section 3.15 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.</t>
 
+<t>Class elements:</t>
+<t>action?, ext-action?, severity?, restriction?, ext-restriction?, Description*, DefinedCOA*, StartTime?, EndTime?, Contact?</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "Expectation": {
   "action": "investigate"                                   //ENUM
@@ -756,6 +861,10 @@ The example below represents how to describe this class in JSON.</t>
 <section title="System Class">
 <t>This class is defined in Section 3.17 of <xref target="RFC7970">RFC 7970</xref>.The example below represents how to describe this class in JSON.</t>
 
+<t>Class elements:</t>
+<t>category?, ext-category?, interface?, spoofed?, virtual?, ownership?, ext-ownership?, restriction?, ext-restriction?, Node, NodeRole*, Service*, OperatingSystem*, Counter*, AssetID*, Description*, AdditionalData*</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "System": {
   "category": "source",                                     //ENUM
@@ -771,6 +880,10 @@ The example below represents how to describe this class in JSON.</t>
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>DomainData*, Address*, PostalAddress?, Location*, Counter*</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "Node": {
   "Address": { ... },                              //Address class
@@ -784,6 +897,10 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>value, category, ext-category?, vlan-name?, vlan-num?, observable-id?</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "Address": {
   "value": """192.228.139.118",                           //STRING
@@ -798,6 +915,10 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>category, ext-category?, Description*</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "NodeRole": {
   "category": "client"                                      //ENUM
@@ -812,6 +933,10 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>value, type, ext-type?, unit, ext-unit?, meaning?, duration?, ext-duration?</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "Counter": {
   "value": "3",                                             //REAL
@@ -830,6 +955,10 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>system-status, ext-system-status?, domain-status, ext-domain-status?, observable-id?, Name, DateDomainWasChecked?, RegistrationDate?, ExpirationDate?, RelatedDNS*, Nameservers*, DomainContacts?</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "DomainData": {
   "system-status": "innocent-hacked",                       //ENUM
@@ -844,6 +973,10 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>Server, Address*</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "NameServers": {
   "Server": "vgw.nict.go.jp",                             //STRING
@@ -862,6 +995,10 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 
+<t>Class elements:</t>
+<t>SameDomainContact?, Contact+</t>
+
+<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "DomainContacts": {
   "Contact": {
@@ -1275,6 +1412,7 @@ The example below represents how to describe this class in JSON.
 
 <t>
 <list style="symbols">
+<t>This document treats attributes and elements of each class defined in <xref target="RFC7970">RFC 7970</xref> equally and is agnostic on the order of their appearances.</t>
 <t>Flow class is deleted, and EventData class now has the instance of System class.</t>
 <t>Record class is deleted, and the link to the Record class are directly connected to RecordData class, which is then renamed to Record class.</t>
 </list>
