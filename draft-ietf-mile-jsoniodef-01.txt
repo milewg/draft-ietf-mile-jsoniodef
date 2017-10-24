@@ -360,7 +360,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    "SoftwareType": {
      "SoftwareReference": {...},                  //SoftwareReference
-     "Description": "MS Windows",                         //ML_STRING
+     "Description": {"value":"MS Windows"},       //ML_STRING
    }
 
 2.16.  StructuredInfo
@@ -414,7 +414,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
    Example:
 
    "IODEF-Document": {
-     "version": "2.0",                                       //STRING
+     "version": "2.1",                                       //STRING
      "lang": "en",                                             //ENUM
      "format-id": "RFC7970",                                 //STRING
      "Incident": [ ... ]                                   //Incident
@@ -457,7 +457,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
      "IncidentID": { ... },                        //IncidentID Class
      "RelatedActivity": [ ... ],              //RelatedActivity Class
      "GenerationTime": "2015-10-02T11:18:00-05:00",        //DateTime
-     "Description": ["Incident class description field"], //ML_STRING
+     "Description": [{"value":"Incident in the HQ"}],     //ML_STRING
      "Assessment": [ ... ],                              //Assessment
      "Method": [ ... ],                                      //Method
      "Contact": [ ... ]                                     //Contact
@@ -576,7 +576,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    "ThreatActor": {
      "ThreatActorID": "TA-12-AGGRESSIVE-BUTTERFLY",          //STRING
-     "Description": "Aggressive Butterfly"                //ML_STRING
+     "Description": {"value":"Aggressive Butterfly"}      //ML_STRING
    }
 
 3.8.  Campaign Class
@@ -593,7 +593,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    "Campaign": {
      "CampaignID": "C-2015-59405",                           //STRING
-     "Description": "Orange Giraffe"                      //ML_STRING
+     "Description": {"value":"Orange Giraffe"}            //ML_STRING
    }
 
 3.9.  Contact Class
@@ -621,8 +621,8 @@ Internet-Draft                 JSON-IODEF                   October 2017
    "Contact": {
      "role": "creator",                                        //ENUM
      "type": "organization",                                   //ENUM
-     "ContactName": "CSIRT for example.com",              //ML_STRING
-     "ContactTitle": "Senior Research Engineer"           //ML_STRING
+     "ContactName": {"value":"CSIRT for example.com"},    //ML_STRING
+     "ContactTitle": {"value":"Senior Research Engineer"} //ML_STRING
      "email": {...},                                    //Email Class
      "Telephone": {...},                            //Telephone Class
      "Timezone": "+09:00"                            //Timezone Class
@@ -658,7 +658,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
    "PostalAddress": {
      "type": "mailing",                                        //ENUM
      "PAddress": "1-2-3 Kitamachi Koganei Tokyo, Japan",     //POSTAL
-     "Description": "Office address"                      //ML_STRING
+     "Description": {"value":"Office address"}            //ML_STRING
    },
 
 3.9.3.  Email Class
@@ -683,7 +683,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
    "Email": {
      "type": "direct",                                         //ENUM
      "emailTo": "contact@csirt.example.com",                  //EMAIL
-     "Description": "Administrator's address"             //ML_STRING
+     "Description": {"value":"Administrator's address"}   //ML_STRING
    },
 
 3.9.4.  Telephone Class
@@ -699,8 +699,8 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    "Telephone": {
      "type": "wired",                                          //ENUM
-     "TelephoneNumber": "+81423275862",                       //PHONE
-     "Description": "Administrator's phone at the office" //ML_STRING
+     "TelephoneNumber": "+818012345678",                      //PHONE
+     "Description": {"value":"Admin's moble"}             //ML_STRING
    },
 
 3.10.  Discovery Class
@@ -735,7 +735,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
      "restriction": "need-to-know"                             //ENUM
      "Contact": {...},                                //Contact class
      "DetectionPattern": {...},              //DetectionPattern class
-     "Description":"IDS provided an alert"                //ML_STRING
+     "Description":{"value":"IDS provided an alert"}      //ML_STRING
      }
    }
 
@@ -754,8 +754,8 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    "DetectionPattern": {
      "Application": {...},                                 //SOFTWARE
-     "Description": "The specified application needs
-                    to be reviewed",                      //ML_STRING
+     "Description": {"value":"The specified application
+                    needs to be reviewed"},               //ML_STRING
      }
    }
 
@@ -823,8 +823,8 @@ Internet-Draft                 JSON-IODEF                   October 2017
      "MonetaryImpact": {...},                  //MonetaryImpact class
      "IntendedImpact": {...},                  //IntendedImpact class
      "Counter": "5",                                  //Counter class
-     "MitigationFactor": "Rebooting is required"          //ML_STRING
-     "Cause": "Malware Infection"                         //ML_STRING
+     "MitigationFactor": {"value":"Rebooting is required"}//ML_STRING
+     "Cause": {"value":"Malware Infection"}               //ML_STRING
      }
    }
 
@@ -852,7 +852,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
      "severity":"high",                                        //ENUM
      "completion": "successful"                                //ENUM
      "type":"integrity-data"                                   //ENUM
-     "Description":"The web page was falsified"           //ML_STRING
+     "Description":{"value":"The web page was falsified"} //ML_STRING
    },
 
 3.12.2.  BusinessImpact Class
@@ -871,7 +871,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
      "severity":"medium",                                      //ENUM
      "completion": "successful"                                //ENUM
      "type": "degraded-reputation"                             //ENUM
-     "Description":"The web page was falsified"           //ML_STRING
+     "Description":{"value":"The web page was falsified"} //ML_STRING
    }
 
 3.12.3.  TimeImpact Class
@@ -1079,7 +1079,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    "Node": {
      "Address": { ... },                              //Address class
-     "Location": "OrgID=7"                                //ML_STRING
+     "Location": {"value":"OrgID=7"}                      //ML_STRING
    }
 
 3.17.1.  Address Class
@@ -1124,7 +1124,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    "NodeRole": {
      "category": "client"                                      //ENUM
-     "Description": "This computer resides at room A"     //ML_STRING
+     "Description": {"value":"The computer at room A"}    //ML_STRING
    },
 
 3.17.3.  Counter Class
@@ -1144,7 +1144,8 @@ Internet-Draft                 JSON-IODEF                   October 2017
      "value": "3",                                             //REAL
      "type": "count",                                          //ENUM
      "unit": "packet"                                          //ENUM
-     "meaning": "The number of scan packets are counted", //ML_STRING
+     "meaning": {"value":"The number of scan packets
+                 are counted"},                           //ML_STRING
    }
 
 3.18.  DomainData Class
@@ -1165,7 +1166,6 @@ Internet-Draft                 JSON-IODEF                   October 2017
      "domain-status": "assignedAndInactive",                 //STRING
      "Name": "temp1.nict.go.jp"                              //STRING
    },
-
 
 
 
