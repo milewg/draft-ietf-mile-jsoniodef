@@ -232,7 +232,7 @@
 <figure align="center"><artwork align="left"><![CDATA[
 "SoftwareType": {
   "SoftwareReference": {...},                  //SoftwareReference
-  "Description": "MS Windows",                         //ML_STRING
+  "Description": {"value":"MS Windows"},       //ML_STRING
 }
 ]]></artwork></figure>
 
@@ -278,7 +278,7 @@
 <t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "IODEF-Document": {
-  "version": "2.0",                                       //STRING
+  "version": "2.1",                                       //STRING
   "lang": "en",                                             //ENUM
   "format-id": "RFC7970",                                 //STRING
   "Incident": [ ... ]                                   //Incident
@@ -305,7 +305,7 @@ Its class elements and an example are shown below. See Section 3.2 of <xref targ
   "IncidentID": { ... },                        //IncidentID Class
   "RelatedActivity": [ ... ],              //RelatedActivity Class
   "GenerationTime": "2015-10-02T11:18:00-05:00",        //DateTime
-  "Description": ["Incident class description field"], //ML_STRING
+  "Description": [{"value":"Incident in the HQ"}],     //ML_STRING
   "Assessment": [ ... ],                              //Assessment
   "Method": [ ... ],                                      //Method
   "Contact": [ ... ]                                     //Contact
@@ -422,7 +422,7 @@ The value of this attribute is a unique identifier, in string type, in the scope
 <figure align="center"><artwork align="left"><![CDATA[
 "ThreatActor": {
   "ThreatActorID": "TA-12-AGGRESSIVE-BUTTERFLY",          //STRING
-  "Description": "Aggressive Butterfly"                //ML_STRING
+  "Description": {"value":"Aggressive Butterfly"}      //ML_STRING
 }
 ]]></artwork></figure>
 
@@ -440,7 +440,7 @@ The value of this attribute is a unique identifier, in string type, in the scope
 <figure align="center"><artwork align="left"><![CDATA[
 "Campaign": {
   "CampaignID": "C-2015-59405",                           //STRING
-  "Description": "Orange Giraffe"                      //ML_STRING
+  "Description": {"value":"Orange Giraffe"}            //ML_STRING
 }
 ]]></artwork></figure>
 
@@ -459,8 +459,8 @@ The value of this attribute is a unique identifier, in string type, in the scope
 "Contact": {
   "role": "creator",                                        //ENUM
   "type": "organization",                                   //ENUM
-  "ContactName": "CSIRT for example.com",              //ML_STRING
-  "ContactTitle": "Senior Research Engineer"           //ML_STRING
+  "ContactName": {"value":"CSIRT for example.com"},    //ML_STRING
+  "ContactTitle": {"value":"Senior Research Engineer"} //ML_STRING
   "email": {...},                                    //Email Class
   "Telephone": {...},                            //Telephone Class
   "Timezone": "+09:00"                            //Timezone Class
@@ -502,7 +502,7 @@ The value of this attribute is a unique identifier, in string type, in the scope
 "PostalAddress": {
   "type": "mailing",                                        //ENUM
   "PAddress": "1-2-3 Kitamachi Koganei Tokyo, Japan",     //POSTAL
-  "Description": "Office address"                      //ML_STRING
+  "Description": {"value":"Office address"}            //ML_STRING
 },
 ]]></artwork></figure>
 </section>
@@ -521,7 +521,7 @@ The value of this attribute is a unique identifier, in string type, in the scope
 "Email": {
   "type": "direct",                                         //ENUM
   "emailTo": "contact@csirt.example.com",                  //EMAIL
-  "Description": "Administrator's address"             //ML_STRING
+  "Description": {"value":"Administrator's address"}   //ML_STRING
 },
 ]]></artwork></figure>
 </section>
@@ -537,8 +537,8 @@ The value of this attribute is a unique identifier, in string type, in the scope
 <figure align="center"><artwork align="left"><![CDATA[
 "Telephone": {
   "type": "wired",                                          //ENUM
-  "TelephoneNumber": "+81423275862",                       //PHONE
-  "Description": "Administrator's phone at the office" //ML_STRING
+  "TelephoneNumber": "+818012345678",                      //PHONE
+  "Description": {"value":"Admin's moble"}             //ML_STRING
 },
 ]]></artwork></figure>
 </section>
@@ -559,7 +559,7 @@ The value of this attribute is a unique identifier, in string type, in the scope
   "restriction": "need-to-know"                             //ENUM
   "Contact": {...},                                //Contact class
   "DetectionPattern": {...},              //DetectionPattern class
-  "Description":"IDS provided an alert"                //ML_STRING
+  "Description":{"value":"IDS provided an alert"}      //ML_STRING
   }
 }
 ]]></artwork></figure>
@@ -576,8 +576,8 @@ The value of this attribute is a unique identifier, in string type, in the scope
 <figure align="center"><artwork align="left"><![CDATA[
 "DetectionPattern": {
   "Application": {...},                                 //SOFTWARE
-  "Description": "The specified application needs
-                 to be reviewed",                      //ML_STRING
+  "Description": {"value":"The specified application
+                 needs to be reviewed"},               //ML_STRING
   }
 }
 ]]></artwork>
@@ -635,8 +635,8 @@ The value of this attribute is a unique identifier, in string type, in the scope
   "MonetaryImpact": {...},                  //MonetaryImpact class
   "IntendedImpact": {...},                  //IntendedImpact class
   "Counter": "5",                                  //Counter class
-  "MitigationFactor": "Rebooting is required"          //ML_STRING
-  "Cause": "Malware Infection"                         //ML_STRING
+  "MitigationFactor": {"value":"Rebooting is required"}//ML_STRING
+  "Cause": {"value":"Malware Infection"}               //ML_STRING
   }
 }
 ]]></artwork>
@@ -654,7 +654,7 @@ The value of this attribute is a unique identifier, in string type, in the scope
   "severity":"high",                                        //ENUM
   "completion": "successful"                                //ENUM
   "type":"integrity-data"                                   //ENUM
-  "Description":"The web page was falsified"           //ML_STRING
+  "Description":{"value":"The web page was falsified"} //ML_STRING
 },
 ]]></artwork></figure>
 </section>
@@ -672,7 +672,7 @@ The value of this attribute is a unique identifier, in string type, in the scope
   "severity":"medium",                                      //ENUM
   "completion": "successful"                                //ENUM
   "type": "degraded-reputation"                             //ENUM
-  "Description":"The web page was falsified"           //ML_STRING
+  "Description":{"value":"The web page was falsified"} //ML_STRING
 }
 ]]></artwork></figure>
 </section>
@@ -824,7 +824,7 @@ The value of this attribute is a unique identifier, in string type, in the scope
 <figure align="center"><artwork align="left"><![CDATA[
 "Node": {
   "Address": { ... },                              //Address class
-  "Location": "OrgID=7"                                //ML_STRING
+  "Location": {"value":"OrgID=7"}                      //ML_STRING
 }
 ]]></artwork></figure>
 
@@ -853,7 +853,7 @@ The value of this attribute is a unique identifier, in string type, in the scope
 <figure align="center"><artwork align="left"><![CDATA[
 "NodeRole": {
   "category": "client"                                      //ENUM
-  "Description": "This computer resides at room A"     //ML_STRING
+  "Description": {"value":"The computer at room A"}    //ML_STRING
 },
 ]]></artwork></figure>
 </section>
@@ -870,7 +870,8 @@ The value of this attribute is a unique identifier, in string type, in the scope
   "value": "3",                                             //REAL
   "type": "count",                                          //ENUM
   "unit": "packet"                                          //ENUM
-  "meaning": "The number of scan packets are counted", //ML_STRING
+  "meaning": {"value":"The number of scan packets
+              are counted"},                           //ML_STRING
 }
 ]]></artwork></figure>
 </section>
