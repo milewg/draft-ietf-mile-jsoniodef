@@ -90,22 +90,22 @@ Table of Contents
      3.4.  IncidentID Class  . . . . . . . . . . . . . . . . . . . .   9
      3.5.  AlternativeID Class . . . . . . . . . . . . . . . . . . .  10
      3.6.  RelatedActivity Class . . . . . . . . . . . . . . . . . .  10
-     3.7.  ThreatActor Class . . . . . . . . . . . . . . . . . . . .  10
-     3.8.  Campaign Class  . . . . . . . . . . . . . . . . . . . . .  10
+     3.7.  ThreatActor Class . . . . . . . . . . . . . . . . . . . .  11
+     3.8.  Campaign Class  . . . . . . . . . . . . . . . . . . . . .  11
      3.9.  Contact Class . . . . . . . . . . . . . . . . . . . . . .  11
-       3.9.1.  RegistryHandle Class  . . . . . . . . . . . . . . . .  11
-       3.9.2.  PostalAddress Class . . . . . . . . . . . . . . . . .  11
-       3.9.3.  Email Class . . . . . . . . . . . . . . . . . . . . .  11
-       3.9.4.  Telephone Class . . . . . . . . . . . . . . . . . . .  12
-     3.10. Discovery Class . . . . . . . . . . . . . . . . . . . . .  12
-       3.10.1.  DetectionPattern Class . . . . . . . . . . . . . . .  12
-     3.11. Method Class  . . . . . . . . . . . . . . . . . . . . . .  12
-       3.11.1.  Reference Class  . . . . . . . . . . . . . . . . . .  13
-     3.12. Assessment Class  . . . . . . . . . . . . . . . . . . . .  13
-       3.12.1.  SystemImpact Class . . . . . . . . . . . . . . . . .  13
-       3.12.2.  BusinessImpact Class . . . . . . . . . . . . . . . .  13
-       3.12.3.  TimeImpact Class . . . . . . . . . . . . . . . . . .  14
-       3.12.4.  MonetaryImpact Class . . . . . . . . . . . . . . . .  14
+       3.9.1.  RegistryHandle Class  . . . . . . . . . . . . . . . .  12
+       3.9.2.  PostalAddress Class . . . . . . . . . . . . . . . . .  12
+       3.9.3.  Email Class . . . . . . . . . . . . . . . . . . . . .  12
+       3.9.4.  Telephone Class . . . . . . . . . . . . . . . . . . .  13
+     3.10. Discovery Class . . . . . . . . . . . . . . . . . . . . .  13
+       3.10.1.  DetectionPattern Class . . . . . . . . . . . . . . .  14
+     3.11. Method Class  . . . . . . . . . . . . . . . . . . . . . .  14
+       3.11.1.  Reference Class  . . . . . . . . . . . . . . . . . .  15
+     3.12. Assessment Class  . . . . . . . . . . . . . . . . . . . .  15
+       3.12.1.  SystemImpact Class . . . . . . . . . . . . . . . . .  15
+       3.12.2.  BusinessImpact Class . . . . . . . . . . . . . . . .  16
+       3.12.3.  TimeImpact Class . . . . . . . . . . . . . . . . . .  16
+       3.12.4.  MonetaryImpact Class . . . . . . . . . . . . . . . .  17
 
 
 
@@ -114,54 +114,54 @@ Takahashi & Suzuki       Expires April 26, 2018                 [Page 2]
 Internet-Draft                 JSON-IODEF                   October 2017
 
 
-       3.12.5.  Confidence Class . . . . . . . . . . . . . . . . . .  14
-     3.13. History Class . . . . . . . . . . . . . . . . . . . . . .  14
-       3.13.1.  HistoryItem Class  . . . . . . . . . . . . . . . . .  15
-     3.14. EventData Class . . . . . . . . . . . . . . . . . . . . .  15
-     3.15. Expectation Class . . . . . . . . . . . . . . . . . . . .  15
-     3.16. System Class  . . . . . . . . . . . . . . . . . . . . . .  15
-     3.17. Node Class  . . . . . . . . . . . . . . . . . . . . . . .  16
-       3.17.1.  Address Class  . . . . . . . . . . . . . . . . . . .  16
-       3.17.2.  NodeRole Class . . . . . . . . . . . . . . . . . . .  16
-       3.17.3.  Counter Class  . . . . . . . . . . . . . . . . . . .  16
-     3.18. DomainData Class  . . . . . . . . . . . . . . . . . . . .  16
-       3.18.1.  Nameserver Class . . . . . . . . . . . . . . . . . .  17
-       3.18.2.  DomainContacts Class . . . . . . . . . . . . . . . .  17
-     3.19. Service Class . . . . . . . . . . . . . . . . . . . . . .  17
-       3.19.1.  ServiceName Class  . . . . . . . . . . . . . . . . .  18
-       3.19.2.  ApplicationHeader Class  . . . . . . . . . . . . . .  18
-     3.20. EmailData Class . . . . . . . . . . . . . . . . . . . . .  18
-     3.21. Record Class  . . . . . . . . . . . . . . . . . . . . . .  18
-       3.21.1.  RecordPattern Class  . . . . . . . . . . . . . . . .  18
-     3.22. WindowsRegistryKeysModified Class . . . . . . . . . . . .  19
-       3.22.1.  Key Class  . . . . . . . . . . . . . . . . . . . . .  19
-     3.23. CertificateData Class . . . . . . . . . . . . . . . . . .  19
-       3.23.1.  Certificate Class  . . . . . . . . . . . . . . . . .  19
-     3.24. FileData Class  . . . . . . . . . . . . . . . . . . . . .  20
-       3.24.1.  File Class . . . . . . . . . . . . . . . . . . . . .  20
-     3.25. HashData Class  . . . . . . . . . . . . . . . . . . . . .  20
-       3.25.1.  Hash Class . . . . . . . . . . . . . . . . . . . . .  20
-       3.25.2.  FuzzyHash Class  . . . . . . . . . . . . . . . . . .  21
-     3.26. SignatureData Class . . . . . . . . . . . . . . . . . . .  21
-     3.27. Indicator Class . . . . . . . . . . . . . . . . . . . . .  21
-       3.27.1.  IndicatorID Class  . . . . . . . . . . . . . . . . .  22
-       3.27.2.  AlternativeIndicatorID Class . . . . . . . . . . . .  22
-       3.27.3.  Observable Class . . . . . . . . . . . . . . . . . .  22
-       3.27.4.  IndicatorExpression Class  . . . . . . . . . . . . .  22
-       3.27.5.  ObservableReference Class  . . . . . . . . . . . . .  23
-       3.27.6.  IndicatorReference Class . . . . . . . . . . . . . .  23
-       3.27.7.  AttackPhase Class  . . . . . . . . . . . . . . . . .  23
-   4.  Notable differences from RFC 7970 (to be deleted) . . . . . .  23
-   5.  Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .  23
-     5.1.  Minimal Example . . . . . . . . . . . . . . . . . . . . .  23
-     5.2.  Indicators from a Campaign  . . . . . . . . . . . . . . .  24
-   6.  The IODEF Data Model (JSON Schema)  . . . . . . . . . . . . .  26
-   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  62
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  62
-   9.  Security Considerations . . . . . . . . . . . . . . . . . . .  62
-   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  62
-     10.1.  Normative References . . . . . . . . . . . . . . . . . .  62
-     10.2.  Informative References . . . . . . . . . . . . . . . . .  62
+       3.12.5.  Confidence Class . . . . . . . . . . . . . . . . . .  17
+     3.13. History Class . . . . . . . . . . . . . . . . . . . . . .  17
+       3.13.1.  HistoryItem Class  . . . . . . . . . . . . . . . . .  18
+     3.14. EventData Class . . . . . . . . . . . . . . . . . . . . .  18
+     3.15. Expectation Class . . . . . . . . . . . . . . . . . . . .  18
+     3.16. System Class  . . . . . . . . . . . . . . . . . . . . . .  19
+     3.17. Node Class  . . . . . . . . . . . . . . . . . . . . . . .  19
+       3.17.1.  Address Class  . . . . . . . . . . . . . . . . . . .  20
+       3.17.2.  NodeRole Class . . . . . . . . . . . . . . . . . . .  20
+       3.17.3.  Counter Class  . . . . . . . . . . . . . . . . . . .  20
+     3.18. DomainData Class  . . . . . . . . . . . . . . . . . . . .  21
+       3.18.1.  Nameserver Class . . . . . . . . . . . . . . . . . .  21
+       3.18.2.  DomainContacts Class . . . . . . . . . . . . . . . .  22
+     3.19. Service Class . . . . . . . . . . . . . . . . . . . . . .  22
+       3.19.1.  ServiceName Class  . . . . . . . . . . . . . . . . .  22
+       3.19.2.  ApplicationHeader Class  . . . . . . . . . . . . . .  22
+     3.20. EmailData Class . . . . . . . . . . . . . . . . . . . . .  23
+     3.21. Record Class  . . . . . . . . . . . . . . . . . . . . . .  23
+       3.21.1.  RecordPattern Class  . . . . . . . . . . . . . . . .  23
+     3.22. WindowsRegistryKeysModified Class . . . . . . . . . . . .  23
+       3.22.1.  Key Class  . . . . . . . . . . . . . . . . . . . . .  23
+     3.23. CertificateData Class . . . . . . . . . . . . . . . . . .  24
+       3.23.1.  Certificate Class  . . . . . . . . . . . . . . . . .  24
+     3.24. FileData Class  . . . . . . . . . . . . . . . . . . . . .  24
+       3.24.1.  File Class . . . . . . . . . . . . . . . . . . . . .  25
+     3.25. HashData Class  . . . . . . . . . . . . . . . . . . . . .  25
+       3.25.1.  Hash Class . . . . . . . . . . . . . . . . . . . . .  25
+       3.25.2.  FuzzyHash Class  . . . . . . . . . . . . . . . . . .  25
+     3.26. SignatureData Class . . . . . . . . . . . . . . . . . . .  25
+     3.27. Indicator Class . . . . . . . . . . . . . . . . . . . . .  26
+       3.27.1.  IndicatorID Class  . . . . . . . . . . . . . . . . .  26
+       3.27.2.  AlternativeIndicatorID Class . . . . . . . . . . . .  26
+       3.27.3.  Observable Class . . . . . . . . . . . . . . . . . .  27
+       3.27.4.  IndicatorExpression Class  . . . . . . . . . . . . .  27
+       3.27.5.  ObservableReference Class  . . . . . . . . . . . . .  27
+       3.27.6.  IndicatorReference Class . . . . . . . . . . . . . .  27
+       3.27.7.  AttackPhase Class  . . . . . . . . . . . . . . . . .  28
+   4.  Notable differences from RFC 7970 (to be deleted) . . . . . .  28
+   5.  Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .  28
+     5.1.  Minimal Example . . . . . . . . . . . . . . . . . . . . .  28
+     5.2.  Indicators from a Campaign  . . . . . . . . . . . . . . .  29
+   6.  The IODEF Data Model (JSON Schema)  . . . . . . . . . . . . .  31
+   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  67
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  67
+   9.  Security Considerations . . . . . . . . . . . . . . . . . . .  67
+   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  67
+     10.1.  Normative References . . . . . . . . . . . . . . . . . .  67
+     10.2.  Informative References . . . . . . . . . . . . . . . . .  67
 
 
 
@@ -170,7 +170,7 @@ Takahashi & Suzuki       Expires April 26, 2018                 [Page 3]
 Internet-Draft                 JSON-IODEF                   October 2017
 
 
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  63
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  68
 
 1.  Introduction
 
@@ -402,14 +402,16 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 3.1.  IODEF-Document Class
 
-   The IODEF-Document class is the top level class in the IODEF data
-   model.  This class is defined in Section 3.1 of RFC 7970 [RFC7970]
-   and has the following fields: "version", "lang", "format-id",
-   "private-enum-name", "private-enum-id", "Incident", and
-   "AdditionalData".  An example of this class in JSON is as follows.
-   Note that JSON representation in this draft treats attributes and
-   elements of each class defined in RFC 7970 [RFC7970] equally and is
-   agnostic on the order of their appearances.
+   This class is the top level class in the IODEF data model.  Its class
+   elements and an example are shown below.  See Section 3.1 of RFC 7970
+   [RFC7970] for the intended meanings of these elements.
+
+   Class elements:
+
+   version, lang?, format-id?, private-enum-name?, private-enum-id?,
+   Incident+, AdditionalData*
+
+   Example:
 
    "IODEF-Document": {
      "version": "2.0",                                       //STRING
@@ -421,21 +423,19 @@ Internet-Draft                 JSON-IODEF                   October 2017
 3.2.  Incident Class
 
    The Incident class describes commonly exchanged information when
-   reporting or sharing derived analysis from security incidents.  This
-   class is defined in Section 3.2 of RFC 7970 [RFC7970].  It has the
-   following fields: "purpose", "lang", "restriction", "ext-
-   restriction", "IncidentID", "RelatedActivity", "GenrationTime",
-   "Description", "Assessment", "Methods", "Contact", "EventData",
-   "IndicatorData", "History", and "AdditionalData".  An example of this
-   class in JSON is as follows.
+   reporting or sharing derived analysis from security incidents.  Its
+   class elements and an example are shown below.  See Section 3.2 of
+   RFC 7970 [RFC7970] for the intended meanings of these elements.
 
+   Class elements:
 
+   purpose, ext-purpose?, status?, ext-status?, lang?, restriction?,
+   ext-restriction?, observable-id?, IncidentID, AlternativeID?,
+   RelatedActivity*, DetectTime?, StartTime?, EndTime?, RecoveryTime?,
+   ReportTime?, GenrationTime?, Description*, Assessment*, Method*,
+   Contact+, EventData*, IndicatorData?, History?, AdditionalData*
 
-
-
-
-
-
+   Example:
 
 
 
@@ -497,7 +497,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
    "restriction", and "ext-restriction".  The example below represents
    how to describe this class in JSON.
 
-
+   Class elements:
 
 
 
@@ -505,6 +505,10 @@ Takahashi & Suzuki       Expires April 26, 2018                 [Page 9]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
+
+   value, name, instance?, restriction?, ext-restriction?
+
+   Example:
 
    "IncidentID": {
      "id": "nict20150518-0001",                             // STRING
@@ -519,6 +523,12 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.5 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
+
+   restriction?, ext-restriction?, IncidentID+
+
+   Example:
+
    "AltervativeID": {
      "restriction": "private",                                 //ENUM
      "IncidentID": [<<<omitted>>>]                       //IncidentID
@@ -529,16 +539,40 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.6 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
+
+   restriction?, ext-restriction?, IncidentID*, URL*, ThreatActor*,
+   Campaign*, IndicatorID*, Confidence?, Description*, AdditionalData*
+
+   Example:
+
    "RelatedActivity": {
      "restriction": "private",                                 //ENUM
      "ThreatActor": [{...}],                      //ThreatActor class
      "Campaign": [{...}]                             //Campaign class
    }
 
+
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 10]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
 3.7.  ThreatActor Class
 
    This class is defined in Section 3.7 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+   Class elements:
+
+   restriction?, ext-restriction?, ThreatActorID*, URL*, Description*,
+   AdditionalData*
+
+   Example:
 
    "ThreatActor": {
      "ThreatActorID": "TA-12-AGGRESSIVE-BUTTERFLY",          //STRING
@@ -550,22 +584,39 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.8 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
+
+   restriction?, ext-restriction?, CampaignID*, URL*, Description*,
+   AdditionalData*
+
+   Example:
+
    "Campaign": {
      "CampaignID": "C-2015-59405",                           //STRING
      "Description": "Orange Giraffe"                      //ML_STRING
    }
 
-
-
-Takahashi & Suzuki       Expires April 26, 2018                [Page 10]
-
-Internet-Draft                 JSON-IODEF                   October 2017
-
-
 3.9.  Contact Class
 
    This class is defined in Section 3.9 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+   Class elements:
+
+   role, ext-role?, type, ext-type?, restriction?, ext-restriction?,
+   ContactName*, ContactTitle*, Description*, RegistryHandle*,
+   PostalAddress*, Email*, Telephone*, Timezone?, Contact*,
+   AdditionalData*
+
+   Example:
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 11]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
 
    "Contact": {
      "role": "creator",                                        //ENUM
@@ -582,6 +633,12 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.9.1 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
+
+   value, registry, ext-registry?
+
+   Example:
+
    "RegistryHandle": {
      "handlename": "MyAPNIC",                                //STRING
      "registry": "apnic",                                      //ENUM
@@ -591,6 +648,12 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    This class is defined in Section 3.9.2 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+   Class elements:
+
+   type?, ext-type?, PAddress, Description*
+
+   Example:
 
    "PostalAddress": {
      "type": "mailing",                                        //ENUM
@@ -603,25 +666,36 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.9.3 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 12]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+   Class elements:
+
+   type?, ext-type?, EmailTo, Description*
+
+   Example:
+
    "Email": {
      "type": "direct",                                         //ENUM
      "emailTo": "contact@csirt.example.com",                  //EMAIL
      "Description": "Administrator's address"             //ML_STRING
    },
 
-
-
-
-
-Takahashi & Suzuki       Expires April 26, 2018                [Page 11]
-
-Internet-Draft                 JSON-IODEF                   October 2017
-
-
 3.9.4.  Telephone Class
 
    This class is defined in Section 3.9.4 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+   Class elements:
+
+   type?, ext-type?, TelephoneNumber, Description*
+
+   Example:
 
    "Telephone": {
      "type": "wired",                                          //ENUM
@@ -633,6 +707,28 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    This class is defined in Section 3.10 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+   Class elements:
+
+   source?, ext-source?, restriction?, ext-restriction?, Description*,
+   Contact*, DetectionPattern*
+
+   Example:
+
+
+
+
+
+
+
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 13]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
 
    "Discovery": {
      "source": "nidps",                                        //ENUM
@@ -648,6 +744,13 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.10.1 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
+
+   restriction?, ext-restriction?, observable-id?, Application,
+   Description*, DetectionConfiguration*
+
+   Example:
+
    "DetectionPattern": {
      "Application": {...},                                 //SOFTWARE
      "Description": "The specified application needs
@@ -660,6 +763,13 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.11 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
+
+   restriction?, ext-restriction?, Reference*, Description*,
+   AttackPatterm*, Vulnerability*, Weakness*
+
+   Example:
+
    "Method": {
      "AttackPattern": {...}                          //StructuredInfo
      "Vulnerability": {...}                          //StructuredInfo
@@ -669,7 +779,9 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 12]
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 14]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -679,6 +791,12 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.11.1 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
+
+   observable-id?, ReferenceName?, URL*, Description*
+
+   Example:
+
    "Reference":{
      "URL":"http://www.nict.go.jp"                              //URL
    }
@@ -687,6 +805,15 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    This class is defined in Section 3.12 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+   Class elements:
+
+   occurence?, restriction?, ext-restriction?, observable-id?,
+   IncidentCategory*, SystemImpact*, BusinessImpact*, TimeImpact*,
+   MonetaryImpact*, IntendedImpact*, Counter*, MitigationFactor*,
+   Cause*, Confidence?, AdditionalData*
+
+   Example:
 
    "Assessment": {
      "SystemImpact": {...},                      //SystemImpact class
@@ -705,6 +832,20 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.12.1 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 15]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+   severity?, completion?, type, ext-type?, Description*
+
+   Example:
+
    "SystemImpact":{
      "severity":"high",                                        //ENUM
      "completion": "successful"                                //ENUM
@@ -717,18 +858,11 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.12.2 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
 
+   severity?, ext-severity?, type, ext-type?, Description*
 
-
-
-
-
-
-
-Takahashi & Suzuki       Expires April 26, 2018                [Page 13]
-
-Internet-Draft                 JSON-IODEF                   October 2017
-
+   Example:
 
    "BusinessImpact": {
      "severity":"medium",                                      //ENUM
@@ -742,16 +876,38 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.12.3 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
+
+   value, severity?, metric, ext-metric?, duration?, ext-duration?
+
+   Example:
+
    "TimeImpact":{
      "time": "240"                                             //REAL
      "metric": "elapsed"                                       //ENUM
      "duration": "minutes"                                     //ENUM
    }
 
+
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 16]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
 3.12.4.  MonetaryImpact Class
 
    This class is defined in Section 3.12.4 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+   Class elements:
+
+   value, severity?, currency?
+
+   Example:
 
    "MonetaryImpact":{
      "money": "10000",                                         //REAL
@@ -764,6 +920,12 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.12.5 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
+
+   value, rating, ext-rating?
+
+   Example:
+
    "Confidence": {
      "value": "5"                                              //REAL
      "rating": "medium"                                        //ENUM
@@ -774,6 +936,12 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.13 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
+
+   restriction?, ext-restriction?, HistoryItem+
+
+   Example:
+
    "History": {
      "restriction": "need-to-know"                             //ENUM
      "HistoryItem": { ... }                       //HistoryItem class
@@ -781,7 +949,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 14]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 17]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -790,6 +958,14 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    This class is defined in Section 3.13.1 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+   Class elements:
+
+   action, ext-action?, restriction?, ext-restriction?, observable-id?,
+   DateTime, IncidentID?, Contact?, Description*, DefinedCOA*,
+   AdditionalData*
+
+   Example:
 
    "HistoryItem": {
      "action": "investigate"                                   //ENUM
@@ -802,6 +978,15 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    This class is defined in Section 3.14 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+   Class elements:
+
+   restriction?, ext-restriction?, observable-id?, Description*,
+   DetectTime?, StartTime?, EndTime?, RecoveryTime?, ReportTime?,
+   Contact*, Discovery*, Assessment?, Method*, Flow*, Expectation*,
+   Record?, EventData*, AdditionalData*
+
+   Example:
 
    "EventData": {
      "ReportTime": "2016-06-01 18:05:33",
@@ -816,6 +1001,20 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.15 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 18]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
+   action?, ext-action?, severity?, restriction?, ext-restriction?,
+   Description*, DefinedCOA*, StartTime?, EndTime?, Contact?
+
+   Example:
+
    "Expectation": {
      "action": "investigate"                                   //ENUM
      "severity": "medium"                                      //ENUM
@@ -827,35 +1026,56 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.17 of RFC 7970 [RFC7970].The
    example below represents how to describe this class in JSON.
 
+   Class elements:
+
+   category?, ext-category?, interface?, spoofed?, virtual?, ownership?,
+   ext-ownership?, restriction?, ext-restriction?, Node, NodeRole*,
+   Service*, OperatingSystem*, Counter*, AssetID*, Description*,
+   AdditionalData*
+
+   Example:
+
    "System": {
      "category": "source",                                     //ENUM
      "Node": { ... },                                    //Node class
      "Service": { ... },                              //Service class
    },
 
-
-
-
-
-Takahashi & Suzuki       Expires April 26, 2018                [Page 15]
-
-Internet-Draft                 JSON-IODEF                   October 2017
-
-
 3.17.  Node Class
 
    This class is defined in Section 3.18 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+   Class elements:
+
+   DomainData*, Address*, PostalAddress?, Location*, Counter*
+
+   Example:
 
    "Node": {
      "Address": { ... },                              //Address class
      "Location": "OrgID=7"                                //ML_STRING
    }
 
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 19]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
 3.17.1.  Address Class
 
    This class is defined in Section 3.18.1 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+   Class elements:
+
+   value, category, ext-category?, vlan-name?, vlan-num?, observable-id?
+
+   Example:
 
    "Address": {
      "value": """192.228.139.118",                           //STRING
@@ -867,6 +1087,12 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.18.2 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
+
+   category, ext-category?, Description*
+
+   Example:
+
    "NodeRole": {
      "category": "client"                                      //ENUM
      "Description": "This computer resides at room A"     //ML_STRING
@@ -876,6 +1102,25 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    This class is defined in Section 3.18.3 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+   Class elements:
+
+   value, type, ext-type?, unit, ext-unit?, meaning?, duration?, ext-
+   duration?
+
+   Example:
+
+
+
+
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 20]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
 
    "Counter": {
      "value": "3",                                             //REAL
@@ -889,14 +1134,13 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.19 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
 
+   system-status, ext-system-status?, domain-status, ext-domain-status?,
+   observable-id?, Name, DateDomainWasChecked?, RegistrationDate?,
+   ExpirationDate?, RelatedDNS*, Nameservers*, DomainContacts?
 
-
-
-Takahashi & Suzuki       Expires April 26, 2018                [Page 16]
-
-Internet-Draft                 JSON-IODEF                   October 2017
-
+   Example:
 
    "DomainData": {
      "system-status": "innocent-hacked",                       //ENUM
@@ -909,6 +1153,12 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.19.1 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
+   Class elements:
+
+   Server, Address*
+
+   Example:
+
    "NameServers": {
      "Server": "vgw.nict.go.jp",                             //STRING
      "Address": {
@@ -917,10 +1167,27 @@ Internet-Draft                 JSON-IODEF                   October 2017
      }
    }
 
+
+
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 21]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
 3.18.2.  DomainContacts Class
 
    This class is defined in Section 3.19.2 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+   Class elements:
+
+   SameDomainContact?, Contact+
+
+   Example:
 
    "DomainContacts": {
      "Contact": {
@@ -942,18 +1209,6 @@ Internet-Draft                 JSON-IODEF                   October 2017
      "Port": 49183                                          //INTEGER
    }
 
-
-
-
-
-
-
-
-Takahashi & Suzuki       Expires April 26, 2018                [Page 17]
-
-Internet-Draft                 JSON-IODEF                   October 2017
-
-
 3.19.1.  ServiceName Class
 
    This class is defined in Section 3.20.1 of RFC 7970 [RFC7970].  The
@@ -971,6 +1226,13 @@ Internet-Draft                 JSON-IODEF                   October 2017
    example below represents how to describe this class in JSON.
 
    "ApplicationHeader": {}
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 22]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
 
 3.20.  EmailData Class
 
@@ -1002,14 +1264,6 @@ Internet-Draft                 JSON-IODEF                   October 2017
      "value": "[0-9][A-Z]"
    },
 
-
-
-
-Takahashi & Suzuki       Expires April 26, 2018                [Page 18]
-
-Internet-Draft                 JSON-IODEF                   October 2017
-
-
 3.22.  WindowsRegistryKeysModified Class
 
    This class is defined in Section 3.23 of RFC 7970 [RFC7970].  The
@@ -1026,6 +1280,15 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    This class is defined in Section 3.23.1 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 23]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
 
                  "Key": {
                    "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",
@@ -1054,18 +1317,6 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.24.1 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
-
-
-
-
-
-
-
-Takahashi & Suzuki       Expires April 26, 2018                [Page 19]
-
-Internet-Draft                 JSON-IODEF                   October 2017
-
-
               "Certificate": {
                 "X509Data": {
                   "X509IssuerSerial": {
@@ -1086,6 +1337,14 @@ Internet-Draft                 JSON-IODEF                   October 2017
                    "FileName": "dummy.exe"
                  }
                },
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 24]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
 
 3.24.1.  File Class
 
@@ -1114,14 +1373,6 @@ Internet-Draft                 JSON-IODEF                   October 2017
    This class is defined in Section 3.26.1 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
 
-
-
-
-Takahashi & Suzuki       Expires April 26, 2018                [Page 20]
-
-Internet-Draft                 JSON-IODEF                   October 2017
-
-
                   "Hash": {
                     "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1",
                     "DigestValue": "xxxxxxxxxxx"
@@ -1140,6 +1391,16 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    This class is defined in Section 3.27 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 25]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
 
                    "SignatureData": {
                      "Signature": "xxxxxxxx"
@@ -1171,13 +1432,6 @@ Internet-Draft                 JSON-IODEF                   October 2017
                }
              }
 
-
-
-Takahashi & Suzuki       Expires April 26, 2018                [Page 21]
-
-Internet-Draft                 JSON-IODEF                   October 2017
-
-
 3.27.1.  IndicatorID Class
 
    This class is defined in Section 3.29.1 of RFC 7970 [RFC7970].  The
@@ -1193,6 +1447,16 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
    This class is defined in Section 3.29.2 of RFC 7970 [RFC7970].  The
    example below represents how to describe this class in JSON.
+
+
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 26]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
 
                "AlternativeIndicatorID": {
                  "IndicatorReference": {
@@ -1224,16 +1488,6 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
                "IndicatorExpression": {}
 
-
-
-
-
-
-Takahashi & Suzuki       Expires April 26, 2018                [Page 22]
-
-Internet-Draft                 JSON-IODEF                   October 2017
-
-
 3.27.5.  ObservableReference Class
 
    This class is defined in Section 3.29.6 of RFC 7970 [RFC7970].  The
@@ -1252,6 +1506,14 @@ Internet-Draft                 JSON-IODEF                   October 2017
                    "uid-ref": "xxxxx"
                  }
 
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 27]
+
+Internet-Draft                 JSON-IODEF                   October 2017
+
+
 3.27.7.  AttackPhase Class
 
    This class is defined in Section 3.29.8 of RFC 7970 [RFC7970].  The
@@ -1262,6 +1524,10 @@ Internet-Draft                 JSON-IODEF                   October 2017
             }
 
 4.  Notable differences from RFC 7970 (to be deleted)
+
+   o  This document treats attributes and elements of each class defined
+      in RFC 7970 [RFC7970] equally and is agnostic on the order of
+      their appearances.
 
    o  Flow class is deleted, and EventData class now has the instance of
       System class.
@@ -1285,7 +1551,21 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 23]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Takahashi & Suzuki       Expires April 26, 2018                [Page 28]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1341,7 +1621,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 24]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 29]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1397,7 +1677,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 25]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 30]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1453,7 +1733,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 26]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 31]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1509,7 +1789,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 27]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 32]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1565,7 +1845,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 28]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 33]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1621,7 +1901,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 29]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 34]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1677,7 +1957,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 30]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 35]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1733,7 +2013,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 31]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 36]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1789,7 +2069,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 32]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 37]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1845,7 +2125,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 33]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 38]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1901,7 +2181,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 34]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 39]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -1957,7 +2237,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 35]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 40]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2013,7 +2293,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 36]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 41]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2069,7 +2349,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 37]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 42]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2125,7 +2405,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 38]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 43]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2181,7 +2461,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 39]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 44]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2237,7 +2517,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 40]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 45]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2293,7 +2573,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 41]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 46]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2349,7 +2629,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 42]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 47]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2405,7 +2685,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 43]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 48]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2461,7 +2741,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 44]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 49]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2517,7 +2797,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 45]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 50]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2573,7 +2853,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 46]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 51]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2629,7 +2909,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 47]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 52]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2685,7 +2965,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 48]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 53]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2741,7 +3021,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 49]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 54]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2797,7 +3077,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 50]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 55]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2853,7 +3133,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 51]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 56]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2909,7 +3189,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 52]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 57]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -2965,7 +3245,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 53]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 58]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3021,7 +3301,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 54]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 59]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3077,7 +3357,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 55]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 60]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3133,7 +3413,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 56]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 61]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3189,7 +3469,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 57]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 62]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3245,7 +3525,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 58]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 63]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3301,7 +3581,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 59]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 64]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3357,7 +3637,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 60]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 65]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3413,7 +3693,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 61]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 66]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3469,7 +3749,7 @@ Internet-Draft                 JSON-IODEF                   October 2017
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 62]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 67]
 
 Internet-Draft                 JSON-IODEF                   October 2017
 
@@ -3525,4 +3805,4 @@ Authors' Addresses
 
 
 
-Takahashi & Suzuki       Expires April 26, 2018                [Page 63]
+Takahashi & Suzuki       Expires April 26, 2018                [Page 68]
