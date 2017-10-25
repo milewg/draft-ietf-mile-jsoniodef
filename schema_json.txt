@@ -1203,7 +1203,9 @@
           "type": "string"
         },
         "Applicadtion": {},
-        "RecordPattern": {},
+        "RecordPattern": {
+          "$ref": "#/definitions/RecordPattern"
+        },
         "RecordItem": {},
         "URL": {
           "$ref": "#/definitions/URLtype"
@@ -1247,7 +1249,9 @@
       "type": "object",
       "properties": {
         "observabile-id": {},
-        "Key": {}
+        "Key": {
+          "$ref": "#/definitions/Key"
+        }
       },
       "required": [
         "Key"
