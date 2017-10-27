@@ -280,7 +280,7 @@
 "IODEF-Document": {
   "version": "2.1",                                       //STRING
   "lang": "en",                                             //ENUM
-  "format-id": "RFC7970",                                 //STRING
+  "format-id": "RFC7970-json",                                 //STRING
   "Incident": [ ... ]                                   //Incident
 }
 ]]></artwork></figure>
@@ -294,7 +294,7 @@
 Its class elements and an example are shown below. See Section 3.2 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
 
 <t>Class elements:</t>
-<t>purpose, ext-purpose?, status?, ext-status?, lang?, restriction?, ext-restriction?, observable-id?, IncidentID, AlternativeID?, RelatedActivity*, DetectTime?, StartTime?, EndTime?, RecoveryTime?, ReportTime?, GenrationTime?, Description*, Assessment*, Method*, Contact+, EventData*, IndicatorData?, History?, AdditionalData*</t>
+<t>purpose, ext-purpose?, status?, ext-status?, lang?, restriction?, ext-restriction?, observable-id?, IncidentID, AlternativeID?, RelatedActivity*, DetectTime?, StartTime?, EndTime?, RecoveryTime?, ReportTime?, GenrationTime?, Description*, Discovery*, Assessment*, Method*, Contact+, EventData*, IndicatorData?, History?, AdditionalData*</t>
 
 <t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
@@ -355,7 +355,7 @@ The value of this attribute is a unique identifier, in string type, in the scope
 
 
 <t>Class elements:</t>
-<t>value, name, instance?, restriction?, ext-restriction?</t>
+<t>id, name, instance?, restriction?, ext-restriction?</t>
 
 
 <t>Example:</t>
@@ -463,7 +463,7 @@ The value of this attribute is a unique identifier, in string type, in the scope
   "ContactTitle": {"value":"Senior Research Engineer"} //ML_STRING
   "email": {...},                                    //Email Class
   "Telephone": {...},                            //Telephone Class
-  "Timezone": "+09:00"                            //Timezone Class
+  "Timezone": "+09:00"                                  //TIMEZONE
 }
 ]]></artwork></figure>
 
@@ -475,13 +475,13 @@ The value of this attribute is a unique identifier, in string type, in the scope
 <t>The class elements and an example are shown below. See Section 3.9.1 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
 
 <t>Class elements:</t>
-<t>value, registry, ext-registry?</t>
+<t>handle, registry, ext-registry?</t>
 
 
 <t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "RegistryHandle": {
-  "handlename": "MyAPNIC",                                //STRING
+  "handle": "MyAPNIC",                                    //STRING
   "registry": "apnic",                                      //ENUM
 }
 ]]></artwork></figure>
