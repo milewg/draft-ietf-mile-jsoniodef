@@ -1,8 +1,8 @@
 {
-  "version": "2.0",
+  "version": "2.1",
   "lang": "en",
-  "format-id": "RFC5070",
-  "Incidents": [
+  "format-id": "RFC7970-json",
+  "Incident": [
     {
       "purpose": "watch",
       "restriction": "green",
@@ -218,7 +218,7 @@
             "TelephoneNumber": "+81423275862"
           },
           "RegistryHandle": {
-            "RegistryHandleName": "MyAPNIC",
+            "handle": "MyAPNIC",
             "registry": "apnic"
           }
         }
