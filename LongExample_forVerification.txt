@@ -42,7 +42,8 @@
             "type": "breach-proprietary"
           },
           "TimeImpact": {
-            "value": "5 hours",
+            "value": 5,
+            "duration": "minute",
             "metric": "elapsed"
           },
           "MonetaryImpact": {},
@@ -64,7 +65,7 @@
       },
       "Methods": [
         {
-          "Vulnerability": {},
+          "Vulnerability": {"specID":"cve"},
           "References": [
             {
               "URL": "http://www.nict.go.jp"

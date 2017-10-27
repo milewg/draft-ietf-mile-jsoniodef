@@ -1,9 +1,21 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
+    "action": {"enum": ["nothing","contact-source-site","contact-target-site",
+               "contact-sender", "investigate","block-host","block-network",
+               "block-port","rate-limit-host","rate-limit-network",
+               "rate-limit-port","redirect-traffic","honeypot",
+               "upgrade-software","rebuild-asset","harden-asset",
+               "remediate-other","status-triage","status-new-info",
+               "watch-and-report","training","defined-coa","ext-value"]},
+    "duration": {
+      "enum": ["second","minute","hour","day","month","quarter","year",
+               "ext-value"]
+    },
     "lang": {"enum": ["en","jp"]},
     "purpose": {
-      "enum": ["traceback","mitigation","reporting","watch","other","ext-value"]
+      "enum": ["traceback","mitigation","reporting","watch","other",
+               "ext-value"]
     },
     "restriction": {
       "enum": [
@@ -70,7 +82,7 @@
         "RawData": {"type": "string"},
         "URL": {"$ref": "#/definitions/URLtype"}
       },
-      "required": ["spec-name"],
+      "required": ["specID"],
       "additionalProperties": false
     },    
     "Incident": {
@@ -369,8 +381,8 @@
         "MonetaryImpact": {"$ref": "#/definitions/MonetaryImpact"},
         "IntendedImpact": {"$ref": "#/definitions/BusinessImpact"},
         "Counter": {"$ref": "#/definitions/Counter"},
-        "MitigatingFactor": {"$ref": "string"},
-        "Cause": {"$ref": "string"},
+        "MitigatingFactor": {"$type": "string"},
+        "Cause": {"$type": "string"},
         "Confidence": {"$ref": "#/definitions/Confidence"},
         "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
       },
@@ -380,56 +392,64 @@
     "SystemImpact": {
       "type": "object",
       "properties": {
-        "severity": {},
-        "completion": {},
-        "type": {},
-        "ext-type": {},
-        "Description": {
-          "type": "string"
-        }
+        "severity": {
+          "enum":["low","medium","high"]},
+        "completion": {"enum":["failed","succeeded"]},
+        "type": {
+          "enum":["takeover-account","takeover-service","takeover-system",
+                  "cps-manipulation","cps-damage","availability-data",
+                  "availability-account","availability-service",
+                  "availability-system","damaged-system","damaged-data",
+                  "breach-proprietary","breach-privacy","breach-credential",
+                  "breach-configuration","integrity-data",
+                  "integrity-configuration","integrity-hardware",
+                  "traffic-redirection","monitoring-traffic","monitoring-host",
+                  "policy","unknown","ext-value"]},
+        "ext-type": {"type": "string"},
+        "Description": {"type": "string"}
       },
-      "required": [
-        "type"
-      ],
+      "required": ["type"],
       "additionalProperties": false
     },
     "BusinessImpact": {
       "type": "object",
       "properties": {
-        "severity": {},
-        "ext-severity": {},
-        "type": {},
-        "ext-type": {},
-        "Description": {
-          "type": "string"
-        }
+        "severity": {
+          "enum":["none","low","medium","high","unknown","ext-value"]
+        },
+        "ext-severity": {"type":"string"},
+        "type": {
+          "enum":["breach-proprietary","breach-privacy","breach-credential",
+                  "loss-of-integrity","loss-of-service","theft-financial",
+                  "theft-service","degraded-reputation","asset-damage",
+                  "asset-manipulation","legal","extortion","unknown",
+                  "ext-value"]
+        },
+        "ext-type": {"type": "string"},
+        "Description": {"type": "string"}
       },
-      "required": [
-        "type"
-      ],
+      "required": ["type"],
       "additionalProperties": false
     },
     "TimeImpact": {
       "type": "object",
       "properties": {
-        "value": {},
-        "severity": {},
-        "metric": {},
-        "ext-metric": {},
-        "duration": {},
-        "ext-duration": {}
+        "value": {"type": "number"},
+        "severity": {"enum": ["low","medium","high"]},
+        "metric": {"enum": ["labor","elapsed","downtime","ext-value"]},
+        "ext-metric": {"type": "string"},
+        "duration": {"$ref":"#/definition/duration"},
+        "ext-duration": {"type": "string"}
       },
-      "required": [
-        "metric"
-      ],
+      "required": ["metric"],
       "additionalProperties": false
     },
     "MonetaryImpact": {
       "type": "object",
       "properties": {
-        "MonetaryImpactValue": {},
-        "severity": {},
-        "currency": {}
+        "value": {"type": "number"},
+        "severity": {"enum":["low","medium","high"]},
+        "currency": {"type": "string"}
       },
       "required": [],
       "additionalProperties": false
@@ -437,13 +457,13 @@
     "Confidence": {
       "type": "object",
       "properties": {
-        "ConfidenceValue": {},
-        "rating": {},
-        "ext-rating": {}
+        "value": {"type": "number"},
+        "rating": {
+          "enum": ["low","medium","high","numeric","unknown","ext-value"]
+        },
+        "ext-rating": {"type":"string"}
       },
-      "required": [
-        "rating"
-      ],
+      "required": ["rating"],
       "additionalProperties": false
     },
     "History": {
@@ -451,38 +471,27 @@
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "HistoryItem": {}
+        "HistoryItem": {"$ref": "#/definitions/HistoryItem"}
       },
-      "required": [
-        "HistoryItem"
-      ],
+      "required": ["HistoryItem"],
       "additionalProperties": false
     },
     "HistoryItem": {
       "type": "object",
       "properties": {
-        "action": {},
-        "ext-action": {},
+        "action": {"$ref": "#/definitions/action"},
+        "ext-action": {"type": "string"},
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "observable-id": {
-          "$ref": "#/definitions/IDtype"
-        },
-        "DateTime": {},
-        "IncidentID": {},
-        "Contact": {
-          "$ref": "#/definitions/Contact"
-        },
-        "Description": {
-          "type": "string"
-        },
-        "DefinedCOA": {},
+        "observable-id": {"$ref": "#/definitions/IDtype"},
+        "DateTime": {"type": "string"},
+        "IncidentID": {"$ref": "#/definitions/IncidentID"},
+        "Contact": {"$ref": "#/definitions/Contact"},
+        "Description": {"type": "string"},
+        "DefinedCOA": {"type": "string"},
         "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
       },
-      "required": [
-        "DateTime",
-        "action"
-      ],
+      "required": ["DateTime","action"],
       "additionalProperties": false
     },
     "EventData": {
@@ -490,68 +499,40 @@
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "observable-id": {
-          "$ref": "#/definitions/IDtype"
-        },
-        "Description": {
-          "type": "string"
-        },
-        "DetectTime": {},
-        "StartTime": {},
-        "EndTime": {},
-        "RecoveryTime": {},
-        "ReportTime": {
-          "type": "string"
-        },
-        "Contact": {
-          "$ref": "#/definitions/Contact"
-        },
-        "Discovery": {
-          "$ref": "#/definitions/Discovery"
-        },
-        "Assessment": {},
-        "Method": {
-          "$ref": "#/definitions/Method"
-        },
-        "System": {
-          "$ref": "#/definitions/System"
-        },
-        "Expectation": {
-          "$ref": "#/definitions/Expectation"
-        },
-        "Record": {
-          "$ref": "#/definitions/Record"
-        },
-        "EventData": {
-          "$ref": "#/definitions/EventData"
-        },
+        "observable-id": {"$ref": "#/definitions/IDtype"},
+        "Description": {"type": "string"},
+        "DetectTime": {"type": "string"},
+        "StartTime": {"type": "string"},
+        "EndTime": {"type": "string"},
+        "RecoveryTime": {"type": "string"},
+        "ReportTime": {"type": "string"},
+        "Contact": {"$ref": "#/definitions/Contact"},
+        "Discovery": {"$ref": "#/definitions/Discovery"},
+        "Assessment": {"$ref": "#/definitions/Assessment"},
+        "Method": {"$ref": "#/definitions/Method"},
+        "System": {"$ref": "#/definitions/System"},
+        "Expectation": {"$ref": "#/definitions/Expectation"},
+        "Record": {"$ref": "#/definitions/Record"},
+        "EventData": {"$ref": "#/definitions/EventData"},
         "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
       },
-      "required": [
-        "ReportTime"
-      ],
+      "required": ["ReportTime"],
       "additionalProperties": false
     },
     "Expectation": {
       "type": "object",
       "properties": {
-        "action": {},
-        "ext-action": {},
-        "severity": {},
+        "action": {"$ref":"#/definitions/action"},
+        "ext-action": {"type": "string"},
+        "severity": {"enum": ["low","medium","high"]},
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "observable-id": {
-          "$ref": "#/definitions/IDtype"
-        },
-        "Description": {
-          "type": "string"
-        },
-        "DefinedCOA": {},
-        "StartTime": {},
-        "EndTime": {},
-        "Contact": {
-          "$ref": "#/definitions/Contact"
-        }
+        "observable-id": {"$ref": "#/definitions/IDtype"},
+        "Description": {"type": "string"},
+        "DefinedCOA": {"type": "string"},
+        "StartTime": {"type": "string"},
+        "EndTime": {"type": "string"},
+        "Contact": {"$ref": "#/definitions/Contact"}
       },
       "required": [],
       "additionalProperties": false
@@ -560,66 +541,41 @@
       "type": "object",
       "properties": {
         "category": {
-          "enum": [
-            "source",
-            "target",
-            "intermediate",
-            "sensor",
-            "infrastructure",
-            "ext-value"
-          ]
+          "enum": ["source","target","intermediate","sensor","infrastructure",
+                   "ext-value"]
         },
-        "ext-category": {},
-        "interface": {},
-        "spoofed": {},
-        "virtual": {},
-        "ownership": {},
-        "ext-ownership": {},
+        "ext-category": {"type": "string"},
+        "interface": {"type": "string"},
+        "spoofed": {"enum": ["unknown","yes","no"]},
+        "virtual": {"enum": ["yes","no","unknown"]},
+        "ownership": {
+          "enum":["organization","personal","partner","customer",
+                  "no-relationship","unknown","ext-value"]
+        },
+        "ext-ownership": {"type": "string"},
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "observable-id": {
-          "$ref": "#/definitions/IDtype"
-        },
-        "Node": {
-          "$ref": "#/definitions/Node"
-        },
-        "NodeRole": {
-          "$ref": "#/definitions/NodeRole"
-        },
-        "Service": {
-          "$ref": "#/definitions/Service"
-        },
-        "OperatingSystem": {},
-        "Counter": {
-          "$ref": "#/definitions/Counter"
-        },
-        "AssetID": {},
-        "Description": {
-          "type": "string"
-        },
+        "observable-id": {"$ref": "#/definitions/IDtype"},
+        "Node": {"$ref": "#/definitions/Node"},
+        "NodeRole": {"$ref": "#/definitions/NodeRole"},
+        "Service": {"$ref": "#/definitions/Service"},
+        "OperatingSystem": {"$ref": "#/definitions/SoftwareType"},
+        "Counter": {"$ref": "#/definitions/Counter"},
+        "AssetID": {"type": "string"},
+        "Description": {"type": "string"},
         "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
       },
-      "required": [
-        "Node"
-      ],
+      "required": ["Node"],
       "additionalProperties": false
     },
     "Node": {
       "type": "object",
       "properties": {
-        "DomainData": {
-          "$ref": "#/definitions/DomainData"
-        },
-        "Address": {
-          "$ref": "#/definitions/Address"
-        },
-        "PostalAddress": {},
-        "Location": {
-          "type": "string"
-        },
-        "Counter": {
-          "$ref": "#/definitions/Counter"
-        }
+        "DomainData": {"$ref": "#/definitions/DomainData"},
+        "Address": {"$ref": "#/definitions/Address",
+        "PostalAddress": {"type": "string"},
+        "Location": {"type": "string"},
+        "Counter": {"$ref": "#/definitions/Counter"}
       },
       "required": [],
       "additionalProperties": false
@@ -627,54 +583,57 @@
     "Address": {
       "type": "object",
       "properties": {
-        "AddressValue": {},
-        "category": {},
-        "ext-category": {},
-        "vlan-name": {},
-        "vlan-num": {
-          "type": "integer"
+        "value": {"type": "string"},
+        "category": {
+           "enum": ["asn","atm","e-mail","ipv4-addr","ipv4-net",
+                    "ipv4-net-masked","ipv4-net-mask","ipv6-addr","ipv6-net",
+                    "ipv6-net-masked","mac","site-url","ext-value"]
         },
-        "observable-id": {
-          "$ref": "#/definitions/IDtype"
-        }
+        "ext-category": {"type": "string"},
+        "vlan-name": {"type": "string"},
+        "vlan-num": {"type": "integer"},
+        "observable-id": {"$ref": "#/definitions/IDtype"}
       },
-      "required": [
-        "category"
-      ],
+      "required": ["category"],
       "additionalProperties": false
     },
     "NodeRole": {
       "type": "object",
       "properties": {
-        "category": {},
-        "ext-category": {},
-        "Description": {
-          "type": "string"
-        }
+        "category": {
+          "enum":["client","client-enterprise","clent-partner","client-remote",
+                  "client-kiosk","client-mobile","server-internal",
+                  "server-public","www","mail","webmail","messaging",
+                  "streaming","voice","file","ftp","p2p","name","directory",
+                  "credential","print","application","database","backup",
+                  "dhcp","assessment","source-control","config-management",
+                  "monitoring","infra","infra-firewall","infra-router",
+                  "infra-switch","camera","proxy","remote-access","log",
+                  "virtualization","pos", "scada", "scada-supervisory",
+                  "sinkhole","honeypot","anomyzation","c2-server",
+                  "malware-distribution","drop-server","hot-point","reflector",
+                  "phishing-site","spear-phishing-site","recruiting-site",
+                  "fraudulent-site","ext-value"]
+        },
+        "ext-category": {"type": "string"},
+        "Description": {"type": "string"}
       },
-      "required": [
-        "category"
-      ],
+      "required": ["category"],
       "additionalProperties": false
     },
     "Counter": {
       "type": "object",
       "properties": {
-        "value": {
-          "type": "string"
-        },
-        "type": {},
-        "ext-type": {},
-        "unit": {},
-        "ext-unit": {},
-        "meaning": {},
-        "duration": {},
-        "ext-duration": {}
+        "value": {"type": "string"},
+        "type": {"enum": ["count","peak","average","ext-value"]},
+        "ext-type": {"type": "string"},
+        "unit": {"enum": ["byte","mbit","packet","flow","session","alert","message","event","host","site","organization","ext-value"]},
+        "ext-unit": {"type": "string"},
+        "meaning": {"type": "string"},
+        "duration": {"$ref":"#/definition/duration"},
+        "ext-duration": {"type": "string"}
       },
-      "required": [
-        "type",
-        "unit"
-      ],
+      "required": ["type","unit"],
       "additionalProperties": false
     },
     "DomainData": {
