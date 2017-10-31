@@ -1129,6 +1129,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.24 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>restriction?, ext-restriction?, observable-id?, Certificate+</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
             "CertificateData": {
@@ -1150,6 +1154,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.24.1 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>observable-id?, X509Data, Description*</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
               "Certificate": {
@@ -1173,6 +1181,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.25 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>restriction?, ext-restriction?, observable-id?, File+</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
             "FileData": {
@@ -1188,6 +1200,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.25.1 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>observable-id?, FileName?, FileSize?, FileType?, URL*, HashData?, SignatureData?, AssociatedSoftware?, FileProperties*</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
               "File": {
@@ -1204,6 +1220,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.26 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>scope, HashTargetID?, Hash*, FuzzyHash*</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
                 "HashData": {
@@ -1221,6 +1241,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.26.1 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>DigestMethod, DigestValue, CanonicalizationMethod?, Application?</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
                   "Hash": {
@@ -1237,6 +1261,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.26.2 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>FuzzyHashValue+, Application?, AdditionalData?</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
                   "FuzzyHash": {
@@ -1253,6 +1281,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.27 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>SignatureData+</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
                 "SignatureData": {
@@ -1267,6 +1299,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.29 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>restriction?, ext-restriction?, IndicatorID, AlternativeIndicatorID*, Description*, StartTime?, EndTime?, Confidence?, Contact*, Observable?, ObservableReference?, IndicatorExpression?, IndicatorReference?, NodeRole*, AttackPhase*, Reference*, AdditionalData*</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
           "Indicator": {
@@ -1297,6 +1333,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.29.1 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>id, name, version</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
             "IndicatorID": {
@@ -1312,6 +1352,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.29.2 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>restriction?, ext-restriction?, IndicatorReference+</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
             "AlternativeIndicatorID": {
@@ -1327,6 +1371,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.29.3 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>restriction?, ext-restriction?, System?, Address?, DomainData?, Service?, EmailData?, WindowsRegistryKeysModified?, FileData?, CertificateData?, RegistryHandle?, RecordData?, EventData?, Incident?, Expectation?, Reference?, Assessment?, DetectionPattern?, HistoryItem?, BulkObservable?, AdditionalData*</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
             "Observable": {
@@ -1348,6 +1396,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.29.4 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>operator?, ext-operator?, IndicatorExpression*, Observable*, ObservableReference*, IndicatorReference*, Confidence?, AdditionalData*</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
             "IndicatorExpression": {
@@ -1363,6 +1415,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.29.6 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>uid-ref</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
             "ObservableReference": {
@@ -1376,6 +1432,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.29.7 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>uid-ref?, euid-ref?, version?</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
               "IndicatorReference": {
@@ -1389,6 +1449,10 @@ The example below represents how to describe this class in JSON.
    This class is defined in Section 3.29.8 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
+<t>Class elements:</t>
+<t>AttackPhaseID*, URL*, Description*, AdditionalData*</t>
+
+<t>Example:</t>
      <figure align="center">
        <artwork align="left"><![CDATA[
             "AttackPhase": {
