@@ -1000,19 +1000,11 @@
       "type": "object",
       "properties": {
         "operator": {},
-        "ext-operator": {
-          "type": "string"
-        },
-        "IndicatorExpression": {
-          "$ref": "#/definitions/IndicatorExpression"
-        },
+        "ext-operator": {"type": "string"},
+        "IndicatorExpression": {"$ref": "#/definitions/IndicatorExpression"},
         "Observable": {},
-        "ObservableReference": {
-          "$ref": "#/definitions/ObservableReference"
-        },
-        "IndicatorReference": {
-          "$ref": "#/definitions/IndicatorReference"
-        },
+        "ObservableReference": {"$ref": "#/definitions/ObservableReference"},
+        "IndicatorReference": {"$ref": "#/definitions/IndicatorReference"},
         "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
       },
       "required": [],
@@ -1023,18 +1015,14 @@
       "properties": {
         "uid-ref": {}
       },
-      "required": [
-        "uid-ref"
-      ],
+      "required": ["uid-ref"],
       "additionalProperties": false
     },
     "IndicatorReference": {
       "type": "object",
       "properties": {
         "uid-ref": {},
-        "euid-ref": {
-          "type": "string"
-        },
+        "euid-ref": {"type": "string"},
         "version": {
           "type": "string"
         }
@@ -1045,15 +1033,9 @@
     "AttackPhase": {
       "type": "object",
       "properties": {
-        "AttackPhaseID": {
-          "type": "string"
-        },
-        "URL": {
-          "$ref": "#/definitions/URLtype"
-        },
-        "Description": {
-          "type": "string"
-        },
+        "AttackPhaseID": {"type": "string"},
+        "URL": {"$ref": "#/definitions/URLtype"},
+        "Description": {"type": "string"},
         "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
       },
       "required": [],
