@@ -486,7 +486,7 @@
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "DateTime": {"type": "#/definitions/DATETIME"},
+        "DateTime": {"$ref": "#/definitions/DATETIME"},
         "IncidentID": {"$ref": "#/definitions/IncidentID"},
         "Contact": {"$ref": "#/definitions/Contact"},
         "Description": {"type": "string"},
@@ -753,9 +753,9 @@
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "DateTime": {"type": "#/definitions/DATETIME"},
+        "DateTime": {"$ref": "#/definitions/DATETIME"},
         "Description": {"type": "string"},
-        "Applicadtion": {"$ref": "#/definitions/SOFTWARE"},
+        "Applicadtion": {"$ref": "#/definitions/SoftwareType"},
         "RecordPattern": {"$ref": "#/definitions/RecordPattern"},
         "RecordItem": {"$ref": "#/definitions/ExtensionType"},
         "URL": {"$ref": "#/definitions/URLtype"},
@@ -771,15 +771,13 @@
     "RecordPattern": {
       "type": "object",
       "properties": {
-        "value": {},
-        "type": {},
-        "ext-type": {},
-        "offset": {},
-        "offsetunit": {},
-        "ext-offsetunit": {},
-        "instance": {
-          "type": "integer"
-        }
+        "value": {"type": "string"},
+        "type": {"enum": ["regex","binary","xpath","ext-value"]},
+        "ext-type": {"type": "string"},
+        "offset": {"type": "integer"},
+        "offsetunit": {"enum":["line","byte","ext-value"]},
+        "ext-offsetunit": {"type": "string"},
+        "instance": {"type": "integer"}
       },
       "required": ["type"],
       "additionalProperties": false
@@ -796,11 +794,13 @@
     "Key": {
       "type": "object",
       "properties": {
-        "registryaction": {},
-        "ext-registryaction": {},
+        "registryaction": {"enum": ["add-key","add-value","delete-key",
+                          "delete-value","modify-key","modify-value",
+                          "ext-value"]},
+        "ext-registryaction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "KeyName": {},
-        "KeyValue": {}
+        "KeyName": {"type","string"},
+        "KeyValue": {"type", "string"}
       },
       "required": ["KeyName"],
       "additionalProperties": false
@@ -823,9 +823,7 @@
         "X509Data": {},
         "Description": {"type": "string"}
       },
-      "required": [
-        "X509Data"
-      ],
+      "required": ["X509Data"],
       "additionalProperties": false
     },
     "FileData": {
@@ -843,13 +841,13 @@
       "type": "object",
       "properties": {
         "FileName": {"type": "string"},
-        "FileSize": {},
-        "FileType": {},
+        "FileSize": {"type": "integer"},
+        "FileType": {"type": "string"},
         "URL": {"$ref": "#/definitions/URLtype"},
         "HashData": {"$ref": "#/definitions/HashData"},
         "SignatureData": {"$ref": "#/definitions/SignatureData"},
-        "AssociatedSoftware": {},
-        "FileProperties": {}
+        "AssociatedSoftware": {"$ref": "#/definitions/SoftwareType"},
+        "FileProperties": {"$ref": "#/definitions/ExtensionType"}
       },
       "required": [],
       "additionalProperties": false
@@ -857,8 +855,10 @@
     "HashData": {
       "type": "object",
       "properties": {
-        "scope": {},
-        "HashTargetID": {},
+        "scope": {"enum": ["file-contents","file-pe-section","file-pe-iat",
+                 "file-pe-resource","file-pdf-object","email-hash",
+                 "email-hash-header","email-hash-body"]},
+        "HashTargetID": {"type": "string"},
         "Hash": {"$ref": "#/definitions/Hash"},
         "FuzzyHash": {"$ref": "#/definitions/FuzzyHash"}
       },
@@ -871,7 +871,7 @@
         "DigestMethod": {"type": "string"},
         "DigestValue": {"type": "string"},
         "CanonicalizationMethod": {},
-        "Application": {}
+        "Application": {"$ref": "#/definitions/SoftwareType"}
       },
       "required": ["DigestMethod","DigestValue"],
       "additionalProperties": false
@@ -880,7 +880,7 @@
       "type": "object",
       "properties": {
         "FuzzyHashValue": {"$ref": "#/definitions/ExtensionType"},
-        "Application": {},
+        "Application": {"$ref": "#/definitions/SoftwareType"},
         "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
       },
       "required": ["FuzzyHashValue"],
@@ -894,9 +894,7 @@
           "id": "xxxxxxxx"
         }
       },
-      "required": [
-        "Signature"
-      ],
+      "required": ["Signature"],
       "additionalProperties": false
     },
     "Indicator": {
@@ -909,11 +907,11 @@
           "$ref": "#/definitions/AlternativeIndicatorID"
         },
         "Description": {"type": "string"},
-        "StartTime": {},
-        "EndTime": {},
+        "StartTime": {"$ref": "#/definitions/DATETIME"},
+        "EndTime": {"$ref": "#/definitions/DATETIME"},
         "Confidence": {"$ref": "#/definitions/Confidence"},
         "Contact": {"$ref": "#/definitions/Contact"},
-        "Observable": {},
+        "Observable": {"$ref": "#/definitions/Observable"},
         "ObservableReference": {"$ref": "#/definitions/ObservableReference"},
         "IndicatorExpression": {"$ref": "#/definitions/IndicatorExpression"},
         "IndicatorReference": {"$ref": "#/definitions/IndicatorReference"},
@@ -928,7 +926,7 @@
     "IndicatorID": {
       "type": "object",
       "properties": {
-        "id": {},
+        "id": {"type", "string"},
         "name": {"type": "string"},
         "version": {"type": "string"}
       },
@@ -950,22 +948,24 @@
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "System": {},
-        "Address": {},
+        "System": {"$ref": "#/definitions/System"},
+        "Address": {"$ref": "#/definitions/Address"},
         "DomainData": {"$ref": "#/definitions/DomainData"},
         "EmailData": {"$ref": "#/definitions/EmailData"},
         "Service": {"$ref": "#/definitions/Service"},
-        "WindowsRegistryKeysModified": {},
+        "WindowsRegistryKeysModified": {
+          "$ref": "#/definitions/WindowsRegistryKeysModified"
+        },
         "FileData": {"$ref": "#/definitions/FileData"},
         "CertificateData": {"$ref": "#/definitions/CertificateData"},
-        "RegistryHandle": {},
+        "RegistryHandle": {"$ref": "#/definitions/RegistryHandle"},
         "Record": {"$ref": "#/definitions/Record"},
-        "EventData": {},
-        "Incident": {},
+        "EventData": {"$ref": "#/definitions/EventData"},
+        "Incident": {"$ref": "#/definitions/Incident"},
         "Expectation": {"$ref": "#/definitions/Expectation"},
         "Reference": {"$ref": "#/definitions/Reference"},
-        "Assessment": {},
-        "DetectionPattern": {},
+        "Assessment": {"$ref": "#/definitions/Assessment"},
+        "DetectionPattern": {"$ref": "#/definitions/DetectionPattern"},
         "HistoryItem": {"$ref": "#/definitions/HistoryItem"},
         "BulkObservable": {"type": "string"},
         "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
@@ -976,12 +976,17 @@
     "BulkObservable": {
       "type": "object",
       "properties": {
-        "type": {},
-        "ext-type": {},
-        "BulkObservableFormant": {},
-        "BulkObservableList": {
-          "type": "string"
-        },
+        "type": {"enum": ["asn","atm","e-mail","ipv4-addr","ipv4-net",
+                 "ipv4-net-mask","ipv6-addr","ipv6-net","ipv6-net-mask","mac",
+                 "site-url","domain-name","domain-to-ipv4","domain-to-ipv6",
+                 "domain-to-ipv4-timestamp","domain-to-ipv6-timestamp",
+                 "ipv4-port","ipv6-port","windows-reg-key","file-hash",
+                 "email-x-mailer","email-subject","http-user-agent",
+                 "http-request-url","mutex","file-path","user-name",
+                 "ext-value"]},
+        "ext-type": {"type", "string"},
+        "BulkObservableFormant":{"$ref", "#/definitions/BulkObservableFormat"},
+        "BulkObservableList": {"type": "string"},
         "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
       },
       "required": [],
@@ -999,10 +1004,12 @@
     "IndicatorExpression": {
       "type": "object",
       "properties": {
-        "operator": {},
+        "operator": {
+         "enum": ["not","and","or","xor"]
+        },
         "ext-operator": {"type": "string"},
         "IndicatorExpression": {"$ref": "#/definitions/IndicatorExpression"},
-        "Observable": {},
+        "Observable": {"$ref": "#/definitions/Observable"},
         "ObservableReference": {"$ref": "#/definitions/ObservableReference"},
         "IndicatorReference": {"$ref": "#/definitions/IndicatorReference"},
         "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
@@ -1012,20 +1019,16 @@
     },
     "ObservableReference": {
       "type": "object",
-      "properties": {
-        "uid-ref": {}
-      },
+      "properties": {"uid-ref": {"type": "string"}},
       "required": ["uid-ref"],
       "additionalProperties": false
     },
     "IndicatorReference": {
       "type": "object",
       "properties": {
-        "uid-ref": {},
+        "uid-ref": {"type": "string"},
         "euid-ref": {"type": "string"},
-        "version": {
-          "type": "string"
-        }
+        "version": {"type": "string"}
       },
       "required": [],
       "additionalProperties": false
