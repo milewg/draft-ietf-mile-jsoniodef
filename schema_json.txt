@@ -25,6 +25,8 @@
     "status": {
       "enum": ["new","in-progress","forwarded","resolved","future","ext-value"]
     },
+    "DATETIME": {"type": "string"},
+    "PORTLIST": {"type": "string"},
     "URLtype": {"type": "string"},
     "IDtype": {"type": "string"},
     "ExtensionType": {
@@ -484,7 +486,7 @@
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "DateTime": {"type": "string"},
+        "DateTime": {"type": "#/definitions/DATETIME"},
         "IncidentID": {"$ref": "#/definitions/IncidentID"},
         "Contact": {"$ref": "#/definitions/Contact"},
         "Description": {"type": "string"},
@@ -640,123 +642,61 @@
       "type": "object",
       "properties": {
         "system-status": {
-          "enum": [
-            "spoofed",
-            "fraudulent",
-            "innocent-hacked",
-            "innocent-hijacked",
-            "unknown",
-            "ext-value"
-          ]
+          "enum": ["spoofed","fraudulent","innocent-hacked",
+                   "innocent-hijacked","unknown","ext-value"]
         },
-        "ext-system-status": {
-          "type": "string"
-        },
+        "ext-system-status": {"type": "string"},
         "domain-status": {
           "enum": [
-            "reservedDelegation",
-            "assignedAndActive",
-            "assignedAndInactive",
-            "assignedAndOnHold",
-            "revoked",
-            "transferPending",
-            "registryLock",
-            "registrarLock",
-            "other",
-            "unknown",
-            "ext-value"
-          ]
+            "reservedDelegation","assignedAndActive","assignedAndInactive",
+            "assignedAndOnHold","revoked","transferPending","registryLock",
+            "registrarLock","other","unknown","ext-value"]
         },
-        "ext-domain-status": {
-          "type": "string"
-        },
-        "observable-id": {
-          "$ref": "#/definitions/IDtype"
-        },
-        "Name": {
-          "type": "string"
-        },
-        "DateDomainWasChecked": {},
-        "RegistrationDate": {},
-        "ExpirationDate": {},
-        "RelatedDNS": {},
-        "NameServers": {
-          "$ref": "#/definitions/NameServers"
-        },
-        "DomainContacts": {
-          "$ref": "#/definitions/DomainContacts"
-        }
+        "ext-domain-status": {"type": "string"},
+        "observable-id": {"$ref": "#/definitions/IDtype"},
+        "Name": {"type": "string"},
+        "DateDomainWasChecked": {"$ref": "#/definitions/DATETIME"},
+        "RegistrationDate": {"$ref": "#/definitions/DATETIME"},
+        "ExpirationDate": {"$ref": "#/definitions/DATETIME"},
+        "RelatedDNS": {"$ref": "#/definitions/ExtensionType"},
+        "NameServers": {"$ref": "#/definitions/NameServers"},
+        "DomainContacts": {"$ref": "#/definitions/DomainContacts"}
       },
-      "required": [
-        "Name",
-        "system-status",
-        "domain-status"
-      ],
+      "required": ["Name","system-status","domain-status"],
       "additionalProperties": false
     },
     "NameServers": {
       "type": "object",
       "properties": {
-        "Server": {
-          "type": "string"
-        },
-        "Address": {
-          "$ref": "#/definitions/Address"
-        }
+        "Server": {"type": "string"},
+        "Address": {"$ref": "#/definitions/Address"}
       },
-      "required": [
-        "Server",
-        "Address"
-      ],
+      "required": ["Server","Address"],
       "additionalProperties": false
     },
     "DomainContacts": {
       "type": "object",
       "properties": {
-        "SameDomainContact": {
-          "type": "string"
-        },
-        "Contact": {
-          "$ref": "#/definitions/Contact"
-        }
+        "SameDomainContact": {"type": "string"},
+        "Contact": {"$ref": "#/definitions/Contact"}
       },
-      "required": [
-        "Contact"
-      ],
+      "required": ["Contact"],
       "additionalProperties": false
     },
     "Service": {
       "type": "object",
       "properties": {
-        "ip-protocol": {
-          "type": "integer"
-        },
-        "observable-id": {
-          "$ref": "#/definitions/IDtype"
-        },
-        "ServiceName": {
-          "$ref": "#/definitions/ServiceName"
-        },
-        "Port": {
-          "type": "integer"
-        },
-        "Portlist": {},
-        "ProtoCode": {
-          "type": "integer"
-        },
-        "ProtoType": {
-          "type": "integer"
-        },
-        "ProtoField": {
-          "type": "integer"
-        },
-        "ApplicationHeader": {
-          "$ref": "#/definitions/ApplicationHeader"
-        },
-        "EmailData": {
-          "$ref": "#/definitions/EmailData"
-        },
-        "Application": {}
+        "ip-protocol": {"type": "integer"},
+        "observable-id": {"$ref": "#/definitions/IDtype"},
+        "ServiceName": {"$ref": "#/definitions/ServiceName"},
+        "Port": {"type": "integer"},
+        "Portlist": {"type": "PORTLIST"},
+        "ProtoCode": {"type": "integer"},
+        "ProtoType": {"type": "integer"},
+        "ProtoField": {"type": "integer"},
+        "ApplicationHeader": {"$ref": "#/definitions/ApplicationHeader"},
+        "EmailData": {"$ref": "#/definitions/EmailData"},
+        "Application": {"$ref": "#/definitions/SoftwareType"}
       },
       "required": [],
       "additionalProperties": false
@@ -764,15 +704,9 @@
     "ServiceName": {
       "type": "object",
       "properties": {
-        "IANAService": {
-          "type": "string"
-        },
-        "URL": {
-          "$ref": "#/definitions/URLtype"
-        },
-        "Description": {
-          "type": "string"
-        }
+        "IANAService": {"type": "string"},
+        "URL": {"$ref": "#/definitions/URLtype"},
+        "Description": {"type": "string"}
       },
       "required": [],
       "additionalProperties": false
@@ -780,75 +714,56 @@
     "ApplicationHeader": {
       "type": "object",
       "properties": {
-        "ApplicationHeaderField": {}
+        "ApplicationHeaderField": {"type": "#/definitions/ExtensionType"}
       },
-      "required": [
-        "ApplicationHeaderField"
-      ],
+      "required": ["ApplicationHeaderField"],
       "additionalProperties": false
     },
     "EmailData": {
       "type": "object",
       "properties": {
-        "observable-id": {
-          "$ref": "#/definitions/IDtype"
-        },
-        "EmailTo": {},
-        "EmailFrom": {},
-        "EmailSubject": {
-          "type": "string"
-        },
-        "EmailX-Mailer": {
-          "type": "string"
-        },
-        "EmailHeaderField": {},
-        "EmailHeaders": {
-          "type": "string"
-        },
-        "EmailBody": {
-          "type": "string"
-        },
-        "EmailMessage": {
-          "type": "string"
-        },
-        "HashData": {
-          "$ref": "#/definitions/HashData"
-        },
-        "SignatureData": {
-          "$ref": "#/definitions/SignatureData"
-        }
+        "observable-id": {"$ref": "#/definitions/IDtype"},
+        "EmailTo": {"type": "string"},
+        "EmailFrom": {"type": "string"},
+        "EmailSubject": {"type": "string"},
+        "EmailX-Mailer": {"type": "string"},
+        "EmailHeaderField": {"type"; "#/definitions/ExtensionType"},
+        "EmailHeaders": {"type": "string"},
+        "EmailBody": {"type": "string"},
+        "EmailMessage": {"type": "string"},
+        "HashData": {"$ref": "#/definitions/HashData"},
+        "SignatureData": {"$ref": "#/definitions/SignatureData"}
       },
       "required": [],
       "additionalProperties": false
     },
-    "Record": {
+    "Record":{
+      "type": "object",
+      "properties":{
+        "restriction": {"$ref": "#/definitions/restriction"},
+        "ext-restriction": {"type": "string"},
+        "RecordData": {"$ref": "#/definitions/RecordData"}
+      },
+      "required":["RecordData"],
+      "additionalProperties": false
+    },
+    "RecordData": {
       "type": "object",
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "observable-id": {
-          "$ref": "#/definitions/IDtype"
-        },
-        "DateTime": {},
-        "Description": {
-          "type": "string"
-        },
-        "Applicadtion": {},
-        "RecordPattern": {
-          "$ref": "#/definitions/RecordPattern"
-        },
-        "RecordItem": {},
-        "URL": {
-          "$ref": "#/definitions/URLtype"
-        },
-        "FileData": {
-          "$ref": "#/definitions/FileData"
-        },
-        "WindowsRegistryKeysModified": {},
-        "CertificateData": {
-          "$ref": "#/definitions/CertificateData"
-        },
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
+        "observable-id": {"$ref": "#/definitions/IDtype"},
+        "DateTime": {"type": "#/definitions/DATETIME"},
+        "Description": {"type": "string"},
+        "Applicadtion": {"$ref": "#/definitions/SOFTWARE"},
+        "RecordPattern": {"$ref": "#/definitions/RecordPattern"},
+        "RecordItem": {"$ref": "#/definitions/ExtensionType"},
+        "URL": {"$ref": "#/definitions/URLtype"},
+        "FileData": {"$ref": "#/definitions/FileData"},
+        "WindowsRegistryKeysModified": {
+           "$ref": "#/definitions/WindowsRegistryKeysModified"},
+        "CertificateData": {"$ref": "#/definitions/CertificateData"},
+        "AdditionalData": {"$ref": "#/definitions/ExtensionType"}
       },
       "required": [],
       "additionalProperties": false
@@ -866,22 +781,16 @@
           "type": "integer"
         }
       },
-      "required": [
-        "type"
-      ],
+      "required": ["type"],
       "additionalProperties": false
     },
     "WindowsRegistryKeysModified": {
       "type": "object",
       "properties": {
-        "observabile-id": {},
-        "Key": {
-          "$ref": "#/definitions/Key"
-        }
+        "observabile-id": {"$ref": "#/definitions/IDtype"},
+        "Key": {"$ref": "#/definitions/Key"}
       },
-      "required": [
-        "Key"
-      ],
+      "required": ["Key"],
       "additionalProperties": false
     },
     "Key": {
@@ -889,15 +798,11 @@
       "properties": {
         "registryaction": {},
         "ext-registryaction": {},
-        "observable-id": {
-          "$ref": "#/definitions/IDtype"
-        },
+        "observable-id": {"$ref": "#/definitions/IDtype"},
         "KeyName": {},
         "KeyValue": {}
       },
-      "required": [
-        "KeyName"
-      ],
+      "required": ["KeyName"],
       "additionalProperties": false
     },
     "CertificateData": {
@@ -905,28 +810,18 @@
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "observable-id": {
-          "$ref": "#/definitions/IDtype"
-        },
-        "Certificate": {
-          "$ref": "#/definitions/Certificate"
-        }
+        "observable-id": {"$ref": "#/definitions/IDtype"},
+        "Certificate": {"$ref": "#/definitions/Certificate"}
       },
-      "required": [
-        "Certificate"
-      ],
+      "required": ["Certificate"],
       "additionalProperties": false
     },
     "Certificate": {
       "type": "object",
       "properties": {
-        "observable-id": {
-          "$ref": "#/definitions/IDtype"
-        },
+        "observable-id": {"$ref": "#/definitions/IDtype"},
         "X509Data": {},
-        "Description": {
-          "type": "string"
-        }
+        "Description": {"type": "string"}
       },
       "required": [
         "X509Data"
@@ -938,35 +833,21 @@
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "observable-id": {
-          "$ref": "#/definitions/IDtype"
-        },
-        "File": {
-          "$ref": "#/definitions/File"
-        }
+        "observable-id": {"$ref": "#/definitions/IDtype"},
+        "File": {"$ref": "#/definitions/File"}
       },
-      "required": [
-        "File"
-      ],
+      "required": ["File"],
       "additionalProperties": false
     },
     "File": {
       "type": "object",
       "properties": {
-        "FileName": {
-          "type": "string"
-        },
+        "FileName": {"type": "string"},
         "FileSize": {},
         "FileType": {},
-        "URL": {
-          "$ref": "#/definitions/URLtype"
-        },
-        "HashData": {
-          "$ref": "#/definitions/HashData"
-        },
-        "SignatureData": {
-          "$ref": "#/definitions/SignatureData"
-        },
+        "URL": {"$ref": "#/definitions/URLtype"},
+        "HashData": {"$ref": "#/definitions/HashData"},
+        "SignatureData": {"$ref": "#/definitions/SignatureData"},
         "AssociatedSoftware": {},
         "FileProperties": {}
       },
@@ -978,48 +859,31 @@
       "properties": {
         "scope": {},
         "HashTargetID": {},
-        "Hash": {
-          "$ref": "#/definitions/Hash"
-        },
-        "FuzzyHash": {
-          "$ref": "#/definitions/FuzzyHash"
-        }
+        "Hash": {"$ref": "#/definitions/Hash"},
+        "FuzzyHash": {"$ref": "#/definitions/FuzzyHash"}
       },
-      "required": [
-        "scope"
-      ],
+      "required": ["scope"],
       "additionalProperties": false
     },
     "Hash": {
       "type": "object",
       "properties": {
-        "DigestMethod": {
-          "type": "string"
-        },
-        "DigestValue": {
-          "type": "string"
-        },
+        "DigestMethod": {"type": "string"},
+        "DigestValue": {"type": "string"},
         "CanonicalizationMethod": {},
         "Application": {}
       },
-      "required": [
-        "DigestMethod",
-        "DigestValue"
-      ],
+      "required": ["DigestMethod","DigestValue"],
       "additionalProperties": false
     },
     "FuzzyHash": {
       "type": "object",
       "properties": {
-        "FuzzyHashValue": {
-          "$ref": "#/definitions/ExtensionType"
-        },
+        "FuzzyHashValue": {"$ref": "#/definitions/ExtensionType"},
         "Application": {},
         "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
       },
-      "required": [
-        "FuzzyHashValue"
-      ],
+      "required": ["FuzzyHashValue"],
       "additionalProperties": false
     },
     "SignatureData": {
@@ -1040,47 +904,25 @@
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "IndicatorID": {
-          "$ref": "#/definitions/IndicatorID"
-        },
+        "IndicatorID": {"$ref": "#/definitions/IndicatorID"},
         "AlternativeIndicatorID": {
           "$ref": "#/definitions/AlternativeIndicatorID"
         },
-        "Description": {
-          "type": "string"
-        },
+        "Description": {"type": "string"},
         "StartTime": {},
         "EndTime": {},
-        "Confidence": {
-          "$ref": "#/definitions/Confidence"
-        },
-        "Contact": {
-          "$ref": "#/definitions/Contact"
-        },
+        "Confidence": {"$ref": "#/definitions/Confidence"},
+        "Contact": {"$ref": "#/definitions/Contact"},
         "Observable": {},
-        "ObservableReference": {
-          "$ref": "#/definitions/ObservableReference"
-        },
-        "IndicatorExpression": {
-          "$ref": "#/definitions/IndicatorExpression"
-        },
-        "IndicatorReference": {
-          "$ref": "#/definitions/IndicatorReference"
-        },
-        "NodeRole": {
-          "$ref": "#/definitions/NodeRole"
-        },
-        "AttackPhase": {
-          "$ref": "#/definitions/AttackPhase"
-        },
-        "Reference": {
-          "$ref": "#/definitions/Reference"
-        },
+        "ObservableReference": {"$ref": "#/definitions/ObservableReference"},
+        "IndicatorExpression": {"$ref": "#/definitions/IndicatorExpression"},
+        "IndicatorReference": {"$ref": "#/definitions/IndicatorReference"},
+        "NodeRole": {"$ref": "#/definitions/NodeRole"},
+        "AttackPhase": {"$ref": "#/definitions/AttackPhase"},
+        "Reference": {"$ref": "#/definitions/Reference"},
         "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
       },
-      "required": [
-        "IndicatorID"
-      ],
+      "required": ["IndicatorID"],
       "additionalProperties": false
     },
     "IndicatorID": {
@@ -1098,13 +940,9 @@
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "IndicatorReference": {
-          "$ref": "#/definitions/IndicatorReference"
-        }
+        "IndicatorReference": {"$ref": "#/definitions/IndicatorReference"}
       },
-      "required": [
-        "IndicatorReference"
-      ],
+      "required": ["IndicatorReference"],
       "additionalProperties": false
     },
     "Observable": {
@@ -1114,42 +952,22 @@
         "ext-restriction": {"type": "string"},
         "System": {},
         "Address": {},
-        "DomainData": {
-          "$ref": "#/definitions/DomainData"
-        },
-        "EmailData": {
-          "$ref": "#/definitions/EmailData"
-        },
-        "Service": {
-          "$ref": "#/definitions/Service"
-        },
+        "DomainData": {"$ref": "#/definitions/DomainData"},
+        "EmailData": {"$ref": "#/definitions/EmailData"},
+        "Service": {"$ref": "#/definitions/Service"},
         "WindowsRegistryKeysModified": {},
-        "FileData": {
-          "$ref": "#/definitions/FileData"
-        },
-        "CertificateData": {
-          "$ref": "#/definitions/CertificateData"
-        },
+        "FileData": {"$ref": "#/definitions/FileData"},
+        "CertificateData": {"$ref": "#/definitions/CertificateData"},
         "RegistryHandle": {},
-        "Record": {
-          "$ref": "#/definitions/Record"
-        },
+        "Record": {"$ref": "#/definitions/Record"},
         "EventData": {},
         "Incident": {},
-        "Expectation": {
-          "$ref": "#/definitions/Expectation"
-        },
-        "Reference": {
-          "$ref": "#/definitions/Reference"
-        },
+        "Expectation": {"$ref": "#/definitions/Expectation"},
+        "Reference": {"$ref": "#/definitions/Reference"},
         "Assessment": {},
         "DetectionPattern": {},
-        "HistoryItem": {
-          "$ref": "#/definitions/HistoryItem"
-        },
-        "BulkObservable": {
-          "type": "string"
-        },
+        "HistoryItem": {"$ref": "#/definitions/HistoryItem"},
+        "BulkObservable": {"type": "string"},
         "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
       },
       "required": [],
