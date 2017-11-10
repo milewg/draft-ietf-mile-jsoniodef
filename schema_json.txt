@@ -727,7 +727,7 @@
         "EmailFrom": {"type": "string"},
         "EmailSubject": {"type": "string"},
         "EmailX-Mailer": {"type": "string"},
-        "EmailHeaderField": {"type"; "#/definitions/ExtensionType"},
+        "EmailHeaderField": {"type": "#/definitions/ExtensionType"},
         "EmailHeaders": {"type": "string"},
         "EmailBody": {"type": "string"},
         "EmailMessage": {"type": "string"},
@@ -799,8 +799,8 @@
                           "ext-value"]},
         "ext-registryaction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "KeyName": {"type","string"},
-        "KeyValue": {"type", "string"}
+        "KeyName": {"type":"string"},
+        "KeyValue": {"type": "string"}
       },
       "required": ["KeyName"],
       "additionalProperties": false
@@ -926,7 +926,7 @@
     "IndicatorID": {
       "type": "object",
       "properties": {
-        "id": {"type", "string"},
+        "id": {"type": "string"},
         "name": {"type": "string"},
         "version": {"type": "string"}
       },
@@ -984,8 +984,8 @@
                  "email-x-mailer","email-subject","http-user-agent",
                  "http-request-url","mutex","file-path","user-name",
                  "ext-value"]},
-        "ext-type": {"type", "string"},
-        "BulkObservableFormant":{"$ref", "#/definitions/BulkObservableFormat"},
+        "ext-type": {"type": "string"},
+        "BulkObservableFormant":{"$ref": "#/definitions/BulkObservableFormat"},
         "BulkObservableList": {"type": "string"},
         "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
       },
@@ -1062,4 +1062,5 @@
   },
   "required": ["version","Incident"],
   "additionalProperties": false
+}
 }
