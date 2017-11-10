@@ -820,7 +820,7 @@
       "type": "object",
       "properties": {
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "X509Data": {},
+        "X509Data": {type: "string"},
         "Description": {"type": "string"}
       },
       "required": ["X509Data"],
@@ -890,8 +890,8 @@
       "type": "object",
       "properties": {
         "Signature": {
-          "SignatureValue": "xxxxxxxx",
-          "id": "xxxxxxxx"
+          "SignatureValue": {"type": "string"},
+          "id": {"type": "string"}
         }
       },
       "required": ["Signature"],
