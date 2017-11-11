@@ -1383,6 +1383,51 @@ The example below represents how to describe this class in JSON.
 ]]></artwork>
      </figure>
 </section>
+
+<section title="BulkObservable Class">
+<t>
+   This class is defined in Section 3.29.3.1 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+<t>Class elements:</t>
+<t>type?, ext-type?, BulkObservableFormant?, BulkObservableList, AdditionalData*</t>
+
+<t>Example:</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+              "BulkObservable": {
+                "type": "fqdn"                                        //ENUM
+              },
+              "BulkObservableList": [
+                "kj290023j09r34.example.com",                       //STRING
+                "09ijk23jfj0k8.example.net",                        //STRING
+                "klknjwfjiowjefr923.example.org",                   //STRING
+                "oimireik79msd.example.org"                         //STRING
+              ]
+]]></artwork>
+     </figure>
+</section>
+<section title="BulkObservableFormat Class">
+<t>
+   This class is defined in Section 3.29.3.1.1 of <xref target="RFC7970">RFC 7970</xref>.
+The example below represents how to describe this class in JSON.
+</t>
+<t>Class elements:</t>
+<t>Hash?, AdditionalData*</t>
+
+<t>Example:</t>
+     <figure align="center">
+       <artwork align="left"><![CDATA[
+              "BulkObservableFormat": {
+                "Hash": {
+                  "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
+                  "DigestValue": "xxxxxxxxxxx"                  //STRING
+                }
+              }
+]]></artwork>
+     </figure>
+</section>
+
 <section title="IndicatorExpression Class">
 <t>
    This class is defined in Section 3.29.4 of <xref target="RFC7970">RFC 7970</xref>.
