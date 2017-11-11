@@ -591,7 +591,7 @@ The value of this attribute is a unique identifier, in string type, in the scope
 <t>The class elements and an example are shown below. See Section 3.11 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
 
 <t>Class elements:</t>
-<t>restriction?, ext-restriction?, Reference*, Description*, AttackPatterm*, Vulnerability*, Weakness*</t>
+<t>restriction?, ext-restriction?, Reference*, Description*, AttackPattern*, Vulnerability*, Weakness*</t>
 
 <t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
@@ -1008,11 +1008,11 @@ The example below represents how to describe this class in JSON.
 <t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "EmailData":{
-  "EmailTo": "user1@example.org"                                     //EMAIL
-  "EmailFrom": "user2@example.com"                                   //EMAIL
-  "EmailSubject": "example email"                                  //STRING
-  "EmailX-Mailer": "example mailer v1.1.0"                         //STRING
-  "EmailBody": "example email"                                     //STRING
+  "EmailTo": "user1@example.org"                                 //EMAIL
+  "EmailFrom": "user2@example.com"                               //EMAIL
+  "EmailSubject": "example email"                               //STRING
+  "EmailX-Mailer": "example mailer v1.1.0"                      //STRING
+  "EmailBody": "example email"                                  //STRING
 }
 ]]></artwork>
      </figure>
@@ -1032,7 +1032,7 @@ The example below represents how to describe this class in JSON.
 "Record": {
   "RecordData": {
     "RecordPattern": {
-      "type": "regex",                                                //ENUM
+      "type": "regex",                                            //ENUM
       "value": "[0-9][A-Z]"
     }
   },
@@ -1097,8 +1097,8 @@ The example below represents how to describe this class in JSON.
 <figure align="center"><artwork align="left"><![CDATA[
 "WindowsRegistryKeysModified": {
   "Key": {
-    "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",                          //STRING
-    "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",                         //STRING
+    "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",                      //STRING
+    "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",                      //STRING
   }
 }
 ]]></artwork>
@@ -1137,13 +1137,7 @@ The example below represents how to describe this class in JSON.
        <artwork align="left"><![CDATA[
             "CertificateData": {
               "Certificate": {
-                "X509Data": {
-                  "X509IssuerSerial": {
-                    "X509IssuerName": "CN=TAMURA Kent, OU=TRL, O=IBM, L=Yamato-shi, ST=Kanagawa, C=JP", //STRING
-                    "X509SerialNumber": "12345678"                 //INTEGER
-                  },
-                  "X509SKI": "31d97bd7"                             //STRING
-                }
+                "X509Data": "xxxxxxxx"                          //STRING
               }
             }
 ]]></artwork>
@@ -1152,6 +1146,8 @@ The example below represents how to describe this class in JSON.
 <section title="Certificate Class">
 <t>
    This class is defined in Section 3.24.1 of <xref target="RFC7970">RFC 7970</xref>.
+The X509Data class contains base64 encoded form of X.509 certificate or chain as 
+described in Section 4.4.4 of [W3C.XMLSIG].
 The example below represents how to describe this class in JSON.
 </t>
 <t>Class elements:</t>
@@ -1161,13 +1157,7 @@ The example below represents how to describe this class in JSON.
      <figure align="center">
        <artwork align="left"><![CDATA[
               "Certificate": {
-                "X509Data": {
-                  "X509IssuerSerial": {
-                    "X509IssuerName": "CN=TAMURA Kent, OU=TRL, O=IBM, L=Yamato-shi, ST=Kanagawa, C=JP",
-                    "X509SerialNumber": "12345678"                 //INTEGER
-                  },
-                  "X509SKI": "31d97bd7"                             //STRING
-                }
+                "X509Data": "xxxxxxxx"                          //STRING
               }
 ]]></artwork>
      </figure>
@@ -1189,7 +1179,7 @@ The example below represents how to describe this class in JSON.
        <artwork align="left"><![CDATA[
             "FileData": {
               "File": {
-                "FileName": "dummy.exe"                             //STRING
+                "FileName": "dummy.exe"                         //STRING
               }
             },
 ]]></artwork>
@@ -1207,7 +1197,7 @@ The example below represents how to describe this class in JSON.
      <figure align="center">
        <artwork align="left"><![CDATA[
               "File": {
-                "FileName": "dummy.exe"                             //STRING
+                "FileName": "dummy.exe"                         //STRING
               }
 ]]></artwork>
      </figure>
@@ -1227,10 +1217,10 @@ The example below represents how to describe this class in JSON.
      <figure align="center">
        <artwork align="left"><![CDATA[
                 "HashData": {
-                  "scope": "file-contents",                           //ENUM
+                  "scope": "file-contents",                       //ENUM
                   "Hash": {
                     "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
-                    "DigestValue": "xxxxxxxxxxx"                    //STRING
+                    "DigestValue": "xxxxxxxxxxx"                //STRING
                   }
                 }
 ]]></artwork>
@@ -1249,7 +1239,7 @@ The example below represents how to describe this class in JSON.
        <artwork align="left"><![CDATA[
                   "Hash": {
                     "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
-                    "DigestValue": "xxxxxxxxxxx"                    //STRING
+                    "DigestValue": "xxxxxxxxxxx"                //STRING
                   }
 ]]></artwork>
      </figure>
@@ -1279,6 +1269,8 @@ The example below represents how to describe this class in JSON.
 <section title="SignatureData Class">
 <t>
    This class is defined in Section 3.27 of <xref target="RFC7970">RFC 7970</xref>.
+The Signature class contains base64 encoded form of signature as 
+described in Section 4.2 of [W3C.XMLSIG].
 The example below represents how to describe this class in JSON.
 </t>
 <t>Class elements:</t>
@@ -1288,7 +1280,7 @@ The example below represents how to describe this class in JSON.
      <figure align="center">
        <artwork align="left"><![CDATA[
                 "SignatureData": {
-                  "Signature": "xxxxxxxx"
+                  "Signature": "xxxxxxxx"                       //STRING
                 }
 ]]></artwork>
      </figure>
