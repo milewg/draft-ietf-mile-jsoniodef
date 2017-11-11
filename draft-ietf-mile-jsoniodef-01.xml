@@ -1716,8 +1716,7 @@ The example below represents how to describe this class in JSON.
         "IndicatorList": {
           "type": "array","items": {"$ref": "#/definitions/Indicator"}},
         "History": {"$ref": "#/definitions/History"},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["IncidentID","GenerationTime","Contacts","purpose"],
       "additionalProperties": false},
     "IncidentID": {
@@ -1758,10 +1757,8 @@ The example below represents how to describe this class in JSON.
         "IndicatorID": {
           "type": "array","items": {"$ref": "#/definitions/IndicatorID"}},
         "Confidence": {"$ref": "#/definitions/Confidence"},
-        "Description": {
-          "type": "array","items": {"type": "string"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "Description": { "type": "array","items": {"type": "string"}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "additionalProperties": false},
     "ThreatActor": {
       "properties": {
@@ -1770,8 +1767,7 @@ The example below represents how to describe this class in JSON.
         "ThreatActorID": {"type": "array", "items": {"type": "string"}},
         "Description": {"type": "array", "items": {"type": "string"}},
         "URL": {"type": "array", "items": {"$ref": "#/definitions/URLtype"}},
-        "AdditionalData": {
-          "type":"array","items": {"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "additionalProperties": false},
     "Campaign": {
       "properties": {
@@ -1780,8 +1776,7 @@ The example below represents how to describe this class in JSON.
         "CampaignID": {"type": "array", "items": {"type": "string"}},
         "URL": {"type": "array", "items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array", "items": {"type": "string"}},
-        "AdditionalData": {
-          "type":"array","items":{"$ref":"#/definitions/ExtensionTypeList"}}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}}},
     "Contact": {
       "type": "object",
       "properties": {
@@ -1808,8 +1803,7 @@ The example below represents how to describe this class in JSON.
         "Timezone": {"type": "string"},
         "Contact": {
           "type": "array", "items": {"$ref": "#/definitions/Contact"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["role","type"],
       "additionalProperties": false},
     "RegistryHandle": {
@@ -1896,8 +1890,7 @@ The example below represents how to describe this class in JSON.
           "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
         "Weakness": {
           "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false},
     "Reference": {
@@ -1933,8 +1926,7 @@ The example below represents how to describe this class in JSON.
           "type": "array", "items": {"$type": "string"}},
         "Cause": {"type": "array", "items": {"$type": "string"}},
         "Confidence": {"$ref": "#/definitions/Confidence"},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false},
     "SystemImpact": {
@@ -2023,8 +2015,7 @@ The example below represents how to describe this class in JSON.
         "Contact": {"$ref": "#/definitions/Contact"},
         "Description": {"type": "array","items": {"type": "string"}},
         "DefinedCOA": {"type": "array","items": {"type": "string"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["DateTime","action"],
       "additionalProperties": false},
     "EventData": {
@@ -2053,8 +2044,7 @@ The example below represents how to describe this class in JSON.
         "Record": {"$ref": "#/definitions/Record"},
         "EventData": {
           "type": "array","items": {"$ref": "#/definitions/EventData"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["ReportTime"],
       "additionalProperties": false},
     "Expectation": {
@@ -2101,8 +2091,7 @@ The example below represents how to describe this class in JSON.
           "type": "array","items": {"$ref": "#/definitions/Counter"}},
         "AssetID": {"type": "array","items": {"type": "string"}},
         "Description": {"type": "array","items": {"type": "string"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["Node"],
       "additionalProperties": false},
     "Node": {
@@ -2287,8 +2276,7 @@ The example below represents how to describe this class in JSON.
           "items": {"$ref": "#/definitions/WindowsRegistryKeysModified"}},
         "CertificateData": {
           "type": "array","items": {"$ref": "#/definitions/CertificateData"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false
     },
@@ -2391,8 +2379,7 @@ The example below represents how to describe this class in JSON.
         "FuzzyHashValue": {
           "type": "array","items": {"$ref": "#/definitions/ExtensionType"}},
         "Application": {"$ref": "#/definitions/SoftwareType"},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["FuzzyHashValue"],
       "additionalProperties": false},
     "SignatureData": {
@@ -2426,8 +2413,7 @@ The example below represents how to describe this class in JSON.
           "type": "array","items": {"$ref": "#/definitions/AttackPhase"}},
         "Reference": {
           "type": "array","items": {"$ref": "#/definitions/Reference"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["IndicatorID"],
       "additionalProperties": false},
     "IndicatorID": {
@@ -2472,8 +2458,7 @@ The example below represents how to describe this class in JSON.
         "DetectionPattern": {"$ref": "#/definitions/DetectionPattern"},
         "HistoryItem": {"$ref": "#/definitions/HistoryItem"},
         "BulkObservable": {"type": "string"},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false},
     "BulkObservable": {
@@ -2490,16 +2475,14 @@ The example below represents how to describe this class in JSON.
         "ext-type": {"type": "string"},
         "BulkObservableFormant":{"$ref": "#/definitions/BulkObservableFormat"},
         "BulkObservableList": {"type": "string"},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false},
     "BulkObservableFormat": {
       "type": "object",
       "properties": {
         "Hash": {"$ref": "#/definitions/Hash"},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false},
     "IndicatorExpression": {
@@ -2518,8 +2501,7 @@ The example below represents how to describe this class in JSON.
         "IndicatorReference": {
           "type": "array",
          "items": {"$ref": "#/definitions/IndicatorReference"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false},
     "ObservableReference": {
@@ -2541,8 +2523,7 @@ The example below represents how to describe this class in JSON.
         "AttackPhaseID": {"type": "array","items": {"type": "string"}},
         "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array","items": {"type": "string"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false}},
   "title": "IODEF-Document",
@@ -2556,8 +2537,7 @@ The example below represents how to describe this class in JSON.
     "private-enum-id": {"type": "string"},
     "Incident": {
       "type": "array","items": {"$ref": "#/definitions/Incident"}},
-    "AdditionalData": {
-      "type": "array","items": {"$ref": "#/definitions/ExtensionTypeList"}}},
+      "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
   "required": ["version","Incident"],
   "additionalProperties": false}
 ]]></artwork>

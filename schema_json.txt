@@ -102,8 +102,7 @@
         "IndicatorList": {
           "type": "array","items": {"$ref": "#/definitions/Indicator"}},
         "History": {"$ref": "#/definitions/History"},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["IncidentID","GenerationTime","Contacts","purpose"],
       "additionalProperties": false},
     "IncidentID": {
@@ -144,10 +143,8 @@
         "IndicatorID": {
           "type": "array","items": {"$ref": "#/definitions/IndicatorID"}},
         "Confidence": {"$ref": "#/definitions/Confidence"},
-        "Description": {
-          "type": "array","items": {"type": "string"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "Description": { "type": "array","items": {"type": "string"}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "additionalProperties": false},
     "ThreatActor": {
       "properties": {
@@ -156,8 +153,7 @@
         "ThreatActorID": {"type": "array", "items": {"type": "string"}},
         "Description": {"type": "array", "items": {"type": "string"}},
         "URL": {"type": "array", "items": {"$ref": "#/definitions/URLtype"}},
-        "AdditionalData": {
-          "type":"array","items": {"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "additionalProperties": false},
     "Campaign": {
       "properties": {
@@ -166,8 +162,7 @@
         "CampaignID": {"type": "array", "items": {"type": "string"}},
         "URL": {"type": "array", "items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array", "items": {"type": "string"}},
-        "AdditionalData": {
-          "type":"array","items":{"$ref":"#/definitions/ExtensionTypeList"}}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}}},
     "Contact": {
       "type": "object",
       "properties": {
@@ -194,8 +189,7 @@
         "Timezone": {"type": "string"},
         "Contact": {
           "type": "array", "items": {"$ref": "#/definitions/Contact"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["role","type"],
       "additionalProperties": false},
     "RegistryHandle": {
@@ -282,8 +276,7 @@
           "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
         "Weakness": {
           "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false},
     "Reference": {
@@ -319,8 +312,7 @@
           "type": "array", "items": {"$type": "string"}},
         "Cause": {"type": "array", "items": {"$type": "string"}},
         "Confidence": {"$ref": "#/definitions/Confidence"},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false},
     "SystemImpact": {
@@ -409,8 +401,7 @@
         "Contact": {"$ref": "#/definitions/Contact"},
         "Description": {"type": "array","items": {"type": "string"}},
         "DefinedCOA": {"type": "array","items": {"type": "string"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["DateTime","action"],
       "additionalProperties": false},
     "EventData": {
@@ -439,8 +430,7 @@
         "Record": {"$ref": "#/definitions/Record"},
         "EventData": {
           "type": "array","items": {"$ref": "#/definitions/EventData"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["ReportTime"],
       "additionalProperties": false},
     "Expectation": {
@@ -487,8 +477,7 @@
           "type": "array","items": {"$ref": "#/definitions/Counter"}},
         "AssetID": {"type": "array","items": {"type": "string"}},
         "Description": {"type": "array","items": {"type": "string"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["Node"],
       "additionalProperties": false},
     "Node": {
@@ -673,8 +662,7 @@
           "items": {"$ref": "#/definitions/WindowsRegistryKeysModified"}},
         "CertificateData": {
           "type": "array","items": {"$ref": "#/definitions/CertificateData"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false
     },
@@ -777,8 +765,7 @@
         "FuzzyHashValue": {
           "type": "array","items": {"$ref": "#/definitions/ExtensionType"}},
         "Application": {"$ref": "#/definitions/SoftwareType"},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["FuzzyHashValue"],
       "additionalProperties": false},
     "SignatureData": {
@@ -812,8 +799,7 @@
           "type": "array","items": {"$ref": "#/definitions/AttackPhase"}},
         "Reference": {
           "type": "array","items": {"$ref": "#/definitions/Reference"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["IndicatorID"],
       "additionalProperties": false},
     "IndicatorID": {
@@ -858,8 +844,7 @@
         "DetectionPattern": {"$ref": "#/definitions/DetectionPattern"},
         "HistoryItem": {"$ref": "#/definitions/HistoryItem"},
         "BulkObservable": {"type": "string"},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false},
     "BulkObservable": {
@@ -876,16 +861,14 @@
         "ext-type": {"type": "string"},
         "BulkObservableFormant":{"$ref": "#/definitions/BulkObservableFormat"},
         "BulkObservableList": {"type": "string"},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false},
     "BulkObservableFormat": {
       "type": "object",
       "properties": {
         "Hash": {"$ref": "#/definitions/Hash"},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false},
     "IndicatorExpression": {
@@ -904,8 +887,7 @@
         "IndicatorReference": {
           "type": "array",
          "items": {"$ref": "#/definitions/IndicatorReference"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false},
     "ObservableReference": {
@@ -927,8 +909,7 @@
         "AttackPhaseID": {"type": "array","items": {"type": "string"}},
         "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array","items": {"type": "string"}},
-        "AdditionalData": {
-          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+        "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false}},
   "title": "IODEF-Document",
@@ -942,7 +923,6 @@
     "private-enum-id": {"type": "string"},
     "Incident": {
       "type": "array","items": {"$ref": "#/definitions/Incident"}},
-    "AdditionalData": {
-      "type": "array","items": {"$ref": "#/definitions/ExtensionTypeList"}}},
+      "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
   "required": ["version","Incident"],
   "additionalProperties": false}
