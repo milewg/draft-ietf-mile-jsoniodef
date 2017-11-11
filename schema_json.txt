@@ -1,5 +1,4 @@
-{
-  "$schema": "http://json-schema.org/draft-04/schema#",
+{ "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
     "action": {"enum": ["nothing","contact-source-site","contact-target-site",
                "contact-sender", "investigate","block-host","block-network",
@@ -8,23 +7,15 @@
                "upgrade-software","rebuild-asset","harden-asset",
                "remediate-other","status-triage","status-new-info",
                "watch-and-report","training","defined-coa","ext-value"]},
-    "duration": {
-      "enum": ["second","minute","hour","day","month","quarter","year",
-               "ext-value"]
-    },
+    "duration": {"enum": ["second","minute","hour","day","month","quarter",
+                 "year","ext-value"]},
     "lang": {"enum": ["en","jp"]},
-    "purpose": {
-      "enum": ["traceback","mitigation","reporting","watch","other",
-               "ext-value"]
-    },
-    "restriction": {
-      "enum": [
-        "public","partner","need-to-know","private","default","white","green",
-        "amber","red","ext-value"]
-    },
-    "status": {
-      "enum": ["new","in-progress","forwarded","resolved","future","ext-value"]
-    },
+    "purpose": {"enum": ["traceback","mitigation","reporting","watch","other",
+               "ext-value"]},
+    "restriction": {"enum": ["public","partner","need-to-know","private",
+                   "default","white","green","amber","red","ext-value"]},
+    "status": {"enum": ["new","in-progress","forwarded","resolved","future",
+              "ext-value"]},
     "DATETIME": {"type": "string"},
     "PORTLIST": {"type": "string"},
     "URLtype": {"type": "string"},
@@ -33,36 +24,27 @@
       "type": "object",
       "properties": {
         "name": {"type": "string"},
-        "dtype": {
-          "enum": [
-            "boolean","byte","bytes","character","date-time","ntpstamp",
-            "integer","portlist","real","string","file","path","frame",
-            "packet","ipv4-packet","ipv6-packet","url","csv","winreg",
-            "xml","ext-value"
-          ]
-        },
+        "dtype": {"enum": ["boolean","byte","bytes","character","date-time",
+                  "ntpstamp","integer","portlist","real","string","file",
+                  "path","frame","packet","ipv4-packet","ipv6-packet","url",
+                  "csv","winreg","xml","ext-value"]},
         "ext-dtype": {"type": "string"},
         "meaning": {"type": "string"},
         "formatid": {"type": "string"},
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "observable-id": {"$ref": "#/definitions/IDtype"}
-      }
-    },
+        "observable-id": {"$ref": "#/definitions/IDtype"}}},
     "ExtensionTypeList": {
       "type": "array",
-      "items": {"$ref": "#/definitions/ExtensionType"}
-    },
+      "items": {"$ref": "#/definitions/ExtensionType"}},
     "SoftwareType": {
       "type": "object",
       "properties": {
         "SoftwareReference": {"$ref": "#/definitions/SoftwareReference"},
         "URL": {"$ref": "#/definitions/URLtype"},
-        "Description": {"type": "string"}
-      },
+        "Description": {"type": "string"}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "SoftwareReference": {
       "type": "object",
       "properties": {
@@ -70,11 +52,9 @@
         "spec-name": {"type": "string"},
         "ext-spec-name": {"type": "string"},
         "dtype": {"type": "string"},
-        "ext-dtype": {"type": "string"}
-      },
+        "ext-dtype": {"type": "string"}},
       "required": ["spec-name"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "StructuredInfo": {
       "type": "object",
       "properties": {
@@ -82,11 +62,9 @@
         "ext-specID": {"type": "string"},
         "contentID": {"type": "string"},
         "RawData": {"type": "string"},
-        "URL": {"$ref": "#/definitions/URLtype"}
-      },
+        "URL": {"$ref": "#/definitions/URLtype"}},
       "required": ["specID"],
-      "additionalProperties": false
-    },    
+      "additionalProperties": false},    
     "Incident": {
       "title": "Incident",
       "description": "JSON schema for Incident class",
@@ -103,49 +81,31 @@
         "IncidentID": {"$ref": "#/definitions/IncidentID"},
         "AlternativeID": {"$ref": "#/definitions/AlternativeID"},
         "RelatedActivity": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/RelatedActivity"}
-        },
+          "type": "array","items": {"$ref": "#/definitions/RelatedActivity"}},
         "DetectTime": {"type": "string"},
         "StartTime": {"type": "string"},
         "EndTime": {"type": "string"},
         "RecoveryTime": {"type": "string"},
         "ReportTime": {"type": "string"},
         "GenerationTime": {"type": "string"},
-        "Description": {
-          "type": "array",
-          "items": {"type": "string"}
-        },
+        "Description": {"type": "array","items": {"type": "string"}},
         "Discovery": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/Discovery"}
-        },
+          "type": "array","items": {"$ref": "#/definitions/Discovery"}},
         "Assessment": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/Assessment"}
-        },
+          "type": "array","items": {"$ref": "#/definitions/Assessment"}},
         "Methods": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/Method"}
-        },
+          "type": "array","items": {"$ref": "#/definitions/Method"}},
         "Contacts": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/Contact"}
-        },
+          "type": "array","items": {"$ref": "#/definitions/Contact"}},
         "EventData": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/EventData"}
-        },
+          "type": "array","items": {"$ref": "#/definitions/EventData"}},
         "IndicatorList": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/Indicator"}
-        },
+          "type": "array","items": {"$ref": "#/definitions/Indicator"}},
         "History": {"$ref": "#/definitions/History"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
       "required": ["IncidentID","GenerationTime","Contacts","purpose"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "IncidentID": {
       "title": "IncidentID",
       "description": "JSON schema for IncidentID class",
@@ -155,80 +115,59 @@
         "name": {"type": "string"},
         "instance": {"type": "string"},
         "restriction": {"$ref": "#/definitions/restriction"},
-        "ext-restriction": {"type": "string"}
-      },
+        "ext-restriction": {"type": "string"}},
       "required": ["name"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "AlternativeID": {
       "title": "AlternativeID",
       "description": "JSON schema for AlternativeID class",
       "type": "object",
       "properties": {
         "IncidentID": {
-          "type": "array",
-          "items":{"$ref": "#/definitions/IncidentID"}
-        },
+          "type": "array","items":{"$ref": "#/definitions/IncidentID"}},
         "restriction": {"$ref": "#/definitions/restriction"},
-        "ext-restriction": {"type": "string"}
-      },
+        "ext-restriction": {"type": "string"}},
       "required": ["IncidentID"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "RelatedActivity": {
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
         "IncidentID": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/IncidentID"}
-        },
+          "type": "array","items": {"$ref": "#/definitions/IncidentID"}},
         "URL": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/URLtype"}
-        },
+          "type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "ThreatActor": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/ThreatActor"}
-        },
+          "type": "array","items": {"$ref": "#/definitions/ThreatActor"}},
         "Campaign": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/Campaign"}
-        },
+          "type": "array","items": {"$ref": "#/definitions/Campaign"}},
         "IndicatorID": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/IndicatorID"}
-        },
+          "type": "array","items": {"$ref": "#/definitions/IndicatorID"}},
         "Confidence": {"$ref": "#/definitions/Confidence"},
         "Description": {
-          "type": "array",
-          "items": {"type": "string"}
-        },
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
-      "additionalProperties": false
-    },
+          "type": "array","items": {"type": "string"}},
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
+      "additionalProperties": false},
     "ThreatActor": {
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "ThreatActorID": {"type": "string"},
-        "Description": {"type": "string"},
-        "URL": {"$ref": "#/definitions/URLtype"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
-      "additionalProperties": false
-    },
+        "ThreatActorID": {"type": "array", "items": {"type": "string"}},
+        "Description": {"type": "array", "items": {"type": "string"}},
+        "URL": {"type": "array", "items": {"$ref": "#/definitions/URLtype"}},
+        "AdditionalData": {
+          "type":"array","items": {"$ref":"#/definitions/ExtensionTypeList"}}},
+      "additionalProperties": false},
     "Campaign": {
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "CampaignID": {"type": "string"},
-        "URL": {"$ref": "#/definitions/URLtype"},
-        "Description": {"type": "string"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      }
-    },
+        "CampaignID": {"type": "array", "items": {"type": "string"}},
+        "URL": {"type": "array", "items": {"$ref": "#/definitions/URLtype"}},
+        "Description": {"type": "array", "items": {"type": "string"}},
+        "AdditionalData": {
+          "type":"array","items":{"$ref":"#/definitions/ExtensionTypeList"}}}},
     "Contact": {
       "type": "object",
       "properties": {
@@ -236,77 +175,68 @@
           "enum": ["creator","reporter","admin","tech","provider","user",
                    "billing","legal","irt","abuse","cc","cc-irt","leo",
                    "vendor","vendor-support","victim","victim-notified",
-                   "ext-value"]
-        },
+                   "ext-value"]},
         "ext-role": {"type": "string"},
         "type": {"enum": ["person","organization","ext-value"]},
         "ext-type": {"type": "string"},
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "ContactName": {"type": "string"},
-        "ContactTitle": {"type": "string"},
-        "Description": {"type": "string"},
-        "RegistryHandle": {"$ref": "#/definitions/RegistryHandle"},
-        "PostalAddress": {"$ref": "#/definitions/PostalAddress"},
-        "Email": {"$ref": "#/definitions/Email"},
-        "Telephone": {"$ref": "#/definitions/Telephone"},
+        "ContactName": {"type": "array", "items": {"type": "string"}},
+        "ContactTitle": {"type": "array", "items": {"type": "string"}},
+        "Description": {"type": "array", "items": {"type": "string"}},
+        "RegistryHandle": {
+          "type": "array", "items": {"$ref": "#/definitions/RegistryHandle"}},
+        "PostalAddress": {
+          "type": "array", "items": {"$ref": "#/definitions/PostalAddress"}},
+        "Email": {"type": "array", "items": {"$ref": "#/definitions/Email"}},
+        "Telephone": {
+          "type": "array", "items": {"$ref": "#/definitions/Telephone"}},
         "Timezone": {"type": "string"},
-        "Contact": {"$ref": "#/definitions/Contact"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
+        "Contact": {
+          "type": "array", "items": {"$ref": "#/definitions/Contact"}},
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
       "required": ["role","type"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "RegistryHandle": {
       "type": "object",
       "properties": {
         "handle": {"type": "string"},
         "registry": {
           "enum": ["internic","apnic","arin","lacnic","ripe","afrinic","local",
-                   "ext-value"]
-        },
-        "ext-registry": {"type": "string"}
-      },
+                   "ext-value"]},
+        "ext-registry": {"type": "string"}},
       "required": ["registry"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "PostalAddress": {
       "type": "object",
       "properties": {
         "type": {"type": "string"},
         "ext-type": {"type": "string"},
         "PAddress": {"type": "string"},
-        "Description": {"type": "string"}
-      },
+        "Description": {"type": "array", "items": {"type": "string"}}},
       "required": ["PAddress"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Email": {
       "type": "object",
       "properties": {
         "type": {
-          "enum":["direct","hotline","ext-value"]
-        },
+          "enum":["direct","hotline","ext-value"]},
         "ext-type": {"type": "string"},
         "EmailTo": {"type": "string"},
-        "Description": {"type": "string"}
-      },
+        "Description": {"type": "array", "items": {"type": "string"}}},
       "required": ["EmailTo"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Telephone": {
       "type": "object",
       "properties": {
         "type": {
-          "enum":["wired","mobile","fax","hotline","ext-value"]
-        },
+          "enum":["wired","mobile","fax","hotline","ext-value"]},
         "ext-type": {"type": "string"},
         "TelephoneNumber": {"type": "string"},
-        "Description": {"type": "string"}
-      },
+        "Description": {"type": "array", "items": {"type": "string"}}},
       "required": ["TelephoneNumber"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Discovery": {
       "type": "object",
       "properties": {
@@ -315,18 +245,17 @@
                   "incident","os-log","application-log","device-log",
                   "network-flow","passive-dns","investigation","audit",
                   "internal-notification","external-notification","leo",
-                  "partner","actor","unknown","ext-value"]
-        },
+                  "partner","actor","unknown","ext-value"]},
         "ext-source": {"type": "string"},
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "Description": {"type": "string"},
-        "Contact": {"$ref": "#/definitions/Contact"},
-        "DetectionPattern": {"$ref": "#/definitions/DetectionPattern"}
-      },
+        "Description": {"type": "array", "items": {"type": "string"}},
+        "Contact": {
+          "type": "array", "items": {"$ref": "#/definitions/Contact"}},
+        "DetectionPattern": {
+          "type": "array", "items":{"$ref":"#/definitions/DetectionPattern"}}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "DetectionPattern": {
       "type": "object",
       "properties": {
@@ -334,41 +263,38 @@
         "ext-restriction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "Application": {"$ref": "#/definitions/SoftwareType"},
-        "Description": {"type": "string"},
-        "DetectionConfiguration": {"type": "string"}
-      },
+        "Description": {"type": "array", "items": {"type": "string"}},
+        "DetectionConfiguration": {
+          "type": "array", "items": {"type": "string"}}},
       "required": ["Application"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Method": {
       "type": "object",
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
         "References": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/Reference"}
-        },
-        "Description": {"type": "string"},
-        "AttackPattern": {"$ref": "#/definitions/StructuredInfo"},
-        "Vulnerability": {"$ref": "#/definitions/StructuredInfo"},
-        "Weakness": {"$ref": "#/definitions/StructuredInfo"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
+          "type": "array","items": {"$ref": "#/definitions/Reference"}},
+        "Description": {"type": "array", "items": {"type": "string"}},
+        "AttackPattern": {
+          "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
+        "Vulnerability": {
+          "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
+        "Weakness": {
+          "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Reference": {
       "type": "object",
       "properties": {
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "ReferenceName": {"type": "string"},
-        "URL": {"$ref": "#/definitions/URLtype"},
-        "Description": {"type": "string"}
-      },
+        "URL": {"type": "array", "items": {"$ref": "#/definitions/URLtype"}},
+        "Description": {"type": "array", "items": {"type": "string"}}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Assessment": {
       "type": "object",
       "properties": {
@@ -376,21 +302,27 @@
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "IncidentCategory": {"type": "string"},
-        "SystemImpact": {"$ref": "#/definitions/SystemImpact"},
-        "BusinessImpact": {"$ref": "#/definitions/BusinessImpact"},
-        "TimeImpact": {"$ref": "#/definitions/TimeImpact"},
-        "MonetaryImpact": {"$ref": "#/definitions/MonetaryImpact"},
-        "IntendedImpact": {"$ref": "#/definitions/BusinessImpact"},
-        "Counter": {"$ref": "#/definitions/Counter"},
-        "MitigatingFactor": {"$type": "string"},
-        "Cause": {"$type": "string"},
+        "IncidentCategory": {"type": "array", "items": {"type": "string"}},
+        "SystemImpact": {
+          "type": "array", "items": {"$ref": "#/definitions/SystemImpact"}},
+        "BusinessImpact": {
+          "type": "array", "items": {"$ref": "#/definitions/BusinessImpact"}},
+        "TimeImpact": {
+          "type": "array", "items": {"$ref": "#/definitions/TimeImpact"}},
+        "MonetaryImpact": {
+          "type": "array", "items": {"$ref": "#/definitions/MonetaryImpact"}},
+        "IntendedImpact": {
+          "type": "array", "items": {"$ref": "#/definitions/BusinessImpact"}},
+        "Counter": {
+          "type": "array", "items": {"$ref": "#/definitions/Counter"}},
+        "MitigatingFactor": {
+          "type": "array", "items": {"$type": "string"}},
+        "Cause": {"type": "array", "items": {"$type": "string"}},
         "Confidence": {"$ref": "#/definitions/Confidence"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "SystemImpact": {
       "type": "object",
       "properties": {
@@ -408,31 +340,25 @@
                   "traffic-redirection","monitoring-traffic","monitoring-host",
                   "policy","unknown","ext-value"]},
         "ext-type": {"type": "string"},
-        "Description": {"type": "string"}
-      },
+        "Description": {"type": "array","items": {"type": "string"}}},
       "required": ["type"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "BusinessImpact": {
       "type": "object",
       "properties": {
         "severity": {
-          "enum":["none","low","medium","high","unknown","ext-value"]
-        },
+          "enum":["none","low","medium","high","unknown","ext-value"]},
         "ext-severity": {"type":"string"},
         "type": {
           "enum":["breach-proprietary","breach-privacy","breach-credential",
                   "loss-of-integrity","loss-of-service","theft-financial",
                   "theft-service","degraded-reputation","asset-damage",
                   "asset-manipulation","legal","extortion","unknown",
-                  "ext-value"]
-        },
+                  "ext-value"]},
         "ext-type": {"type": "string"},
-        "Description": {"type": "string"}
-      },
+        "Description": {"type": "array","items": {"type": "string"}}},
       "required": ["type"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "TimeImpact": {
       "type": "object",
       "properties": {
@@ -440,44 +366,36 @@
         "severity": {"enum": ["low","medium","high"]},
         "metric": {"enum": ["labor","elapsed","downtime","ext-value"]},
         "ext-metric": {"type": "string"},
-        "duration": {"$ref":"#/definition/duration"},
-        "ext-duration": {"type": "string"}
-      },
+        "duration": {"$ref":"#/definitions/duration"},
+        "ext-duration": {"type": "string"}},
       "required": ["metric"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "MonetaryImpact": {
       "type": "object",
       "properties": {
         "value": {"type": "number"},
         "severity": {"enum":["low","medium","high"]},
-        "currency": {"type": "string"}
-      },
+        "currency": {"type": "string"}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Confidence": {
       "type": "object",
       "properties": {
         "value": {"type": "number"},
         "rating": {
-          "enum": ["low","medium","high","numeric","unknown","ext-value"]
-        },
-        "ext-rating": {"type":"string"}
-      },
+          "enum": ["low","medium","high","numeric","unknown","ext-value"]},
+        "ext-rating": {"type":"string"}},
       "required": ["rating"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "History": {
       "type": "object",
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "HistoryItem": {"$ref": "#/definitions/HistoryItem"}
-      },
+        "HistoryItem": {
+          "type": "array","items": {"$ref": "#/definitions/HistoryItem"}}},
       "required": ["HistoryItem"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "HistoryItem": {
       "type": "object",
       "properties": {
@@ -489,38 +407,42 @@
         "DateTime": {"$ref": "#/definitions/DATETIME"},
         "IncidentID": {"$ref": "#/definitions/IncidentID"},
         "Contact": {"$ref": "#/definitions/Contact"},
-        "Description": {"type": "string"},
-        "DefinedCOA": {"type": "string"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
+        "Description": {"type": "array","items": {"type": "string"}},
+        "DefinedCOA": {"type": "array","items": {"type": "string"}},
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
       "required": ["DateTime","action"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "EventData": {
       "type": "object",
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "Description": {"type": "string"},
+        "Description": {"type": "array","items": {"type": "string"}},
         "DetectTime": {"type": "string"},
         "StartTime": {"type": "string"},
         "EndTime": {"type": "string"},
         "RecoveryTime": {"type": "string"},
         "ReportTime": {"type": "string"},
-        "Contact": {"$ref": "#/definitions/Contact"},
-        "Discovery": {"$ref": "#/definitions/Discovery"},
+        "Contact": {
+          "type": "array","items": {"$ref": "#/definitions/Contact"}},
+        "Discovery": {
+          "type": "array","items": {"$ref": "#/definitions/Discovery"}},
         "Assessment": {"$ref": "#/definitions/Assessment"},
-        "Method": {"$ref": "#/definitions/Method"},
-        "System": {"$ref": "#/definitions/System"},
-        "Expectation": {"$ref": "#/definitions/Expectation"},
+        "Method": {
+          "type": "array","items": {"$ref": "#/definitions/Method"}},
+        "System": {
+          "type": "array","items": {"$ref": "#/definitions/System"}},
+        "Expectation": {
+          "type": "array","items": {"$ref": "#/definitions/Expectation"}},
         "Record": {"$ref": "#/definitions/Record"},
-        "EventData": {"$ref": "#/definitions/EventData"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
+        "EventData": {
+          "type": "array","items": {"$ref": "#/definitions/EventData"}},
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
       "required": ["ReportTime"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Expectation": {
       "type": "object",
       "properties": {
@@ -530,58 +452,57 @@
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "Description": {"type": "string"},
-        "DefinedCOA": {"type": "string"},
+        "Description": {"type": "array","items": {"type": "string"}},
+        "DefinedCOA": {"type": "array","items": {"type": "string"}},
         "StartTime": {"type": "string"},
         "EndTime": {"type": "string"},
-        "Contact": {"$ref": "#/definitions/Contact"}
-      },
+        "Contact": {"$ref": "#/definitions/Contact"}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "System": {
       "type": "object",
       "properties": {
         "category": {
           "enum": ["source","target","intermediate","sensor","infrastructure",
-                   "ext-value"]
-        },
+                   "ext-value"]},
         "ext-category": {"type": "string"},
         "interface": {"type": "string"},
         "spoofed": {"enum": ["unknown","yes","no"]},
         "virtual": {"enum": ["yes","no","unknown"]},
         "ownership": {
           "enum":["organization","personal","partner","customer",
-                  "no-relationship","unknown","ext-value"]
-        },
+                  "no-relationship","unknown","ext-value"]},
         "ext-ownership": {"type": "string"},
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "Node": {"$ref": "#/definitions/Node"},
-        "NodeRole": {"$ref": "#/definitions/NodeRole"},
-        "Service": {"$ref": "#/definitions/Service"},
-        "OperatingSystem": {"$ref": "#/definitions/SoftwareType"},
-        "Counter": {"$ref": "#/definitions/Counter"},
-        "AssetID": {"type": "string"},
-        "Description": {"type": "string"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
+        "NodeRole": {
+          "type": "array","items": {"$ref": "#/definitions/NodeRole"}},
+        "Service": {
+          "type": "array","items": {"$ref": "#/definitions/Service"}},
+        "OperatingSystem": {
+          "type": "array","items": {"$ref": "#/definitions/SoftwareType"}},
+        "Counter": {
+          "type": "array","items": {"$ref": "#/definitions/Counter"}},
+        "AssetID": {"type": "array","items": {"type": "string"}},
+        "Description": {"type": "array","items": {"type": "string"}},
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
       "required": ["Node"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Node": {
       "type": "object",
       "properties": {
-        "DomainData": {"$ref": "#/definitions/DomainData"},
-        "Address": {"$ref": "#/definitions/Address",
+        "DomainData": {
+          "type": "array","items": {"$ref": "#/definitions/DomainData"}},
+        "Address": {
+          "type": "array","items": {"$ref": "#/definitions/Address"}},
         "PostalAddress": {"type": "string"},
-        "Location": {"type": "string"},
-        "Counter": {"$ref": "#/definitions/Counter"}
-      },
+        "Location": {"type": "array","items": {"type": "string"}},
+        "Counter": {"type": "array","items":{"$ref":"#/definitions/Counter"}}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Address": {
       "type": "object",
       "properties": {
@@ -589,16 +510,13 @@
         "category": {
            "enum": ["asn","atm","e-mail","ipv4-addr","ipv4-net",
                     "ipv4-net-masked","ipv4-net-mask","ipv6-addr","ipv6-net",
-                    "ipv6-net-masked","mac","site-url","ext-value"]
-        },
+                    "ipv6-net-masked","mac","site-url","ext-value"]},
         "ext-category": {"type": "string"},
         "vlan-name": {"type": "string"},
         "vlan-num": {"type": "integer"},
-        "observable-id": {"$ref": "#/definitions/IDtype"}
-      },
+        "observable-id": {"$ref": "#/definitions/IDtype"}},
       "required": ["category"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "NodeRole": {
       "type": "object",
       "properties": {
@@ -615,74 +533,65 @@
                   "sinkhole","honeypot","anomyzation","c2-server",
                   "malware-distribution","drop-server","hot-point","reflector",
                   "phishing-site","spear-phishing-site","recruiting-site",
-                  "fraudulent-site","ext-value"]
-        },
+                  "fraudulent-site","ext-value"]},
         "ext-category": {"type": "string"},
-        "Description": {"type": "string"}
-      },
+        "Description": {"type": "array","items": {"type": "string"}}},
       "required": ["category"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Counter": {
       "type": "object",
       "properties": {
         "value": {"type": "string"},
         "type": {"enum": ["count","peak","average","ext-value"]},
         "ext-type": {"type": "string"},
-        "unit": {"enum": ["byte","mbit","packet","flow","session","alert","message","event","host","site","organization","ext-value"]},
+        "unit": {"enum": ["byte","mbit","packet","flow","session","alert",
+                 "message","event","host","site","organization","ext-value"]},
         "ext-unit": {"type": "string"},
         "meaning": {"type": "string"},
-        "duration": {"$ref":"#/definition/duration"},
-        "ext-duration": {"type": "string"}
-      },
+        "duration": {"$ref":"#/definitions/duration"},
+        "ext-duration": {"type": "string"}},
       "required": ["type","unit"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "DomainData": {
       "type": "object",
       "properties": {
         "system-status": {
           "enum": ["spoofed","fraudulent","innocent-hacked",
-                   "innocent-hijacked","unknown","ext-value"]
-        },
+                   "innocent-hijacked","unknown","ext-value"]},
         "ext-system-status": {"type": "string"},
         "domain-status": {
           "enum": [
             "reservedDelegation","assignedAndActive","assignedAndInactive",
             "assignedAndOnHold","revoked","transferPending","registryLock",
-            "registrarLock","other","unknown","ext-value"]
-        },
+            "registrarLock","other","unknown","ext-value"]},
         "ext-domain-status": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "Name": {"type": "string"},
         "DateDomainWasChecked": {"$ref": "#/definitions/DATETIME"},
         "RegistrationDate": {"$ref": "#/definitions/DATETIME"},
         "ExpirationDate": {"$ref": "#/definitions/DATETIME"},
-        "RelatedDNS": {"$ref": "#/definitions/ExtensionType"},
-        "NameServers": {"$ref": "#/definitions/NameServers"},
-        "DomainContacts": {"$ref": "#/definitions/DomainContacts"}
-      },
+        "RelatedDNS": {
+          "type": "array","items": {"$ref": "#/definitions/ExtensionType"}},
+        "NameServers": {
+          "type": "array","items": {"$ref": "#/definitions/NameServers"}},
+        "DomainContacts": {
+          "type": "array","items": {"$ref": "#/definitions/DomainContacts"}}},
       "required": ["Name","system-status","domain-status"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "NameServers": {
       "type": "object",
       "properties": {
         "Server": {"type": "string"},
-        "Address": {"$ref": "#/definitions/Address"}
-      },
+        "Address": {"type": "array","items":{"$ref":"#/definitions/Address"}}},
       "required": ["Server","Address"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "DomainContacts": {
       "type": "object",
       "properties": {
         "SameDomainContact": {"type": "string"},
-        "Contact": {"$ref": "#/definitions/Contact"}
-      },
+        "Contact": {"type": "array","items":{"$ref":"#/definitions/Contact"}}},
       "required": ["Contact"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Service": {
       "type": "object",
       "properties": {
@@ -690,63 +599,58 @@
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "ServiceName": {"$ref": "#/definitions/ServiceName"},
         "Port": {"type": "integer"},
-        "Portlist": {"type": "PORTLIST"},
+        "Portlist": {"$ref": "#/definitions/PORTLIST"},
         "ProtoCode": {"type": "integer"},
         "ProtoType": {"type": "integer"},
         "ProtoField": {"type": "integer"},
         "ApplicationHeader": {"$ref": "#/definitions/ApplicationHeader"},
         "EmailData": {"$ref": "#/definitions/EmailData"},
-        "Application": {"$ref": "#/definitions/SoftwareType"}
-      },
+        "Application": {"$ref": "#/definitions/SoftwareType"}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "ServiceName": {
       "type": "object",
       "properties": {
         "IANAService": {"type": "string"},
-        "URL": {"$ref": "#/definitions/URLtype"},
-        "Description": {"type": "string"}
-      },
+        "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
+        "Description": {"type": "array","items": {"type": "string"}}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "ApplicationHeader": {
       "type": "object",
       "properties": {
-        "ApplicationHeaderField": {"type": "#/definitions/ExtensionType"}
-      },
+        "ApplicationHeaderField": {
+          "type": "array","items": {"$ref": "#/definitions/ExtensionType"}}},
       "required": ["ApplicationHeaderField"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "EmailData": {
       "type": "object",
       "properties": {
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "EmailTo": {"type": "string"},
+        "EmailTo": {"type": "array","items": {"type": "string"}},
         "EmailFrom": {"type": "string"},
         "EmailSubject": {"type": "string"},
         "EmailX-Mailer": {"type": "string"},
-        "EmailHeaderField": {"type": "#/definitions/ExtensionType"},
+        "EmailHeaderField": {
+          "type": "array","items": {"$ref": "#/definitions/ExtensionType"}},
         "EmailHeaders": {"type": "string"},
         "EmailBody": {"type": "string"},
         "EmailMessage": {"type": "string"},
-        "HashData": {"$ref": "#/definitions/HashData"},
-        "SignatureData": {"$ref": "#/definitions/SignatureData"}
-      },
+        "HashData": {
+          "type": "array","items": {"$ref": "#/definitions/HashData"}},
+        "SignatureData": {
+          "type": "array","items": {"$ref": "#/definitions/SignatureData"}}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Record":{
       "type": "object",
       "properties":{
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "RecordData": {"$ref": "#/definitions/RecordData"}
-      },
+        "RecordData": {
+          "type": "array","items": {"$ref": "#/definitions/RecordData"}}},
       "required":["RecordData"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "RecordData": {
       "type": "object",
       "properties": {
@@ -754,17 +658,23 @@
         "ext-restriction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "DateTime": {"$ref": "#/definitions/DATETIME"},
-        "Description": {"type": "string"},
+        "Description": {"type": "array","items": {"type": "string"}},
         "Applicadtion": {"$ref": "#/definitions/SoftwareType"},
-        "RecordPattern": {"$ref": "#/definitions/RecordPattern"},
-        "RecordItem": {"$ref": "#/definitions/ExtensionType"},
-        "URL": {"$ref": "#/definitions/URLtype"},
-        "FileData": {"$ref": "#/definitions/FileData"},
+        "RecordPattern": {
+          "type": "array","items": {"$ref": "#/definitions/RecordPattern"}},
+        "RecordItem": {
+          "type": "array","items": {"$ref": "#/definitions/ExtensionType"}},
+        "URL": {
+          "type": "array","items": {"$ref": "#/definitions/URLtype"}},
+        "FileData": {
+          "type": "array","items": {"$ref": "#/definitions/FileData"}},
         "WindowsRegistryKeysModified": {
-           "$ref": "#/definitions/WindowsRegistryKeysModified"},
-        "CertificateData": {"$ref": "#/definitions/CertificateData"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionType"}
-      },
+          "type": "array",
+          "items": {"$ref": "#/definitions/WindowsRegistryKeysModified"}},
+        "CertificateData": {
+          "type": "array","items": {"$ref": "#/definitions/CertificateData"}},
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
       "required": [],
       "additionalProperties": false
     },
@@ -777,20 +687,16 @@
         "offset": {"type": "integer"},
         "offsetunit": {"enum":["line","byte","ext-value"]},
         "ext-offsetunit": {"type": "string"},
-        "instance": {"type": "integer"}
-      },
+        "instance": {"type": "integer"}},
       "required": ["type"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "WindowsRegistryKeysModified": {
       "type": "object",
       "properties": {
         "observabile-id": {"$ref": "#/definitions/IDtype"},
-        "Key": {"$ref": "#/definitions/Key"}
-      },
+        "Key": {"type": "array","items": {"$ref": "#/definitions/Key"}}},
       "required": ["Key"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Key": {
       "type": "object",
       "properties": {
@@ -800,58 +706,50 @@
         "ext-registryaction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "KeyName": {"type":"string"},
-        "KeyValue": {"type": "string"}
-      },
+        "KeyValue": {"type": "string"}},
       "required": ["KeyName"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "CertificateData": {
       "type": "object",
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "Certificate": {"$ref": "#/definitions/Certificate"}
-      },
+        "Certificate": {
+          "type": "array","items": {"$ref": "#/definitions/Certificate"}}},
       "required": ["Certificate"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Certificate": {
       "type": "object",
       "properties": {
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "X509Data": {type: "string"},
-        "Description": {"type": "string"}
-      },
+        "Description": {"type": "array","items": {"type": "string"}}},
       "required": ["X509Data"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "FileData": {
       "type": "object",
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "File": {"$ref": "#/definitions/File"}
-      },
+        "File": {"type": "array","items": {"$ref": "#/definitions/File"}}},
       "required": ["File"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "File": {
       "type": "object",
       "properties": {
         "FileName": {"type": "string"},
         "FileSize": {"type": "integer"},
         "FileType": {"type": "string"},
-        "URL": {"$ref": "#/definitions/URLtype"},
+        "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "HashData": {"$ref": "#/definitions/HashData"},
         "SignatureData": {"$ref": "#/definitions/SignatureData"},
         "AssociatedSoftware": {"$ref": "#/definitions/SoftwareType"},
-        "FileProperties": {"$ref": "#/definitions/ExtensionType"}
-      },
+        "FileProperties": {
+          "type": "array","items": {"$ref": "#/definitions/ExtensionType"}}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "HashData": {
       "type": "object",
       "properties": {
@@ -859,44 +757,36 @@
                  "file-pe-resource","file-pdf-object","email-hash",
                  "email-hash-header","email-hash-body"]},
         "HashTargetID": {"type": "string"},
-        "Hash": {"$ref": "#/definitions/Hash"},
-        "FuzzyHash": {"$ref": "#/definitions/FuzzyHash"}
-      },
+        "Hash": {"type": "array","items": {"$ref": "#/definitions/Hash"}},
+        "FuzzyHash": {
+          "type": "array","items": {"$ref": "#/definitions/FuzzyHash"}}},
       "required": ["scope"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Hash": {
       "type": "object",
       "properties": {
         "DigestMethod": {"type": "string"},
         "DigestValue": {"type": "string"},
         "CanonicalizationMethod": {},
-        "Application": {"$ref": "#/definitions/SoftwareType"}
-      },
+        "Application": {"$ref": "#/definitions/SoftwareType"}},
       "required": ["DigestMethod","DigestValue"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "FuzzyHash": {
       "type": "object",
       "properties": {
-        "FuzzyHashValue": {"$ref": "#/definitions/ExtensionType"},
+        "FuzzyHashValue": {
+          "type": "array","items": {"$ref": "#/definitions/ExtensionType"}},
         "Application": {"$ref": "#/definitions/SoftwareType"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
       "required": ["FuzzyHashValue"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "SignatureData": {
       "type": "object",
       "properties": {
-        "Signature": {
-          "SignatureValue": {"type": "string"},
-          "id": {"type": "string"}
-        }
-      },
+        "Signature": {"type": "array","items": {"type": "string"}}},
       "required": ["Signature"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Indicator": {
       "type": "object",
       "properties": {
@@ -904,45 +794,46 @@
         "ext-restriction": {"type": "string"},
         "IndicatorID": {"$ref": "#/definitions/IndicatorID"},
         "AlternativeIndicatorID": {
-          "$ref": "#/definitions/AlternativeIndicatorID"
-        },
-        "Description": {"type": "string"},
+          "type": "array",
+          "items": {"$ref": "#/definitions/AlternativeIndicatorID"}},
+        "Description": {"type": "array","items": {"type": "string"}},
         "StartTime": {"$ref": "#/definitions/DATETIME"},
         "EndTime": {"$ref": "#/definitions/DATETIME"},
         "Confidence": {"$ref": "#/definitions/Confidence"},
-        "Contact": {"$ref": "#/definitions/Contact"},
+        "Contact": {
+          "type": "array","items": {"$ref": "#/definitions/Contact"}},
         "Observable": {"$ref": "#/definitions/Observable"},
         "ObservableReference": {"$ref": "#/definitions/ObservableReference"},
         "IndicatorExpression": {"$ref": "#/definitions/IndicatorExpression"},
         "IndicatorReference": {"$ref": "#/definitions/IndicatorReference"},
-        "NodeRole": {"$ref": "#/definitions/NodeRole"},
-        "AttackPhase": {"$ref": "#/definitions/AttackPhase"},
-        "Reference": {"$ref": "#/definitions/Reference"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
+        "NodeRole": {
+          "type": "array","items": {"$ref": "#/definitions/NodeRole"}},
+        "AttackPhase": {
+          "type": "array","items": {"$ref": "#/definitions/AttackPhase"}},
+        "Reference": {
+          "type": "array","items": {"$ref": "#/definitions/Reference"}},
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
       "required": ["IndicatorID"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "IndicatorID": {
       "type": "object",
       "properties": {
         "id": {"type": "string"},
         "name": {"type": "string"},
-        "version": {"type": "string"}
-      },
+        "version": {"type": "string"}},
       "required": ["name","version"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "AlternativeIndicatorID": {
       "type": "object",
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-        "IndicatorReference": {"$ref": "#/definitions/IndicatorReference"}
-      },
+        "IndicatorReference": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/IndicatorReference"}}},
       "required": ["IndicatorReference"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "Observable": {
       "type": "object",
       "properties": {
@@ -954,8 +845,7 @@
         "EmailData": {"$ref": "#/definitions/EmailData"},
         "Service": {"$ref": "#/definitions/Service"},
         "WindowsRegistryKeysModified": {
-          "$ref": "#/definitions/WindowsRegistryKeysModified"
-        },
+          "$ref": "#/definitions/WindowsRegistryKeysModified"},
         "FileData": {"$ref": "#/definitions/FileData"},
         "CertificateData": {"$ref": "#/definitions/CertificateData"},
         "RegistryHandle": {"$ref": "#/definitions/RegistryHandle"},
@@ -968,11 +858,10 @@
         "DetectionPattern": {"$ref": "#/definitions/DetectionPattern"},
         "HistoryItem": {"$ref": "#/definitions/HistoryItem"},
         "BulkObservable": {"type": "string"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "BulkObservable": {
       "type": "object",
       "properties": {
@@ -987,64 +876,61 @@
         "ext-type": {"type": "string"},
         "BulkObservableFormant":{"$ref": "#/definitions/BulkObservableFormat"},
         "BulkObservableList": {"type": "string"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "BulkObservableFormat": {
       "type": "object",
       "properties": {
         "Hash": {"$ref": "#/definitions/Hash"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "IndicatorExpression": {
       "type": "object",
       "properties": {
-        "operator": {
-         "enum": ["not","and","or","xor"]
-        },
+        "operator": {"enum": ["not","and","or","xor"]},
         "ext-operator": {"type": "string"},
-        "IndicatorExpression": {"$ref": "#/definitions/IndicatorExpression"},
-        "Observable": {"$ref": "#/definitions/Observable"},
-        "ObservableReference": {"$ref": "#/definitions/ObservableReference"},
-        "IndicatorReference": {"$ref": "#/definitions/IndicatorReference"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
+        "IndicatorExpression": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/IndicatorExpression"}},
+        "Observable": {
+          "type": "array","items": {"$ref": "#/definitions/Observable"}},
+        "ObservableReference": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/ObservableReference"}},
+        "IndicatorReference": {
+          "type": "array",
+         "items": {"$ref": "#/definitions/IndicatorReference"}},
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "ObservableReference": {
       "type": "object",
       "properties": {"uid-ref": {"type": "string"}},
       "required": ["uid-ref"],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "IndicatorReference": {
       "type": "object",
       "properties": {
         "uid-ref": {"type": "string"},
         "euid-ref": {"type": "string"},
-        "version": {"type": "string"}
-      },
+        "version": {"type": "string"}},
       "required": [],
-      "additionalProperties": false
-    },
+      "additionalProperties": false},
     "AttackPhase": {
       "type": "object",
       "properties": {
-        "AttackPhaseID": {"type": "string"},
-        "URL": {"$ref": "#/definitions/URLtype"},
-        "Description": {"type": "string"},
-        "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-      },
+        "AttackPhaseID": {"type": "array","items": {"type": "string"}},
+        "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
+        "Description": {"type": "array","items": {"type": "string"}},
+        "AdditionalData": {
+          "type": "array","items":{"$ref":"#/definitions/ExtensionTypeList"}}},
       "required": [],
-      "additionalProperties": false
-    }
-  },
+      "additionalProperties": false}},
   "title": "IODEF-Document",
   "description": "JSON schema for IODEF-Document class",
   "type": "object",
@@ -1055,12 +941,8 @@
     "private-enum-name": {"type": "string"},
     "private-enum-id": {"type": "string"},
     "Incident": {
-      "type": "array",
-      "items": {"$ref": "#/definitions/Incident"}
-    },
-    "AdditionalData": {"$ref": "#/definitions/ExtensionTypeList"}
-  },
+      "type": "array","items": {"$ref": "#/definitions/Incident"}},
+    "AdditionalData": {
+      "type": "array","items": {"$ref": "#/definitions/ExtensionTypeList"}}},
   "required": ["version","Incident"],
-  "additionalProperties": false
-}
-}
+  "additionalProperties": false}
