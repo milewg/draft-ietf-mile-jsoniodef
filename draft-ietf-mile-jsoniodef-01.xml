@@ -1133,15 +1133,15 @@ The example below represents how to describe this class in JSON.
 <t>restriction?, ext-restriction?, observable-id?, Certificate+</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-            "CertificateData": {
-              "Certificate": {
-                "X509Data": "xxxxxxxx"                          //STRING
-              }
-            }
+<figure align="center">
+<artwork align="left"><![CDATA[
+"CertificateData": {
+  "Certificate": {
+    "X509Data": "xxxxxxxx"                          //STRING
+  }
+}
 ]]></artwork>
-     </figure>
+</figure>
 
 <section title="Certificate Class">
 <t>
@@ -1154,13 +1154,13 @@ The example below represents how to describe this class in JSON.
 <t>observable-id?, X509Data, Description*</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-              "Certificate": {
-                "X509Data": "xxxxxxxx"                          //STRING
-              }
+<figure align="center">
+<artwork align="left"><![CDATA[
+"Certificate": {
+  "X509Data": "xxxxxxxx"                          //STRING
+}
 ]]></artwork>
-     </figure>
+</figure>
 
 </section>
 
@@ -1175,15 +1175,15 @@ The example below represents how to describe this class in JSON.
 <t>restriction?, ext-restriction?, observable-id?, File+</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-            "FileData": {
-              "File": {
-                "FileName": "dummy.exe"                         //STRING
-              }
-            },
+<figure align="center">
+<artwork align="left"><![CDATA[
+"FileData": {
+  "File": {
+    "FileName": "dummy.exe"                         //STRING
+  }
+},
 ]]></artwork>
-     </figure>
+</figure>
 
 <section title="File Class">
 <t>
@@ -1194,13 +1194,13 @@ The example below represents how to describe this class in JSON.
 <t>observable-id?, FileName?, FileSize?, FileType?, URL*, HashData?, SignatureData?, AssociatedSoftware?, FileProperties*</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-              "File": {
-                "FileName": "dummy.exe"                         //STRING
-              }
+<figure align="center">
+<artwork align="left"><![CDATA[
+"File": {
+  "FileName": "dummy.exe"                         //STRING
+}
 ]]></artwork>
-     </figure>
+</figure>
 
 </section>
 </section>
@@ -1214,17 +1214,17 @@ The example below represents how to describe this class in JSON.
 <t>scope, HashTargetID?, Hash*, FuzzyHash*</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-                "HashData": {
-                  "scope": "file-contents",                       //ENUM
-                  "Hash": {
-                    "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
-                    "DigestValue": "xxxxxxxxxxx"                //STRING
-                  }
-                }
+<figure align="center">
+<artwork align="left"><![CDATA[
+"HashData": {
+  "scope": "file-contents",                       //ENUM
+  "Hash": {
+    "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
+    "DigestValue": "xxxxxxxxxxx"                //STRING
+  }
+}
 ]]></artwork>
-     </figure>
+</figure>
 
 <section title="Hash Class">
 <t>
@@ -1235,14 +1235,14 @@ The example below represents how to describe this class in JSON.
 <t>DigestMethod, DigestValue, CanonicalizationMethod?, Application?</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-                  "Hash": {
-                    "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
-                    "DigestValue": "xxxxxxxxxxx"                //STRING
-                  }
+<figure align="center">
+<artwork align="left"><![CDATA[
+"Hash": {
+  "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
+  "DigestValue": "xxxxxxxxxxx"                //STRING
+}
 ]]></artwork>
-     </figure>
+</figure>
 
 </section>
 
@@ -1255,13 +1255,13 @@ The example below represents how to describe this class in JSON.
 <t>FuzzyHashValue+, Application?, AdditionalData?</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-                  "FuzzyHash": {
-                    "FuzzyHashValue": {}
-                  }
+<figure align="center">
+<artwork align="left"><![CDATA[
+"FuzzyHash": {
+  "FuzzyHashValue": {}
+}
 ]]></artwork>
-     </figure>
+</figure>
 
 </section>
 </section>
@@ -1277,11 +1277,11 @@ The example below represents how to describe this class in JSON.
 <t>Signature+</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-                "SignatureData": {
-                  "Signature": "xxxxxxxx"                       //STRING
-                }
+<figure align="center">
+<artwork align="left"><![CDATA[
+"SignatureData": {
+  "Signature": "xxxxxxxx"                       //STRING
+}
 ]]></artwork>
      </figure>
 </section>
@@ -1295,30 +1295,30 @@ The example below represents how to describe this class in JSON.
 <t>restriction?, ext-restriction?, IndicatorID, AlternativeIndicatorID*, Description*, StartTime?, EndTime?, Confidence?, Contact*, Observable?, ObservableReference?, IndicatorExpression?, IndicatorReference?, NodeRole*, AttackPhase*, Reference*, AdditionalData*</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-          "Indicator": {
-            "IndicatorID": {
-              "id": "G90823490",                                    //STRING
-              "name": "csirt.example.com",                          //STRING
-              "version": "1"                                        //STRING
-            },
-            "Description": "C2 domains",                         //ML_STRING
-            "StartTime": "2014-12-02T11:18:00-05:00",             //Datetime
-            "Observable": {
-              "BulkObservable": {
-                "type": "fqdn"                                        //ENUM
-              },
-              "BulkObservableList": [
-                "kj290023j09r34.example.com",                       //STRING
-                "09ijk23jfj0k8.example.net",                        //STRING
-                "klknjwfjiowjefr923.example.org",                   //STRING
-                "oimireik79msd.example.org"                         //STRIN
-              ]
-            }
-          }
+<figure align="center">
+<artwork align="left"><![CDATA[
+"Indicator": {
+  "IndicatorID": {
+    "id": "G90823490",                                    //STRING
+    "name": "csirt.example.com",                          //STRING
+    "version": "1"                                        //STRING
+  },
+  "Description": "C2 domains",                         //ML_STRING
+  "StartTime": "2014-12-02T11:18:00-05:00",             //Datetime
+  "Observable": {
+    "BulkObservable": {
+      "type": "fqdn"                                        //ENUM
+    },
+    "BulkObservableList": [
+      "kj290023j09r34.example.com",                       //STRING
+      "09ijk23jfj0k8.example.net",                        //STRING
+      "klknjwfjiowjefr923.example.org",                   //STRING
+      "oimireik79msd.example.org"                         //STRIN
+    ]
+  }
+}
 ]]></artwork>
-     </figure>
+</figure>
 
 <section title="IndicatorID Class">
 <t>
@@ -1329,15 +1329,15 @@ The example below represents how to describe this class in JSON.
 <t>id, name, version</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-            "IndicatorID": {
-              "id": "G90823490",                                    //STRING
-              "name": "csirt.example.com",                          //STRING
-              "version": "1"                                        //STRING
-            },
+<figure align="center">
+<artwork align="left"><![CDATA[
+"IndicatorID": {
+  "id": "G90823490",                                    //STRING
+  "name": "csirt.example.com",                          //STRING
+  "version": "1"                                        //STRING
+}
 ]]></artwork>
-     </figure>
+</figure>
 </section>
 <section title="AlternativeIndicatorID Class">
 <t>
@@ -1348,15 +1348,15 @@ The example below represents how to describe this class in JSON.
 <t>restriction?, ext-restriction?, IndicatorReference+</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-            "AlternativeIndicatorID": {
-              "IndicatorReference": {
-                "uid-ref": "xxxxx"
-              }
-            },
+<figure align="center">
+<artwork align="left"><![CDATA[
+"AlternativeIndicatorID": {
+  "IndicatorReference": {
+    "uid-ref": "xxxxx"
+  }
+},
 ]]></artwork>
-     </figure>
+</figure>
 </section>
 <section title="Observable Class">
 <t>
@@ -1367,21 +1367,21 @@ The example below represents how to describe this class in JSON.
 <t>restriction?, ext-restriction?, System?, Address?, DomainData?, Service?, EmailData?, WindowsRegistryKeysModified?, FileData?, CertificateData?, RegistryHandle?, RecordData?, EventData?, Incident?, Expectation?, Reference?, Assessment?, DetectionPattern?, HistoryItem?, BulkObservable?, AdditionalData*</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-            "Observable": {
-              "BulkObservable": {
-                "type": "fqdn"                                        //ENUM
-              },
-              "BulkObservableList": [
-                "kj290023j09r34.example.com",                       //STRING
-                "09ijk23jfj0k8.example.net",                        //STRING
-                "klknjwfjiowjefr923.example.org",                   //STRING
-                "oimireik79msd.example.org"                         //STRING
-              ]
-            }
+<figure align="center">
+<artwork align="left"><![CDATA[
+"Observable": {
+  "BulkObservable": {
+    "type": "fqdn"                                        //ENUM
+  },
+  "BulkObservableList": [
+    "kj290023j09r34.example.com",                       //STRING
+    "09ijk23jfj0k8.example.net",                        //STRING
+    "klknjwfjiowjefr923.example.org",                   //STRING
+    "oimireik79msd.example.org"                         //STRING
+  ]
+}
 ]]></artwork>
-     </figure>
+</figure>
 </section>
 
 <section title="BulkObservable Class">
@@ -1393,19 +1393,19 @@ The example below represents how to describe this class in JSON.
 <t>type?, ext-type?, BulkObservableFormat?, BulkObservableList, AdditionalData*</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-              "BulkObservable": {
-                "type": "fqdn"                                        //ENUM
-              },
-              "BulkObservableList": [
-                "kj290023j09r34.example.com",                       //STRING
-                "09ijk23jfj0k8.example.net",                        //STRING
-                "klknjwfjiowjefr923.example.org",                   //STRING
-                "oimireik79msd.example.org"                         //STRING
-              ]
+<figure align="center">
+<artwork align="left"><![CDATA[
+"BulkObservable": {
+  "type": "fqdn"                                        //ENUM
+},
+"BulkObservableList": [
+  "kj290023j09r34.example.com",                       //STRING
+  "09ijk23jfj0k8.example.net",                        //STRING
+  "klknjwfjiowjefr923.example.org",                   //STRING
+  "oimireik79msd.example.org"                         //STRING
+]
 ]]></artwork>
-     </figure>
+</figure>
 </section>
 <section title="BulkObservableFormat Class">
 <t>
@@ -1416,16 +1416,16 @@ The example below represents how to describe this class in JSON.
 <t>Hash?, AdditionalData*</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-              "BulkObservableFormat": {
-                "Hash": {
-                  "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
-                  "DigestValue": "xxxxxxxxxxx"                  //STRING
-                }
-              }
+<figure align="center">
+<artwork align="left"><![CDATA[
+"BulkObservableFormat": {
+  "Hash": {
+    "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
+    "DigestValue": "xxxxxxxxxxx"                  //STRING
+  }
+}
 ]]></artwork>
-     </figure>
+</figure>
 </section>
 
 <section title="IndicatorExpression Class">
@@ -1437,15 +1437,15 @@ The example below represents how to describe this class in JSON.
 <t>operator?, ext-operator?, IndicatorExpression*, Observable*, ObservableReference*, IndicatorReference*, Confidence?, AdditionalData*</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-            "IndicatorExpression": {
-              "ObservableReference": {
-                "uid-ref": "xxxxx"
-              }
-            }
+<figure align="center">
+<artwork align="left"><![CDATA[
+"IndicatorExpression": {
+  "ObservableReference": {
+    "uid-ref": "xxxxx"
+  }
+}
 ]]></artwork>
-     </figure>
+</figure>
 </section>
 <section title="ObservableReference Class">
 <t>
@@ -1456,13 +1456,13 @@ The example below represents how to describe this class in JSON.
 <t>uid-ref</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-            "ObservableReference": {
-              "uid-ref": "xxxxx"
-            },
+<figure align="center">
+<artwork align="left"><![CDATA[
+"ObservableReference": {
+  "uid-ref": "xxxxx"
+},
 ]]></artwork>
-     </figure>
+</figure>
 </section>
 <section title="IndicatorReference Class">
 <t>
@@ -1473,13 +1473,13 @@ The example below represents how to describe this class in JSON.
 <t>uid-ref?, euid-ref?, version?</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-              "IndicatorReference": {
-                "uid-ref": "xxxxx"
-              }
+<figure align="center">
+<artwork align="left"><![CDATA[
+"IndicatorReference": {
+  "uid-ref": "xxxxx"
+}
 ]]></artwork>
-     </figure>
+</figure>
 </section>
 <section title="AttackPhase Class">
 <t>
@@ -1490,13 +1490,13 @@ The example below represents how to describe this class in JSON.
 <t>AttackPhaseID*, URL*, Description*, AdditionalData*</t>
 
 <t>Example:</t>
-     <figure align="center">
-       <artwork align="left"><![CDATA[
-            "AttackPhase": {
-              "Description": "Currently, the infected host is scanning arbitrary hosts to find next targets." //ML_STRING
-            }
+<figure align="center">
+<artwork align="left"><![CDATA[
+"AttackPhase": {
+  "Description": "Currently, the infected host is scanning arbitrary hosts to find next targets." //ML_STRING
+}
 ]]></artwork>
-     </figure>
+</figure>
 
 </section>
 
@@ -1531,8 +1531,8 @@ The example below represents how to describe this class in JSON.
    A document containing only the mandatory elements and attributes.</t>
 
 
-     <figure align="center">
-       <artwork align="left"><![CDATA[
+<figure align="center">
+<artwork align="left"><![CDATA[
 {
   "version": "2.0",
   "lang": "en",
@@ -1558,7 +1558,7 @@ The example below represents how to describe this class in JSON.
   ]
 }
 ]]></artwork>
-     </figure>
+</figure>
 
 
 
@@ -1571,8 +1571,8 @@ The example below represents how to describe this class in JSON.
    An example of C2 domains from a given campaign.</t>
 
 
-     <figure align="center">
-       <artwork align="left"><![CDATA[
+<figure align="center">
+<artwork align="left"><![CDATA[
 {
   "version": "2.0",
   "lang": "en",
@@ -1646,7 +1646,7 @@ The example below represents how to describe this class in JSON.
     }
   ]
 }]]></artwork>
-     </figure>
+</figure>
 
 
 </section>
@@ -1655,8 +1655,8 @@ The example below represents how to describe this class in JSON.
 
 <section title="The IODEF Data Model (JSON Schema)" anchor="jsonSchemaSection">
 
-     <figure align="center" anchor="jsonSchema" title="JSON schema">
-       <artwork align="left"><![CDATA[
+<figure align="center" anchor="jsonSchema" title="JSON schema">
+<artwork align="left"><![CDATA[
 { "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
     "action": {"enum": ["nothing","contact-source-site","contact-target-site",
@@ -2586,7 +2586,7 @@ The example below represents how to describe this class in JSON.
   "required": ["version","Incident"],
   "additionalProperties": false}
 ]]></artwork>
-     </figure>
+</figure>
 
 
 </section>
