@@ -42,7 +42,7 @@
       "properties": {
         "SoftwareReference": {"$ref": "#/definitions/SoftwareReference"},
         "URL": {"$ref": "#/definitions/URLtype"},
-        "Description": {"type": "string"}},
+        "Description": {"type": "array", "items": {"type":"string"}}},
       "required": [],
       "additionalProperties": false},
     "SoftwareReference": {
@@ -564,7 +564,7 @@
         "NameServers": {
           "type": "array","items": {"$ref": "#/definitions/NameServers"}},
         "DomainContacts": {
-          "type": "array","items": {"$ref": "#/definitions/DomainContacts"}}},
+          "$ref": "#/definitions/DomainContacts"}},
       "required": ["Name","system-status","domain-status"],
       "additionalProperties": false},
     "NameServers": {
@@ -843,7 +843,7 @@
         "Assessment": {"$ref": "#/definitions/Assessment"},
         "DetectionPattern": {"$ref": "#/definitions/DetectionPattern"},
         "HistoryItem": {"$ref": "#/definitions/HistoryItem"},
-        "BulkObservable": {"type": "string"},
+        "BulkObservable": {"$ref": "#/definitions/BulkObservable"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false},
@@ -860,7 +860,7 @@
                  "ext-value"]},
         "ext-type": {"type": "string"},
         "BulkObservableFormant":{"$ref": "#/definitions/BulkObservableFormat"},
-        "BulkObservableList": {"type": "string"},
+        "BulkObservableList": {"type": "array", "item":{"type": "string"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
       "additionalProperties": false},

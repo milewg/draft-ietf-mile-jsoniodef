@@ -16,14 +16,14 @@
           "restriction": "private",
           "ThreatActor": [
             {
-              "ThreatActorID": "TA-12-AGGRESSIVE-BUTTERFLY",
-              "Description": "Aggressive Butterfly"
+              "ThreatActorID": ["TA-12-AGGRESSIVE-BUTTERFLY"],
+              "Description": ["Aggressive Butterfly"]
             }
           ],
           "Campaign": [
             {
-              "CampaignID": "C-2015-59405",
-              "Description": "Orange Giraffe"
+              "CampaignID": ["C-2015-59405"],
+              "Description": ["Orange Giraffe"]
             }
           ]
         }
@@ -34,41 +34,41 @@
       ],
       "Assessment": [
         {
-          "SystemImpact": {
+          "SystemImpact": [{
             "severity": "low",
             "type": "unknown"
-          },
-          "BusinessImpact": {
+          }],
+          "BusinessImpact": [{
             "type": "breach-proprietary"
-          },
-          "TimeImpact": {
+          }],
+          "TimeImpact": [{
             "value": 5,
             "duration": "minute",
             "metric": "elapsed"
-          },
-          "MonetaryImpact": {},
+          }],
+          "MonetaryImpact": [{}],
           "Confidence": {
             "rating": "medium"
           },
-          "Counter": {
+          "Counter": [{
             "value": "3",
             "type": "count",
             "unit": "packet"
-          }
+          }]
         }
       ],
       "History": {
-        "HistoryItem": {
+        "HistoryItem": [{
           "DateTime": "2015-10-15T11:18:00-05:00",
           "action": "investigate"
-        }
+        }]
       },
       "Methods": [
         {
-          "Vulnerability": {"specID":"cve"},
+          "Vulnerability": [{"specID":"cve"}],
           "References": [
             {
-              "URL": "http://www.nict.go.jp"
+              "URL": ["http://www.nict.go.jp"]
             }
           ]
         }
@@ -76,146 +76,146 @@
       "EventData": [
         {
           "ReportTime": "2016-06-01 18:05:33",
-          "System": {
+          "System": [{
             "category": "source",
             "Node": {
-              "Address": {
+              "Address": [{
                 "category": "ipv4-addr",
-                "AddressValue": "192.228.139.118"
-              },
-              "DomainData": {
+                "value": "192.228.139.118"
+              }],
+              "DomainData": [{
                 "system-status": "innocent-hacked",
                 "domain-status": "assignedAndInactive",
                 "Name": "temp1.nict.go.jp",
-                "NameServers": {
+                "NameServers": [{
                   "Server": "vgw.nict.go.jp",
-                  "Address": {
-                    "AddressValue": "133.243.18.5",
+                  "Address": [{
+                    "value": "133.243.18.5",
                     "category": "ipv4-addr"
-                  }
-                },
+                  }]
+                }],
                 "DomainContacts": {
-                  "Contact": {
+                  "Contact": [{
                     "role": "user",
                     "type": "organization"
-                  }
+                  }]
                 }
-              },
-              "Location": "OrgID=7"
+              }],
+              "Location": ["OrgID=7"]
             },
-            "NodeRole": {
+            "NodeRole": [{
               "category": "client"
-            },
-            "Service": {
+            }],
+            "Service": [{
               "ServiceName": {
-                "Description": "It seems to be a scan from an infected machine."
+                "Description": ["It seems to be a scan from an infected machine."]
               },
               "ip-protocol": 6,
               "Port": 49183,
               "ApplicationHeader": {
-                "ApplicationHeaderField": {}
+                "ApplicationHeaderField": [{}]
               },
               "EmailData": {}
-            }
-          },
-          "Expectation": {
+            }]
+          }],
+          "Expectation": [{
             "action": "investigate"
-          },
+          }],
           "Record": {
-            "RecordPattern": {
-              "type": "regex",
-              "value": "[0-9][A-Z]"
-            },
-            "RecordItem": {},
-            "WindowsRegistryKeysModified": {
-              "Key": {
-                "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",
-                "KeyName": "HKEY_LOCAL_MACHINExxxxxxx"
-              }
-            },
-            "FileData": {
-              "File": {
-                "FileName": "dummy.exe",
-                "HashData": {
-                  "scope": "file-contents",
-                  "Hash": {
-                    "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1",
-                    "DigestValue": "xxxxxxxxxxx"
+            "RecordData":[{
+              "RecordPattern": [{
+                "type": "regex",
+                "value": "[0-9][A-Z]"
+              }],
+              "RecordItem": [{}],
+              "WindowsRegistryKeysModified": [{
+                "Key": [{
+                  "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",
+                  "KeyName": "HKEY_LOCAL_MACHINExxxxxxx"
+                }]
+              }],
+              "FileData": [{
+                "File": [{
+                  "FileName": "dummy.exe",
+                  "HashData": {
+                    "scope": "file-contents",
+                    "Hash": [{
+                      "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1",
+                      "DigestValue": "xxxxxxxxxxx"
+                    }],
+                    "FuzzyHash": [{
+                      "FuzzyHashValue": [{}]
+                    }]
                   },
-                  "FuzzyHash": {
-                    "FuzzyHashValue": {}
+                  "SignatureData": {
+                    "Signature": ["xxxxxxxx"]
                   }
-                },
-                "SignatureData": {
-                  "Signature": "xxxxxxxx"
-                }
-              }
-            },
-            "CertificateData": {
-              "Certificate": {
-                "X509Data": "ICA8WDUwOURhdGE+IDwhLS0gdHdvIHBvaW50ZXJzIHRvIGNlcnRpZmljYXRlLUEgLS0+CiAgICA8WDUwOUlzc3VlclNlcmlhbD4gCiAgICAgIDxYNTA5SXNzdWVyTmFtZT4KICAgICAgICBDTj1UQU1VUkEgS2VudCwgT1U9VFJMLCBPPUlCTSwgTD1ZYW1hdG8tc2hpLCBTVD1LYW5hZ2F3YSwgQz1KUAogICAgICA8L1g1MDlJc3N1ZXJOYW1lPgogICAgICA8WDUwOVNlcmlhbE51bWJlcj4xMjM0NTY3ODwvWDUwOVNlcmlhbE51bWJlcj4KICAgIDwvWDUwOUlzc3VlclNlcmlhbD4KICAgIDxYNTA5U0tJPjMxZDk3YmQ3PC9YNTA5U0tJPiAKICA8L1g1MDlEYXRhPgogIDxYNTA5RGF0YT48IS0tIHNpbmdsZSBwb2ludGVyIHRvIGNlcnRpZmljYXRlLUIgLS0+CiAgICA8WDUwOVN1YmplY3ROYW1lPlN1YmplY3Qgb2YgQ2VydGlmaWNhdGUgQjwvWDUwOVN1YmplY3ROYW1lPgogIDwvWDUwOURhdGE+CiAgPFg1MDlEYXRhPiA8IS0tIGNlcnRpZmljYXRlIGNoYWluIC0tPgogICAgPCEtLVNpZ25lciBjZXJ0LCBpc3N1ZXIgQ049YXJib2xDQSxPVT1GVlQsTz1JQk0sQz1VUywgc2VyaWFsIDQtLT4KICAgIDxYNTA5Q2VydGlmaWNhdGU+TUlJQ1hUQ0NBLi48L1g1MDlDZXJ0aWZpY2F0ZT4KICAgIDwhLS0gSW50ZXJtZWRpYXRlIGNlcnQgc3ViamVjdCBDTj1hcmJvbENBLE9VPUZWVCxPPUlCTSxDPVVTIAogICAgICAgICBpc3N1ZXIgQ049dG9vdGlzZUNBLE9VPUZWVCxPPUJyaWRnZXBvaW50LEM9VVMgLS0+CiAgICA8WDUwOUNlcnRpZmljYXRlPk1JSUNQekNDQS4uLjwvWDUwOUNlcnRpZmljYXRlPgogICAgPCEtLSBSb290IGNlcnQgc3ViamVjdCBDTj10b290aXNlQ0EsT1U9RlZULE89QnJpZGdlcG9pbnQsQz1VUyAtLT4KICAgIDxYNTA5Q2VydGlmaWNhdGU+TUlJQ1NUQ0NBLi4uPC9YNTA5Q2VydGlmaWNhdGU+CiAgPC9YNTA5RGF0YT4="
-              }
-            }
+                }]
+              }],
+              "CertificateData": [{
+                "Certificate": [{
+                  "X509Data": "ICA8WDUwOURhdGE+IDwhLS0gdHdvIHBvaW50ZXJzIHRvIGNlcnRpZmljYXRlLUEgLS0+CiAgICA8WDUwOUlzc3VlclNlcmlhbD4gCiAgICAgIDxYNTA5SXNzdWVyTmFtZT4KICAgICAgICBDTj1UQU1VUkEgS2VudCwgT1U9VFJMLCBPPUlCTSwgTD1ZYW1hdG8tc2hpLCBTVD1LYW5hZ2F3YSwgQz1KUAogICAgICA8L1g1MDlJc3N1ZXJOYW1lPgogICAgICA8WDUwOVNlcmlhbE51bWJlcj4xMjM0NTY3ODwvWDUwOVNlcmlhbE51bWJlcj4KICAgIDwvWDUwOUlzc3VlclNlcmlhbD4KICAgIDxYNTA5U0tJPjMxZDk3YmQ3PC9YNTA5U0tJPiAKICA8L1g1MDlEYXRhPgogIDxYNTA5RGF0YT48IS0tIHNpbmdsZSBwb2ludGVyIHRvIGNlcnRpZmljYXRlLUIgLS0+CiAgICA8WDUwOVN1YmplY3ROYW1lPlN1YmplY3Qgb2YgQ2VydGlmaWNhdGUgQjwvWDUwOVN1YmplY3ROYW1lPgogIDwvWDUwOURhdGE+CiAgPFg1MDlEYXRhPiA8IS0tIGNlcnRpZmljYXRlIGNoYWluIC0tPgogICAgPCEtLVNpZ25lciBjZXJ0LCBpc3N1ZXIgQ049YXJib2xDQSxPVT1GVlQsTz1JQk0sQz1VUywgc2VyaWFsIDQtLT4KICAgIDxYNTA5Q2VydGlmaWNhdGU+TUlJQ1hUQ0NBLi48L1g1MDlDZXJ0aWZpY2F0ZT4KICAgIDwhLS0gSW50ZXJtZWRpYXRlIGNlcnQgc3ViamVjdCBDTj1hcmJvbENBLE9VPUZWVCxPPUlCTSxDPVVTIAogICAgICAgICBpc3N1ZXIgQ049dG9vdGlzZUNBLE9VPUZWVCxPPUJyaWRnZXBvaW50LEM9VVMgLS0+CiAgICA8WDUwOUNlcnRpZmljYXRlPk1JSUNQekNDQS4uLjwvWDUwOUNlcnRpZmljYXRlPgogICAgPCEtLSBSb290IGNlcnQgc3ViamVjdCBDTj10b290aXNlQ0EsT1U9RlZULE89QnJpZGdlcG9pbnQsQz1VUyAtLT4KICAgIDxYNTA5Q2VydGlmaWNhdGU+TUlJQ1NUQ0NBLi4uPC9YNTA5Q2VydGlmaWNhdGU+CiAgPC9YNTA5RGF0YT4="
+                }]
+              }]
+           }],
           },
-          "EventData": {
+          "EventData": [{
             "ReportTime": "2016-06-01 18:05:24",
-            "System": {
+            "System": [{
               "category": "target",
               "Node": {},
-              "Service": {
+              "Service": [{
                 "Port": 23
-              }
-            },
-            "Discovery": {
-              "DetectionPattern": {
+              }]
+            }],
+            "Discovery": [{
+              "DetectionPattern": [{
                 "Application": {
-                  "Description": "Microsoft Win"
+                  "Description": ["Microsoft Win"]
                 }
-              }
-            }
-          },
-          "EventData": {
+              }]
+            }]
+          },{
             "ReportTime": "2016-06-01 18:05:27",
-            "System": {
+            "System": [{
               "category": "target",
               "Node": {},
-              "Service": {
+              "Service": [{
                 "Port": 23
-              }
-            }
-          },
-          "EventData": {
+              }]
+            }]
+          },{
             "ReportTime": "2016-06-01 18:05:33",
-            "System": {
+            "System": [{
               "category": "target",
               "Node": {},
-              "Service": {
+              "Service": [{
                 "Port": 23
-              }
-            }
-          }
+              }]
+            }]
+          }]
         }
       ],
       "Contacts": [
         {
           "type": "organization",
           "role": "creator",
-          "ContactName": "CSIRT for example.com",
-          "Email": {
+          "ContactName": ["CSIRT for example.com"],
+          "Email": [{
             "EmailTo": "contact@csirt.example.com"
-          },
-          "PostalAddress": {
+          }],
+          "PostalAddress": [{
             "type": "mailing",
             "PAddress": "184-8795",
-            "Description": "4-2-1 Nukui-Kitamachi Koganei Tokyo, Japan"
-          },
-          "Telephone": {
+            "Description": ["4-2-1 Nukui-Kitamachi Koganei Tokyo, Japan"]
+          }],
+          "Telephone": [{
             "TelephoneNumber": "+81423275862"
-          },
-          "RegistryHandle": {
+          }],
+          "RegistryHandle": [{
             "handle": "MyAPNIC",
             "registry": "apnic"
-          }
+          }]
         }
       ],
       "IndicatorList": [
@@ -225,31 +225,32 @@
             "name": "csirt.example.com",
             "version": "1"
           },
-          "AlternativeIndicatorID": {
-            "IndicatorReference": {
+          "AlternativeIndicatorID": [{
+            "IndicatorReference": [{
               "uid-ref": "xxxxx"
-            }
-          },
-          "Description": "C2 domains",
+            }]
+          }],
+          "Description": ["C2 domains"],
           "StartTime": "2014-12-02T11:18:00-05:00",
           "Observable": {
             "BulkObservable": {
-              "type": "fqdn"
+              "type": "ext-value",
+              "ext-type": "fqdn",
+              "BulkObservableList": [
+                "kj290023j09r34.example.com",
+                "09ijk23jfj0k8.example.net",
+                "klknjwfjiowjefr923.example.org",
+                "oimireik79msd.example.org"
+              ],
             },
-            "BulkObservableList": [
-              "kj290023j09r34.example.com",
-              "09ijk23jfj0k8.example.net",
-              "klknjwfjiowjefr923.example.org",
-              "oimireik79msd.example.org"
-            ]
           },
           "ObservableReference": {
             "uid-ref": "xxxxx"
           },
           "IndicatorExpression": {},
-          "AttackPhase": {
-            "Description": "Currently, the infected host is scanning arbitrary hosts to find next targets."
-          }
+          "AttackPhase": [{
+            "Description": ["Currently, the infected host is scanning arbitrary hosts to find next targets."]
+          }]
         }
       ]
     }
