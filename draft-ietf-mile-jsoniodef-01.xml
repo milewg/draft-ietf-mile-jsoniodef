@@ -57,8 +57,7 @@
    <!-- Another author who claims to be an editor -->
 
    <author fullname="Takeshi Takahashi" initials="T.T." surname="Takahashi">
-     <organization>NICT</organization>
-
+     <organization abbrev="NICT"> National Institute of Information and Communications Technology</organization>
      <address>
        <postal>
          <street>4-2-1 Nukui-Kitamachi</street>
@@ -75,9 +74,23 @@
        <!-- uri and facsimile elements may also be added -->
      </address>
    </author>
-   <author fullname="Mio Suzuki" initials="M.S." surname="Suzuki">
-     <organization>NICT</organization>
+   <author fullname="Roman Danyliw" initials="R.D." surname="Danyliw">
+     <organization abbrev="CERT">CERT, Software Engineering Institute, Carnegie Mellon University</organization>
+     <address>
+       <postal>
+         <street>4500 Fifth Avenue</street>
+         <city>Pittsburgh</city>
+         <region>PA</region>
+         <country>USA</country>
+       </postal>
 
+       <email>rdd@cert.org</email>
+
+       <!-- uri and facsimile elements may also be added -->
+     </address>
+   </author>
+   <author fullname="Mio Suzuki" initials="M.S." surname="Suzuki">
+     <organization abbrev="NICT"> National Institute of Information and Communications Technology</organization>
      <address>
        <postal>
          <street>4-2-1 Nukui-Kitamachi</street>
