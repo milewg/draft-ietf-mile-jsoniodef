@@ -5,10 +5,10 @@
 MILE                                                        T. Takahashi
 Internet-Draft                                                      NICT
 Intended status: Standards Track                              R. Danyliw
-Expires: July 12, 2018                                              CERT
+Expires: July 13, 2018                                              CERT
                                                                M. Suzuki
                                                                     NICT
-                                                         January 8, 2018
+                                                         January 9, 2018
 
 
                          JSON binding of IODEF
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on July 12, 2018.
+   This Internet-Draft will expire on July 13, 2018.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Takahashi, et al.         Expires July 12, 2018                 [Page 1]
+Takahashi, et al.         Expires July 13, 2018                 [Page 1]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Takahashi, et al.         Expires July 12, 2018                 [Page 2]
+Takahashi, et al.         Expires July 13, 2018                 [Page 2]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -154,7 +154,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
        3.24.6.  IndicatorExpression Class  . . . . . . . . . . . . .  31
        3.24.7.  IndicatorReference Class . . . . . . . . . . . . . .  31
        3.24.8.  AttackPhase Class  . . . . . . . . . . . . . . . . .  31
-   4.  Notable differences from RFC 7970 (to be deleted) . . . . . .  32
+   4.  Notable differences from RFC 7970 . . . . . . . . . . . . . .  32
    5.  Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .  32
      5.1.  Minimal Example . . . . . . . . . . . . . . . . . . . . .  33
      5.2.  Indicators from a Campaign  . . . . . . . . . . . . . . .  33
@@ -165,7 +165,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                 [Page 3]
+Takahashi, et al.         Expires July 13, 2018                 [Page 3]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -221,7 +221,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                 [Page 4]
+Takahashi, et al.         Expires July 13, 2018                 [Page 4]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -277,7 +277,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                 [Page 5]
+Takahashi, et al.         Expires July 13, 2018                 [Page 5]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -333,7 +333,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                 [Page 6]
+Takahashi, et al.         Expires July 13, 2018                 [Page 6]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -383,13 +383,13 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
    "StructuredInformation": {
      "SpecID": "oval",                                         //ENUM
-     "RawData": "<<<strings encoded with base64>>>",         //STRING
+     "RawData": "<<<strings encoded with base64>>>",           //BYTE
    }
 
 
 
 
-Takahashi, et al.         Expires July 12, 2018                 [Page 7]
+Takahashi, et al.         Expires July 13, 2018                 [Page 7]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -445,7 +445,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                 [Page 8]
+Takahashi, et al.         Expires July 13, 2018                 [Page 8]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -501,7 +501,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                 [Page 9]
+Takahashi, et al.         Expires July 13, 2018                 [Page 9]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -557,7 +557,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 10]
+Takahashi, et al.         Expires July 13, 2018                [Page 10]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -613,7 +613,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 11]
+Takahashi, et al.         Expires July 13, 2018                [Page 11]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -669,7 +669,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 12]
+Takahashi, et al.         Expires July 13, 2018                [Page 12]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -725,7 +725,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 13]
+Takahashi, et al.         Expires July 13, 2018                [Page 13]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -781,7 +781,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 14]
+Takahashi, et al.         Expires July 13, 2018                [Page 14]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -837,7 +837,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 15]
+Takahashi, et al.         Expires July 13, 2018                [Page 15]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -893,7 +893,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 16]
+Takahashi, et al.         Expires July 13, 2018                [Page 16]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -949,7 +949,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 17]
+Takahashi, et al.         Expires July 13, 2018                [Page 17]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -1005,7 +1005,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 18]
+Takahashi, et al.         Expires July 13, 2018                [Page 18]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -1061,7 +1061,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 19]
+Takahashi, et al.         Expires July 13, 2018                [Page 19]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -1117,7 +1117,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 20]
+Takahashi, et al.         Expires July 13, 2018                [Page 20]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -1173,7 +1173,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 21]
+Takahashi, et al.         Expires July 13, 2018                [Page 21]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -1229,7 +1229,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 22]
+Takahashi, et al.         Expires July 13, 2018                [Page 22]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -1255,11 +1255,11 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
    Example:
 
-"ServiceName": {
-  "IANAService": "telnet"                                          //STRING
-  "URL": "https://en.wikipedia.org/wiki/Telnet"                    //STRING
-  "Description": ["It is a scan from an infected machine."]        //STRING
-},
+   "ServiceName": {
+     "IANAService": "telnet"                                 //STRING
+     "URL": "https://en.wikipedia.org/wiki/Telnet"           //STRING
+     "Description":["It is a scan from an infected machine."]//STRING
+   },
 
 3.19.2.  EmailData Class
 
@@ -1274,18 +1274,18 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
    Example:
 
-"EmailData":{
-  "EmailTo": "user1@example.org"                                 //EMAIL
-  "EmailFrom": "user2@example.com"                               //EMAIL
-  "EmailSubject": "example email"                               //STRING
-  "EmailX-Mailer": "example mailer v1.1.0"                      //STRING
-  "EmailBody": "example email"                                  //STRING
-}
+   "EmailData":{
+     "EmailTo": "user1@example.org"                           //EMAIL
+     "EmailFrom": "user2@example.com"                         //EMAIL
+     "EmailSubject": "example email"                         //STRING
+     "EmailX-Mailer": "example mailer v1.1.0"                //STRING
+     "EmailBody": "example email"                            //STRING
+   }
 
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 23]
+Takahashi, et al.         Expires July 13, 2018                [Page 23]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -1341,7 +1341,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 24]
+Takahashi, et al.         Expires July 13, 2018                [Page 24]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -1350,12 +1350,12 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
    Example:
 
-"WindowsRegistryKeysModified": {
-  "Key": {
-    "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",                      //STRING
-    "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",                      //STRING
-  }
-}
+   "WindowsRegistryKeysModified": {
+     "Key": {
+       "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",                //STRING
+       "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",                //STRING
+     }
+   }
 
 3.20.1.  Key Class
 
@@ -1370,8 +1370,8 @@ Internet-Draft                 JSON-IODEF                   January 2018
    Example:
 
    "Key": {
-     "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",              //STRING
-     "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",              //STRING
+     "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",                  //STRING
+     "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",                  //STRING
    }
 
 3.21.  CertificateData Class
@@ -1387,7 +1387,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
    "CertificateData": {
      "Certificate": {
-       "X509Data": "xxxxxxxx"                          //STRING
+       "X509Data": "xxxxxxxx"                                //STRING
      }
    }
 
@@ -1397,7 +1397,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 25]
+Takahashi, et al.         Expires July 13, 2018                [Page 25]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -1416,7 +1416,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
    Example:
 
    "Certificate": {
-     "X509Data": "xxxxxxxx"                          //STRING
+     "X509Data": "xxxxxxxx"                                  //STRING
    }
 
 3.22.  FileData Class
@@ -1432,7 +1432,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
    "FileData": {
      "File": {
-       "FileName": "dummy.exe"                         //STRING
+       "FileName": "dummy.exe"                               //STRING
      }
    },
 
@@ -1453,13 +1453,13 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 26]
+Takahashi, et al.         Expires July 13, 2018                [Page 26]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
 
    "File": {
-     "FileName": "dummy.exe"                         //STRING
+     "FileName": "dummy.exe"                                 //STRING
    }
 
    Note that Signature element in this class contains base64 encoded
@@ -1476,13 +1476,13 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
    Example:
 
-  "HashData": {
-    "scope": "file-contents",                       //ENUM
-    "Hash": {
-      "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
-      "DigestValue": "xxxxxxxxxxx"                //STRING
-    }
-  }
+   "HashData": {
+     "scope": "file-contents",                                    //ENUM
+     "Hash": {
+       "DigestMethod":"http://www.w3.org/2000/09/xmldsig#sha1", //STRING
+       "DigestValue": "xxxxxxxxxxx"                             //STRING
+     }
+   }
 
 3.23.1.  Hash Class
 
@@ -1497,7 +1497,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
    "Hash": {
      "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
-     "DigestValue": "xxxxxxxxxxx"                //STRING
+     "DigestValue": "xxxxxxxxxxx"                              //STRING
    }
 
 3.23.2.  FuzzyHash Class
@@ -1509,7 +1509,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 27]
+Takahashi, et al.         Expires July 13, 2018                [Page 27]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -1553,7 +1553,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
          "kj290023j09r34.example.com",                       //STRING
          "09ijk23jfj0k8.example.net",                        //STRING
          "klknjwfjiowjefr923.example.org",                   //STRING
-         "oimireik79msd.example.org"                         //STRIN
+         "oimireik79msd.example.org"                         //STRING
        ]
      }
    }
@@ -1565,7 +1565,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 28]
+Takahashi, et al.         Expires July 13, 2018                [Page 28]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -1621,20 +1621,20 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 29]
+Takahashi, et al.         Expires July 13, 2018                [Page 29]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
 
    "Observable": {
      "BulkObservable": {
-       "type": "fqdn"                                        //ENUM
+       "type": "fqdn"                                          //ENUM
      },
      "BulkObservableList": [
-       "kj290023j09r34.example.com",                       //STRING
-       "09ijk23jfj0k8.example.net",                        //STRING
-       "klknjwfjiowjefr923.example.org",                   //STRING
-       "oimireik79msd.example.org"                         //STRING
+       "kj290023j09r34.example.com",                         //STRING
+       "09ijk23jfj0k8.example.net",                          //STRING
+       "klknjwfjiowjefr923.example.org",                     //STRING
+       "oimireik79msd.example.org"                           //STRING
      ]
    }
 
@@ -1651,13 +1651,13 @@ Internet-Draft                 JSON-IODEF                   January 2018
    Example:
 
    "BulkObservable": {
-     "type": "fqdn"                                        //ENUM
+     "type": "fqdn"                                            //ENUM
    },
    "BulkObservableList": [
-     "kj290023j09r34.example.com",                       //STRING
-     "09ijk23jfj0k8.example.net",                        //STRING
-     "klknjwfjiowjefr923.example.org",                   //STRING
-     "oimireik79msd.example.org"                         //STRING
+     "kj290023j09r34.example.com",                           //STRING
+     "09ijk23jfj0k8.example.net",                            //STRING
+     "klknjwfjiowjefr923.example.org",                       //STRING
+     "oimireik79msd.example.org"                             //STRING
    ]
 
 3.24.5.  BulkObservableFormat Class
@@ -1677,17 +1677,17 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 30]
+Takahashi, et al.         Expires July 13, 2018                [Page 30]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
 
-  "BulkObservableFormat": {
-    "Hash": {
-      "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
-      "DigestValue": "xxxxxxxxxxx"                  //STRING
-    }
-  }
+   "BulkObservableFormat": {
+     "Hash": {
+       "DigestMethod":"http://www.w3.org/2000/09/xmldsig#sha1",//STRING
+       "DigestValue": "xxxxxxxxxxx"                            //STRING
+     }
+   }
 
 3.24.6.  IndicatorExpression Class
 
@@ -1733,7 +1733,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 31]
+Takahashi, et al.         Expires July 13, 2018                [Page 31]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -1742,7 +1742,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
   "Description": ["Currently, the infected host is scanning arbitrary hosts to find next targets."] //STRING
 }
 
-4.  Notable differences from RFC 7970 (to be deleted)
+4.  Notable differences from RFC 7970
 
    o  This document treats attributes and elements of each class defined
       in RFC 7970 [RFC7970] equally and is agnostic on the order of
@@ -1789,7 +1789,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 32]
+Takahashi, et al.         Expires July 13, 2018                [Page 32]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -1845,7 +1845,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 33]
+Takahashi, et al.         Expires July 13, 2018                [Page 33]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -1901,7 +1901,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 34]
+Takahashi, et al.         Expires July 13, 2018                [Page 34]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -1957,7 +1957,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 35]
+Takahashi, et al.         Expires July 13, 2018                [Page 35]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2013,7 +2013,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 36]
+Takahashi, et al.         Expires July 13, 2018                [Page 36]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2069,7 +2069,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 37]
+Takahashi, et al.         Expires July 13, 2018                [Page 37]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2125,7 +2125,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 38]
+Takahashi, et al.         Expires July 13, 2018                [Page 38]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2181,7 +2181,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 39]
+Takahashi, et al.         Expires July 13, 2018                [Page 39]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2237,7 +2237,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 40]
+Takahashi, et al.         Expires July 13, 2018                [Page 40]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2293,7 +2293,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 41]
+Takahashi, et al.         Expires July 13, 2018                [Page 41]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2349,7 +2349,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 42]
+Takahashi, et al.         Expires July 13, 2018                [Page 42]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2405,7 +2405,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 43]
+Takahashi, et al.         Expires July 13, 2018                [Page 43]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2461,7 +2461,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 44]
+Takahashi, et al.         Expires July 13, 2018                [Page 44]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2517,7 +2517,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 45]
+Takahashi, et al.         Expires July 13, 2018                [Page 45]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2573,7 +2573,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 46]
+Takahashi, et al.         Expires July 13, 2018                [Page 46]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2629,7 +2629,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 47]
+Takahashi, et al.         Expires July 13, 2018                [Page 47]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2685,7 +2685,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 48]
+Takahashi, et al.         Expires July 13, 2018                [Page 48]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2741,7 +2741,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 49]
+Takahashi, et al.         Expires July 13, 2018                [Page 49]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2797,7 +2797,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 50]
+Takahashi, et al.         Expires July 13, 2018                [Page 50]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2853,7 +2853,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 51]
+Takahashi, et al.         Expires July 13, 2018                [Page 51]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2909,7 +2909,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 52]
+Takahashi, et al.         Expires July 13, 2018                [Page 52]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -2965,7 +2965,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 53]
+Takahashi, et al.         Expires July 13, 2018                [Page 53]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -3021,7 +3021,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 54]
+Takahashi, et al.         Expires July 13, 2018                [Page 54]
 
 Internet-Draft                 JSON-IODEF                   January 2018
 
@@ -3077,4 +3077,4 @@ Authors' Addresses
 
 
 
-Takahashi, et al.         Expires July 12, 2018                [Page 55]
+Takahashi, et al.         Expires July 13, 2018                [Page 55]
