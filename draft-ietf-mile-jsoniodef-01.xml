@@ -107,7 +107,7 @@
    </author>
 
 
-   <date year="2017" />
+   <date year="2018" />
 
    <!-- If the month and year are both specified and are the current ones, xml2rfc will fill
         in the current day for you. If only the current year is specified, xml2rfc will fill
@@ -268,7 +268,7 @@
 <figure align="center"><artwork align="left"><![CDATA[
 "StructuredInformation": {
   "SpecID": "oval",                                         //ENUM
-  "RawData": "<<<strings encoded with base64>>>",         //STRING
+  "RawData": "<<<strings encoded with base64>>>",           //BYTE
 }
 ]]></artwork></figure>
 
@@ -307,7 +307,7 @@
 Its class elements and an example are shown below. See Section 3.2 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
 
 <t>Class elements:</t>
-<t>purpose, ext-purpose?, status?, ext-status?, lang?, restriction?, ext-restriction?, observable-id?, IncidentID, AlternativeID?, RelatedActivity*, DetectTime?, StartTime?, EndTime?, RecoveryTime?, ReportTime?, GenrationTime?, Description*, Description_ML*, Discovery*, Assessment*, Method*, Contact+, EventData*, IndicatorData?, History?, AdditionalData*</t>
+<t>purpose, ext-purpose?, status?, ext-status?, lang?, restriction?, ext-restriction?, observable-id?, IncidentID, AlternativeID?, RelatedActivity*, DetectTime?, StartTime?, EndTime?, RecoveryTime?, ReportTime?, GenrationTime?, Description*, Description_ML*, Discovery*, Assessment*, Method*, Contact+, EventData*, Indicator*, History?, AdditionalData*</t>
 
 <t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
@@ -323,7 +323,7 @@ Its class elements and an example are shown below. See Section 3.2 of <xref targ
   "Method": [ ... ],                                      //Method
   "Contact": [ ... ]                                     //Contact
   "EventData": [ ... ],                                //EventData
-  "IndicatorData": { ... }                         //IndicatorData
+  "Indicator": { ... }                                 //Indicator
   "History": { ... },                                    //History
   "AdditionalData": [ ... ],                      //AdditionalData
 }
@@ -780,7 +780,7 @@ The value of this attribute is a unique identifier, in string type, in the scope
 <t>The class elements and an example are shown below. See Section 3.14 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
 
 <t>Class elements:</t>
-<t>restriction?, ext-restriction?, observable-id?, Description*, Description_ML*, DetectTime?, StartTime?, EndTime?, RecoveryTime?, ReportTime?, Contact*, Discovery*, Assessment?, Method*, Flow*, Expectation*, Record?, EventData*, AdditionalData*</t>
+<t>restriction?, ext-restriction?, observable-id?, Description*, Description_ML*, DetectTime?, StartTime?, EndTime?, RecoveryTime?, ReportTime?, Contact*, Discovery*, Assessment?, Method*, Expectation*, RecordData*, EventData*, AdditionalData*</t>
 
 <t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
@@ -956,7 +956,7 @@ The example below represents how to describe this class in JSON.
 </t>
 
 <t>Class elements:</t>
-<t>ip-protocol?, observable-id?, ServiceName?, Port?, Portlist?, ProtoCode?, ProtoType?, ProtoField?, ApplicationHeader?, EmailData?, Application?</t>
+<t>ip-protocol?, observable-id?, ServiceName?, Port?, Portlist?, ProtoCode?, ProtoType?, ProtoField?, ApplicationHeaderField+, EmailData?, Application?</t>
 
 <t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
@@ -981,31 +981,11 @@ The example below represents how to describe this class in JSON.
 <t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "ServiceName": {
-  "IANAService": "telnet"                                          //STRING
-  "URL": "https://en.wikipedia.org/wiki/Telnet"                    //STRING
-  "Description": ["It is a scan from an infected machine."]        //STRING
+  "IANAService": "telnet"                                 //STRING
+  "URL": "https://en.wikipedia.org/wiki/Telnet"           //STRING
+  "Description":["It is a scan from an infected machine."]//STRING
 },
 ]]></artwork></figure>
-</section>
-
-<section title="ApplicationHeader Class">
-<t>
-   This class is defined in Section 3.20.2 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-
-<t>Class elements:</t>
-<t>ApplicationHeaderField+</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"ApplicationHeader": {
-  "ApplicationHeaderField": {}
-}
-]]></artwork>
-     </figure>
-</section>
-
 </section>
 
 <section title="EmailData Class">
@@ -1015,43 +995,22 @@ The example below represents how to describe this class in JSON.
 </t>
 
 <t>Class elements:</t>
-<t>observable-id?, EmailTo*, EmailFrom?, EmailSubject?, EmailX-Mailer?, EmailHeaderField*, EmailHeaders?, EmailBody?, EmailMessage?, HashData*, SignatureData*</t>
+<t>observable-id?, EmailTo*, EmailFrom?, EmailSubject?, EmailX-Mailer?, EmailHeaderField*, EmailHeaders?, EmailBody?, EmailMessage?, HashData*, Signature*</t>
 
 <t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "EmailData":{
-  "EmailTo": "user1@example.org"                                 //EMAIL
-  "EmailFrom": "user2@example.com"                               //EMAIL
-  "EmailSubject": "example email"                               //STRING
-  "EmailX-Mailer": "example mailer v1.1.0"                      //STRING
-  "EmailBody": "example email"                                  //STRING
+  "EmailTo": "user1@example.org"                           //EMAIL
+  "EmailFrom": "user2@example.com"                         //EMAIL
+  "EmailSubject": "example email"                         //STRING
+  "EmailX-Mailer": "example mailer v1.1.0"                //STRING
+  "EmailBody": "example email"                            //STRING
 }
 ]]></artwork>
      </figure>
+
+<t>Note that Signature element in this class contains base64 encoded form of signature as described in Section 4.2 of [W3C.XMLSIG].</t>
 </section>
-
-<section title="Record Class">
-<t>
-   This class is defined in Section 3.22 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-
-<t>Class elements:</t>
-<t>restriction?, ext-restriction?, RecordData+</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Record": {
-  "RecordData": {
-    "RecordPattern": {
-      "type": "regex",                                            //ENUM
-      "value": "[0-9][A-Z]"
-    }
-  },
-  "RecordItem": {}
-},
-]]></artwork>
-</figure>
 
 <section title="RecordData Class">
 <t>
@@ -1109,8 +1068,8 @@ The example below represents how to describe this class in JSON.
 <figure align="center"><artwork align="left"><![CDATA[
 "WindowsRegistryKeysModified": {
   "Key": {
-    "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",                      //STRING
-    "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",                      //STRING
+    "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",                //STRING
+    "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",                //STRING
   }
 }
 ]]></artwork>
@@ -1128,8 +1087,8 @@ The example below represents how to describe this class in JSON.
 <t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
 "Key": {
-  "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",              //STRING
-  "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",              //STRING
+  "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",                  //STRING
+  "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",                  //STRING
 }
 ]]></artwork>
      </figure>
@@ -1149,7 +1108,7 @@ The example below represents how to describe this class in JSON.
 <artwork align="left"><![CDATA[
 "CertificateData": {
   "Certificate": {
-    "X509Data": "xxxxxxxx"                          //STRING
+    "X509Data": "xxxxxxxx"                                //STRING
   }
 }
 ]]></artwork>
@@ -1169,7 +1128,7 @@ The example below represents how to describe this class in JSON.
 <figure align="center">
 <artwork align="left"><![CDATA[
 "Certificate": {
-  "X509Data": "xxxxxxxx"                          //STRING
+  "X509Data": "xxxxxxxx"                                  //STRING
 }
 ]]></artwork>
 </figure>
@@ -1191,7 +1150,7 @@ The example below represents how to describe this class in JSON.
 <artwork align="left"><![CDATA[
 "FileData": {
   "File": {
-    "FileName": "dummy.exe"                         //STRING
+    "FileName": "dummy.exe"                               //STRING
   }
 },
 ]]></artwork>
@@ -1203,16 +1162,17 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 <t>Class elements:</t>
-<t>observable-id?, FileName?, FileSize?, FileType?, URL*, HashData?, SignatureData?, AssociatedSoftware?, FileProperties*</t>
+<t>observable-id?, FileName?, FileSize?, FileType?, URL*, HashData?, Signature*, AssociatedSoftware?, FileProperties*</t>
 
 <t>Example:</t>
 <figure align="center">
 <artwork align="left"><![CDATA[
 "File": {
-  "FileName": "dummy.exe"                         //STRING
+  "FileName": "dummy.exe"                                 //STRING
 }
 ]]></artwork>
 </figure>
+<t>Note that Signature element in this class contains base64 encoded form of signature as described in Section 4.2 of [W3C.XMLSIG].</t>
 
 </section>
 </section>
@@ -1229,10 +1189,10 @@ The example below represents how to describe this class in JSON.
 <figure align="center">
 <artwork align="left"><![CDATA[
 "HashData": {
-  "scope": "file-contents",                       //ENUM
+  "scope": "file-contents",                                    //ENUM
   "Hash": {
-    "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
-    "DigestValue": "xxxxxxxxxxx"                //STRING
+    "DigestMethod":"http://www.w3.org/2000/09/xmldsig#sha1", //STRING
+    "DigestValue": "xxxxxxxxxxx"                             //STRING
   }
 }
 ]]></artwork>
@@ -1251,7 +1211,7 @@ The example below represents how to describe this class in JSON.
 <artwork align="left"><![CDATA[
 "Hash": {
   "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
-  "DigestValue": "xxxxxxxxxxx"                //STRING
+  "DigestValue": "xxxxxxxxxxx"                              //STRING
 }
 ]]></artwork>
 </figure>
@@ -1278,33 +1238,13 @@ The example below represents how to describe this class in JSON.
 </section>
 </section>
 
-<section title="SignatureData Class">
-<t>
-   This class is defined in Section 3.27 of <xref target="RFC7970">RFC 7970</xref>.
-The Signature class contains base64 encoded form of signature as 
-described in Section 4.2 of [W3C.XMLSIG].
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>Signature+</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"SignatureData": {
-  "Signature": "xxxxxxxx"                       //STRING
-}
-]]></artwork>
-     </figure>
-</section>
-
 <section title="Indicator Class">
 <t>
    This class is defined in Section 3.29 of <xref target="RFC7970">RFC 7970</xref>.
 The example below represents how to describe this class in JSON.
 </t>
 <t>Class elements:</t>
-<t>restriction?, ext-restriction?, IndicatorID, AlternativeIndicatorID*, Description*, Description_ML*, StartTime?, EndTime?, Confidence?, Contact*, Observable?, ObservableReference?, IndicatorExpression?, IndicatorReference?, NodeRole*, AttackPhase*, Reference*, AdditionalData*</t>
+<t>restriction?, ext-restriction?, IndicatorID, AlternativeIndicatorID*, Description*, Description_ML*, StartTime?, EndTime?, Confidence?, Contact*, Observable?, uid-ref?, IndicatorExpression?, IndicatorReference?, NodeRole*, AttackPhase*, Reference*, AdditionalData*</t>
 
 <t>Example:</t>
 <figure align="center">
@@ -1325,7 +1265,7 @@ The example below represents how to describe this class in JSON.
       "kj290023j09r34.example.com",                       //STRING
       "09ijk23jfj0k8.example.net",                        //STRING
       "klknjwfjiowjefr923.example.org",                   //STRING
-      "oimireik79msd.example.org"                         //STRIN
+      "oimireik79msd.example.org"                         //STRING
     ]
   }
 }
@@ -1383,13 +1323,13 @@ The example below represents how to describe this class in JSON.
 <artwork align="left"><![CDATA[
 "Observable": {
   "BulkObservable": {
-    "type": "fqdn"                                        //ENUM
+    "type": "fqdn"                                          //ENUM
   },
   "BulkObservableList": [
-    "kj290023j09r34.example.com",                       //STRING
-    "09ijk23jfj0k8.example.net",                        //STRING
-    "klknjwfjiowjefr923.example.org",                   //STRING
-    "oimireik79msd.example.org"                         //STRING
+    "kj290023j09r34.example.com",                         //STRING
+    "09ijk23jfj0k8.example.net",                          //STRING
+    "klknjwfjiowjefr923.example.org",                     //STRING
+    "oimireik79msd.example.org"                           //STRING
   ]
 }
 ]]></artwork>
@@ -1408,13 +1348,13 @@ The example below represents how to describe this class in JSON.
 <figure align="center">
 <artwork align="left"><![CDATA[
 "BulkObservable": {
-  "type": "fqdn"                                        //ENUM
+  "type": "fqdn"                                            //ENUM
 },
 "BulkObservableList": [
-  "kj290023j09r34.example.com",                       //STRING
-  "09ijk23jfj0k8.example.net",                        //STRING
-  "klknjwfjiowjefr923.example.org",                   //STRING
-  "oimireik79msd.example.org"                         //STRING
+  "kj290023j09r34.example.com",                           //STRING
+  "09ijk23jfj0k8.example.net",                            //STRING
+  "klknjwfjiowjefr923.example.org",                       //STRING
+  "oimireik79msd.example.org"                             //STRING
 ]
 ]]></artwork>
 </figure>
@@ -1432,8 +1372,8 @@ The example below represents how to describe this class in JSON.
 <artwork align="left"><![CDATA[
 "BulkObservableFormat": {
   "Hash": {
-    "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
-    "DigestValue": "xxxxxxxxxxx"                  //STRING
+    "DigestMethod":"http://www.w3.org/2000/09/xmldsig#sha1",//STRING
+    "DigestValue": "xxxxxxxxxxx"                            //STRING
   }
 }
 ]]></artwork>
@@ -1446,36 +1386,18 @@ The example below represents how to describe this class in JSON.
 The example below represents how to describe this class in JSON.
 </t>
 <t>Class elements:</t>
-<t>operator?, ext-operator?, IndicatorExpression*, Observable*, ObservableReference*, IndicatorReference*, Confidence?, AdditionalData*</t>
+<t>operator?, ext-operator?, IndicatorExpression*, Observable*, uid-ref*, IndicatorReference*, Confidence?, AdditionalData*</t>
 
 <t>Example:</t>
 <figure align="center">
 <artwork align="left"><![CDATA[
 "IndicatorExpression": {
-  "ObservableReference": {
-    "uid-ref": "xxxxx"
-  }
+  "uid-ref": "xxxxx"
 }
 ]]></artwork>
 </figure>
 </section>
-<section title="ObservableReference Class">
-<t>
-   This class is defined in Section 3.29.6 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>uid-ref</t>
 
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"ObservableReference": {
-  "uid-ref": "xxxxx"
-},
-]]></artwork>
-</figure>
-</section>
 <section title="IndicatorReference Class">
 <t>
    This class is defined in Section 3.29.7 of <xref target="RFC7970">RFC 7970</xref>.
@@ -1521,8 +1443,12 @@ The example below represents how to describe this class in JSON.
 <t>
 <list style="symbols">
 <t>This document treats attributes and elements of each class defined in <xref target="RFC7970">RFC 7970</xref> equally and is agnostic on the order of their appearances.</t>
-<t>Flow class is deleted, and EventData class now has the instance of System class.</t>
-<t>Record class is deleted, and the link to the Record class are directly connected to RecordData class, which is then renamed to Record class.</t>
+<t>Flow class is deleted, and classes with its instances now directly have instances of EventData class that used to belong to the Flow classs.</t>
+<t>ApplicationHeader class is deleted, and classes with its instances now directly have instances of ApplicationHeaderField class that used to belong to the ApplicationHeader class.</t>
+<t>SignatureData class is deleted, and classes with its instances now directly have instance of Signature class that used to belong to the SignatureData class.</t>
+<t>IndicatorData class is deleted, and classes with its instances now directly have the instances of Indicator class that used to belong to the IndicatorData class.</t>
+<t>ObservableReference class is deleted, and classes with its instances now directly have uid-ref as an element.</t>
+<t>Record class is deleted, and classes with its instances now directly have the instances of RecordData class that used to belong to the Record class.</t>
 <t>The elements of ML_STRING type are prepared as two separatem elements: one of STRING type and another of ML_STRING type, in order to maintain the simplicity of IODEF docuemnts when writing with only STRING type characters.</t>
 </list>
 </t>
@@ -2099,7 +2025,7 @@ The example below represents how to describe this class in JSON.
           "type": "array","items": {"$ref": "#/definitions/System"}},
         "Expectation": {
           "type": "array","items": {"$ref": "#/definitions/Expectation"}},
-        "Record": {"$ref": "#/definitions/Record"},
+        "RecordData": {"type": "array", "items": {"$ref": "#/definitions/RecordData"}},
         "EventData": {
           "type": "array","items": {"$ref": "#/definitions/EventData"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
@@ -2264,7 +2190,7 @@ The example below represents how to describe this class in JSON.
         "ProtoCode": {"type": "integer"},
         "ProtoType": {"type": "integer"},
         "ProtoField": {"type": "integer"},
-        "ApplicationHeader": {"$ref": "#/definitions/ApplicationHeader"},
+        "ApplicationHeaderField": {"$ref":"#/definitions/ExtensionTypeList"},
         "EmailData": {"$ref": "#/definitions/EmailData"},
         "Application": {"$ref": "#/definitions/SoftwareType"}},
       "required": [],
@@ -2276,13 +2202,6 @@ The example below represents how to describe this class in JSON.
         "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array","items": {"type": "string"}}},
       "required": [],
-      "additionalProperties": false},
-    "ApplicationHeader": {
-      "type": "object",
-      "properties": {
-        "ApplicationHeaderField": {
-          "type": "array","items": {"$ref": "#/definitions/ExtensionType"}}},
-      "required": ["ApplicationHeaderField"],
       "additionalProperties": false},
     "EmailData": {
       "type": "object",
@@ -2299,18 +2218,8 @@ The example below represents how to describe this class in JSON.
         "EmailMessage": {"type": "string"},
         "HashData": {
           "type": "array","items": {"$ref": "#/definitions/HashData"}},
-        "SignatureData": {
-          "type": "array","items": {"$ref": "#/definitions/SignatureData"}}},
+        "Signature": {"type": "array","items": {"type": "string"}}},
       "required": [],
-      "additionalProperties": false},
-    "Record":{
-      "type": "object",
-      "properties":{
-        "restriction": {"$ref": "#/definitions/restriction"},
-        "ext-restriction": {"type": "string"},
-        "RecordData": {
-          "type": "array","items": {"$ref": "#/definitions/RecordData"}}},
-      "required":["RecordData"],
       "additionalProperties": false},
     "RecordData": {
       "type": "object",
@@ -2404,7 +2313,7 @@ The example below represents how to describe this class in JSON.
         "FileType": {"type": "string"},
         "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "HashData": {"$ref": "#/definitions/HashData"},
-        "SignatureData": {"$ref": "#/definitions/SignatureData"},
+        "Signature": {"type": "array","items": {"type": "string"}},
         "AssociatedSoftware": {"$ref": "#/definitions/SoftwareType"},
         "FileProperties": {
           "type": "array","items": {"$ref": "#/definitions/ExtensionType"}}},
@@ -2440,12 +2349,6 @@ The example below represents how to describe this class in JSON.
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["FuzzyHashValue"],
       "additionalProperties": false},
-    "SignatureData": {
-      "type": "object",
-      "properties": {
-        "Signature": {"type": "array","items": {"type": "string"}}},
-      "required": ["Signature"],
-      "additionalProperties": false},
     "Indicator": {
       "type": "object",
       "properties": {
@@ -2462,7 +2365,7 @@ The example below represents how to describe this class in JSON.
         "Contact": {
           "type": "array","items": {"$ref": "#/definitions/Contact"}},
         "Observable": {"$ref": "#/definitions/Observable"},
-        "ObservableReference": {"$ref": "#/definitions/ObservableReference"},
+        "uid-ref": {"type": "string"},
         "IndicatorExpression": {"$ref": "#/definitions/IndicatorExpression"},
         "IndicatorReference": {"$ref": "#/definitions/IndicatorReference"},
         "NodeRole": {
@@ -2507,7 +2410,7 @@ The example below represents how to describe this class in JSON.
         "FileData": {"$ref": "#/definitions/FileData"},
         "CertificateData": {"$ref": "#/definitions/CertificateData"},
         "RegistryHandle": {"$ref": "#/definitions/RegistryHandle"},
-        "Record": {"$ref": "#/definitions/Record"},
+        "RecordData": {"type": "array", "item": {"$ref": "#/definitions/Record"}},
         "EventData": {"$ref": "#/definitions/EventData"},
         "Incident": {"$ref": "#/definitions/Incident"},
         "Expectation": {"$ref": "#/definitions/Expectation"},
@@ -2553,19 +2456,12 @@ The example below represents how to describe this class in JSON.
           "items": {"$ref": "#/definitions/IndicatorExpression"}},
         "Observable": {
           "type": "array","items": {"$ref": "#/definitions/Observable"}},
-        "ObservableReference": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/ObservableReference"}},
+        "uid-ref": {"type": "string"},
         "IndicatorReference": {
           "type": "array",
          "items": {"$ref": "#/definitions/IndicatorReference"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
-      "additionalProperties": false},
-    "ObservableReference": {
-      "type": "object",
-      "properties": {"uid-ref": {"type": "string"}},
-      "required": ["uid-ref"],
       "additionalProperties": false},
     "IndicatorReference": {
       "type": "object",

@@ -112,16 +112,13 @@
               },
               "ip-protocol": 6,
               "Port": 49183,
-              "ApplicationHeader": {
-                "ApplicationHeaderField": [{}]
-              },
+              "ApplicationHeaderField": [{}],
               "EmailData": {}
             }]
           }],
           "Expectation": [{
             "action": "investigate"
           }],
-          "Record": {
             "RecordData":[{
               "RecordPattern": [{
                 "type": "regex",
@@ -147,9 +144,7 @@
                       "FuzzyHashValue": [{}]
                     }]
                   },
-                  "SignatureData": {
-                    "Signature": ["xxxxxxxx"]
-                  }
+                  "Signature": ["xxxxxxxx"]
                 }]
               }],
               "CertificateData": [{
@@ -158,7 +153,6 @@
                 }]
               }]
            }],
-          },
           "EventData": [{
             "ReportTime": "2016-06-01 18:05:24",
             "System": [{
@@ -244,9 +238,7 @@
               ],
             },
           },
-          "ObservableReference": {
-            "uid-ref": "xxxxx"
-          },
+          "uid-ref": "xxxxx",
           "IndicatorExpression": {},
           "AttackPhase": [{
             "Description": ["Currently, the infected host is scanning arbitrary hosts to find next targets."]

@@ -427,7 +427,7 @@
           "type": "array","items": {"$ref": "#/definitions/System"}},
         "Expectation": {
           "type": "array","items": {"$ref": "#/definitions/Expectation"}},
-        "Record": {"$ref": "#/definitions/Record"},
+        "RecordData": {"type": "array", "items": {"$ref": "#/definitions/RecordData"}},
         "EventData": {
           "type": "array","items": {"$ref": "#/definitions/EventData"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
@@ -592,7 +592,7 @@
         "ProtoCode": {"type": "integer"},
         "ProtoType": {"type": "integer"},
         "ProtoField": {"type": "integer"},
-        "ApplicationHeader": {"$ref": "#/definitions/ApplicationHeader"},
+        "ApplicationHeaderField": {"$ref":"#/definitions/ExtensionTypeList"},
         "EmailData": {"$ref": "#/definitions/EmailData"},
         "Application": {"$ref": "#/definitions/SoftwareType"}},
       "required": [],
@@ -604,13 +604,6 @@
         "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array","items": {"type": "string"}}},
       "required": [],
-      "additionalProperties": false},
-    "ApplicationHeader": {
-      "type": "object",
-      "properties": {
-        "ApplicationHeaderField": {
-          "type": "array","items": {"$ref": "#/definitions/ExtensionType"}}},
-      "required": ["ApplicationHeaderField"],
       "additionalProperties": false},
     "EmailData": {
       "type": "object",
@@ -627,18 +620,8 @@
         "EmailMessage": {"type": "string"},
         "HashData": {
           "type": "array","items": {"$ref": "#/definitions/HashData"}},
-        "SignatureData": {
-          "type": "array","items": {"$ref": "#/definitions/SignatureData"}}},
+        "Signature": {"type": "array","items": {"type": "string"}}},
       "required": [],
-      "additionalProperties": false},
-    "Record":{
-      "type": "object",
-      "properties":{
-        "restriction": {"$ref": "#/definitions/restriction"},
-        "ext-restriction": {"type": "string"},
-        "RecordData": {
-          "type": "array","items": {"$ref": "#/definitions/RecordData"}}},
-      "required":["RecordData"],
       "additionalProperties": false},
     "RecordData": {
       "type": "object",
@@ -732,7 +715,7 @@
         "FileType": {"type": "string"},
         "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "HashData": {"$ref": "#/definitions/HashData"},
-        "SignatureData": {"$ref": "#/definitions/SignatureData"},
+        "Signature": {"type": "array","items": {"type": "string"}},
         "AssociatedSoftware": {"$ref": "#/definitions/SoftwareType"},
         "FileProperties": {
           "type": "array","items": {"$ref": "#/definitions/ExtensionType"}}},
@@ -768,12 +751,6 @@
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["FuzzyHashValue"],
       "additionalProperties": false},
-    "SignatureData": {
-      "type": "object",
-      "properties": {
-        "Signature": {"type": "array","items": {"type": "string"}}},
-      "required": ["Signature"],
-      "additionalProperties": false},
     "Indicator": {
       "type": "object",
       "properties": {
@@ -790,7 +767,7 @@
         "Contact": {
           "type": "array","items": {"$ref": "#/definitions/Contact"}},
         "Observable": {"$ref": "#/definitions/Observable"},
-        "ObservableReference": {"$ref": "#/definitions/ObservableReference"},
+        "uid-ref": {"type": "string"},
         "IndicatorExpression": {"$ref": "#/definitions/IndicatorExpression"},
         "IndicatorReference": {"$ref": "#/definitions/IndicatorReference"},
         "NodeRole": {
@@ -835,7 +812,7 @@
         "FileData": {"$ref": "#/definitions/FileData"},
         "CertificateData": {"$ref": "#/definitions/CertificateData"},
         "RegistryHandle": {"$ref": "#/definitions/RegistryHandle"},
-        "Record": {"$ref": "#/definitions/Record"},
+        "RecordData": {"type": "array", "item": {"$ref": "#/definitions/Record"}},
         "EventData": {"$ref": "#/definitions/EventData"},
         "Incident": {"$ref": "#/definitions/Incident"},
         "Expectation": {"$ref": "#/definitions/Expectation"},
@@ -881,19 +858,12 @@
           "items": {"$ref": "#/definitions/IndicatorExpression"}},
         "Observable": {
           "type": "array","items": {"$ref": "#/definitions/Observable"}},
-        "ObservableReference": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/ObservableReference"}},
+        "uid-ref": {"type": "string"},
         "IndicatorReference": {
           "type": "array",
          "items": {"$ref": "#/definitions/IndicatorReference"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
-      "additionalProperties": false},
-    "ObservableReference": {
-      "type": "object",
-      "properties": {"uid-ref": {"type": "string"}},
-      "required": ["uid-ref"],
       "additionalProperties": false},
     "IndicatorReference": {
       "type": "object",
