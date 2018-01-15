@@ -235,8 +235,8 @@
                 "09ijk23jfj0k8.example.net",
                 "klknjwfjiowjefr923.example.org",
                 "oimireik79msd.example.org"
-              ],
-            },
+              ]
+            }
           },
           "uid-ref": "xxxxx",
           "IndicatorExpression": {},
