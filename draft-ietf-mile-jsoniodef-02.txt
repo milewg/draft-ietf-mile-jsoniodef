@@ -5,14 +5,14 @@
 MILE                                                        T. Takahashi
 Internet-Draft                                                      NICT
 Intended status: Standards Track                              R. Danyliw
-Expires: July 13, 2018                                              CERT
+Expires: August 9, 2018                                             CERT
                                                                M. Suzuki
                                                                     NICT
-                                                         January 9, 2018
+                                                        February 5, 2018
 
 
                          JSON binding of IODEF
-                      draft-ietf-mile-jsoniodef-01
+                      draft-ietf-mile-jsoniodef-02
 
 Abstract
 
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on July 13, 2018.
+   This Internet-Draft will expire on August 9, 2018.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Takahashi, et al.         Expires July 13, 2018                 [Page 1]
+Takahashi, et al.        Expires August 9, 2018                 [Page 1]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    include Simplified BSD License text as described in Section 4.e of
@@ -64,116 +64,93 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   4
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
      1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   4
    2.  IODEF Data Types  . . . . . . . . . . . . . . . . . . . . . .   4
-     2.1.  Integers  . . . . . . . . . . . . . . . . . . . . . . . .   4
-     2.2.  Real Numbers  . . . . . . . . . . . . . . . . . . . . . .   4
-     2.3.  Characters and Strings  . . . . . . . . . . . . . . . . .   4
-     2.4.  Multilingual Strings  . . . . . . . . . . . . . . . . . .   5
-     2.5.  Binary Strings  . . . . . . . . . . . . . . . . . . . . .   5
-       2.5.1.  Base64 Bytes  . . . . . . . . . . . . . . . . . . . .   5
-       2.5.2.  Hexadecimal Bytes . . . . . . . . . . . . . . . . . .   5
-     2.6.  Enumerated Types  . . . . . . . . . . . . . . . . . . . .   5
-     2.7.  Date-Time String  . . . . . . . . . . . . . . . . . . . .   5
-     2.8.  Timezone String . . . . . . . . . . . . . . . . . . . . .   6
-     2.9.  Port Lists  . . . . . . . . . . . . . . . . . . . . . . .   6
-     2.10. Postal Address  . . . . . . . . . . . . . . . . . . . . .   6
-     2.11. Telephone Number  . . . . . . . . . . . . . . . . . . . .   6
-     2.12. Email String  . . . . . . . . . . . . . . . . . . . . . .   6
-     2.13. Uniform Resource Locator Strings  . . . . . . . . . . . .   6
-     2.14. Identifiers and Identifier References . . . . . . . . . .   7
-     2.15. Software  . . . . . . . . . . . . . . . . . . . . . . . .   7
-     2.16. StructuredInfo  . . . . . . . . . . . . . . . . . . . . .   7
-   3.  The IODEF Information Model in JSON . . . . . . . . . . . . .   8
-     3.1.  IODEF-Document Class  . . . . . . . . . . . . . . . . . .   8
-     3.2.  Incident Class  . . . . . . . . . . . . . . . . . . . . .   8
-     3.3.  Common Attributes . . . . . . . . . . . . . . . . . . . .   9
-       3.3.1.  restriction Attribute . . . . . . . . . . . . . . . .   9
-       3.3.2.  observable-id Attribute . . . . . . . . . . . . . . .   9
-     3.4.  IncidentID Class  . . . . . . . . . . . . . . . . . . . .   9
-     3.5.  AlternativeID Class . . . . . . . . . . . . . . . . . . .  10
-     3.6.  RelatedActivity Class . . . . . . . . . . . . . . . . . .  10
-     3.7.  ThreatActor Class . . . . . . . . . . . . . . . . . . . .  11
-     3.8.  Campaign Class  . . . . . . . . . . . . . . . . . . . . .  11
-     3.9.  Contact Class . . . . . . . . . . . . . . . . . . . . . .  11
-       3.9.1.  RegistryHandle Class  . . . . . . . . . . . . . . . .  12
-       3.9.2.  PostalAddress Class . . . . . . . . . . . . . . . . .  12
-       3.9.3.  Email Class . . . . . . . . . . . . . . . . . . . . .  12
-       3.9.4.  Telephone Class . . . . . . . . . . . . . . . . . . .  13
-     3.10. Discovery Class . . . . . . . . . . . . . . . . . . . . .  13
-       3.10.1.  DetectionPattern Class . . . . . . . . . . . . . . .  14
-     3.11. Method Class  . . . . . . . . . . . . . . . . . . . . . .  14
-       3.11.1.  Reference Class  . . . . . . . . . . . . . . . . . .  15
-     3.12. Assessment Class  . . . . . . . . . . . . . . . . . . . .  15
+     2.1.  Abstract Data Type to JSON Data Type Mapping  . . . . . .   4
+     2.2.  Complex JSON Types  . . . . . . . . . . . . . . . . . . .   5
+       2.2.1.  Multilingual Strings  . . . . . . . . . . . . . . . .   5
+       2.2.2.  Software  . . . . . . . . . . . . . . . . . . . . . .   5
+       2.2.3.  StructuredInfo  . . . . . . . . . . . . . . . . . . .   5
+   3.  IODEF JSON Data Model . . . . . . . . . . . . . . . . . . . .   6
+     3.1.  IODEF-Document Class  . . . . . . . . . . . . . . . . . .   6
+     3.2.  Incident Class  . . . . . . . . . . . . . . . . . . . . .   6
+     3.3.  Common Attributes . . . . . . . . . . . . . . . . . . . .   7
+       3.3.1.  restriction Attribute . . . . . . . . . . . . . . . .   7
+       3.3.2.  observable-id Attribute . . . . . . . . . . . . . . .   7
+     3.4.  IncidentID Class  . . . . . . . . . . . . . . . . . . . .   7
+     3.5.  AlternativeID Class . . . . . . . . . . . . . . . . . . .   8
+     3.6.  RelatedActivity Class . . . . . . . . . . . . . . . . . .   8
+     3.7.  ThreatActor Class . . . . . . . . . . . . . . . . . . . .   9
+     3.8.  Campaign Class  . . . . . . . . . . . . . . . . . . . . .   9
+     3.9.  Contact Class . . . . . . . . . . . . . . . . . . . . . .   9
+       3.9.1.  RegistryHandle Class  . . . . . . . . . . . . . . . .  10
+       3.9.2.  PostalAddress Class . . . . . . . . . . . . . . . . .  10
+       3.9.3.  Email Class . . . . . . . . . . . . . . . . . . . . .  10
+       3.9.4.  Telephone Class . . . . . . . . . . . . . . . . . . .  11
+     3.10. Discovery Class . . . . . . . . . . . . . . . . . . . . .  11
+       3.10.1.  DetectionPattern Class . . . . . . . . . . . . . . .  12
+     3.11. Method Class  . . . . . . . . . . . . . . . . . . . . . .  12
+       3.11.1.  Reference Class  . . . . . . . . . . . . . . . . . .  13
+     3.12. Assessment Class  . . . . . . . . . . . . . . . . . . . .  13
+       3.12.1.  SystemImpact Class . . . . . . . . . . . . . . . . .  13
+       3.12.2.  BusinessImpact Class . . . . . . . . . . . . . . . .  14
+       3.12.3.  TimeImpact Class . . . . . . . . . . . . . . . . . .  14
+       3.12.4.  MonetaryImpact Class . . . . . . . . . . . . . . . .  15
+       3.12.5.  Confidence Class . . . . . . . . . . . . . . . . . .  15
+     3.13. History Class . . . . . . . . . . . . . . . . . . . . . .  15
+       3.13.1.  HistoryItem Class  . . . . . . . . . . . . . . . . .  16
+     3.14. EventData Class . . . . . . . . . . . . . . . . . . . . .  16
+     3.15. Expectation Class . . . . . . . . . . . . . . . . . . . .  17
+     3.16. System Class  . . . . . . . . . . . . . . . . . . . . . .  17
+     3.17. Node Class  . . . . . . . . . . . . . . . . . . . . . . .  18
+       3.17.1.  Address Class  . . . . . . . . . . . . . . . . . . .  18
+       3.17.2.  NodeRole Class . . . . . . . . . . . . . . . . . . .  18
 
 
 
-Takahashi, et al.         Expires July 13, 2018                 [Page 2]
+Takahashi, et al.        Expires August 9, 2018                 [Page 2]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
-       3.12.1.  SystemImpact Class . . . . . . . . . . . . . . . . .  15
-       3.12.2.  BusinessImpact Class . . . . . . . . . . . . . . . .  16
-       3.12.3.  TimeImpact Class . . . . . . . . . . . . . . . . . .  16
-       3.12.4.  MonetaryImpact Class . . . . . . . . . . . . . . . .  17
-       3.12.5.  Confidence Class . . . . . . . . . . . . . . . . . .  17
-     3.13. History Class . . . . . . . . . . . . . . . . . . . . . .  17
-       3.13.1.  HistoryItem Class  . . . . . . . . . . . . . . . . .  18
-     3.14. EventData Class . . . . . . . . . . . . . . . . . . . . .  18
-     3.15. Expectation Class . . . . . . . . . . . . . . . . . . . .  19
-     3.16. System Class  . . . . . . . . . . . . . . . . . . . . . .  19
-     3.17. Node Class  . . . . . . . . . . . . . . . . . . . . . . .  20
-       3.17.1.  Address Class  . . . . . . . . . . . . . . . . . . .  20
-       3.17.2.  NodeRole Class . . . . . . . . . . . . . . . . . . .  20
-       3.17.3.  Counter Class  . . . . . . . . . . . . . . . . . . .  21
-     3.18. DomainData Class  . . . . . . . . . . . . . . . . . . . .  21
-       3.18.1.  Nameserver Class . . . . . . . . . . . . . . . . . .  22
-       3.18.2.  DomainContacts Class . . . . . . . . . . . . . . . .  22
-     3.19. Service Class . . . . . . . . . . . . . . . . . . . . . .  22
-       3.19.1.  ServiceName Class  . . . . . . . . . . . . . . . . .  23
-       3.19.2.  EmailData Class  . . . . . . . . . . . . . . . . . .  23
-       3.19.3.  RecordData Class . . . . . . . . . . . . . . . . . .  24
-       3.19.4.  RecordPattern Class  . . . . . . . . . . . . . . . .  24
-     3.20. WindowsRegistryKeysModified Class . . . . . . . . . . . .  24
-       3.20.1.  Key Class  . . . . . . . . . . . . . . . . . . . . .  25
-     3.21. CertificateData Class . . . . . . . . . . . . . . . . . .  25
-       3.21.1.  Certificate Class  . . . . . . . . . . . . . . . . .  26
-     3.22. FileData Class  . . . . . . . . . . . . . . . . . . . . .  26
-       3.22.1.  File Class . . . . . . . . . . . . . . . . . . . . .  26
-     3.23. HashData Class  . . . . . . . . . . . . . . . . . . . . .  27
-       3.23.1.  Hash Class . . . . . . . . . . . . . . . . . . . . .  27
-       3.23.2.  FuzzyHash Class  . . . . . . . . . . . . . . . . . .  27
-     3.24. Indicator Class . . . . . . . . . . . . . . . . . . . . .  28
-       3.24.1.  IndicatorID Class  . . . . . . . . . . . . . . . . .  29
-       3.24.2.  AlternativeIndicatorID Class . . . . . . . . . . . .  29
-       3.24.3.  Observable Class . . . . . . . . . . . . . . . . . .  29
-       3.24.4.  BulkObservable Class . . . . . . . . . . . . . . . .  30
-       3.24.5.  BulkObservableFormat Class . . . . . . . . . . . . .  30
-       3.24.6.  IndicatorExpression Class  . . . . . . . . . . . . .  31
-       3.24.7.  IndicatorReference Class . . . . . . . . . . . . . .  31
-       3.24.8.  AttackPhase Class  . . . . . . . . . . . . . . . . .  31
-   4.  Notable differences from RFC 7970 . . . . . . . . . . . . . .  32
-   5.  Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .  32
-     5.1.  Minimal Example . . . . . . . . . . . . . . . . . . . . .  33
-     5.2.  Indicators from a Campaign  . . . . . . . . . . . . . . .  33
-   6.  The IODEF Data Model (JSON Schema)  . . . . . . . . . . . . .  35
-   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  54
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  54
-   9.  Security Considerations . . . . . . . . . . . . . . . . . . .  54
-
-
-
-Takahashi, et al.         Expires July 13, 2018                 [Page 3]
-
-Internet-Draft                 JSON-IODEF                   January 2018
-
-
-   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  54
-     10.1.  Normative References . . . . . . . . . . . . . . . . . .  54
-     10.2.  Informative References . . . . . . . . . . . . . . . . .  54
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  55
+       3.17.3.  Counter Class  . . . . . . . . . . . . . . . . . . .  19
+     3.18. DomainData Class  . . . . . . . . . . . . . . . . . . . .  19
+       3.18.1.  Nameserver Class . . . . . . . . . . . . . . . . . .  20
+       3.18.2.  DomainContacts Class . . . . . . . . . . . . . . . .  20
+     3.19. Service Class . . . . . . . . . . . . . . . . . . . . . .  20
+       3.19.1.  ServiceName Class  . . . . . . . . . . . . . . . . .  21
+       3.19.2.  EmailData Class  . . . . . . . . . . . . . . . . . .  21
+       3.19.3.  RecordData Class . . . . . . . . . . . . . . . . . .  22
+       3.19.4.  RecordPattern Class  . . . . . . . . . . . . . . . .  22
+     3.20. WindowsRegistryKeysModified Class . . . . . . . . . . . .  22
+       3.20.1.  Key Class  . . . . . . . . . . . . . . . . . . . . .  23
+     3.21. CertificateData Class . . . . . . . . . . . . . . . . . .  23
+       3.21.1.  Certificate Class  . . . . . . . . . . . . . . . . .  24
+     3.22. FileData Class  . . . . . . . . . . . . . . . . . . . . .  24
+       3.22.1.  File Class . . . . . . . . . . . . . . . . . . . . .  24
+     3.23. HashData Class  . . . . . . . . . . . . . . . . . . . . .  25
+       3.23.1.  Hash Class . . . . . . . . . . . . . . . . . . . . .  25
+       3.23.2.  FuzzyHash Class  . . . . . . . . . . . . . . . . . .  25
+     3.24. Indicator Class . . . . . . . . . . . . . . . . . . . . .  26
+       3.24.1.  IndicatorID Class  . . . . . . . . . . . . . . . . .  27
+       3.24.2.  AlternativeIndicatorID Class . . . . . . . . . . . .  27
+       3.24.3.  Observable Class . . . . . . . . . . . . . . . . . .  27
+       3.24.4.  BulkObservable Class . . . . . . . . . . . . . . . .  28
+       3.24.5.  BulkObservableFormat Class . . . . . . . . . . . . .  28
+       3.24.6.  IndicatorExpression Class  . . . . . . . . . . . . .  29
+       3.24.7.  IndicatorReference Class . . . . . . . . . . . . . .  29
+       3.24.8.  AttackPhase Class  . . . . . . . . . . . . . . . . .  29
+   4.  Notable differences from RFC 7970 . . . . . . . . . . . . . .  30
+   5.  Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .  30
+     5.1.  Minimal Example . . . . . . . . . . . . . . . . . . . . .  31
+     5.2.  Indicators from a Campaign  . . . . . . . . . . . . . . .  31
+   6.  The IODEF Data Model (JSON Schema)  . . . . . . . . . . . . .  33
+   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  52
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  52
+   9.  Security Considerations . . . . . . . . . . . . . . . . . . .  52
+   10. Normative References  . . . . . . . . . . . . . . . . . . . .  52
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  53
 
 1.  Introduction
 
@@ -186,6 +163,13 @@ Internet-Draft                 JSON-IODEF                   January 2018
    Therefore, in this document, we provide a means to represent IODEF
    data model in JSON.
 
+
+
+Takahashi, et al.        Expires August 9, 2018                 [Page 3]
+
+Internet-Draft                 JSON-IODEF                  February 2018
+
+
 1.1.  Requirements Language
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -194,39 +178,57 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 2.  IODEF Data Types
 
-   The IODEF Data Types, defined in RFC 7970 [RFC7970]are used for the
-   JSON IODEF, with some syntax changes for some of the types.
+   IODEF JSON uses the abstract data types specified in Section 2 of RFC
+   7970 [RFC7970].
 
-2.1.  Integers
+2.1.  Abstract Data Type to JSON Data Type Mapping
 
-   An integer is represented in the information model by the INTEGER
-   data type.  Integer data MUST be encoded in Base 10, and is
-   implemented as an "integer" type per JSON schema [jsonschema].
+   JSON IODEF uses native and derived data types.  The following table
+   shows the list of IODEF data types and their mapping to JSON data
+   types.
 
-2.2.  Real Numbers
+ +-----------------+-------------------+-------------------------------+
+ | IODEF Data Type |      [RFC7970]    |       JSON Data Type          |
+ |                 |      Reference    |                               |
+ +-----------------+-------------------+-------------------------------+
+ | INTEGER         | Section 2.1       | "integer" per [jsonschema]    |
+ | REAL            | Section 2.2       | "number" per [jsonschema]     |
+ | CHARACTER       | Section 2.3       | "string" per [jsonschema]     |
+ | STRING          | Section 2.3       | "string" per [jsonschema]     |
+ | ML_STRING       | Section 2.4       | see Section 2.2.1             |
+ | BYTE            | Section 2.5.1     | "string" per [jsonschema]     |
+ | BYTE[]          | Section 2.5.1     | "string" per [jsonschema]     |
+ | HEXBIN          | Section 2.5.2     | "string" per [jsonschema]     |
+ | HEXBIN[]        | Section 2.5.2     | "string" per [jsonschema]     |
+ | ENUM            | Section 2.6       | "enum" array per [jsonschema] |
+ | DATETIME        | Section 2.7       | "string" per [jsonschema]     |
+ | TIMEZONE        | Section 2.8       | "string" per [jsonschema]     |
+ | PORTLIST        | Section 2.9       | "string" per [jsonschema]     |
+ | POSTAL          | Section 2.10      | "string" per [jsonschema]     |
+ | POSTAL_ML       | Section 2.10      | ML_STRING                     |
+ | PHONE           | Section 2.11      | "string" per [jsonschema]     |
+ | EMAIL           | Section 2.12      | "string" per [jsonschema]     |
+ | URL             | Section 2.13      | "string" per [jsonschema]     |
+ | IDREF           | Section 2.14      | "string" per [jsonschema]     |
+ | SOFTWARE        | Section 2.15      | see Section 2.2.2             |
+ | STRUCTURED      | N/A               | see Section 2.2.3             |
+ +-----------------+-------------------+-------------------------------+
 
-   A real (floating-point) number is represented in the information
-   model by the REAL data type.  Real data MUST be encoded in Base 10,
-   and is implemented in the data model as an "number" type per JSON
-   schema [jsonschema].
-
-2.3.  Characters and Strings
-
-   A single character is represented in the information model by the
-   CHARACTER data type.  A string is represented by the STRING data
-   type.  Special characters MUST be encoded using entity references.The
-   CHARACTER and STRING data types are implemented in the data model as
-   an "string" type per JSON schema [jsonschema].
 
 
 
 
-Takahashi, et al.         Expires July 13, 2018                 [Page 4]
+
+
+
+Takahashi, et al.        Expires August 9, 2018                 [Page 4]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
-2.4.  Multilingual Strings
+2.2.  Complex JSON Types
+
+2.2.1.  Multilingual Strings
 
    A string that needs to be represented in a human-readable language
    different than the default encoding of the document is represented in
@@ -240,116 +242,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
      "translation-id": "jp2en0023"                           //STRING
    }
 
-2.5.  Binary Strings
-
-2.5.1.  Base64 Bytes
-
-   A binary octet encoded with base64 is represented in the information
-   model by the BYTE data type.  A sequence of these octets is of the
-   BYTE[] data type.  The BYTE and BYTE[] data types are implemented in
-   the data model as an "string" type per JSON schema [jsonschema].
-
-2.5.2.  Hexadecimal Bytes
-
-   A binary octet encoded as a character tuple consistent of two
-   hexadecimal digits is represented in the information model by the
-   HEXBIN data type.  A sequence of these octets is of the HEXBIN[] data
-   type.  The HEXBIN and HEXBIN[] data types are implemented in the data
-   model as an "string" type per JSON schema [jsonschema].
-
-2.6.  Enumerated Types
-
-   An enumerated type is represented in the information model by the
-   ENUM data type.  It is an ordered list of acceptable string values.
-   Each value has a representative keyword.  The ENUM data type is
-   implemented in the data model as values of an enum array per JSON
-   schema [jsonschema].
-
-2.7.  Date-Time String
-
-   A date-time string that describes a particular instant in time is
-   represented in the information model by the DATETIME data type.
-   Ranges are not supported.  The DATETIME data type is implemented in
-   the data model as an "string" type per JSON schema [jsonschema].
-
-
-
-
-
-
-Takahashi, et al.         Expires July 13, 2018                 [Page 5]
-
-Internet-Draft                 JSON-IODEF                   January 2018
-
-
-2.8.  Timezone String
-
-   A timezone offset from UTC is represented in the information model by
-   the TIMEZONE data type.  It is formatted according to the following
-   regular expression: "Z|[\+\-](0[0-9]|1[0-4]):[0-5][0-9]".  The
-   TIMEZONE data type is implemented in the data model as an "string"
-   type per JSON schema [jsonschema].
-
-2.9.  Port Lists
-
-   A list of network ports is represented in the information model by
-   the PORTLIST data type.  A PORTLIST consists of a comma-separated
-   list of numbers and ranges (N-M means ports N through M, inclusive).
-   It is formatted according to the following regular expression:
-   "\d+(\-\d+)?(,\d+(\-\d+)?)*".  For example,
-   "2,5-15,30,32,40-50,55-60".  The PORTLIST data type is implemented in
-   the data model as an "string" type per JSON schema [jsonschema]
-
-2.10.  Postal Address
-
-   A postal address is represented in the information model by the
-   POSTAL data type.  The format of the POSTAL data type is documented
-   in Section 2.23 of [RFC4519] as a free-form multi-line string
-   separated by the "$" character.  The POSTAL data type is implemented
-   in the data model as the aforementioned ML_STRING type.
-
-2.11.  Telephone Number
-
-   A telephone number is represented in the information model by the
-   PHONE data type.  The format of the PHONE data type is documented in
-   [E.164].  The PHONE data type is implemented in the data model as an
-   "string" type per JSON schema [jsonschema].
-
-2.12.  Email String
-
-   An email address is represented in the information model by the EMAIL
-   data type.  The format of the EMAIL data type is documented in
-   Section 3.4.1 of [RFC5322] and Section 3.3 of [RFC6531].  The EMAIL
-   data type is implemented in the data model as an "string" type per
-   JSON schema [jsonschema].
-
-2.13.  Uniform Resource Locator Strings
-
-   A uniform resource locator (URL) is represented in the information
-   model by the URL data type.  The format of the URL data type is
-   documented in [RFC3986].
-
-
-
-
-
-Takahashi, et al.         Expires July 13, 2018                 [Page 6]
-
-Internet-Draft                 JSON-IODEF                   January 2018
-
-
-   The URL data type is implemented as an "string" type per JSON schema
-   [jsonschema].
-
-2.14.  Identifiers and Identifier References
-
-   An identifier unique to the IODEF document is represented in the
-   information model by the ID data type.  A reference to this
-   identifier is represented by the IDREF data type.  These data types
-   are implemented in the model as an "string" type per JSON schema
-   [jsonschema].
-
-2.15.  Software
+2.2.2.  Software
 
    A particular version of software is represented in the information
    model by the SOFTWARE data type.  This software can be described by
@@ -360,10 +253,10 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
    "SoftwareType": {
      "SoftwareReference": {...},          //SoftwareReference
-     "Description": ["MS Windows"],       //STRING
+     "Description": ["MS Windows"]        //STRING
    }
 
-2.16.  StructuredInfo
+2.2.3.  StructuredInfo
 
    Information provided in a form of structured string, such as ID, or
    structured information, such as XML documents, is represented in the
@@ -375,26 +268,26 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
    "StructuredInformation": {
      "SpecID": "cve",                                          //ENUM
-     "ContentID": "CVE-2007-5000",                           //STRING
+     "ContentID": "CVE-2007-5000"                            //STRING
    }
 
    When embedding the raw data, base64 conversion should be used for
    encoding the data, as shown below.
 
+
+
+
+Takahashi, et al.        Expires August 9, 2018                 [Page 5]
+
+Internet-Draft                 JSON-IODEF                  February 2018
+
+
    "StructuredInformation": {
      "SpecID": "oval",                                         //ENUM
-     "RawData": "<<<strings encoded with base64>>>",           //BYTE
+     "RawData": "<<<strings encoded with base64>>>"            //BYTE
    }
 
-
-
-
-Takahashi, et al.         Expires July 13, 2018                 [Page 7]
-
-Internet-Draft                 JSON-IODEF                   January 2018
-
-
-3.  The IODEF Information Model in JSON
+3.  IODEF JSON Data Model
 
    The data model of IODEF is defined in RFC 7970 [RFC7970], and this
    section illustrates their representations in JSON.  Note that the
@@ -414,7 +307,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
    Example:
 
    "IODEF-Document": {
-     "version": "2.1",                                       //STRING
+     "version": "2.0",                                       //STRING
      "lang": "en",                                             //ENUM
      "format-id": "RFC7970-json",                            //STRING
      "Incident": [ ... ]                                   //Incident
@@ -440,14 +333,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-
-
-
-
-
-Takahashi, et al.         Expires July 13, 2018                 [Page 8]
+Takahashi, et al.        Expires August 9, 2018                 [Page 6]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    "Incident": {
@@ -464,7 +352,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
      "EventData": [ ... ],                                //EventData
      "Indicator": { ... }                                 //Indicator
      "History": { ... },                                    //History
-     "AdditionalData": [ ... ],                      //AdditionalData
+     "AdditionalData": [ ... ]                       //AdditionalData
    }
 
 3.3.  Common Attributes
@@ -501,9 +389,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                 [Page 9]
+Takahashi, et al.        Expires August 9, 2018                 [Page 7]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    Example:
@@ -557,9 +445,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 10]
+Takahashi, et al.        Expires August 9, 2018                 [Page 8]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
 3.7.  ThreatActor Class
@@ -613,9 +501,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 11]
+Takahashi, et al.        Expires August 9, 2018                 [Page 9]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    "Contact": {
@@ -641,7 +529,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
    "RegistryHandle": {
      "handle": "MyAPNIC",                                    //STRING
-     "registry": "apnic",                                      //ENUM
+     "registry": "apnic"                                       //ENUM
    }
 
 3.9.2.  PostalAddress Class
@@ -669,9 +557,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 12]
+Takahashi, et al.        Expires August 9, 2018                [Page 10]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    Class elements:
@@ -725,9 +613,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 13]
+Takahashi, et al.        Expires August 9, 2018                [Page 11]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    "Discovery": {
@@ -781,9 +669,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 14]
+Takahashi, et al.        Expires August 9, 2018                [Page 12]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
 3.11.1.  Reference Class
@@ -799,7 +687,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
    Example:
 
    "Reference":{
-     "URL":"http://www.nict.go.jp"                              //URL
+     "URL":"http://www.example.com"                              //URL
    }
 
 3.12.  Assessment Class
@@ -837,9 +725,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 15]
+Takahashi, et al.        Expires August 9, 2018                [Page 13]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    Class elements:
@@ -893,9 +781,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 16]
+Takahashi, et al.        Expires August 9, 2018                [Page 14]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    "TimeImpact":{
@@ -919,7 +807,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
    "MonetaryImpact":{
      "money": "10000",                                         //REAL
      "severity": "medium",                                     //ENUM
-     "currency": "USD",                                      //STRING
+     "currency": "USD"                                       //STRING
    }
 
 3.12.5.  Confidence Class
@@ -949,9 +837,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 17]
+Takahashi, et al.        Expires August 9, 2018                [Page 15]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    restriction?, ext-restriction?, HistoryItem+
@@ -1005,9 +893,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 18]
+Takahashi, et al.        Expires August 9, 2018                [Page 16]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    "EventData": {
@@ -1032,10 +920,10 @@ Internet-Draft                 JSON-IODEF                   January 2018
    Example:
 
    "Expectation": {
-     "action": "investigate"                                   //ENUM
-     "severity": "medium"                                      //ENUM
+     "action": "investigate",                                  //ENUM
+     "severity": "medium",                                     //ENUM
      "restriction": "need-to-know"                             //ENUM
-   },
+   }
 
 3.16.  System Class
 
@@ -1054,16 +942,16 @@ Internet-Draft                 JSON-IODEF                   January 2018
    "System": {
      "category": "source",                                     //ENUM
      "Node": { ... },                                    //Node class
-     "Service": { ... },                              //Service class
-   },
+     "Service": { ... }                               //Service class
+   }
 
 
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 19]
+Takahashi, et al.        Expires August 9, 2018                [Page 17]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
 3.17.  Node Class
@@ -1097,8 +985,8 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
    "Address": {
      "value": """192.228.139.118",                           //STRING
-     "category": "ipv4-addr",                                  //ENUM
-   },
+     "category": "ipv4-addr"                                   //ENUM
+   }
 
 3.17.2.  NodeRole Class
 
@@ -1117,9 +1005,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 20]
+Takahashi, et al.        Expires August 9, 2018                [Page 18]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    "NodeRole": {
@@ -1173,9 +1061,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 21]
+Takahashi, et al.        Expires August 9, 2018                [Page 19]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
 3.18.1.  Nameserver Class
@@ -1229,9 +1117,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 22]
+Takahashi, et al.        Expires August 9, 2018                [Page 20]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    Example:
@@ -1285,9 +1173,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 23]
+Takahashi, et al.        Expires August 9, 2018                [Page 21]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    Note that Signature element in this class contains base64 encoded
@@ -1341,9 +1229,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 24]
+Takahashi, et al.        Expires August 9, 2018                [Page 22]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    observable-id?, Key+
@@ -1371,7 +1259,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
    "Key": {
      "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",                  //STRING
-     "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",                  //STRING
+     "KeyName":"HKEY_LOCAL_MACHINExxxxxxx"                   //STRING
    }
 
 3.21.  CertificateData Class
@@ -1397,9 +1285,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 25]
+Takahashi, et al.        Expires August 9, 2018                [Page 23]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
 3.21.1.  Certificate Class
@@ -1453,9 +1341,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 26]
+Takahashi, et al.        Expires August 9, 2018                [Page 24]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    "File": {
@@ -1476,13 +1364,13 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
    Example:
 
-   "HashData": {
-     "scope": "file-contents",                                    //ENUM
-     "Hash": {
-       "DigestMethod":"http://www.w3.org/2000/09/xmldsig#sha1", //STRING
-       "DigestValue": "xxxxxxxxxxx"                             //STRING
-     }
-   }
+"HashData": {
+  "scope": "file-contents",                                         //ENUM
+  "Hash": {
+    "DigestMethod":"http://www.example.com/2000/09/xmldsig#sha1", //STRING
+    "DigestValue": "xxxxxxxxxxx"                                  //STRING
+  }
+}
 
 3.23.1.  Hash Class
 
@@ -1495,10 +1383,10 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
    Example:
 
-   "Hash": {
-     "DigestMethod": "http://www.w3.org/2000/09/xmldsig#sha1", //STRING
-     "DigestValue": "xxxxxxxxxxx"                              //STRING
-   }
+"Hash": {
+  "DigestMethod": "http://www.example.com/2000/09/xmldsig#sha1", //STRING
+  "DigestValue": "xxxxxxxxxxx"                                   //STRING
+}
 
 3.23.2.  FuzzyHash Class
 
@@ -1509,9 +1397,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 27]
+Takahashi, et al.        Expires August 9, 2018                [Page 25]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    FuzzyHashValue+, Application?, AdditionalData?
@@ -1565,9 +1453,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 28]
+Takahashi, et al.        Expires August 9, 2018                [Page 26]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
 3.24.1.  IndicatorID Class
@@ -1621,9 +1509,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 29]
+Takahashi, et al.        Expires August 9, 2018                [Page 27]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
    "Observable": {
@@ -1677,17 +1565,17 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 30]
+Takahashi, et al.        Expires August 9, 2018                [Page 28]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
-   "BulkObservableFormat": {
-     "Hash": {
-       "DigestMethod":"http://www.w3.org/2000/09/xmldsig#sha1",//STRING
-       "DigestValue": "xxxxxxxxxxx"                            //STRING
-     }
-   }
+"BulkObservableFormat": {
+  "Hash": {
+    "DigestMethod":"http://www.example.com/2000/09/xmldsig#sha1",//STRING
+    "DigestValue": "xxxxxxxxxxx"                                 //STRING
+  }
+}
 
 3.24.6.  IndicatorExpression Class
 
@@ -1733,9 +1621,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 31]
+Takahashi, et al.        Expires August 9, 2018                [Page 29]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
 "AttackPhase": {
@@ -1789,9 +1677,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 32]
+Takahashi, et al.        Expires August 9, 2018                [Page 30]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
 5.1.  Minimal Example
@@ -1845,9 +1733,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 33]
+Takahashi, et al.        Expires August 9, 2018                [Page 31]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
               "ThreatActorID": "TA-12-AGGRESSIVE-BUTTERFLY",
@@ -1901,9 +1789,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 34]
+Takahashi, et al.        Expires August 9, 2018                [Page 32]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
               "09ijk23jfj0k8.example.net",
@@ -1957,9 +1845,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 35]
+Takahashi, et al.        Expires August 9, 2018                [Page 33]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
         "observable-id": {"$ref": "#/definitions/IDtype"}}},
@@ -2013,9 +1901,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 36]
+Takahashi, et al.        Expires August 9, 2018                [Page 34]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
           "type": "array","items": {"$ref": "#/definitions/RelatedActivity"}},
@@ -2069,9 +1957,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 37]
+Takahashi, et al.        Expires August 9, 2018                [Page 35]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
       "properties": {
@@ -2125,9 +2013,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 38]
+Takahashi, et al.        Expires August 9, 2018                [Page 36]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
         "ContactTitle": {"type": "array", "items": {"type": "string"}},
@@ -2181,9 +2069,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 39]
+Takahashi, et al.        Expires August 9, 2018                [Page 37]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
           "enum":["wired","mobile","fax","hotline","ext-value"]},
@@ -2237,9 +2125,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 40]
+Takahashi, et al.        Expires August 9, 2018                [Page 38]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
           "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
@@ -2293,9 +2181,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 41]
+Takahashi, et al.        Expires August 9, 2018                [Page 39]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
         "type": {
@@ -2349,9 +2237,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 42]
+Takahashi, et al.        Expires August 9, 2018                [Page 40]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
       "additionalProperties": false},
@@ -2405,9 +2293,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 43]
+Takahashi, et al.        Expires August 9, 2018                [Page 41]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
           "type": "array","items": {"$ref": "#/definitions/Contact"}},
@@ -2461,9 +2349,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 44]
+Takahashi, et al.        Expires August 9, 2018                [Page 42]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
         "observable-id": {"$ref": "#/definitions/IDtype"},
@@ -2517,9 +2405,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 45]
+Takahashi, et al.        Expires August 9, 2018                [Page 43]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
                   "streaming","voice","file","ftp","p2p","name","directory",
@@ -2573,9 +2461,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 46]
+Takahashi, et al.        Expires August 9, 2018                [Page 44]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
         "NameServers": {
@@ -2629,9 +2517,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 47]
+Takahashi, et al.        Expires August 9, 2018                [Page 45]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
         "EmailTo": {"type": "array","items": {"type": "string"}},
@@ -2685,9 +2573,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 48]
+Takahashi, et al.        Expires August 9, 2018                [Page 46]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
         "ext-offsetunit": {"type": "string"},
@@ -2741,9 +2629,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 49]
+Takahashi, et al.        Expires August 9, 2018                [Page 47]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
       "required": ["File"],
@@ -2797,9 +2685,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 50]
+Takahashi, et al.        Expires August 9, 2018                [Page 48]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
       "properties": {
@@ -2853,9 +2741,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 51]
+Takahashi, et al.        Expires August 9, 2018                [Page 49]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
         "ext-restriction": {"type": "string"},
@@ -2909,9 +2797,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 52]
+Takahashi, et al.        Expires August 9, 2018                [Page 50]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
       "type": "object",
@@ -2965,9 +2853,9 @@ Internet-Draft                 JSON-IODEF                   January 2018
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 53]
+Takahashi, et al.        Expires August 9, 2018                [Page 51]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
 
                            Figure 1: JSON schema
@@ -2985,9 +2873,7 @@ Internet-Draft                 JSON-IODEF                   January 2018
    This memo does not provide any further security considerations than
    the one described in RFC 7970 [RFC7970].
 
-10.  References
-
-10.1.  Normative References
+10.  Normative References
 
    [jsonschema]
               "JSON Schema", 2006.
@@ -2999,37 +2885,34 @@ Internet-Draft                 JSON-IODEF                   January 2018
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
+   [RFC3896]  Nicklass, O., Ed., "Definitions of Managed Objects for the
+              DS3/E3 Interface Type", RFC 3896, DOI 10.17487/RFC3896,
+              September 2004, <https://www.rfc-editor.org/info/rfc3896>.
+
+   [RFC4519]  Sciberras, A., Ed., "Lightweight Directory Access Protocol
+              (LDAP): Schema for User Applications", RFC 4519,
+              DOI 10.17487/RFC4519, June 2006,
+              <https://www.rfc-editor.org/info/rfc4519>.
+
+   [RFC5322]  Resnick, P., Ed., "Internet Message Format", RFC 5322,
+              DOI 10.17487/RFC5322, October 2008,
+              <https://www.rfc-editor.org/info/rfc5322>.
+
+   [RFC6531]  Yao, J. and W. Mao, "SMTP Extension for Internationalized
+              Email", RFC 6531, DOI 10.17487/RFC6531, February 2012,
+              <https://www.rfc-editor.org/info/rfc6531>.
+
    [RFC7970]  Danyliw, R., "The Incident Object Description Exchange
               Format Version 2", RFC 7970, DOI 10.17487/RFC7970,
               November 2016, <https://www.rfc-editor.org/info/rfc7970>.
 
-10.2.  Informative References
-
-   [DOMINATION]
-              Mad Dominators, Inc., "Ultimate Plan for Taking Over the
-              World", 1984, <http://www.example.com/dominator.html>.
-
-   [RFC2629]  Rose, M., "Writing I-Ds and RFCs using XML", RFC 2629,
-              DOI 10.17487/RFC2629, June 1999,
-              <https://www.rfc-editor.org/info/rfc2629>.
-
-   [RFC3552]  Rescorla, E. and B. Korver, "Guidelines for Writing RFC
-              Text on Security Considerations", BCP 72, RFC 3552,
-              DOI 10.17487/RFC3552, July 2003,
-              <https://www.rfc-editor.org/info/rfc3552>.
 
 
 
-
-Takahashi, et al.         Expires July 13, 2018                [Page 54]
+Takahashi, et al.        Expires August 9, 2018                [Page 52]
 
-Internet-Draft                 JSON-IODEF                   January 2018
+Internet-Draft                 JSON-IODEF                  February 2018
 
-
-   [RFC5226]  Narten, T. and H. Alvestrand, "Guidelines for Writing an
-              IANA Considerations Section in RFCs", RFC 5226,
-              DOI 10.17487/RFC5226, May 2008,
-              <https://www.rfc-editor.org/info/rfc5226>.
 
 Authors' Addresses
 
@@ -3077,4 +2960,9 @@ Authors' Addresses
 
 
 
-Takahashi, et al.         Expires July 13, 2018                [Page 55]
+
+
+
+
+
+Takahashi, et al.        Expires August 9, 2018                [Page 53]
