@@ -254,1167 +254,510 @@
 
 
 <section title="IODEF JSON Data Model">
-<t> The data model of IODEF is defined in <xref target="RFC7970">RFC 7970</xref>, and this section illustrates their representations in JSON. Note that the complete JSON schema is defined in <xref target="jsonSchemaSection"/>.</t>
+
+<section title="Classes and Elements">
+
+<t> The following table shows the list of IODEF Classes, their elements, and the corresponding section in <xref target="RFC7970">RFC 7970</xref>. Note that the complete JSON schema is defined in <xref target="jsonSchemaSection"/>.</t>
 
 
-<section title="IODEF-Document Class">
-<t>This class is the top level class in the IODEF data model. Its class elements and an example are shown below. See Section 3.1 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
 
-<t>Class elements:</t>
-<t>version, lang?, format-id?, private-enum-name?, private-enum-id?, Incident+, AdditionalData*</t>
-
-
-<t>Example:</t>
 <figure align="center"><artwork align="left"><![CDATA[
-"IODEF-Document": {
-  "version": "2.0",                                       //STRING
-  "lang": "en",                                             //ENUM
-  "format-id": "RFC7970-json",                            //STRING
-  "Incident": [ ... ]                                   //Incident
-}
++-----------------------------+--------------------+---------------+
+| IODEF Class                 | Class              | Correspondent |
+|                             | elements           | section       |
+|                             |                    | in [RFC7970]  |
++-----------------------------+--------------------+---------------+
+| IODEF-Document              | version            | 3.1           |
+|                             | lang?              |               |
+|                             | format-id?         |               |
+|                             | private-enum-name? |               |
+|                             | private-enum-id?   |               |
+|                             | Incident+          |               |
+|                             | AdditionalData*    |               |
++-----------------------------+--------------------+---------------+
+| Incident                    | purpose            | 3.2           |
+|                             | ext-purpose?       |               |
+|                             | status?            |               |
+|                             | ext-status?        |               |
+|                             | lang?              |               |
+|                             | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | observable-id?     |               |
+|                             | IncidentID         |               |
+|                             | AlternativeID?     |               |
+|                             | RelatedActivity*   |               |
+|                             | DetectTime?        |               |
+|                             | StartTime?         |               |
+|                             | EndTime?           |               |
+|                             | RecoveryTime?      |               |
+|                             | ReportTime?        |               |
+|                             | GenrationTime?     |               |
+|                             | Description*       |               |
+|                             | Description_ML*    |               |
+|                             | Discovery*         |               |
+|                             | Assessment*        |               |
+|                             | Method*            |               |
+|                             | Contact+           |               |
+|                             | EventData*         |               |
+|                             | Indicator*         |               |
+|                             | History?           |               |
+|                             | AdditionalData*    |               |
++-----------------------------+--------------------+---------------+
+| IncidentID                  | id                 | 3.4           |
+|                             | name               |               |
+|                             | instance?          |               |
+|                             | restriction?       |               |
+|                             | ext-restriction?   |               |
++-----------------------------+--------------------+---------------+
+| AlternativeID               | restriction?       | 3.5           |
+|                             | ext-restriction?   |               |
+|                             | IncidentID+        |               |
++-----------------------------+--------------------+---------------+
+| RelatedActivity             | restriction?       | 3.6           |
+|                             | ext-restriction?   |               |
+|                             | IncidentID*        |               |
+|                             | URL*               |               |
+|                             | ThreatActor*       |               |
+|                             | Campaign*          |               |
+|                             | IndicatorID*       |               |
+|                             | Confidence?        |               |
+|                             | Description*       |               |
+|                             | AdditionalData*    |               |
++-----------------------------+--------------------+---------------+
+| ThreatActor                 | restriction?       | 3.7           |
+|                             | ext-restriction?   |               |
+|                             | ThreatActorID*     |               |
+|                             | URL*               |               |
+|                             | Description*       |               |
+|                             | Description_ML*    |               |
+|                             | AdditionalData*    |               |
++-----------------------------+--------------------+---------------+
+| Campaign                    | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | CampaignID*        |               |
+|                             | URL*               |               |
+|                             | Description*       |               |
+|                             | Description_ML*    |               |
+|                             | AdditionalData*    | 3.8           |
++-----------------------------+--------------------+---------------+
+| Contact                     | role               |               |
+|                             | ext-role?          |               |
+|                             | type               |               |
+|                             | ext-type?          |               |
+|                             | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | ContactName*,ContactName_ML* |     |
+|                             | ContactTitle*      |               |
+|                             | ContactTitle_ML*   |               |
+|                             | Description*       |               |
+|                             | Description_ML*    |               |
+|                             | RegistryHandle*    |               |
+|                             | PostalAddress*     |               |
+|                             | Email*             |               |
+|                             | Telephone*         |               |
+|                             | Timezone?          |               |
+|                             | Contact*           |               |
+|                             | AdditionalData*    | 3.9           |
++-----------------------------+--------------------+---------------+
+| RegistryHandle              | handle|            |               |
+|                             | registry|          |               |
+|                             | ext-registry?      | 3.9.1         |
++-----------------------------+--------------------+---------------+
+| PostalAddress               | type?|             |               |
+|                             | ext-type?|         |               |
+|                             | PAddress|          |               |
+|                             | Description*|      |               |
+|                             | Description_ML*    | 3.9.2         |
++-----------------------------+--------------------+---------------+
+| Email                       | type?              |               |
+|                             | ext-type?          |               |
+|                             | EmailTo            |               |
+|                             | Description*       |               |
+|                             | Description_ML*    | 3.9.3         |
++-----------------------------+--------------------+---------------+
+| Telephone                   | type?              |               |
+|                             | ext-type?          |               |
+|                             | TelephoneNumber    |               |
+|                             | Description*       |               |
+|                             | Description_ML*    | 3.9.4         |
++-----------------------------+--------------------+---------------+
+| Discovery                   | source?            |               |
+|                             | ext-source?        |               |
+|                             | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | Description*       |               |
+|                             | Description_ML*    |               |
+|                             | Contact*           |               |
+|                             | DetectionPattern*  | 3.10          |
++-----------------------------+--------------------+---------------+
+| DetectionPattern            | restriction?       | 3.10.1        |
+|                             | ext-restriction?   |               |
+|                             | observable-id?     |               |
+|                             | Application        |               |
+|                             | Description*       |               |
+|                             | Description_ML*    |               |
+|                             | DetectionConfiguration*  |         |
++-----------------------------+--------------------+---------------+
+| Method                      | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | Reference*         |               |
+|                             | Description*       |               |
+|                             | Description_ML*    |               |
+|                             | AttackPattern*     |               |
+|                             | Vulnerability*     |               |
+|                             | Weakness*          | 3.11          |
++-----------------------------+--------------------+---------------+
+| Reference                   | observable-id?     |               |
+|                             | ReferenceName?     |               |
+|                             | URL*               |               |
+|                             | Description*       |               |
+|                             | Description_ML*    | 3.11.1        |
++-----------------------------+--------------------+---------------+
+| Assessment                  | occurence?         |               |
+|                             | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | observable-id?     |               |
+|                             | IncidentCategory*  |               |
+|                             | SystemImpact*      |               |
+|                             | BusinessImpact*    |               |
+|                             | TimeImpact*        |               |
+|                             | MonetaryImpact*    |               |
+|                             | IntendedImpact*    |               |
+|                             | Counter*           |               |
+|                             | MitigationFactor*  |               |
+|                             | MitigationFactor_ML*|              |
+|                             | Cause*             |               |
+|                             | Cause_ML*          |               |
+|                             | Confidence?        |               |
+|                             | AdditionalData*    | 3.12          |
++-----------------------------+--------------------+---------------+
+| SystemImpact                | severity?          |               |
+|                             | completion?        |               |
+|                             | type               |               |
+|                             | ext-type?          |               |
+|                             | Description*       |               |
+|                             | Description_ML*    | 3.12.1        |
++-----------------------------+--------------------+---------------+
+| BusinessImpact              | severity?          |               |
+|                             | ext-severity?      |               |
+|                             | type               |               |
+|                             | ext-type?          |               |
+|                             | Description*       |               |
+|                             | Description_ML*    | 3.12.2        |
++-----------------------------+--------------------+---------------+
+| TimeImpact                  | value              |               |
+|                             | severity?          |               |
+|                             | metric             |               |
+|                             | ext-metric?        |               |
+|                             | duration?          |               |
+|                             | ext-duration?      | 3.12.3        |
++-----------------------------+--------------------+---------------+
+| MonetaryImpact              | value              |               |
+|                             | severity?          |               |
+|                             | currency?          | 3.12.4        |
++-----------------------------+--------------------+---------------+
+| Confidence                  | value              |               |
+|                             | rating             |               |
+|                             | ext-rating?        | 3.12.5        |
++-----------------------------+--------------------+---------------+
+| History                     | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | HistoryItem+       | 3.13          |
++-----------------------------+--------------------+---------------+
+| HistoryItem                 | action             |               |
+|                             | ext-action?        |               |
+|                             | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | observable-id?     |               |
+|                             | DateTime           |               |
+|                             | IncidentID?        |               |
+|                             | Contact?           |               |
+|                             | Description*       |               |
+|                             | Description_ML*    |               |
+|                             | DefinedCOA*        |               |
+|                             | AdditionalData*    | 3.13.1        |
++-----------------------------+--------------------+---------------+
+| EventData                   | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | observable-id?     |               |
+|                             | Description*       |               |
+|                             | Description_ML*    |               |
+|                             | DetectTime?        |               |
+|                             | StartTime?         |               |
+|                             | EndTime?           |               |
+|                             | RecoveryTime?      |               |
+|                             | ReportTime?        |               |
+|                             | Contact*           |               |
+|                             | Discovery*         |               |
+|                             | Assessment?        |               |
+|                             | Method*            |               |
+|                             | Expectation*       |               |
+|                             | RecordData*        |               |
+|                             | EventData*         |               |
+|                             | AdditionalData*    | 3.14          |
++-----------------------------+--------------------+---------------+
+| Expectation                 | action?            |               |
+|                             | ext-action?        |               |
+|                             | severity?          |               |
+|                             | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | Description*       |               |
+|                             | Description_ML*    |               |
+|                             | DefinedCOA*        |               |
+|                             | StartTime?         |               |
+|                             | EndTime?           |               |
+|                             | Contact?           | 3.15          |
++-----------------------------+--------------------+---------------+
+| System                      | category?          |               |
+|                             | ext-category?      |               |
+|                             | interface?         |               |
+|                             | spoofed?           |               |
+|                             | virtual?           |               |
+|                             | ownership?         |               |
+|                             | ext-ownership?     |               |
+|                             | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | Node               |               |
+|                             | NodeRole*          |               |
+|                             | Service*           |               |
+|                             | OperatingSystem*   |               |
+|                             | Counter*           |               |
+|                             | AssetID*           |               |
+|                             | Description*       |               |
+|                             | Description_ML*    |               |
+|                             | AdditionalData*    | 3.16          |
++-----------------------------+--------------------+---------------+
+| Node                        | DomainData*        |               |
+|                             | Address*           |               |
+|                             | PostalAddress?     |               |
+|                             | Location*          |               |
+|                             | Location_ML*       |               |
+|                             | Counter*           | 3.17          |
++-----------------------------+--------------------+---------------+
+| Address                     | value              |               |
+|                             | category           |               |
+|                             | ext-category?      |               |
+|                             | vlan-name?         |               |
+|                             | vlan-num?          |               |
+|                             | observable-id?     | 3.17.1        |
++-----------------------------+--------------------+---------------+
+| NodeRole                    | category           |               |
+|                             | ext-category?      |               |
+|                             | Description*       |               |
+|                             | Description_ML*    | 3.17.2        |
++-----------------------------+--------------------+---------------+
+| Counter                     | value              |               |
+|                             | type               |               |
+|                             | ext-type?          |               |
+|                             | unit               |               |
+|                             | ext-unit?          |               |
+|                             | meaning?           |               |
+|                             | meaning_ML?        |               |
+|                             | duration?          |               |
+|                             | ext-duration?      | 3.17.3        |
++-----------------------------+--------------------+---------------+
+| DomainData                  | system-status      |               |
+|                             | ext-system-status? |               |
+|                             | domain-status      |               |
+|                             | ext-domain-status? |               |
+|                             | observable-id?     |               |
+|                             | Name               |               |
+|                             | DateDomainWasChecked?|             |
+|                             | RegistrationDate?  |               |
+|                             | ExpirationDate    ?|               |
+|                             | RelatedDNS*        |               |
+|                             | Nameservers*       |               |
+|                             | DomainContacts?    | 3.18          |
++-----------------------------+--------------------+---------------+
+| Nameserver                  | Server             |               |
+|                             | Address*           | 3.18.1        |
++-----------------------------+--------------------+---------------+
+| DomainContacts              | SameDomainContact? |               |
+|                             | Contact+           | 3.18.2        |
++-----------------------------+--------------------+---------------+
+| Service                     | ip-protocol?       |               |
+|                             | observable-id?     |               |
+|                             | ServiceName?       |               |
+|                             | Port?              |               |
+|                             | Portlist?          |               |
+|                             | ProtoCode?         |               |
+|                             | ProtoType?         |               |
+|                             | ProtoField?        |               |
+|                             | ApplicationHeaderField+|           |
+|                             | EmailData?         |               |
+|                             | Application?       | 3.19          |
++-----------------------------+--------------------+---------------+
+| ServiceName                 | IANAService?       |               |
+|                             | URL*               |               |
+|                             | Description*       |               |
+|                             | Description_ML*    | 3.19.1        |
++-----------------------------+--------------------+---------------+
+| EmailData                   | observable-id?     |               |
+|                             | EmailTo*           |               |
+|                             | EmailFrom?         |               |
+|                             | EmailSubject?      |               |
+|                             | EmailX-Mailer?     |               |
+|                             | EmailHeaderField*  |               |
+|                             | EmailHeaders?      |               |
+|                             | EmailBody?         |               |
+|                             | EmailMessage?      |               |
+|                             | HashData*          |               |
+|                             | Signature*         | 3.19.2        |
++-----------------------------+--------------------+---------------+
+| RecordData                  | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | observable-id?     |               |
+|                             | DateTime?          |               |
+|                             | Description*       |               |
+|                             | Description_ML*    |               |
+|                             | Application?       |               |
+|                             | RecordPattern*     |               |
+|                             | RecordItem*        |               |
+|                             | URL*               |               |
+|                             | FileData*          |               |
+|                             | WindowsRegistryKeysModified*|      |
+|                             | CertificateData*   |               |
+|                             | AdditionalData*    | 3.19.3        |
++-----------------------------+--------------------+---------------+
+| RecordPattern               | type               |               |
+|                             | ext-type?          |               |
+|                             | offset?            |               |
+|                             | offsetunit?        |               |
+|                             | ext-offsetunit?    |               |
+|                             | instance?          |               |
+|                             | value              | 3.19.4        |
++-----------------------------+--------------------+---------------+
+| WindowsRegistryKeysModified | observable-id?     | 3.20          |
+|                             | Key+               |               |
++-----------------------------+--------------------+---------------+
+| Key                         | registryaction?    |               |
+|                             | ext-registryaction?|               |
+|                             | observable-id?     |               |
+|                             | KeyName            |               |
+|                             | KeyValue?          | 3.20.1        |
++-----------------------------+--------------------+---------------+
+| CertificateData             | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | observable-id?     |               |
+|                             | Certificate+       | 3.21          |
++-----------------------------+--------------------+---------------+
+| Certificate                 | observable-id?     |               |
+|                             | X509Data           |               |
+|                             | Description*       |               |
+|                             | Description_ML*    | 3.21.1        |
++-----------------------------+--------------------+---------------+
+| FileData                    | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | observable-id?     |               |
+|                             | File+              | 3.22          |
++-----------------------------+--------------------+---------------+
+| File                        | observable-id?     |               |
+|                             | FileName?          |               |
+|                             | FileSize?          |               |
+|                             | FileType?          |               |
+|                             | URL*               |               |
+|                             | HashData?          |               |
+|                             | Signature*         |               |
+|                             | AssociatedSoftware?|               |
+|                             | FileProperties*    | 3.22.1        |
++-----------------------------+--------------------+---------------+
+| HashData                    | scope              |               |
+|                             | HashTargetID?      |               |
+|                             | Hash*              |               |
+|                             | FuzzyHash*         | 3.23          |
++-----------------------------+--------------------+---------------+
+| Hash                        | DigestMethod       |               |
+|                             | DigestValue        |               |
+|                             | CanonicalizationMethod?|           |
+|                             | Application?       | 3.23.1        |
++-----------------------------+--------------------+---------------+
+| FuzzyHash                   | FuzzyHashValue+    |               |
+|                             | Application?       |               |
+|                             | AdditionalData?    | 3.23.2        |
++-----------------------------+--------------------+---------------+
+| Indicator                   | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | IndicatorID        |               |
+|                             | AlternativeIndicatorID*|           |
+|                             | Description*       |               |
+|                             | Description_ML*    |               |
+|                             | StartTime?         |               |
+|                             | EndTime?           |               |
+|                             | Confidence?        |               |
+|                             | Contact*           |               |
+|                             | Observable?        |               |
+|                             | uid-ref?           |               |
+|                             | IndicatorExpression?|              |
+|                             | IndicatorReference?|               |
+|                             | NodeRole*          |               |
+|                             | AttackPhase*       |               |
+|                             | Reference*         |               |
+|                             | AdditionalData*    | 3.24          |
++-----------------------------+--------------------+---------------+
+| IndicatorID                 | id                 |               |
+|                             | name               |               |
+|                             | version            | 3.24.1        |
++-----------------------------+--------------------+---------------+
+| AlternativeIndicatorID      | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | IndicatorReference+| 3.24.2        |
++-----------------------------+--------------------+---------------+
+| Observable                  | restriction?       |               |
+|                             | ext-restriction?   |               |
+|                             | System?            |               |
+|                             | Address?           |               |
+|                             | DomainData?        |               |
+|                             | Service?           |               |
+|                             | EmailData?         |               |
+|                             | WindowsRegistryKeysModified?|      |
+|                             | FileData?          |               |
+|                             | CertificateData?   |               |
+|                             | RegistryHandle?    |               |
+|                             | RecordData?        |               |
+|                             | EventData?         |               |
+|                             | Incident?          |               |
+|                             | Expectation?       |               |
+|                             | Reference?         |               |
+|                             | Assessment?        |               |
+|                             | DetectionPattern?  |               |
+|                             | HistoryItem?       |               |
+|                             | BulkObservable?    |               |
+|                             | AdditionalData*    | 3.24.3        |
++-----------------------------+--------------------+---------------+
+| BulkObservable              | type?              |               |
+|                             | ext-type?          |               |
+|                             | BulkObservableFormat?|             |
+|                             | BulkObservableList |               |
+|                             | AdditionalData*    | 3.24.4        |
++-----------------------------+--------------------+---------------+
+| BulkObservableFormat        | Hash?              |               |
+|                             | AdditionalData*    | 3.24.5        |
++-----------------------------+--------------------+---------------+
+| IndicatorExpression         | operator?          |               |
+|                             | ext-operator?      |               |
+|                             | IndicatorExpression*|              |
+|                             | Observable*        |               |
+|                             | uid-ref*           |               |
+|                             | IndicatorReference*|               |
+|                             | Confidence?        |               |
+|                             | AdditionalData*    | 3.24.6        |
++-----------------------------+--------------------+---------------+
+| IndicatorReference          | uid-ref?           |               |
+|                             | euid-ref?          |               |
+|                             | version?           | 3.24.7        |
++-----------------------------+--------------------+---------------+
+| AttackPhase                 | AttackPhaseID*     |               |
+|                             | URL*               |               |
+|                             | Description*       |               |
+|                             | Description_ML*    |               |
+|                             | AdditionalData*    | 3.24.8        |
++-----------------------------+--------------------+---------------+
 ]]></artwork></figure>
 
 </section>
 
 
-<section title="Incident Class">
-
-<t>The Incident class describes commonly exchanged information when reporting or sharing derived analysis from security incidents.
-Its class elements and an example are shown below. See Section 3.2 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>purpose, ext-purpose?, status?, ext-status?, lang?, restriction?, ext-restriction?, observable-id?, IncidentID, AlternativeID?, RelatedActivity*, DetectTime?, StartTime?, EndTime?, RecoveryTime?, ReportTime?, GenrationTime?, Description*, Description_ML*, Discovery*, Assessment*, Method*, Contact+, EventData*, Indicator*, History?, AdditionalData*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Incident": {
-  "purpose": "reporting",                                   //ENUM
-  "lang": "en",                                           //STRING
-  "restriction": "green",                                   //ENUM
-  "IncidentID": { ... },                        //IncidentID Class
-  "RelatedActivity": [ ... ],              //RelatedActivity Class
-  "GenerationTime": "2015-10-02T11:18:00-05:00",        //DateTime
-  "Description": ["Incident in the HQ"],                  //STRING
-  "Assessment": [ ... ],                              //Assessment
-  "Method": [ ... ],                                      //Method
-  "Contact": [ ... ]                                     //Contact
-  "EventData": [ ... ],                                //EventData
-  "Indicator": { ... }                                 //Indicator
-  "History": { ... },                                    //History
-  "AdditionalData": [ ... ]                       //AdditionalData
-}
-]]></artwork></figure>
-
-
-</section>
-
-<section title="Common Attributes">
-
-<t>There are a number of recurring attributes used in the information model.  They are documented in this section.</t>
-
-
-<section title="restriction Attribute">
-
-<t><xref target="RFC7970">RFC 7970</xref> defines the restriction Attribute as one of common attributes. It is defined as below:</t>
-
-<figure align="center"><artwork align="left"><![CDATA[
-"restriction":{"enum": ["public", "partner", "need-to-know", "private",
-              "default", "white", "green", "amber", "red", "ext-value"]}
-]]></artwork></figure>
-
-
-<t>Note that you must use "ext-restriction" field (STRING type) when the value of "restriction" field is set to "ext-value".</t>
-
-</section>
-
-<section title="observable-id Attribute">
-
-<t><xref target="RFC7970">RFC 7970</xref> defines the observable-id attribute as one of common attributes.
-The value of this attribute is a unique identifier, in string type, in the scope of the document.It is defined as below:</t>
-
-
-</section>
-
-</section>
-
-
-<section title="IncidentID Class">
-
-<t>The class elements and an example are shown below. See Section 3.4 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-
-<t>Class elements:</t>
-<t>id, name, instance?, restriction?, ext-restriction?</t>
-
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"IncidentID": {
-  "id": "nict20150518-0001",                             // STRING
-  "name": "NICT_cert",                                   // STRING
-  "instance": "cyberlab"                                 // STRING
-  "restriction": "ext-value"                               // ENUM
-  "ext-restriction": "registration required"             // STRING
-}
-]]></artwork></figure>
-
-
-</section>
-
-<section title="AlternativeID Class">
-
-<t>The class elements and an example are shown below. See Section 3.5 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-<t>Class elements:</t>
-<t>restriction?, ext-restriction?, IncidentID+</t>
-
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"AltervativeID": {
-  "restriction": "private",                                 //ENUM
-  "IncidentID": [<<<omitted>>>]                       //IncidentID
-}
-]]></artwork></figure>
-
-
-</section>
-
-
-<section title="RelatedActivity Class">
-
-<t>The class elements and an example are shown below. See Section 3.6 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-<t>Class elements:</t>
-<t>restriction?, ext-restriction?, IncidentID*, URL*, ThreatActor*, Campaign*, IndicatorID*, Confidence?, Description*, AdditionalData*</t>
-
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"RelatedActivity": {
-  "restriction": "private",                                 //ENUM
-  "ThreatActor": [{...}],                      //ThreatActor class
-  "Campaign": [{...}]                             //Campaign class
-}
-]]></artwork></figure>
-
-</section>
-
-
-
-<section title="ThreatActor Class">
-
-<t>The class elements and an example are shown below. See Section 3.7 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-<t>Class elements:</t>
-<t>restriction?, ext-restriction?, ThreatActorID*, URL*, Description*, Description_ML*, AdditionalData*</t>
-
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"ThreatActor": {
-  "ThreatActorID": "TA-12-AGGRESSIVE-BUTTERFLY",          //STRING
-  "Description": ["Aggressive Butterfly"]                 //STRING
-}
-]]></artwork></figure>
-
-</section>
-
-
-<section title="Campaign Class">
-
-<t>The class elements and an example are shown below. See Section 3.8 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-<t>Class elements:</t>
-<t>restriction?, ext-restriction?, CampaignID*, URL*, Description*, Description_ML*, AdditionalData*</t>
-
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Campaign": {
-  "CampaignID": "C-2015-59405",                           //STRING
-  "Description": ["Orange Giraffe"]                       //STRING
-}
-]]></artwork></figure>
-
-
-</section>
-
-<section title="Contact Class">
-
-<t>The class elements and an example are shown below. See Section 3.9 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-<t>Class elements:</t>
-<t>role, ext-role?, type, ext-type?, restriction?, ext-restriction?, ContactName*,ContactName_ML*, ContactTitle*, ContactTitle_ML*, Description*, Description_ML*, RegistryHandle*, PostalAddress*, Email*, Telephone*, Timezone?, Contact*, AdditionalData*</t>
-
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Contact": {
-  "role": "creator",                                        //ENUM
-  "type": "organization",                                   //ENUM
-  "ContactName": {"value":"CSIRT for example.com"},       //STRING
-  "ContactTitle": {"value":"Senior Research Engineer"}    //STRING
-  "email": {...},                                    //Email Class
-  "Telephone": {...},                            //Telephone Class
-  "Timezone": "+09:00"                                  //TIMEZONE
-}
-]]></artwork></figure>
-
-
-
-
-<section title="RegistryHandle Class">
-
-<t>The class elements and an example are shown below. See Section 3.9.1 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>handle, registry, ext-registry?</t>
-
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"RegistryHandle": {
-  "handle": "MyAPNIC",                                    //STRING
-  "registry": "apnic"                                       //ENUM
-}
-]]></artwork></figure>
-
-</section>
-
-
-<section title="PostalAddress Class">
-
-<t>The class elements and an example are shown below. See Section 3.9.2 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>type?, ext-type?, PAddress, Description*, Description_ML*</t>
-
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"PostalAddress": {
-  "type": "mailing",                                        //ENUM
-  "PAddress": "1-2-3 Kitamachi Koganei Tokyo, Japan",     //POSTAL
-  "Description": ["Office address"]                       //STRING
-},
-]]></artwork></figure>
-</section>
-
-
-<section title="Email Class">
-
-<t>The class elements and an example are shown below. See Section 3.9.3 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>type?, ext-type?, EmailTo, Description*, Description_ML*</t>
-
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Email": {
-  "type": "direct",                                         //ENUM
-  "emailTo": "contact@csirt.example.com",                  //EMAIL
-  "Description": ["Administrator's address"]              //STRING
-},
-]]></artwork></figure>
-</section>
-
-<section title="Telephone Class">
-
-<t>The class elements and an example are shown below. See Section 3.9.4 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>type?, ext-type?, TelephoneNumber, Description*, Description_ML*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Telephone": {
-  "type": "wired",                                          //ENUM
-  "TelephoneNumber": "+818012345678",                      //PHONE
-  "Description": ["Admin's moble"]                        //STRING
-},
-]]></artwork></figure>
-</section>
-
-</section>
-
-<section title="Discovery Class">
-
-<t>The class elements and an example are shown below. See Section 3.10 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>source?, ext-source?, restriction?, ext-restriction?, Description*, Description_ML*, Contact*, DetectionPattern*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Discovery": {
-  "source": "nidps",                                        //ENUM
-  "restriction": "need-to-know"                             //ENUM
-  "Contact": {...},                                //Contact class
-  "DetectionPattern": {...},              //DetectionPattern class
-  "Description":["IDS provided an alert"]                 //STRING
-  }
-}
-]]></artwork></figure>
-
-
-<section title="DetectionPattern Class">
-
-<t>The class elements and an example are shown below. See Section 3.10.1 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>restriction?, ext-restriction?, observable-id?, Application, Description*, Description_ML*, DetectionConfiguration*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"DetectionPattern": {
-  "Application": {...},                                 //SOFTWARE
-  "Description": ["The specified application
-                  needs to be reviewed"],                 //STRING
-  }
-}
-]]></artwork>
-     </figure>
-</section>
-
-</section>
-
-<section title="Method Class">
-
-<t>The class elements and an example are shown below. See Section 3.11 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>restriction?, ext-restriction?, Reference*, Description*, Description_ML*, AttackPattern*, Vulnerability*, Weakness*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Method": {
-  "AttackPattern": {...}                          //StructuredInfo
-  "Vulnerability": {...}                          //StructuredInfo
-}
-]]></artwork></figure>
-
-
-
-<section title="Reference Class">
-
-<t>The class elements and an example are shown below. See Section 3.11.1 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>observable-id?, ReferenceName?, URL*, Description*, Description_ML*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Reference":{
-  "URL":"http://www.example.com"                              //URL
-}
-]]></artwork></figure>
-</section>
-
-</section>
-
-<section title="Assessment Class">
-<t>The class elements and an example are shown below. See Section 3.12 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>occurence?, restriction?, ext-restriction?, observable-id?, IncidentCategory*, SystemImpact*, BusinessImpact*, TimeImpact*, MonetaryImpact*, IntendedImpact*, Counter*, MitigationFactor*, MitigationFactor_ML*, Cause*, Cause_ML*, Confidence?, AdditionalData*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Assessment": {
-  "SystemImpact": {...},                      //SystemImpact class
-  "BusinessImpact": {...},                  //BusinessImpact class
-  "TimeImpact": {...},                          //TimeImpact class
-  "MonetaryImpact": {...},                  //MonetaryImpact class
-  "IntendedImpact": {...},                  //IntendedImpact class
-  "Counter": "5",                                  //Counter class
-  "MitigationFactor": ["Rebooting is required"]           //STRING
-  "Cause": ["Malware Infection"]                          //STRING
-  }
-}
-]]></artwork>
-     </figure>
-
-<section title="SystemImpact Class">
-<t>The class elements and an example are shown below. See Section 3.12.1 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>severity?, completion?, type, ext-type?, Description*, Description_ML*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"SystemImpact":{
-  "severity":"high",                                        //ENUM
-  "completion": "successful"                                //ENUM
-  "type":"integrity-data"                                   //ENUM
-  "Description": ["The web page was falsified"]             //STRING
-},
-]]></artwork></figure>
-</section>
-
-<section title="BusinessImpact Class">
-
-<t>The class elements and an example are shown below. See Section 3.12.2 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>severity?, ext-severity?, type, ext-type?, Description*, Description_ML*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"BusinessImpact": {
-  "severity":"medium",                                      //ENUM
-  "completion": "successful"                                //ENUM
-  "type": "degraded-reputation"                             //ENUM
-  "Description": ["The web page was falsified"]             //STRING
-}
-]]></artwork></figure>
-</section>
-
-<section title="TimeImpact Class">
-<t>The class elements and an example are shown below. See Section 3.12.3 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>value, severity?, metric, ext-metric?, duration?, ext-duration?</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"TimeImpact":{
-  "time": "240"                                             //REAL
-  "metric": "elapsed"                                       //ENUM
-  "duration": "minutes"                                     //ENUM
-}
-]]></artwork></figure>
-</section>
-
-<section title="MonetaryImpact Class">
-
-<t>The class elements and an example are shown below. See Section 3.12.4 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>value, severity?, currency?</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"MonetaryImpact":{
-  "money": "10000",                                         //REAL
-  "severity": "medium",                                     //ENUM
-  "currency": "USD"                                       //STRING
-}
-]]></artwork></figure>
-</section>
-
-<section title="Confidence Class">
-<t>The class elements and an example are shown below. See Section 3.12.5 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>value, rating, ext-rating?</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Confidence": {
-  "value": "5"                                              //REAL
-  "rating": "medium"                                        //ENUM
-}
-]]></artwork></figure>
-</section>
-
-
-</section>
-
-<section title="History Class">
-
-<t>The class elements and an example are shown below. See Section 3.13 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>restriction?, ext-restriction?, HistoryItem+</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"History": {
-  "restriction": "need-to-know"                             //ENUM
-  "HistoryItem": { ... }                       //HistoryItem class
-},
-]]></artwork></figure>
-
-<section title="HistoryItem Class">
-
-<t>The class elements and an example are shown below. See Section 3.13.1 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>action, ext-action?, restriction?, ext-restriction?, observable-id?, DateTime, IncidentID?, Contact?, Description*, Description_ML*, DefinedCOA*, AdditionalData*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"HistoryItem": {
-  "action": "investigate"                                   //ENUM
-  "restriction": "need-to-know"                             //ENUM
-  "DateTime": "2015-10-15T11:18:00-05:00",              //DateTime
-  "IncidentID" { ...},                          //IncidentID class
-}
-]]></artwork></figure>
-</section>
-
-</section>
-
-<section title="EventData Class">
-<t>The class elements and an example are shown below. See Section 3.14 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>restriction?, ext-restriction?, observable-id?, Description*, Description_ML*, DetectTime?, StartTime?, EndTime?, RecoveryTime?, ReportTime?, Contact*, Discovery*, Assessment?, Method*, Expectation*, RecordData*, EventData*, AdditionalData*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"EventData": {
-  "ReportTime": "2016-06-01 18:05:33",
-  "Contact": { ...},                               //Contact class
-  "Assessment": { ...},                         //Assessment class
-  "Method": { ...},                                 //Method class
-  "System": { ... },                                //System class
-  "Expectation": { ...},                       //Expectation class
-]]></artwork></figure>
-</section>
-
-<section title="Expectation Class">
-<t>The class elements and an example are shown below. See Section 3.15 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>action?, ext-action?, severity?, restriction?, ext-restriction?, Description*, Description_ML*, DefinedCOA*, StartTime?, EndTime?, Contact?</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Expectation": {
-  "action": "investigate",                                  //ENUM
-  "severity": "medium",                                     //ENUM
-  "restriction": "need-to-know"                             //ENUM
-}
-]]></artwork></figure>
-
-</section>
-
-<section title="System Class">
-<t>The class elements and an example are shown below. See Section 3.17 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>category?, ext-category?, interface?, spoofed?, virtual?, ownership?, ext-ownership?, restriction?, ext-restriction?, Node, NodeRole*, Service*, OperatingSystem*, Counter*, AssetID*, Description*, Description_ML*, AdditionalData*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"System": {
-  "category": "source",                                     //ENUM
-  "Node": { ... },                                    //Node class
-  "Service": { ... }                               //Service class
-}]]></artwork></figure>
-</section>
-
-
-<section title="Node Class">
-<t>The class elements and an example are shown below. See Section 3.18 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>DomainData*, Address*, PostalAddress?, Location*, Location_ML*, Counter*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Node": {
-  "Address": { ... },                              //Address class
-  "Location": ["OrgID=7"]                                 //STRING
-}
-]]></artwork></figure>
-
-<section title="Address Class">
-<t>The class elements and an example are shown below. See Section 3.18.1 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>value, category, ext-category?, vlan-name?, vlan-num?, observable-id?</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Address": {
-  "value": """192.228.139.118",                           //STRING
-  "category": "ipv4-addr"                                   //ENUM
-}
-]]></artwork>
-</figure></section>
-
-<section title="NodeRole Class">
-<t>The class elements and an example are shown below. See Section 3.18.2 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>category, ext-category?, Description*, Description_ML*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"NodeRole": {
-  "category": "client"                                      //ENUM
-  "Description": ["The computer at room A"]                 //STRING
-},
-]]></artwork></figure>
-</section>
-
-<section title="Counter Class">
-<t>The class elements and an example are shown below. See Section 3.18.3 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>value, type, ext-type?, unit, ext-unit?, meaning?, meaning_ML?, duration?, ext-duration?</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Counter": {
-  "value": "3",                                             //REAL
-  "type": "count",                                          //ENUM
-  "unit": "packet",                                         //ENUM
-  "meaning": "The number of scan packets are counted"     //STRING
-}
-]]></artwork></figure>
-</section>
-
-</section>
-
-<section title="DomainData Class">
-<t>The class elements and an example are shown below. See Section 3.19 of <xref target="RFC7970">RFC 7970</xref> for the intended meanings of these elements.</t>
-
-<t>Class elements:</t>
-<t>system-status, ext-system-status?, domain-status, ext-domain-status?, observable-id?, Name, DateDomainWasChecked?, RegistrationDate?, ExpirationDate?, RelatedDNS*, Nameservers*, DomainContacts?</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"DomainData": {
-  "system-status": "innocent-hacked",                       //ENUM
-  "domain-status": "assignedAndInactive",                 //STRING
-  "Name": "temp1.nict.go.jp"                              //STRING
-},
-]]></artwork></figure>
-
-<section title="Nameserver Class">
-<t>
-   This class is defined in Section 3.19.1 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-
-<t>Class elements:</t>
-<t>Server, Address*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"NameServers": {
-  "Server": "vgw.nict.go.jp",                             //STRING
-  "Address": {
-    "AddressValue": "133.243.18.5",                       //STRING
-    "category": "ipv4-addr"                                 //ENUM
-  }
-}
-]]></artwork></figure>
-
-</section>
-
-<section title="DomainContacts Class">
-<t>
-   This class is defined in Section 3.19.2 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-
-<t>Class elements:</t>
-<t>SameDomainContact?, Contact+</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"DomainContacts": {
-  "Contact": {
-    "role": "user",                                         //ENUM
-    "type": "organization"                                  //ENUM
-  }
-}
-]]></artwork></figure>
-</section>
-
-</section>
-
-<section title="Service Class">
-<t>
-   This class is defined in Section 3.20 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-
-<t>Class elements:</t>
-<t>ip-protocol?, observable-id?, ServiceName?, Port?, Portlist?, ProtoCode?, ProtoType?, ProtoField?, ApplicationHeaderField+, EmailData?, Application?</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Service": {
-  "ServiceName": {
-    "Description": ["It seems to be a scan from an infected machine."]
-  },
-  "ip-protocol": 6,                                      //INTEGER
-  "Port": 49183                                          //INTEGER
-}
-]]></artwork></figure>
-
-<section title="ServiceName Class">
-<t>
-   This class is defined in Section 3.20.1 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-
-<t>Class elements:</t>
-<t>IANAService?, URL*, Description*, Description_ML*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"ServiceName": {
-  "IANAService": "telnet"                                 //STRING
-  "URL": "https://en.wikipedia.org/wiki/Telnet"           //STRING
-  "Description":["It is a scan from an infected machine."]//STRING
-},
-]]></artwork></figure>
-</section>
-
-<section title="EmailData Class">
-<t>
-   This class is defined in Section 3.21 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-
-<t>Class elements:</t>
-<t>observable-id?, EmailTo*, EmailFrom?, EmailSubject?, EmailX-Mailer?, EmailHeaderField*, EmailHeaders?, EmailBody?, EmailMessage?, HashData*, Signature*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"EmailData":{
-  "EmailTo": "user1@example.org"                           //EMAIL
-  "EmailFrom": "user2@example.com"                         //EMAIL
-  "EmailSubject": "example email"                         //STRING
-  "EmailX-Mailer": "example mailer v1.1.0"                //STRING
-  "EmailBody": "example email"                            //STRING
-}
-]]></artwork>
-     </figure>
-
-<t>Note that Signature element in this class contains base64 encoded form of signature as described in Section 4.2 of [W3C.XMLSIG].</t>
-</section>
-
-<section title="RecordData Class">
-<t>
-   This class is defined in Section 3.22.1 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-
-<t>Class elements:</t>
-<t>restriction?, ext-restriction?, observable-id?, DateTime?, Description*, Description_ML*, Application?, RecordPattern*, RecordItem*, URL*, FileData*, WindowsRegistryKeysModified*, CertificateData*, AdditionalData*</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"RecordData": {
-  "RecordPattern": {  
-    "type": "regex",
-    "value": "[0-9][A-Z]"
-  }
-},
-]]></artwork>
-</figure>
-
-</section>
-
-<section title="RecordPattern Class">
-<t>
-   This class is defined in Section 3.22.2 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-
-<t>Class elements:</t>
-<t>type, ext-type?, offset?, offsetunit?, ext-offsetunit?, instance?, value</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"RecordPattern": {
-  "type": "regex",
-  "value": "[0-9][A-Z]"
-},
-]]></artwork>
-</figure>
-
-</section>
-</section>
-
-<section title="WindowsRegistryKeysModified Class">
-<t>
-   This class is defined in Section 3.23 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-
-<t>Class elements:</t>
-<t>observable-id?, Key+</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"WindowsRegistryKeysModified": {
-  "Key": {
-    "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",                //STRING
-    "KeyName":"HKEY_LOCAL_MACHINExxxxxxx",                //STRING
-  }
-}
-]]></artwork>
-     </figure>
-
-<section title="Key Class">
-<t>
-   This class is defined in Section 3.23.1 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-
-<t>Class elements:</t>
-<t>registryaction?, ext-registryaction?, observable-id?, KeyName, KeyValue?</t>
-
-<t>Example:</t>
-<figure align="center"><artwork align="left"><![CDATA[
-"Key": {
-  "KeyValue": "xxxxxxxxxxxxxxxxxxxxxxx",                  //STRING
-  "KeyName":"HKEY_LOCAL_MACHINExxxxxxx"                   //STRING
-}
-]]></artwork>
-     </figure>
-</section>
-</section>
-
-<section title="CertificateData Class">
-<t>
-   This class is defined in Section 3.24 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>restriction?, ext-restriction?, observable-id?, Certificate+</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"CertificateData": {
-  "Certificate": {
-    "X509Data": "xxxxxxxx"                                //STRING
-  }
-}
-]]></artwork>
-</figure>
-
-<section title="Certificate Class">
-<t>
-   This class is defined in Section 3.24.1 of <xref target="RFC7970">RFC 7970</xref>.
-The X509Data class contains base64 encoded form of X.509 certificate or chain as 
-described in Section 4.4.4 of [W3C.XMLSIG].
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>observable-id?, X509Data, Description*, Description_ML*</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"Certificate": {
-  "X509Data": "xxxxxxxx"                                  //STRING
-}
-]]></artwork>
-</figure>
-
-</section>
-
-</section>
-
-<section title="FileData Class">
-<t>
-   This class is defined in Section 3.25 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>restriction?, ext-restriction?, observable-id?, File+</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"FileData": {
-  "File": {
-    "FileName": "dummy.exe"                               //STRING
-  }
-},
-]]></artwork>
-</figure>
-
-<section title="File Class">
-<t>
-   This class is defined in Section 3.25.1 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>observable-id?, FileName?, FileSize?, FileType?, URL*, HashData?, Signature*, AssociatedSoftware?, FileProperties*</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"File": {
-  "FileName": "dummy.exe"                                 //STRING
-}
-]]></artwork>
-</figure>
-<t>Note that Signature element in this class contains base64 encoded form of signature as described in Section 4.2 of [W3C.XMLSIG].</t>
-
-</section>
-</section>
-
-<section title="HashData Class">
-<t>
-   This class is defined in Section 3.26 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>scope, HashTargetID?, Hash*, FuzzyHash*</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"HashData": {
-  "scope": "file-contents",                                         //ENUM
-  "Hash": {
-    "DigestMethod":"http://www.example.com/2000/09/xmldsig#sha1", //STRING
-    "DigestValue": "xxxxxxxxxxx"                                  //STRING
-  }
-}
-]]></artwork>
-</figure>
-
-<section title="Hash Class">
-<t>
-   This class is defined in Section 3.26.1 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>DigestMethod, DigestValue, CanonicalizationMethod?, Application?</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"Hash": {
-  "DigestMethod": "http://www.example.com/2000/09/xmldsig#sha1", //STRING
-  "DigestValue": "xxxxxxxxxxx"                                   //STRING
-}
-]]></artwork>
-</figure>
-
-</section>
-
-<section title="FuzzyHash Class">
-<t>
-   This class is defined in Section 3.26.2 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>FuzzyHashValue+, Application?, AdditionalData?</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"FuzzyHash": {
-  "FuzzyHashValue": {}
-}
-]]></artwork>
-</figure>
-
-</section>
-</section>
-
-<section title="Indicator Class">
-<t>
-   This class is defined in Section 3.29 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>restriction?, ext-restriction?, IndicatorID, AlternativeIndicatorID*, Description*, Description_ML*, StartTime?, EndTime?, Confidence?, Contact*, Observable?, uid-ref?, IndicatorExpression?, IndicatorReference?, NodeRole*, AttackPhase*, Reference*, AdditionalData*</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"Indicator": {
-  "IndicatorID": {
-    "id": "G90823490",                                    //STRING
-    "name": "csirt.example.com",                          //STRING
-    "version": "1"                                        //STRING
-  },
-  "Description": ["C2 domains"],                          //STRING
-  "StartTime": "2014-12-02T11:18:00-05:00",             //Datetime
-  "Observable": {
-    "BulkObservable": {
-      "type": "fqdn"                                        //ENUM
-    },
-    "BulkObservableList": [
-      "kj290023j09r34.example.com",                       //STRING
-      "09ijk23jfj0k8.example.net",                        //STRING
-      "klknjwfjiowjefr923.example.org",                   //STRING
-      "oimireik79msd.example.org"                         //STRING
-    ]
-  }
-}
-]]></artwork>
-</figure>
-
-<section title="IndicatorID Class">
-<t>
-   This class is defined in Section 3.29.1 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>id, name, version</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"IndicatorID": {
-  "id": "G90823490",                                    //STRING
-  "name": "csirt.example.com",                          //STRING
-  "version": "1"                                        //STRING
-}
-]]></artwork>
-</figure>
-</section>
-<section title="AlternativeIndicatorID Class">
-<t>
-   This class is defined in Section 3.29.2 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>restriction?, ext-restriction?, IndicatorReference+</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"AlternativeIndicatorID": {
-  "IndicatorReference": {
-    "uid-ref": "xxxxx"
-  }
-},
-]]></artwork>
-</figure>
-</section>
-<section title="Observable Class">
-<t>
-   This class is defined in Section 3.29.3 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>restriction?, ext-restriction?, System?, Address?, DomainData?, Service?, EmailData?, WindowsRegistryKeysModified?, FileData?, CertificateData?, RegistryHandle?, RecordData?, EventData?, Incident?, Expectation?, Reference?, Assessment?, DetectionPattern?, HistoryItem?, BulkObservable?, AdditionalData*</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"Observable": {
-  "BulkObservable": {
-    "type": "fqdn"                                          //ENUM
-  },
-  "BulkObservableList": [
-    "kj290023j09r34.example.com",                         //STRING
-    "09ijk23jfj0k8.example.net",                          //STRING
-    "klknjwfjiowjefr923.example.org",                     //STRING
-    "oimireik79msd.example.org"                           //STRING
-  ]
-}
-]]></artwork>
-</figure>
-</section>
-
-<section title="BulkObservable Class">
-<t>
-   This class is defined in Section 3.29.3.1 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>type?, ext-type?, BulkObservableFormat?, BulkObservableList, AdditionalData*</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"BulkObservable": {
-  "type": "fqdn"                                            //ENUM
-},
-"BulkObservableList": [
-  "kj290023j09r34.example.com",                           //STRING
-  "09ijk23jfj0k8.example.net",                            //STRING
-  "klknjwfjiowjefr923.example.org",                       //STRING
-  "oimireik79msd.example.org"                             //STRING
-]
-]]></artwork>
-</figure>
-</section>
-<section title="BulkObservableFormat Class">
-<t>
-   This class is defined in Section 3.29.3.1.1 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>Hash?, AdditionalData*</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"BulkObservableFormat": {
-  "Hash": {
-    "DigestMethod":"http://www.example.com/2000/09/xmldsig#sha1",//STRING
-    "DigestValue": "xxxxxxxxxxx"                                 //STRING
-  }
-}
-]]></artwork>
-</figure>
-</section>
-
-<section title="IndicatorExpression Class">
-<t>
-   This class is defined in Section 3.29.4 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>operator?, ext-operator?, IndicatorExpression*, Observable*, uid-ref*, IndicatorReference*, Confidence?, AdditionalData*</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"IndicatorExpression": {
-  "uid-ref": "xxxxx"
-}
-]]></artwork>
-</figure>
-</section>
-
-<section title="IndicatorReference Class">
-<t>
-   This class is defined in Section 3.29.7 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>uid-ref?, euid-ref?, version?</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"IndicatorReference": {
-  "uid-ref": "xxxxx"
-}
-]]></artwork>
-</figure>
-</section>
-<section title="AttackPhase Class">
-<t>
-   This class is defined in Section 3.29.8 of <xref target="RFC7970">RFC 7970</xref>.
-The example below represents how to describe this class in JSON.
-</t>
-<t>Class elements:</t>
-<t>AttackPhaseID*, URL*, Description*, Description_ML*, AdditionalData*</t>
-
-<t>Example:</t>
-<figure align="center">
-<artwork align="left"><![CDATA[
-"AttackPhase": {
-  "Description": ["Currently, the infected host is scanning arbitrary hosts to find next targets."] //STRING
-}
-]]></artwork>
-</figure>
-
-</section>
-
-</section>
-
-</section>
-
-<section title="Notable differences from RFC 7970">
+<section title="Mapping between JSON and XML IODEF">
 
 <t>
 <list style="symbols">
@@ -1429,6 +772,7 @@ The example below represents how to describe this class in JSON.
 </list>
 </t>
 
+</section>
 </section>
 
 <section title="Examples">
