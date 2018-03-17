@@ -7,10 +7,6 @@
     An alternate method (rfc include) is described in the references. -->
 
 <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
-<!ENTITY RFC3896 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3896.xml">
-<!ENTITY RFC4519 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4519.xml">
-<!ENTITY RFC5322 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5322.xml">
-<!ENTITY RFC6531 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6531.xml">
 <!ENTITY RFC7970 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7970.xml">
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
@@ -136,13 +132,13 @@
         keywords will be used for the search engine. -->
 
    <abstract>
-     <t><xref target="RFC7970">RFC 7970</xref> provides XML-based data representation on incident information, but the use of the IODEF data model is not limited to XML. JSON representation is sometimes preferred since it is easy to handle from certain programming environments. This draft represents the IODEF data model in JSON.</t>
+     <t>RFC7970 provides XML-based data representation on incident information, but the use of the IODEF data model is not limited to XML. JSON representation is sometimes preferred since it is easy to handle from certain programming environments. This draft represents the IODEF data model in JSON.</t>
    </abstract>
  </front>
 
  <middle>
    <section title="Introduction">
-     <t><xref target="RFC7970">RFC 7970</xref> defines an data model for sharing incident information. It facilitates automated exchange of information among parties over networks. The data model can be implemented in a form of XML, but it is not always suitable for implementation. JSON-based representation is often useful.</t>
+     <t><xref target="RFC7970" /> defines an data model for sharing incident information. It facilitates automated exchange of information among parties over networks. The data model can be implemented in a form of XML, but it is not always suitable for implementation. JSON-based representation is often useful.</t>
 
 <t>Therefore, in this document, we provide a means to represent IODEF data model in JSON.</t>
 
@@ -150,14 +146,14 @@
        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
        "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
        document are to be interpreted as described in <xref
-       target="RFC2119">RFC 2119</xref>.</t>
+       target="RFC2119" />.</t>
      </section>
    </section>
 
 
 <section title="IODEF Data Types">
 
-<t> IODEF JSON uses the abstract data types specified in Section 2 of <xref target="RFC7970">RFC 7970</xref>.</t>
+<t> IODEF JSON uses the abstract data types specified in Section 2 of <xref target="RFC7970" />.</t>
 
 
   <section title="Abstract Data Type to JSON Data Type Mapping">
@@ -257,7 +253,7 @@
 
 <section title="Classes and Elements">
 
-<t> The following table shows the list of IODEF Classes, their elements, and the corresponding section in <xref target="RFC7970">RFC 7970</xref>. Note that the complete JSON schema is defined in <xref target="jsonSchemaSection"/>.</t>
+<t> The following table shows the list of IODEF Classes, their elements, and the corresponding section in <xref target="RFC7970" />. Note that the complete JSON schema is defined in <xref target="jsonSchemaSection"/>.</t>
 
 
 
@@ -761,7 +757,7 @@
 
 <t>
 <list style="symbols">
-<t>This document treats attributes and elements of each class defined in <xref target="RFC7970">RFC 7970</xref> equally and is agnostic on the order of their appearances.</t>
+<t>This document treats attributes and elements of each class defined in <xref target="RFC7970" /> equally and is agnostic on the order of their appearances.</t>
 <t>Flow class is deleted, and classes with its instances now directly have instances of EventData class that used to belong to the Flow classs.</t>
 <t>ApplicationHeader class is deleted, and classes with its instances now directly have instances of ApplicationHeaderField class that used to belong to the ApplicationHeader class.</t>
 <t>SignatureData class is deleted, and classes with its instances now directly have instance of Signature class that used to belong to the SignatureData class.</t>
@@ -1829,7 +1825,7 @@
    </section>
 
    <section anchor="Security" title="Security Considerations">
-     <t>This memo does not provide any further security considerations than the one described in <xref target="RFC7970">RFC 7970</xref>.</t>
+     <t>This memo does not provide any further security considerations than the one described in <xref target="RFC7970" />.</t>
    </section>
 
 
@@ -1856,10 +1852,6 @@
    <references title="Normative References">
      <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
      &RFC2119;
-     &RFC3896;
-     &RFC4519;
-     &RFC5322;
-     &RFC6531;
      &RFC7970;
 
      <reference anchor="jsonschema">
