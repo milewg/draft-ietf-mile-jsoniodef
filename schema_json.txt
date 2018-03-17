@@ -694,7 +694,7 @@
       "type": "object",
       "properties": {
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "X509Data": {type: "string"},
+        "X509Data": {"type": "string"},
         "Description": {"type": "array","items": {"type": "string"}}},
       "required": ["X509Data"],
       "additionalProperties": false},
