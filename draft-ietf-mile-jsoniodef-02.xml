@@ -132,36 +132,42 @@
         keywords will be used for the search engine. -->
 
    <abstract>
-     <t>RFC7970 provides XML-based data representation on incident information, but the use of the IODEF data model is not limited to XML. JSON representation is sometimes preferred since it is easy to handle from certain programming environments. This draft represents the IODEF data model in JSON.</t>
-   </abstract>
+   <t>
+   RFC7970 specified an information model and a corresponding XML data model for exchanging incident and indicator information.  This draft provides an alternative data model implementation in JSON.
+   </t>
  </front>
 
  <middle>
    <section title="Introduction">
-     <t><xref target="RFC7970" /> defines an data model for sharing incident information. It facilitates automated exchange of information among parties over networks. The data model can be implemented in a form of XML, but it is not always suitable for implementation. JSON-based representation is often useful.</t>
+     <t><xref target="RFC7970" /> defines a data representation for security incident reports and indicators commonly exchanged by operational security teams.  It facilitates the automated exchange of this information to enable mitigation and watch-and-warning. Section 3 of <xref target="RFC7970" /> defined an information model using Unified Modeling Language (UML) and a corresponding Extensible Markup Language (XML) schema data model in Section 8.  This UML-based information model and XML-based data model are referred to as IODEF UML and IODEF XML, respectively in this document.</t>
 
-<t>Therefore, in this document, we provide a means to represent IODEF data model in JSON.</t>
+<t>This document defines an alternate implementation of the IODEF UML information model by specifying a JavaScript Object Notation (JSON) data model using JSON Schema <xref target="jsonschema"/>.  This JSON data model is referred to as IODEF JSON in this document.</t>
+
+<t>IODEF JSON provides all of the expressivity of IODEF XML.  It gives implementers and operators an alternative format to exchange the same information.</t>
+
+<t>The normative IODEF JSON data model is found in <xref target="jsonSchemaSection" />.  <xref target="dt" /> and <xref target="dm" /> describe the data types and elements of this data model.  <xref target="examples" /> provides examples.  
 
      <section title="Requirements Language">
        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
        "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
        document are to be interpreted as described in <xref
-       target="RFC2119" />.</t>
+       target="RFC2119">RFC 2119</xref>.</t>
      </section>
    </section>
 
 
-<section title="IODEF Data Types">
+<section title="IODEF Data Types" anchor="dt">
 
-<t> IODEF JSON uses the abstract data types specified in Section 2 of <xref target="RFC7970" />.</t>
+<t>The abstract 
+IODEF JSON implements the abstract data types specified in Section 2 of <xref target="RFC7970" />.</t>
 
 
   <section title="Abstract Data Type to JSON Data Type Mapping">
 
-<t>JSON IODEF uses native and derived data types. The following table shows the list of IODEF data types and their mapping to JSON data types.</t>
+<t>IODEF JSON uses native and derived JSON data types. <xref target="dtmap" /> describes the mapping between the abstract data types in Section 2 of <xref target="RFC7090" /> and their corresponding implementations in IODEF JSON.</t>
 
 
-<figure align="center"><artwork align="left"><![CDATA[
+<figure align="center" target="dtmap"><artwork align="left"><![CDATA[
 +-----------------+-------------------+-------------------------------+
 | IODEF Data Type |      [RFC7970]    |       JSON Data Type          |
 |                 |      Reference    |                               |
@@ -180,7 +186,7 @@
 | TIMEZONE        | Section 2.8       | "string" per [jsonschema]     |
 | PORTLIST        | Section 2.9       | "string" per [jsonschema]     |
 | POSTAL          | Section 2.10      | "string" per [jsonschema]     |
-| POSTAL_ML       | Section 2.10      | ML_STRING                     |
+| POSTAL_ML       | Section 2.10      | see ML_STRING, Section 2.2.1  |
 | PHONE           | Section 2.11      | "string" per [jsonschema]     |
 | EMAIL           | Section 2.12      | "string" per [jsonschema]     |
 | URL             | Section 2.13      | "string" per [jsonschema]     |
@@ -249,7 +255,7 @@
   </section>
 
 
-<section title="IODEF JSON Data Model">
+<section title="IODEF JSON Data Model" target="dm">
 
 <section title="Classes and Elements">
 
@@ -259,9 +265,9 @@
 
 <figure align="center"><artwork align="left"><![CDATA[
 +-----------------------------+--------------------+---------------+
-| IODEF Class                 | Class              | Correspondent |
-|                             | elements           | section       |
-|                             |                    | in [RFC7970]  |
+| IODEF Class                 | Class              | Corresponding |
+|                             | Elements and       | Section       |
+|                             | Attribute          | in [RFC7970]  |
 +-----------------------------+--------------------+---------------+
 | IODEF-Document              | version            | 3.1           |
 |                             | lang?              |               |
@@ -764,14 +770,14 @@
 <t>IndicatorData class is deleted, and classes with its instances now directly have the instances of Indicator class that used to belong to the IndicatorData class.</t>
 <t>ObservableReference class is deleted, and classes with its instances now directly have uid-ref as an element.</t>
 <t>Record class is deleted, and classes with its instances now directly have the instances of RecordData class that used to belong to the Record class.</t>
-<t>The elements of ML_STRING type are prepared as two separatem elements: one of STRING type and another of ML_STRING type, in order to maintain the simplicity of IODEF docuemnts when writing with only STRING type characters.</t>
+<t>The elements of ML_STRING type are prepared as two separate elements: one of STRING type and another of ML_STRING type, in order to maintain the simplicity of IODEF documents when writing with only STRING type characters.</t>
 </list>
 </t>
 
 </section>
 </section>
 
-<section title="Examples">
+<section title="Examples" anchor="examples">
 
 <t>
    This section provides example of IODEF documents.  These examples do
