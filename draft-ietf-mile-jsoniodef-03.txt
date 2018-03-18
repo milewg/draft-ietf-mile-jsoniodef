@@ -69,20 +69,21 @@ Table of Contents
      2.1.  Abstract Data Type to JSON Data Type Mapping  . . . . . .   3
      2.2.  Complex JSON Types  . . . . . . . . . . . . . . . . . . .   4
        2.2.1.  Multilingual Strings  . . . . . . . . . . . . . . . .   4
-       2.2.2.  Software  . . . . . . . . . . . . . . . . . . . . . .   5
+       2.2.2.  Software and SoftwareReference  . . . . . . . . . . .   5
        2.2.3.  StructuredInfo  . . . . . . . . . . . . . . . . . . .   5
-   3.  IODEF JSON Data Model . . . . . . . . . . . . . . . . . . . .   5
-     3.1.  Classes and Elements  . . . . . . . . . . . . . . . . . .   5
+       2.2.4.  EXTENSION . . . . . . . . . . . . . . . . . . . . . .   6
+   3.  IODEF JSON Data Model . . . . . . . . . . . . . . . . . . . .   6
+     3.1.  Classes and Elements  . . . . . . . . . . . . . . . . . .   6
      3.2.  Mapping between JSON and XML IODEF  . . . . . . . . . . .  16
-   4.  Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .  16
+   4.  Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .  17
      4.1.  Minimal Example . . . . . . . . . . . . . . . . . . . . .  17
-     4.2.  Indicators from a Campaign  . . . . . . . . . . . . . . .  17
-   5.  The IODEF Data Model (JSON Schema)  . . . . . . . . . . . . .  19
+     4.2.  Indicators from a Campaign  . . . . . . . . . . . . . . .  18
+   5.  The IODEF Data Model (JSON Schema)  . . . . . . . . . . . . .  20
    6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  38
    7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  38
    8.  Security Considerations . . . . . . . . . . . . . . . . . . .  38
    9.  Normative References  . . . . . . . . . . . . . . . . . . . .  38
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  38
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  39
 
 1.  Introduction
 
@@ -104,7 +105,6 @@ Table of Contents
    IODEF JSON provides all of the expressivity of IODEF XML.  It gives
    implementers and operators an alternative format to exchange the same
    information.
-
 
 
 
@@ -192,9 +192,11 @@ Internet-Draft                 JSON-IODEF                     March 2018
  | PHONE           | Section 2.11      | "string" per [jsonschema]     |
  | EMAIL           | Section 2.12      | "string" per [jsonschema]     |
  | URL             | Section 2.13      | "string" per [jsonschema]     |
+ | ID              | Section 2.14      | "string" per [jsonschema]     |
  | IDREF           | Section 2.14      | "string" per [jsonschema]     |
  | SOFTWARE        | Section 2.15      | see Section 2.2.2             |
- | STRUCTURED      | N/A               | see Section 2.2.3             |
+ | STRUCTURED      | RFC 7213          | see Section 2.2.3             |
+ | EXTENSION       | Section 2.16      | see Section 2.2.4             |
  +-----------------+-------------------+-------------------------------+
 
                                  Figure 1
@@ -219,14 +221,12 @@ Internet-Draft                 JSON-IODEF                     March 2018
 
 
 
-
-
 Takahashi, et al.      Expires September 19, 2018               [Page 4]
 
 Internet-Draft                 JSON-IODEF                     March 2018
 
 
-2.2.2.  Software
+2.2.2.  Software and SoftwareReference
 
    A particular version of software is represented in the information
    model by the SOFTWARE data type.  This software can be described by
@@ -238,6 +238,15 @@ Internet-Draft                 JSON-IODEF                     March 2018
    "SoftwareType": {
      "SoftwareReference": {...},          //SoftwareReference
      "Description": ["MS Windows"]        //STRING
+   }
+
+   SoftwareReference class is a reference to a particular version of
+   software.  Examples are shown below.
+
+   "SoftwareReference": {
+     "value": "cpe:/a:google:chrome:59.0.3071.115 ",   //STRING
+     "spec-name": "cpe",                                 //ENUM
+     "dtype": "string",                                  //ENUM
    }
 
 2.2.3.  StructuredInfo
@@ -263,6 +272,33 @@ Internet-Draft                 JSON-IODEF                     March 2018
      "RawData": "<<<strings encoded with base64>>>"            //BYTE
    }
 
+
+
+
+
+
+Takahashi, et al.      Expires September 19, 2018               [Page 5]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
+2.2.4.  EXTENSION
+
+   Information not otherwise represented in the IODEF can be added using
+   the EXTENSION data type.  This data type is a generic extension
+   mechanism.  The EXTENSION data type is implemented as an
+   ExtensionType object with "value", "name", "dtype", "ext-dtype",
+   "meaning", "formatid", "restriction", "ext-restriction", and
+   "observable-id" elements.  An example for embedding a structured ID
+   is shown below.
+
+   "ExtensionType": {
+     "value": "xxxxxxx",                                      //String
+     "name": "Syslog",                                        //String
+     "dtype": "string",                                       //String
+     "meaning": "Syslog from the security appliance X",       //String
+   }
+
 3.  IODEF JSON Data Model
 
 3.1.  Classes and Elements
@@ -274,14 +310,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
    +-----------------------------+--------------------+---------------+
    | IODEF Class                 | Class              | Corresponding |
    |                             | Elements and       | Section       |
-
-
-
-Takahashi, et al.      Expires September 19, 2018               [Page 5]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
    |                             | Attribute          | in [RFC7970]  |
    +-----------------------------+--------------------+---------------+
    | IODEF-Document              | version            | 3.1           |
@@ -302,6 +330,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
    |                             | observable-id?     |               |
    |                             | IncidentID         |               |
    |                             | AlternativeID?     |               |
+
+
+
+Takahashi, et al.      Expires September 19, 2018               [Page 6]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
    |                             | RelatedActivity*   |               |
    |                             | DetectTime?        |               |
    |                             | StartTime?         |               |
@@ -330,14 +366,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
    |                             | ext-restriction?   |               |
    |                             | IncidentID+        |               |
    +-----------------------------+--------------------+---------------+
-
-
-
-Takahashi, et al.      Expires September 19, 2018               [Page 6]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
    | RelatedActivity             | restriction?       | 3.6           |
    |                             | ext-restriction?   |               |
    |                             | IncidentID*        |               |
@@ -358,6 +386,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
    |                             | AdditionalData*    |               |
    +-----------------------------+--------------------+---------------+
    | Campaign                    | restriction?       |               |
+
+
+
+Takahashi, et al.      Expires September 19, 2018               [Page 7]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
    |                             | ext-restriction?   |               |
    |                             | CampaignID*        |               |
    |                             | URL*               |               |
@@ -386,14 +422,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
    +-----------------------------+--------------------+---------------+
    | RegistryHandle              | handle|            |               |
    |                             | registry|          |               |
-
-
-
-Takahashi, et al.      Expires September 19, 2018               [Page 7]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
    |                             | ext-registry?      | 3.9.1         |
    +-----------------------------+--------------------+---------------+
    | PostalAddress               | type?|             |               |
@@ -414,6 +442,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
    |                             | Description*       |               |
    |                             | Description_ML*    | 3.9.4         |
    +-----------------------------+--------------------+---------------+
+
+
+
+Takahashi, et al.      Expires September 19, 2018               [Page 8]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
    | Discovery                   | source?            |               |
    |                             | ext-source?        |               |
    |                             | restriction?       |               |
@@ -442,14 +478,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
    +-----------------------------+--------------------+---------------+
    | Reference                   | observable-id?     |               |
    |                             | ReferenceName?     |               |
-
-
-
-Takahashi, et al.      Expires September 19, 2018               [Page 8]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
    |                             | URL*               |               |
    |                             | Description*       |               |
    |                             | Description_ML*    | 3.11.1        |
@@ -470,6 +498,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
    |                             | Cause*             |               |
    |                             | Cause_ML*          |               |
    |                             | Confidence?        |               |
+
+
+
+Takahashi, et al.      Expires September 19, 2018               [Page 9]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
    |                             | AdditionalData*    | 3.12          |
    +-----------------------------+--------------------+---------------+
    | SystemImpact                | severity?          |               |
@@ -498,14 +534,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
    |                             | currency?          | 3.12.4        |
    +-----------------------------+--------------------+---------------+
    | Confidence                  | value              |               |
-
-
-
-Takahashi, et al.      Expires September 19, 2018               [Page 9]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
    |                             | rating             |               |
    |                             | ext-rating?        | 3.12.5        |
    +-----------------------------+--------------------+---------------+
@@ -526,6 +554,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
    |                             | DefinedCOA*        |               |
    |                             | AdditionalData*    | 3.13.1        |
    +-----------------------------+--------------------+---------------+
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 10]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
    | EventData                   | restriction?       |               |
    |                             | ext-restriction?   |               |
    |                             | observable-id?     |               |
@@ -554,14 +590,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
    |                             | Description_ML*    |               |
    |                             | DefinedCOA*        |               |
    |                             | StartTime?         |               |
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 10]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
    |                             | EndTime?           |               |
    |                             | Contact?           | 3.15          |
    +-----------------------------+--------------------+---------------+
@@ -582,6 +610,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
    |                             | AssetID*           |               |
    |                             | Description*       |               |
    |                             | Description_ML*    |               |
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 11]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
    |                             | AdditionalData*    | 3.16          |
    +-----------------------------+--------------------+---------------+
    | Node                        | DomainData*        |               |
@@ -610,14 +646,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
    |                             | ext-unit?          |               |
    |                             | meaning?           |               |
    |                             | meaning_ML?        |               |
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 11]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
    |                             | duration?          |               |
    |                             | ext-duration?      | 3.17.3        |
    +-----------------------------+--------------------+---------------+
@@ -638,6 +666,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
    |                             | Address*           | 3.18.1        |
    +-----------------------------+--------------------+---------------+
    | DomainContacts              | SameDomainContact? |               |
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 12]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
    |                             | Contact+           | 3.18.2        |
    +-----------------------------+--------------------+---------------+
    | Service                     | ip-protocol?       |               |
@@ -666,14 +702,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
    |                             | EmailHeaders?      |               |
    |                             | EmailBody?         |               |
    |                             | EmailMessage?      |               |
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 12]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
    |                             | HashData*          |               |
    |                             | Signature*         | 3.19.2        |
    +-----------------------------+--------------------+---------------+
@@ -694,6 +722,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
    +-----------------------------+--------------------+---------------+
    | RecordPattern               | type               |               |
    |                             | ext-type?          |               |
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 13]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
    |                             | offset?            |               |
    |                             | offsetunit?        |               |
    |                             | ext-offsetunit?    |               |
@@ -722,14 +758,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
    | FileData                    | restriction?       |               |
    |                             | ext-restriction?   |               |
    |                             | observable-id?     |               |
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 13]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
    |                             | File+              | 3.22          |
    +-----------------------------+--------------------+---------------+
    | File                        | observable-id?     |               |
@@ -750,6 +778,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
    | Hash                        | DigestMethod       |               |
    |                             | DigestValue        |               |
    |                             | CanonicalizationMethod?|           |
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 14]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
    |                             | Application?       | 3.23.1        |
    +-----------------------------+--------------------+---------------+
    | FuzzyHash                   | FuzzyHashValue+    |               |
@@ -778,14 +814,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
    | IndicatorID                 | id                 |               |
    |                             | name               |               |
    |                             | version            | 3.24.1        |
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 14]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
    +-----------------------------+--------------------+---------------+
    | AlternativeIndicatorID      | restriction?       |               |
    |                             | ext-restriction?   |               |
@@ -806,6 +834,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
    |                             | EventData?         |               |
    |                             | Incident?          |               |
    |                             | Expectation?       |               |
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 15]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
    |                             | Reference?         |               |
    |                             | Assessment?        |               |
    |                             | DetectionPattern?  |               |
@@ -834,14 +870,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
    | IndicatorReference          | uid-ref?           |               |
    |                             | euid-ref?          |               |
    |                             | version?           | 3.24.7        |
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 15]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
    +-----------------------------+--------------------+---------------+
    | AttackPhase                 | AttackPhaseID*     |               |
    |                             | URL*               |               |
@@ -859,6 +887,16 @@ Internet-Draft                 JSON-IODEF                     March 2018
    o  Flow class is deleted, and classes with its instances now directly
       have instances of EventData class that used to belong to the Flow
       classs.
+
+
+
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 16]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
 
    o  ApplicationHeader class is deleted, and classes with its instances
       now directly have instances of ApplicationHeaderField class that
@@ -890,17 +928,31 @@ Internet-Draft                 JSON-IODEF                     March 2018
    not represent the full capabilities of the data model or the the only
    way to encode particular information.
 
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 16]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
 4.1.  Minimal Example
 
    A document containing only the mandatory elements and attributes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 17]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
 
    {
      "version": "2.0",
@@ -946,18 +998,18 @@ Internet-Draft                 JSON-IODEF                     March 2018
         {
           "ThreatActor": [
             {
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 17]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
               "ThreatActorID": "TA-12-AGGRESSIVE-BUTTERFLY",
               "Description": "Aggressive Butterfly"
             }
           ],
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 18]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
           "Campaign": [
             {
               "CampaignID": "C-2015-59405",
@@ -1002,18 +1054,18 @@ Internet-Draft                 JSON-IODEF                     March 2018
             },
             "BulkObservableList": [
               "kj290023j09r34.example.com",
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 18]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
               "09ijk23jfj0k8.example.net",
               "klknjwfjiowjefr923.example.org",
               "oimireik79msd.example.org"
             ]
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 19]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
           }
         }
       ]
@@ -1058,25 +1110,24 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "formatid": {"type": "string"},
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 19]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
         "observable-id": {"$ref": "#/definitions/IDtype"}}},
     "ExtensionTypeList": {
       "type": "array",
       "items": {"$ref": "#/definitions/ExtensionType"}},
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 20]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
     "SoftwareType": {
       "type": "object",
       "properties": {
         "SoftwareReference": {"$ref": "#/definitions/SoftwareReference"},
         "URL": {"$ref": "#/definitions/URLtype"},
         "Description": {"type": "array", "items": {"type":"string"}}},
-      "required": [],
       "additionalProperties": false},
     "SoftwareReference": {
       "type": "object",
@@ -1114,19 +1165,19 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "IncidentID": {"$ref": "#/definitions/IncidentID"},
         "AlternativeID": {"$ref": "#/definitions/AlternativeID"},
         "RelatedActivity": {
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 20]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
           "type": "array","items": {"$ref": "#/definitions/RelatedActivity"}},
         "DetectTime": {"type": "string"},
         "StartTime": {"type": "string"},
         "EndTime": {"type": "string"},
         "RecoveryTime": {"type": "string"},
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 21]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
         "ReportTime": {"type": "string"},
         "GenerationTime": {"type": "string"},
         "Description": {"type": "array","items": {"type": "string"}},
@@ -1170,19 +1221,19 @@ Internet-Draft                 JSON-IODEF                     March 2018
       "required": ["IncidentID"],
       "additionalProperties": false},
     "RelatedActivity": {
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 21]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
         "IncidentID": {
           "type": "array","items": {"$ref": "#/definitions/IncidentID"}},
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 22]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
         "URL": {
           "type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "ThreatActor": {
@@ -1226,19 +1277,19 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
         "ContactName": {"type": "array", "items": {"type": "string"}},
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 22]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
         "ContactTitle": {"type": "array", "items": {"type": "string"}},
         "Description": {"type": "array", "items": {"type": "string"}},
         "RegistryHandle": {
           "type": "array", "items": {"$ref": "#/definitions/RegistryHandle"}},
         "PostalAddress": {
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 23]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
           "type": "array", "items": {"$ref": "#/definitions/PostalAddress"}},
         "Email": {"type": "array", "items": {"$ref": "#/definitions/Email"}},
         "Telephone": {
@@ -1282,19 +1333,19 @@ Internet-Draft                 JSON-IODEF                     March 2018
       "type": "object",
       "properties": {
         "type": {
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 23]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
           "enum":["wired","mobile","fax","hotline","ext-value"]},
         "ext-type": {"type": "string"},
         "TelephoneNumber": {"type": "string"},
         "Description": {"type": "array", "items": {"type": "string"}}},
       "required": ["TelephoneNumber"],
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 24]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
       "additionalProperties": false},
     "Discovery": {
       "type": "object",
@@ -1313,7 +1364,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
           "type": "array", "items": {"$ref": "#/definitions/Contact"}},
         "DetectionPattern": {
           "type": "array", "items":{"$ref":"#/definitions/DetectionPattern"}}},
-      "required": [],
       "additionalProperties": false},
     "DetectionPattern": {
       "type": "object",
@@ -1338,28 +1388,26 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "AttackPattern": {
           "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
         "Vulnerability": {
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 24]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
           "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
         "Weakness": {
           "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false},
     "Reference": {
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 25]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
       "type": "object",
       "properties": {
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "ReferenceName": {"type": "string"},
         "URL": {"type": "array", "items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array", "items": {"type": "string"}}},
-      "required": [],
       "additionalProperties": false},
     "Assessment": {
       "type": "object",
@@ -1386,7 +1434,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "Cause": {"type": "array", "items": {"$type": "string"}},
         "Confidence": {"$ref": "#/definitions/Confidence"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false},
     "SystemImpact": {
       "type": "object",
@@ -1394,14 +1441,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "severity": {
           "enum":["low","medium","high"]},
         "completion": {"enum":["failed","succeeded"]},
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 25]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
         "type": {
           "enum":["takeover-account","takeover-service","takeover-system",
                   "cps-manipulation","cps-damage","availability-data",
@@ -1411,6 +1450,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
                   "breach-configuration","integrity-data",
                   "integrity-configuration","integrity-hardware",
                   "traffic-redirection","monitoring-traffic","monitoring-host",
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 26]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
                   "policy","unknown","ext-value"]},
         "ext-type": {"type": "string"},
         "Description": {"type": "array","items": {"type": "string"}}},
@@ -1449,15 +1496,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "value": {"type": "number"},
         "severity": {"enum":["low","medium","high"]},
         "currency": {"type": "string"}},
-      "required": [],
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 26]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
       "additionalProperties": false},
     "Confidence": {
       "type": "object",
@@ -1468,6 +1506,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "ext-rating": {"type":"string"}},
       "required": ["rating"],
       "additionalProperties": false},
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 27]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
     "History": {
       "type": "object",
       "properties": {
@@ -1506,14 +1552,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "RecoveryTime": {"type": "string"},
         "ReportTime": {"type": "string"},
         "Contact": {
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 27]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
           "type": "array","items": {"$ref": "#/definitions/Contact"}},
         "Discovery": {
           "type": "array","items": {"$ref": "#/definitions/Discovery"}},
@@ -1524,6 +1562,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
           "type": "array","items": {"$ref": "#/definitions/System"}},
         "Expectation": {
           "type": "array","items": {"$ref": "#/definitions/Expectation"}},
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 28]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
         "RecordData": {"type": "array", "items": {"$ref": "#/definitions/RecordData"}},
         "EventData": {
           "type": "array","items": {"$ref": "#/definitions/EventData"}},
@@ -1544,7 +1590,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "StartTime": {"type": "string"},
         "EndTime": {"type": "string"},
         "Contact": {"$ref": "#/definitions/Contact"}},
-      "required": [],
       "additionalProperties": false},
     "System": {
       "type": "object",
@@ -1562,14 +1607,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "ext-ownership": {"type": "string"},
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 28]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "Node": {"$ref": "#/definitions/Node"},
         "NodeRole": {
@@ -1581,6 +1618,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "Counter": {
           "type": "array","items": {"$ref": "#/definitions/Counter"}},
         "AssetID": {"type": "array","items": {"type": "string"}},
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 29]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
         "Description": {"type": "array","items": {"type": "string"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["Node"],
@@ -1595,7 +1640,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "PostalAddress": {"type": "string"},
         "Location": {"type": "array","items": {"type": "string"}},
         "Counter": {"type": "array","items":{"$ref":"#/definitions/Counter"}}},
-      "required": [],
       "additionalProperties": false},
     "Address": {
       "type": "object",
@@ -1618,14 +1662,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
           "enum":["client","client-enterprise","clent-partner","client-remote",
                   "client-kiosk","client-mobile","server-internal",
                   "server-public","www","mail","webmail","messaging",
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 29]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
                   "streaming","voice","file","ftp","p2p","name","directory",
                   "credential","print","application","database","backup",
                   "dhcp","assessment","source-control","config-management",
@@ -1638,6 +1674,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
                   "fraudulent-site","ext-value"]},
         "ext-category": {"type": "string"},
         "Description": {"type": "array","items": {"type": "string"}}},
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 30]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
       "required": ["category"],
       "additionalProperties": false},
     "Counter": {
@@ -1674,14 +1718,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "ExpirationDate": {"$ref": "#/definitions/DATETIME"},
         "RelatedDNS": {
           "type": "array","items": {"$ref": "#/definitions/ExtensionType"}},
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 30]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
         "NameServers": {
           "type": "array","items": {"$ref": "#/definitions/NameServers"}},
         "DomainContacts": {
@@ -1694,6 +1730,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "Server": {"type": "string"},
         "Address": {"type": "array","items":{"$ref":"#/definitions/Address"}}},
       "required": ["Server","Address"],
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 31]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
       "additionalProperties": false},
     "DomainContacts": {
       "type": "object",
@@ -1716,7 +1760,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "ApplicationHeaderField": {"$ref":"#/definitions/ExtensionTypeList"},
         "EmailData": {"$ref": "#/definitions/EmailData"},
         "Application": {"$ref": "#/definitions/SoftwareType"}},
-      "required": [],
       "additionalProperties": false},
     "ServiceName": {
       "type": "object",
@@ -1724,20 +1767,11 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "IANAService": {"type": "string"},
         "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array","items": {"type": "string"}}},
-      "required": [],
       "additionalProperties": false},
     "EmailData": {
       "type": "object",
       "properties": {
         "observable-id": {"$ref": "#/definitions/IDtype"},
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 31]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
         "EmailTo": {"type": "array","items": {"type": "string"}},
         "EmailFrom": {"type": "string"},
         "EmailSubject": {"type": "string"},
@@ -1750,9 +1784,16 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "HashData": {
           "type": "array","items": {"$ref": "#/definitions/HashData"}},
         "Signature": {"type": "array","items": {"type": "string"}}},
-      "required": [],
       "additionalProperties": false},
     "RecordData": {
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 32]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
       "type": "object",
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
@@ -1775,7 +1816,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "CertificateData": {
           "type": "array","items": {"$ref": "#/definitions/CertificateData"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false
     },
     "RecordPattern": {
@@ -1786,14 +1826,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "ext-type": {"type": "string"},
         "offset": {"type": "integer"},
         "offsetunit": {"enum":["line","byte","ext-value"]},
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 32]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
         "ext-offsetunit": {"type": "string"},
         "instance": {"type": "integer"}},
       "required": ["type"],
@@ -1810,6 +1842,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
       "properties": {
         "registryaction": {"enum": ["add-key","add-value","delete-key",
                           "delete-value","modify-key","modify-value",
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 33]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
                           "ext-value"]},
         "ext-registryaction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
@@ -1831,7 +1871,7 @@ Internet-Draft                 JSON-IODEF                     March 2018
       "type": "object",
       "properties": {
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "X509Data": {type: "string"},
+        "X509Data": {"type": "string"},
         "Description": {"type": "array","items": {"type": "string"}}},
       "required": ["X509Data"],
       "additionalProperties": false},
@@ -1842,14 +1882,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "ext-restriction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "File": {"type": "array","items": {"$ref": "#/definitions/File"}}},
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 33]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
       "required": ["File"],
       "additionalProperties": false},
     "File": {
@@ -1864,9 +1896,16 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "AssociatedSoftware": {"$ref": "#/definitions/SoftwareType"},
         "FileProperties": {
           "type": "array","items": {"$ref": "#/definitions/ExtensionType"}}},
-      "required": [],
       "additionalProperties": false},
     "HashData": {
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 34]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
       "type": "object",
       "properties": {
         "scope": {"enum": ["file-contents","file-pe-section","file-pe-iat",
@@ -1898,14 +1937,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
       "additionalProperties": false},
     "Indicator": {
       "type": "object",
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 34]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
@@ -1923,6 +1954,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "uid-ref": {"type": "string"},
         "IndicatorExpression": {"$ref": "#/definitions/IndicatorExpression"},
         "IndicatorReference": {"$ref": "#/definitions/IndicatorReference"},
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 35]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
         "NodeRole": {
           "type": "array","items": {"$ref": "#/definitions/NodeRole"}},
         "AttackPhase": {
@@ -1954,14 +1993,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
       "type": "object",
       "properties": {
         "restriction": {"$ref": "#/definitions/restriction"},
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 35]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
         "ext-restriction": {"type": "string"},
         "System": {"$ref": "#/definitions/System"},
         "Address": {"$ref": "#/definitions/Address"},
@@ -1979,11 +2010,18 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "Expectation": {"$ref": "#/definitions/Expectation"},
         "Reference": {"$ref": "#/definitions/Reference"},
         "Assessment": {"$ref": "#/definitions/Assessment"},
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 36]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
         "DetectionPattern": {"$ref": "#/definitions/DetectionPattern"},
         "HistoryItem": {"$ref": "#/definitions/HistoryItem"},
         "BulkObservable": {"$ref": "#/definitions/BulkObservable"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false},
     "BulkObservable": {
       "type": "object",
@@ -2000,24 +2038,14 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "BulkObservableFormant":{"$ref": "#/definitions/BulkObservableFormat"},
         "BulkObservableList": {"type": "array", "item":{"type": "string"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false},
     "BulkObservableFormat": {
       "type": "object",
       "properties": {
         "Hash": {"$ref": "#/definitions/Hash"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false},
     "IndicatorExpression": {
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 36]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
       "type": "object",
       "properties": {
         "operator": {"enum": ["not","and","or","xor"]},
@@ -2032,15 +2060,21 @@ Internet-Draft                 JSON-IODEF                     March 2018
           "type": "array",
          "items": {"$ref": "#/definitions/IndicatorReference"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false},
     "IndicatorReference": {
       "type": "object",
       "properties": {
         "uid-ref": {"type": "string"},
         "euid-ref": {"type": "string"},
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 37]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
         "version": {"type": "string"}},
-      "required": [],
       "additionalProperties": false},
     "AttackPhase": {
       "type": "object",
@@ -2049,7 +2083,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
         "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array","items": {"type": "string"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false}},
   "title": "IODEF-Document",
   "description": "JSON schema for IODEF-Document class",
@@ -2065,14 +2098,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
       "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
   "required": ["version","Incident"],
   "additionalProperties": false}
-
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 37]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
 
                            Figure 2: JSON schema
 
@@ -2096,6 +2121,15 @@ Internet-Draft                 JSON-IODEF                     March 2018
 
               http://json-schema.org/
 
+
+
+
+
+Takahashi, et al.      Expires September 19, 2018              [Page 38]
+
+Internet-Draft                 JSON-IODEF                     March 2018
+
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -2117,19 +2151,6 @@ Authors' Addresses
    Email: takeshi_takahashi@nict.go.jp
 
 
-
-
-
-
-
-
-
-
-Takahashi, et al.      Expires September 19, 2018              [Page 38]
-
-Internet-Draft                 JSON-IODEF                     March 2018
-
-
    Roman Danyliw
    CERT, Software Engineering Institute, Carnegie Mellon University
    4500 Fifth Avenue
@@ -2146,27 +2167,6 @@ Internet-Draft                 JSON-IODEF                     March 2018
    Japan
 
    Email: mio@nict.go.jp
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
