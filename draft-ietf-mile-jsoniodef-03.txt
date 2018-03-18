@@ -2107,7 +2107,7 @@ Internet-Draft                 JSON-IODEF                     March 2018
 
 7.  IANA Considerations
 
-   This memo includes no request to IANA.
+   This document registers a JSON schema.
 
 8.  Security Considerations
 

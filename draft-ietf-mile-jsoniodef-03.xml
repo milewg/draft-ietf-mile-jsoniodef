@@ -1837,7 +1837,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
    </section>
 
    <section anchor="IANA" title="IANA Considerations">
-     <t>This memo includes no request to IANA.</t>
+     <t> This document registers a JSON schema.</t>
    </section>
 
    <section anchor="Security" title="Security Considerations">
