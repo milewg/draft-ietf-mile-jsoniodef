@@ -34,7 +34,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" docName="draft-ietf-mile-jsoniodef-02" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-mile-jsoniodef-03" ipr="trust200902">
  <!-- category values: std, bcp, info, exp, and historic
     ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
        or pre5378Trust200902
@@ -135,6 +135,7 @@
    <t>
    RFC7970 specified an information model and a corresponding XML data model for exchanging incident and indicator information.  This draft provides an alternative data model implementation in JSON.
    </t>
+   </abstract>
  </front>
 
  <middle>
@@ -145,7 +146,7 @@
 
 <t>IODEF JSON provides all of the expressivity of IODEF XML.  It gives implementers and operators an alternative format to exchange the same information.</t>
 
-<t>The normative IODEF JSON data model is found in <xref target="jsonSchemaSection" />.  <xref target="dt" /> and <xref target="dm" /> describe the data types and elements of this data model.  <xref target="examples" /> provides examples.  
+<t>The normative IODEF JSON data model is found in <xref target="jsonSchemaSection" />.  <xref target="dt" /> and <xref target="dm" /> describe the data types and elements of this data model.  <xref target="examples" /> provides examples. </t>
 
      <section title="Requirements Language">
        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -164,10 +165,10 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 
   <section title="Abstract Data Type to JSON Data Type Mapping">
 
-<t>IODEF JSON uses native and derived JSON data types. <xref target="dtmap" /> describes the mapping between the abstract data types in Section 2 of <xref target="RFC7090" /> and their corresponding implementations in IODEF JSON.</t>
+<t>IODEF JSON uses native and derived JSON data types. <xref target="dtmap" /> describes the mapping between the abstract data types in Section 2 of <xref target="RFC7970" /> and their corresponding implementations in IODEF JSON.</t>
 
 
-<figure align="center" target="dtmap"><artwork align="left"><![CDATA[
+<figure align="center" anchor="dtmap"><artwork align="left"><![CDATA[
 +-----------------+-------------------+-------------------------------+
 | IODEF Data Type |      [RFC7970]    |       JSON Data Type          |
 |                 |      Reference    |                               |
@@ -255,7 +256,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
   </section>
 
 
-<section title="IODEF JSON Data Model" target="dm">
+<section title="IODEF JSON Data Model" anchor="dm">
 
 <section title="Classes and Elements">
 
