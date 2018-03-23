@@ -34,7 +34,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" docName="draft-ietf-mile-jsoniodef-02" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-mile-jsoniodef-03" ipr="trust200902">
  <!-- category values: std, bcp, info, exp, and historic
     ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
        or pre5378Trust200902
@@ -135,6 +135,7 @@
    <t>
    RFC7970 specified an information model and a corresponding XML data model for exchanging incident and indicator information.  This draft provides an alternative data model implementation in JSON.
    </t>
+   </abstract>
  </front>
 
  <middle>
@@ -145,7 +146,7 @@
 
 <t>IODEF JSON provides all of the expressivity of IODEF XML.  It gives implementers and operators an alternative format to exchange the same information.</t>
 
-<t>The normative IODEF JSON data model is found in <xref target="jsonSchemaSection" />.  <xref target="dt" /> and <xref target="dm" /> describe the data types and elements of this data model.  <xref target="examples" /> provides examples.  
+<t>The normative IODEF JSON data model is found in <xref target="jsonSchemaSection" />.  <xref target="dt" /> and <xref target="dm" /> describe the data types and elements of this data model.  <xref target="examples" /> provides examples. </t>
 
      <section title="Requirements Language">
        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -164,10 +165,10 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 
   <section title="Abstract Data Type to JSON Data Type Mapping">
 
-<t>IODEF JSON uses native and derived JSON data types. <xref target="dtmap" /> describes the mapping between the abstract data types in Section 2 of <xref target="RFC7090" /> and their corresponding implementations in IODEF JSON.</t>
+<t>IODEF JSON uses native and derived JSON data types. <xref target="dtmap" /> describes the mapping between the abstract data types in Section 2 of <xref target="RFC7970" /> and their corresponding implementations in IODEF JSON.</t>
 
 
-<figure align="center" target="dtmap"><artwork align="left"><![CDATA[
+<figure align="center" anchor="dtmap"><artwork align="left"><![CDATA[
 +-----------------+-------------------+-------------------------------+
 | IODEF Data Type |      [RFC7970]    |       JSON Data Type          |
 |                 |      Reference    |                               |
@@ -190,9 +191,11 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 | PHONE           | Section 2.11      | "string" per [jsonschema]     |
 | EMAIL           | Section 2.12      | "string" per [jsonschema]     |
 | URL             | Section 2.13      | "string" per [jsonschema]     |
+| ID              | Section 2.14      | "string" per [jsonschema]     |
 | IDREF           | Section 2.14      | "string" per [jsonschema]     |
 | SOFTWARE        | Section 2.15      | see Section 2.2.2             |
-| STRUCTURED      | N/A               | see Section 2.2.3             |
+| STRUCTURED      | RFC 7213          | see Section 2.2.3             |
+| EXTENSION       | Section 2.16      | see Section 2.2.4             |
 +-----------------+-------------------+-------------------------------+
 ]]></artwork></figure>
 
@@ -216,13 +219,23 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 </section>
 
 
-<section title="Software">
+<section title="Software and SoftwareReference">
 <t>A particular version of software is represented in the information model by the SOFTWARE data type. This software can be described by using a reference, a URL, or with free-form text. The SOFTWARE data type is implemented as an object with "SoftwareReference", "URL", "Description", and "Description_ML" elements as defined in <xref target="jsonSchemaSection"/>. Examples are shown below.</t>
 
 <figure align="center"><artwork align="left"><![CDATA[
 "SoftwareType": {
   "SoftwareReference": {...},          //SoftwareReference
   "Description": ["MS Windows"]        //STRING
+}
+]]></artwork></figure>
+
+<t>SoftwareReference class is a reference to a particular version of software. Examples are shown below.</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"SoftwareReference": {
+  "value": "cpe:/a:google:chrome:59.0.3071.115 ",   //STRING
+  "spec-name": "cpe",                                 //ENUM
+  "dtype": "string",                                  //ENUM
 }
 ]]></artwork></figure>
 
@@ -251,11 +264,27 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 
 </section>
 
+
+<section title="EXTENSION">
+<t>Information not otherwise represented in the IODEF can be added using the EXTENSION data type.  This data type is a generic extension mechanism. The EXTENSION data type is implemented as an ExtensionType object with "value", "name", "dtype", "ext-dtype", "meaning", "formatid", "restriction", "ext-restriction", and "observable-id" elements. An example for embedding a structured ID is shown below.</t>
+
+<figure align="center"><artwork align="left"><![CDATA[
+"ExtensionType": {
+  "value": "xxxxxxx",                                      //String
+  "name": "Syslog",                                        //String
+  "dtype": "string",                                       //String
+  "meaning": "Syslog from the security appliance X",       //String
+}
+]]></artwork></figure>
+
+</section>
+
+
 </section>
   </section>
 
 
-<section title="IODEF JSON Data Model" target="dm">
+<section title="IODEF JSON Data Model" anchor="dm">
 
 <section title="Classes and Elements">
 
@@ -963,7 +992,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "SoftwareReference": {"$ref": "#/definitions/SoftwareReference"},
         "URL": {"$ref": "#/definitions/URLtype"},
         "Description": {"type": "array", "items": {"type":"string"}}},
-      "required": [],
       "additionalProperties": false},
     "SoftwareReference": {
       "type": "object",
@@ -1168,7 +1196,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
           "type": "array", "items": {"$ref": "#/definitions/Contact"}},
         "DetectionPattern": {
           "type": "array", "items":{"$ref":"#/definitions/DetectionPattern"}}},
-      "required": [],
       "additionalProperties": false},
     "DetectionPattern": {
       "type": "object",
@@ -1197,7 +1224,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "Weakness": {
           "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false},
     "Reference": {
       "type": "object",
@@ -1206,7 +1232,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "ReferenceName": {"type": "string"},
         "URL": {"type": "array", "items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array", "items": {"type": "string"}}},
-      "required": [],
       "additionalProperties": false},
     "Assessment": {
       "type": "object",
@@ -1233,7 +1258,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "Cause": {"type": "array", "items": {"$type": "string"}},
         "Confidence": {"$ref": "#/definitions/Confidence"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false},
     "SystemImpact": {
       "type": "object",
@@ -1288,7 +1312,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "value": {"type": "number"},
         "severity": {"enum":["low","medium","high"]},
         "currency": {"type": "string"}},
-      "required": [],
       "additionalProperties": false},
     "Confidence": {
       "type": "object",
@@ -1367,7 +1390,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "StartTime": {"type": "string"},
         "EndTime": {"type": "string"},
         "Contact": {"$ref": "#/definitions/Contact"}},
-      "required": [],
       "additionalProperties": false},
     "System": {
       "type": "object",
@@ -1410,7 +1432,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "PostalAddress": {"type": "string"},
         "Location": {"type": "array","items": {"type": "string"}},
         "Counter": {"type": "array","items":{"$ref":"#/definitions/Counter"}}},
-      "required": [],
       "additionalProperties": false},
     "Address": {
       "type": "object",
@@ -1515,7 +1536,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "ApplicationHeaderField": {"$ref":"#/definitions/ExtensionTypeList"},
         "EmailData": {"$ref": "#/definitions/EmailData"},
         "Application": {"$ref": "#/definitions/SoftwareType"}},
-      "required": [],
       "additionalProperties": false},
     "ServiceName": {
       "type": "object",
@@ -1523,7 +1543,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "IANAService": {"type": "string"},
         "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array","items": {"type": "string"}}},
-      "required": [],
       "additionalProperties": false},
     "EmailData": {
       "type": "object",
@@ -1541,7 +1560,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "HashData": {
           "type": "array","items": {"$ref": "#/definitions/HashData"}},
         "Signature": {"type": "array","items": {"type": "string"}}},
-      "required": [],
       "additionalProperties": false},
     "RecordData": {
       "type": "object",
@@ -1566,7 +1584,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "CertificateData": {
           "type": "array","items": {"$ref": "#/definitions/CertificateData"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false
     },
     "RecordPattern": {
@@ -1614,7 +1631,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
       "type": "object",
       "properties": {
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "X509Data": {type: "string"},
+        "X509Data": {"type": "string"},
         "Description": {"type": "array","items": {"type": "string"}}},
       "required": ["X509Data"],
       "additionalProperties": false},
@@ -1639,7 +1656,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "AssociatedSoftware": {"$ref": "#/definitions/SoftwareType"},
         "FileProperties": {
           "type": "array","items": {"$ref": "#/definitions/ExtensionType"}}},
-      "required": [],
       "additionalProperties": false},
     "HashData": {
       "type": "object",
@@ -1742,7 +1758,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "HistoryItem": {"$ref": "#/definitions/HistoryItem"},
         "BulkObservable": {"$ref": "#/definitions/BulkObservable"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false},
     "BulkObservable": {
       "type": "object",
@@ -1759,14 +1774,12 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "BulkObservableFormant":{"$ref": "#/definitions/BulkObservableFormat"},
         "BulkObservableList": {"type": "array", "item":{"type": "string"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false},
     "BulkObservableFormat": {
       "type": "object",
       "properties": {
         "Hash": {"$ref": "#/definitions/Hash"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false},
     "IndicatorExpression": {
       "type": "object",
@@ -1783,7 +1796,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
           "type": "array",
          "items": {"$ref": "#/definitions/IndicatorReference"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false},
     "IndicatorReference": {
       "type": "object",
@@ -1791,7 +1803,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "uid-ref": {"type": "string"},
         "euid-ref": {"type": "string"},
         "version": {"type": "string"}},
-      "required": [],
       "additionalProperties": false},
     "AttackPhase": {
       "type": "object",
@@ -1800,7 +1811,6 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array","items": {"type": "string"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
       "additionalProperties": false}},
   "title": "IODEF-Document",
   "description": "JSON schema for IODEF-Document class",
@@ -1827,7 +1837,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
    </section>
 
    <section anchor="IANA" title="IANA Considerations">
-     <t>This memo includes no request to IANA.</t>
+     <t> This document registers a JSON schema.</t>
    </section>
 
    <section anchor="Security" title="Security Considerations">
