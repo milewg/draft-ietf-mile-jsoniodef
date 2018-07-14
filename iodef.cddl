@@ -8,7 +8,7 @@ iodef = {
  ? format-id: text
  ? private-enum-name: text
  ? private-enum-id: text
- Incidents: [* Incident]
+ + Incidents: Incident
  * AdditionalData: AdditionalData
 }
 
@@ -60,63 +60,71 @@ Incident = {
  ? ext-restriction: text
  ? observable-id: IDtype
  IncidentID: IncidentID
- ? AlternativeID: anymap ; @@@ object not well-defined @@@
- ? RelatedActivity: [* RelatedActivity]
+ ? AlternativeID: AlternativeID
+ * RelatedActivity: RelatedActivity
  ? DetectTime: text
  ? StartTime: text
  ? EndTime: text
  ? RecoveryTime: text
  ? ReportTime: text
  GenerationTime: text
- ? Description: [* text]
- ? Discovery: [* Discovery]
- ? Assessment: [* Assessment]
- ? Methods: [* Method]
- Contacts: [* Contact]
- ? EventData: [* EventData]
- ? IndicatorList: [* Indicator]
+ * Description: text
+ * Description_ML: text
+ * Discovery: Discovery
+ * Assessment: Assessment
+ * Method: Method
+ + Contacts: Contact
+ * EventData: EventData
+ * Indicator: Indicator
  ? History: History
- ? AdditionalData: AdditionalData
+ * AdditionalData: AdditionalData
 }
 
 IncidentID = {
- ? id: text
+ id: text
  name: text
  ? instance: text
  ? restriction: restriction
  ? ext-restriction: text
 }
 
+AlternativeID = {
+ ? restriction: restriction
+ ? ext-restriction: text
+ + IncidentID: IncidentID
+}
+
 RelatedActivity = {
  ? restriction: restriction
  ? ext-restriction: text
- ? IncidentID: [* IncidentID]
- ? URL: [* URLtype]
- ? ThreatActor: [* ThreatActor]
- ? Campaign: [* Campaign]
- ? IndicatorID: [* IndicatorID]
+ * IncidentID: IncidentID
+ * URL: URLtype
+ * ThreatActor: ThreatActor
+ * Campaign: Campaign
+ * IndicatorID: IndicatorID
  ? Confidence: Confidence
- ? Description: [* text]
- ? AdditionalData: AdditionalData
+ * Description: text
+ * AdditionalData: AdditionalData
 }
 
 ThreatActor = {
  ? restriction: restriction
  ? ext-restriction: text
- ? ThreatActorID: text
- ? Description: text
- ? URL: URLtype
- ? AdditionalData: AdditionalData
+ * ThreatActorID: text
+ * URL: URLtype
+ * Description: text
+ * Description_ML: text
+ * AdditionalData: AdditionalData
 }
 
 Campaign  = {
  ? restriction: restriction
  ? ext-restriction: text
- ? CampaignID: any
- ? URL: URLtype
- ? Description: text
- ? AdditionalData: AdditionalData
- * text => any
+ * CampaignID: any
+ * URL: URLtype
+ * Description: text
+ * Description_ML: text
+ * AdditionalData: AdditionalData
 }
 
 Contact = {
@@ -126,20 +134,23 @@ Contact = {
  ? ext-type: any
  ? restriction: restriction
  ? ext-restriction: text
- ? ContactName: any
- ? ContactTitle: any
- ? Description: text
- ? RegistryHandle: any
- ? PostalAddress: any
- ? Email: any
- ? Telephone: Telephone
+ * ContactName: any
+ * ContactName_ML: any
+ * ContactTitle: any
+ * ContactTitle_ML: any
+ * Description: text
+ * Description_ML: text
+ * RegistryHandle: any
+ * PostalAddress: any
+ * Email: any
+ * Telephone: Telephone
  ? Timezone: any
- ? Contact: Contact
- ? AdditionalData: AdditionalData
+ * Contact: Contact
+ * AdditionalData: AdditionalData
 }
 
 RegistryHandle = {
- ? RegistryHandleName: any
+ handle: string
  registry: any
  ? ext-registry: any
 }
@@ -148,14 +159,16 @@ PostalAddress = {
  ? type: text
  ? ext-type: text
  PAddress: text
- ? Description: text
+ * Description: text
+ * Description_ML: text
 }
 
 Email = {
  ? type: any
  ? ext-type: any
  EmailTo: any
- ? Description: text
+ * Description: text
+ * Description_ML: text
 }
 
 Telephone = {

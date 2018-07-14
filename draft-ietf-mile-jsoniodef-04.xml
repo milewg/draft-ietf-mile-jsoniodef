@@ -322,7 +322,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 |                             | EndTime?           |               |
 |                             | RecoveryTime?      |               |
 |                             | ReportTime?        |               |
-|                             | GenrationTime?     |               |
+|                             | GenerationTime     |               |
 |                             | Description*       |               |
 |                             | Description_ML*    |               |
 |                             | Discovery*         |               |
@@ -377,7 +377,8 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 |                             | ext-type?          |               |
 |                             | restriction?       |               |
 |                             | ext-restriction?   |               |
-|                             | ContactName*,ContactName_ML* |     |
+|                             | ContactName*,      |               |
+|                             | ContactName_ML*,   |               |
 |                             | ContactTitle*      |               |
 |                             | ContactTitle_ML*   |               |
 |                             | Description*       |               |
@@ -390,14 +391,14 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 |                             | Contact*           |               |
 |                             | AdditionalData*    | 3.9           |
 +-----------------------------+--------------------+---------------+
-| RegistryHandle              | handle|            |               |
-|                             | registry|          |               |
+| RegistryHandle              | handle             |               |
+|                             | registry           |               |
 |                             | ext-registry?      | 3.9.1         |
 +-----------------------------+--------------------+---------------+
-| PostalAddress               | type?|             |               |
-|                             | ext-type?|         |               |
-|                             | PAddress|          |               |
-|                             | Description*|      |               |
+| PostalAddress               | type?              |               |
+|                             | ext-type?          |               |
+|                             | PAddress           |               |
+|                             | Description*       |               |
 |                             | Description_ML*    | 3.9.2         |
 +-----------------------------+--------------------+---------------+
 | Email                       | type?              |               |
