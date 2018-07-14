@@ -323,9 +323,9 @@ EventData = {
  * Method: Method
  ? System: System
  * Expectation: Expectation
- ? Record: Record
- ? EventData: EventData
- ? AdditionalData: AdditionalData
+ * Record: Record
+ * EventData: EventData
+ * AdditionalData: AdditionalData
 }
 
 Expectation = {
@@ -335,8 +335,9 @@ Expectation = {
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
- ? Description: text
- ? DefinedCOA: any
+ * Description: text
+ * Description_ML: text
+ * DefinedCOA: any
  ? StartTime: any
  ? EndTime: any
  ? Contact: Contact
@@ -355,25 +356,27 @@ System = {
  ? ext-restriction: text
  ? observable-id: IDtype
  Node: Node
- ? NodeRole: NodeRole
- ? Service: Service
- ? OperatingSystem: any
- ? Counter: Counter
- ? AssetID: any
- ? Description: text
- ? AdditionalData: AdditionalData
+ * NodeRole: NodeRole
+ * Service: Service
+ * OperatingSystem: any
+ * Counter: Counter
+ * AssetID: any
+ * Description: text
+ * Description_ML: text
+ * AdditionalData: AdditionalData
 }
 
 Node = {
- ? DomainData: DomainData
- ? Address: Address
+ * DomainData: DomainData
+ * Address: Address
  ? PostalAddress: any
- ? Location: text
- ? Counter: Counter
+ * Location: text
+ * Location_ML: text
+ * Counter: Counter
 }
 
 Address = {
- ? AddressValue: any
+ value: any
  category: any
  ? ext-category: any
  ? vlan-name: any
@@ -384,16 +387,18 @@ Address = {
 NodeRole = {
  category: any
  ? ext-category: any
- ? Description: text
+ * Description: text
+ * Description_ML: text
 }
 
 Counter = {
- ? value: text
+ value: text
  type: any
  ? ext-type: any
  unit: any
  ? ext-unit: any
- ? meaning: any
+ ? meaning: text
+ ? meaning_ML: text
  ? duration: any
  ? ext-duration: any
 }
@@ -408,19 +413,19 @@ DomainData = {
  ? DateDomainWasChecked: any
  ? RegistrationDate: any
  ? ExpirationDate: any
- ? RelatedDNS: any
- ? NameServers: NameServers
+ * RelatedDNS: any
+ * NameServers: NameServers
  ? DomainContacts: DomainContacts
 }
 
 NameServers = {
  Server: any
- Address: Address
+ * Address: Address
 }
 
 DomainContacts = {
  ? SameDomainContact: any
- Contact: Contact
+ + Contact: Contact
 }
 
 Service = {
