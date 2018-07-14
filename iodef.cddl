@@ -9,7 +9,7 @@ iodef = {
  ? private-enum-name: text
  ? private-enum-id: text
  Incidents: [* Incident]
- ? AdditionalData: [* ExtensionType]
+ * AdditionalData: AdditionalData
 }
 
 lang = "en" / "jp"
@@ -19,7 +19,7 @@ restriction = "public" / "partner" / "need-to-know" / "private" /
 URLtype = text
 IDtype = text
 
-ExtensionType  = {
+AdditionalData  = {
  ? Name: text
  ? dtype: "boolean" / "byte" / "bytes" / "character" / "date-time" /
           "ntpstamp" / "integer" / "portlist" / "real" / "string" / "file" /
@@ -76,7 +76,7 @@ Incident = {
  ? EventData: [* EventData]
  ? IndicatorList: [* Indicator]
  ? History: History
- ? AdditionalData: [* ExtensionType]
+ ? AdditionalData: AdditionalData
 }
 
 IncidentID = {
@@ -97,7 +97,7 @@ RelatedActivity = {
  ? IndicatorID: [* IndicatorID]
  ? Confidence: Confidence
  ? Description: [* text]
- ? AdditionalData: [* ExtensionType]
+ ? AdditionalData: AdditionalData
 }
 
 ThreatActor = {
@@ -106,7 +106,7 @@ ThreatActor = {
  ? ThreatActorID: text
  ? Description: text
  ? URL: URLtype
- ? AdditionalData: [* ExtensionType]
+ ? AdditionalData: AdditionalData
 }
 
 Campaign  = {
@@ -115,7 +115,7 @@ Campaign  = {
  ? CampaignID: any
  ? URL: URLtype
  ? Description: text
- ? AdditionalData: [* ExtensionType]
+ ? AdditionalData: AdditionalData
  * text => any
 }
 
@@ -135,7 +135,7 @@ Contact = {
  ? Telephone: Telephone
  ? Timezone: any
  ? Contact: Contact
- ? AdditionalData: [* ExtensionType]
+ ? AdditionalData: AdditionalData
 }
 
 RegistryHandle = {
@@ -192,7 +192,7 @@ Method = {
  ? AttackPattern: any
  ? Vulnerability: any
  ? Weakness: any
- ? AdditionalData: [* ExtensionType]
+ ? AdditionalData: AdditionalData
 }
 
 Reference = {
@@ -217,7 +217,7 @@ Assessment = {
  ? MitigatingFactor: any
  ? Cause: any
  ? Confidence: Confidence
- ? AdditionalData: [* ExtensionType]
+ ? AdditionalData: AdditionalData
 }
 
 SystemImpact = {
@@ -274,7 +274,7 @@ HistoryItem = {
  ? Contact: Contact
  ? Description: text
  ? DefinedCOA: any
- ? AdditionalData: [* ExtensionType]
+ ? AdditionalData: AdditionalData
 }
 
 EventData = {
@@ -295,7 +295,7 @@ EventData = {
  ? Expectation: Expectation
  ? Record: Record
  ? EventData: EventData
- ? AdditionalData: [* ExtensionType]
+ ? AdditionalData: AdditionalData
 }
 
 Expectation = {
@@ -331,7 +331,7 @@ System = {
  ? Counter: Counter
  ? AssetID: any
  ? Description: text
- ? AdditionalData: [* ExtensionType]
+ ? AdditionalData: AdditionalData
 }
 
 Node = {
@@ -443,7 +443,7 @@ Record = {
  ? FileData: FileData
  ? WindowsRegistryKeysModified: any
  ? CertificateData: CertificateData
- ? AdditionalData: [* ExtensionType]
+ ? AdditionalData: AdditionalData
 }
 
 RecordPattern = {
@@ -515,9 +515,9 @@ Hash = {
 }
 
 FuzzyHash = {
- FuzzyHashValue: ExtensionType
+; FuzzyHashValue: ExtensionType
  ? Application: any
- ? AdditionalData: [* ExtensionType]
+ ? AdditionalData: AdditionalData
 }
 
 ; ** unused: {"SignatureValue"=>"xxxxxxxx", "id"=>"xxxxxxxx"}
@@ -542,7 +542,7 @@ Indicator = {
  ? NodeRole: NodeRole
  ? AttackPhase: AttackPhase
  ? Reference: Reference
- ? AdditionalData: [* ExtensionType]
+ ? AdditionalData: AdditionalData
 }
 
 IndicatorID = {
@@ -578,7 +578,7 @@ Observable = {
  ? DetectionPattern: any
  ? HistoryItem: any
  ? BulkObservable: text
- ? AdditionalData: [* ExtensionType]
+ ? AdditionalData: AdditionalData
 }
 
 BulkObservable = {
@@ -586,12 +586,12 @@ BulkObservable = {
  ? ext-type: any
  ? BulkObservableFormat: BulkObservableFormat
  BulkObservableList: text
- * AdditionalData: [* ExtensionType]
+ * AdditionalData: AdditionalData
 } 
 
 BulkObservableFormat = {
  ? Hash: Hash
- * AdditionalData: [* ExtensionType]
+ * AdditionalData: AdditionalData
 }
 
 IndicatorExpression = {
@@ -602,7 +602,7 @@ IndicatorExpression = {
  * uid-ref: any
  * IndicatorReference: IndicatorReference
  ? Confidence: Confidence
- * AdditionalData: [* ExtensionType]
+ * AdditionalData: AdditionalData
 }
 
 IndicatorReference = {
@@ -615,7 +615,7 @@ AttackPhase = {
  * AttackPhaseID: text
  * URL: URLtype
  * Description: text
- * AdditionalData: [* ExtensionType]
+ * AdditionalData: AdditionalData
 }
 
 anymap = {
