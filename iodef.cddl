@@ -220,23 +220,28 @@ StructuredInformation = {
 
 Reference = {
  ? observable-id: IDtype
- ? ReferenceName: any
+ ? ReferenceName: ReferenceName
  * URL: URLtype
  * Description: text
  * Description_ML: text
 }
 
+ReferenceName = {
+ specIndex: int
+ ID: text
+}
+
 Assessment = {
- ? occurrence: any
+ ? occurrence: "actual" / "potential"
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
- * IncidentCategory: any
+ * IncidentCategory: text
  * SystemImpact: SystemImpact
- * BusinessImpact: any
+ * BusinessImpact: BusinessImpact
  * TimeImpact: TimeImpact
  * MonetaryImpact: MonetaryImpact
- * IntendedImpact: any
+ * IntendedImpact: BusinessImpact
  * Counter: Counter
  * MitigatingFactor: text
  * MitigatingFactor_ML: text
@@ -247,19 +252,19 @@ Assessment = {
 }
 
 SystemImpact = {
- ? severity: any
- ? completion: any
- type: any
- ? ext-type: any
+ ? severity: "low" / "medium" / "high"
+ ? completion: "failed" / "succeeded"
+ type: "takeover-account" / "takeover-service" / "takeover-system" / "cps-manipulation" / "cps-damage" / "availability-data" / "availability-account" / "availability-service" / "availability-system" / "damaged-system" / "damaged-data" / "breach-proprietary" / "breach-privacy" / "breach-credential" / "breack-configuration" / "integrity-data" / "integrity-configuration" / "integrity-hardware" / "traffic-redirection" / "monitoring-traffic" / "monitoring-host" / "policy" / "unknown" / "ext-value"
+ ? ext-type: text
  * Description: text
  * Description_ML: text
 }
 
 BusinessImpact = {
- ? severity: any
- ? ext-severity: any
- type: any
- ? ext-type: any
+ ? severity: "none" / "low" / "medium" / "high" / "unknown" / "ext-value"
+ ? ext-severity: text
+ type: "breach-proprietary" / "breach-privacy" / "breach-credential" / "loss-of-integrity" / "loss-of-service" / "theft-financial" / "theft-service" / "degraded-reputation" / "asset-damage" / "asset-manipulation" / "legal" / "extortion" / "unknown" / "ext-value"
+ ? ext-type: text
  * Description: text
  * Description_ML: text
 }
