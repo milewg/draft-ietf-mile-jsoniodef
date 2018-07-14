@@ -32,7 +32,6 @@ AdditionalData  = {
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
- * text => any
 }
 
 SoftwareType = {
@@ -50,10 +49,9 @@ SoftwareReference = {
 }
 
 Incident = {
- purpose: "traceback" / "mitigation" / "reporting" / "watch" / "other" /
-"ext-value"
+ purpose: "traceback" / "mitigation" / "reporting" / "watch" / "other" / "ext-value"
  ? ext-purpose: text
- ? status: "blabla"
+ ? status: "new" / "in-progress"/ "forwarded" / "resolved" / "future" / "ext-value"
  ? ext-status: text
  ? lang: lang
  ? restriction: restriction
@@ -120,7 +118,7 @@ ThreatActor = {
 Campaign  = {
  ? restriction: restriction
  ? ext-restriction: text
- * CampaignID: any
+ * CampaignID: text
  * URL: URLtype
  * Description: text
  * Description_ML: text
@@ -128,31 +126,31 @@ Campaign  = {
 }
 
 Contact = {
- role: any
- ? ext-role: any
- type: any
- ? ext-type: any
+ role: "creator" / "reporter" / "admin" / "tech" / "provider" / "user" / "billing" / "legal" / "irt" / "abuse" / "cc" / "cc-irt" / "leo" / "vendor" / "vendor-support" / "victim" / "victim-notified" / "ext-value"
+ ? ext-role: text
+ type: "person" / "organization" / "ext-value"
+ ? ext-type: text
  ? restriction: restriction
  ? ext-restriction: text
- * ContactName: any
- * ContactName_ML: any
- * ContactTitle: any
- * ContactTitle_ML: any
+ * ContactName: text
+ * ContactName_ML: text
+ * ContactTitle: text
+ * ContactTitle_ML: text
  * Description: text
  * Description_ML: text
- * RegistryHandle: any
- * PostalAddress: any
- * Email: any
+ * RegistryHandle: RegistryHandle
+ * PostalAddress: PostalAddress
+ * Email: Email
  * Telephone: Telephone
- ? Timezone: any
- * Contact: Contact
+ ? Timezone: text
+; * Contact: Contact
  * AdditionalData: AdditionalData
 }
 
 RegistryHandle = {
- handle: string
- registry: any
- ? ext-registry: any
+ handle: text
+ registry: "internic" / "apnic" / "arin" / "lacnic" / "ripe" / "afrinic" / "local" / "ext-value"
+ ? ext-registry: text
 }
 
 PostalAddress = {
@@ -164,28 +162,30 @@ PostalAddress = {
 }
 
 Email = {
- ? type: any
- ? ext-type: any
- EmailTo: any
+ ? type: "direct" / "hotline" / "ext-value"
+ ? ext-type: text
+ EmailTo: text
  * Description: text
  * Description_ML: text
 }
 
 Telephone = {
- ? type: any
- ? ext-type: any
- TelephoneNumber: any
- ? Description: text
+ ? type: "wired" / "mobile" / "fax" / "hotline" / "ext-value"
+ ? ext-type: text
+ TelephoneNumber: text
+ * Description: text
+ * Description_ML: text
 }
 
 Discovery = {
- ? source: any
- ? ext-source: any
+ ? source: "nidps" / "hips" / "siem" / "av" / "third-party-monitoring" / "incident" / "os-log" / "application-log" / "device-log" / "network-flow" / "passive-dns" / "investiation" / "audit" / "international-notification" / "external-notification" / "leo" / "partner" / "actor" / "unknown" / "ext-value"
+ ? ext-source: text
  ? restriction: restriction
  ? ext-restriction: text
- ? Description: text
- ? Contact: Contact
- ? DetectionPattern: DetectionPattern
+ * Description: text
+ * Description_ML: text
+ * Contact: Contact
+ * DetectionPattern: DetectionPattern
 }
 
 DetectionPattern = {
@@ -193,26 +193,37 @@ DetectionPattern = {
  ? ext-restriction: text
  ? observable-id: IDtype
  Application: SoftwareType
- ? Description: text
- ? DetectionConfiguration: any
+ * Description: text
+ * Description_ML: text
+ * DetectionConfiguration: text
 }
 
 Method = {
  ? restriction: restriction
  ? ext-restriction: text
- ? References: [* Reference]
- ? Description: text
- ? AttackPattern: any
- ? Vulnerability: any
- ? Weakness: any
+ * Reference: Reference
+ * Description: text
+ * Description_ML: text
+ * AttackPattern: StructuredInformation
+ * Vulnerability: StructuredInformation
+ * Weakness: StructuredInformation
  ? AdditionalData: AdditionalData
+}
+
+StructuredInformation = {
+ specID: text
+ ? ext-specID: text
+ ? contentID: text
+ ? RawData: any
+ ? URL: URLtype
 }
 
 Reference = {
  ? observable-id: IDtype
  ? ReferenceName: any
- ? URL: URLtype
- ? Description: text
+ * URL: URLtype
+ * Description: text
+ * Description_ML: text
 }
 
 Assessment = {
@@ -220,17 +231,19 @@ Assessment = {
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
- ? IncidentCategory: any
- ? SystemImpact: SystemImpact
- ? BusinessImpact: any
- ? TimeImpact: TimeImpact
- ? MonetaryImpact: MonetaryImpact
- ? IntendedImpact: any
- ? Counter: Counter
- ? MitigatingFactor: any
- ? Cause: any
+ * IncidentCategory: any
+ * SystemImpact: SystemImpact
+ * BusinessImpact: any
+ * TimeImpact: TimeImpact
+ * MonetaryImpact: MonetaryImpact
+ * IntendedImpact: any
+ * Counter: Counter
+ * MitigatingFactor: text
+ * MitigatingFactor_ML: text
+ * Cause: text
+ * Cause_ML: text
  ? Confidence: Confidence
- ? AdditionalData: AdditionalData
+ * AdditionalData: AdditionalData
 }
 
 SystemImpact = {
@@ -238,7 +251,8 @@ SystemImpact = {
  ? completion: any
  type: any
  ? ext-type: any
- ? Description: text
+ * Description: text
+ * Description_ML: text
 }
 
 BusinessImpact = {
@@ -246,11 +260,12 @@ BusinessImpact = {
  ? ext-severity: any
  type: any
  ? ext-type: any
- ? Description: text
+ * Description: text
+ * Description_ML: text
 }
 
 TimeImpact = {
- ? value: any
+ value: any
  ? severity: any
  metric: any
  ? ext-metric: any
@@ -259,13 +274,13 @@ TimeImpact = {
 }
 
 MonetaryImpact = {
- ? MonetaryImpactValue: any
+ value: any
  ? severity: any
  ? currency: any
 }
 
 Confidence = {
- ? ConfidenceValue: any
+ value: any
  rating: any
  ? ext-rating: any
 }
@@ -273,7 +288,7 @@ Confidence = {
 History = {
  ? restriction: restriction
  ? ext-restriction: text
- HistoryItem: any
+ + HistoryItem: any
 }
 
 HistoryItem = {
@@ -285,27 +300,29 @@ HistoryItem = {
  DateTime: any
  ? IncidentID: any
  ? Contact: Contact
- ? Description: text
- ? DefinedCOA: any
- ? AdditionalData: AdditionalData
+ * Description: text
+ * Description_ML: text
+ * DefinedCOA: any
+ * AdditionalData: AdditionalData
 }
 
 EventData = {
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
- ? Description: text
+ * Description: text
+ * Description_ML: text
  ? DetectTime: any
  ? StartTime: any
  ? EndTime: any
  ? RecoveryTime: any
- ReportTime: text
- ? Contact: Contact
- ? Discovery: Discovery
+ ? ReportTime: text
+ * Contact: Contact
+ * Discovery: Discovery
  ? Assessment: any
- ? Method: Method
+ * Method: Method
  ? System: System
- ? Expectation: Expectation
+ * Expectation: Expectation
  ? Record: Record
  ? EventData: EventData
  ? AdditionalData: AdditionalData
@@ -610,7 +627,7 @@ BulkObservableFormat = {
 IndicatorExpression = {
  ? operator: any
  ? ext-operator: text
- * IndicatorExpression: IndicatorExpression
+; * IndicatorExpression: IndicatorExpression
  * Observable: any
  * uid-ref: any
  * IndicatorReference: IndicatorReference
