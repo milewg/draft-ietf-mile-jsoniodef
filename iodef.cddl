@@ -536,7 +536,7 @@ Indicator = {
  ? Confidence: Confidence
  ? Contact: Contact
  ? Observable: any
- ? ObservableReference: ObservableReference
+ ? uid-ref: any
  ? IndicatorExpression: IndicatorExpression
  ? IndicatorReference: IndicatorReference
  ? NodeRole: NodeRole
@@ -584,28 +584,25 @@ Observable = {
 BulkObservable = {
  ? type: any
  ? ext-type: any
- ? BulkObservableFormant: any
- ? BulkObservableList: text
- ? AdditionalData: [* ExtensionType]
-}
+ ? BulkObservableFormat: BulkObservableFormat
+ BulkObservableList: text
+ * AdditionalData: [* ExtensionType]
+} 
 
 BulkObservableFormat = {
  ? Hash: Hash
- ? AdditionalData: [* ExtensionType]
+ * AdditionalData: [* ExtensionType]
 }
 
 IndicatorExpression = {
  ? operator: any
  ? ext-operator: text
- ? IndicatorExpression: IndicatorExpression
- ? Observable: any
- ? ObservableReference: ObservableReference
- ? IndicatorReference: IndicatorReference
- ? AdditionalData: [* ExtensionType]
-}
-
-ObservableReference = {
- uid-ref: any
+ * IndicatorExpression: IndicatorExpression
+ * Observable: any
+ * uid-ref: any
+ * IndicatorReference: IndicatorReference
+ ? Confidence: Confidence
+ * AdditionalData: [* ExtensionType]
 }
 
 IndicatorReference = {
@@ -615,10 +612,10 @@ IndicatorReference = {
 }
 
 AttackPhase = {
- ? AttackPhaseID: text
- ? URL: URLtype
- ? Description: text
- ? AdditionalData: [* ExtensionType]
+ * AttackPhaseID: text
+ * URL: URLtype
+ * Description: text
+ * AdditionalData: [* ExtensionType]
 }
 
 anymap = {
