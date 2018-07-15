@@ -625,8 +625,8 @@ Observable = {
 }
 
 BulkObservable = {
- ? type: any
- ? ext-type: any
+ ? type: "asn" / "atm" / "e-mail" / "ipv4-addr" / "ipv4-net" / "ipv4-net-mask" / "ipv6-addr" / "ipv6-net" / "ipv6-net-mask" / "mac" / "site-url" / "domain-name" / "domain-to-ipv4" / "domain-to-ipv6" / "domain-to-ipv4-timestamp" / ""domain-to-ipv6-timestamp" / "ipv4-port" / "ipv6-port" / "windows-reg-key" / "file-hash" / "email-x-mailer" / "email-subject" / "http-user-agent" / "http-request-uri" / "mutex" / "file-path" / "user-name" / "ext-value"
+ ? ext-type: text
  ? BulkObservableFormat: BulkObservableFormat
  BulkObservableList: text
  * AdditionalData: ExtensionType
