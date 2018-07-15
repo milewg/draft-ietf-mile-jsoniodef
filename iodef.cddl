@@ -143,7 +143,7 @@ Contact = {
  * Email: Email
  * Telephone: Telephone
  ? Timezone: text
-; * Contact: Contact
+; * Contact: Contact ; @@@ commented out due to deep recursion
  * AdditionalData: AdditionalData
 }
 
@@ -328,8 +328,8 @@ EventData = {
  * Method: Method
  ? System: System
  * Expectation: Expectation
- * Record: Record
- * EventData: EventData
+ * RecordData: RecordData
+; * EventData: EventData ; @@@ commented out due to deep recursion
  * AdditionalData: AdditionalData
 }
 
@@ -458,135 +458,136 @@ ApplicationHeader = {
 }
 
 EmailData = {
- ? EmailTo: any
- ? EmailFrom: any
- ? EmailSubject: any
- ? EmailX-Mailer: any
- ? EmailHeaderField: any
- ? EmailHeaders: any
- ? EmailBody: any
- ? EmailMessage: any
- ? HashData: HashData
- ? SignatureData: SignatureData
+ ? observable-id: IDtype
+ * EmailTo: text
+ ? EmailFrom: text
+ ? EmailSubject: text
+ ? EmailX-Mailer: text
+ * EmailHeaderField: AdditionalData
+ ? EmailHeaders: text
+ ? EmailBody: text
+ ? EmailMessage: text
+ * HashData: HashData
+ * Signature: text
 }
 
-Record = {
+RecordData = {
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
  ? DateTime: any
- ? Description: text
- ? Applicadtion: any
- ? RecordPattern: any
- ? RecordItem: any
- ? URL: URLtype
- ? FileData: FileData
- ? WindowsRegistryKeysModified: any
- ? CertificateData: CertificateData
- ? AdditionalData: AdditionalData
+ * Description: text
+ * Description_ML: text
+ ? Applicadtion: SoftwareType
+ * RecordPattern: RecordPattern
+ * RecordItem: AdditionalData
+ * URL: URLtype
+ * FileData: FileData
+ * WindowsRegistryKeysModified: WindowsRegistryKeysModified
+ * CertificateData: CertificateData
+ * AdditionalData: AdditionalData
 }
 
 RecordPattern = {
- ? RecordPatternValue: any
- type: any
- ? ext-type: any
- ? offset: any
- ? offsetunit: any
- ? ext-offsetunit: any
+ value: text
+ type: "regex" / "binary" / "xpath" / "ext-value"
+ ? ext-type: text
+ ? offset: int
+ ? offsetunit: "line" / "byte" / "ext-value"
+ ? ext-offsetunit: text
  ? instance: int
 }
 
 WindowsRegistryKeysModified = {
- ? observabile-id: any           ; @@@ typo @@@
- Key: any
+ ? observable-id: IDtype
+ + Key: Key
 }
 
 Key = {
- ? registryaction: any
- ? ext-registryaction: any
+ ? registryaction: "add-key" / "add-value" / "delete-key" / "delete-value" / "modify-key" / "modify-value" / "ext-value"
+ ? ext-registryaction: text
  ? observable-id: IDtype
- KeyName: any
- ? KeyValue: any
+ KeyName: text
+ ? KeyValue: text
 }
 
 CertificateData = {
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
- Certificate: Certificate
+ + Certificate: Certificate
 }
 
 Certificate = {
  ? observable-id: IDtype
- X509Data: any
- ? Description: text
+ X509Data: text
+ * Description: text
+ * Description_ML: text
 }
 
 FileData = {
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
- File: File
+ + File: File
 }
 
 File = {
+ ? observable-id: IDtype
  ? FileName: text
- ? FileSize: any
- ? FileType: any
- ? URL: URLtype
+ ? FileSize: int
+ ? FileType: text
+ * URL: URLtype
  ? HashData: HashData
- ? SignatureData: SignatureData
- ? AssociatedSoftware: any
- ? FileProperties: any
+ * Signature: text
+ ? AssociatedSoftware: SoftwareType
+ * FileProperties: AdditionalData
 }
 
 HashData = {
- scope: any
- ? HashTargetID: any
- ? Hash: Hash
- ? FuzzyHash: FuzzyHash
+ scope: "file-contents" / "file-pe-section" / "file-pe-iat" / "file-pe-resource" / "file-pdf-object" / "email-hash" /  "email-hash-header" / "email-hash-body"
+ ? HashTargetID: text
+ * Hash: Hash
+ * FuzzyHash: FuzzyHash
 }
 
 Hash = {
  DigestMethod: text
  DigestValue: text
  ? CanonicalizationMethod: any
- ? Application: any
+ ? Application: SoftwareType
 }
 
 FuzzyHash = {
-; FuzzyHashValue: ExtensionType
- ? Application: any
- ? AdditionalData: AdditionalData
-}
-
-; ** unused: {"SignatureValue"=>"xxxxxxxx", "id"=>"xxxxxxxx"}
-SignatureData = {
- Signature: any
+; FuzzyHashValue: ExtensionType ; @@@ Is it correct??
+ + FuzzyHashValue: text
+ ? Application: SoftwareType
+ * AdditionalData: AdditionalData
 }
 
 Indicator = {
  ? restriction: restriction
  ? ext-restriction: text
  IndicatorID: IndicatorID
- ? AlternativeIndicatorID: AlternativeIndicatorID
- ? Description: text
- ? StartTime: any
- ? EndTime: any
+ * AlternativeIndicatorID: AlternativeIndicatorID
+ * Description: text
+ * Description_ML: text
+ ? StartTime: text
+ ? EndTime: text
  ? Confidence: Confidence
- ? Contact: Contact
- ? Observable: any
+ * Contact: Contact
+ ? Observable: Observable
  ? uid-ref: any
  ? IndicatorExpression: IndicatorExpression
  ? IndicatorReference: IndicatorReference
- ? NodeRole: NodeRole
- ? AttackPhase: AttackPhase
- ? Reference: Reference
- ? AdditionalData: AdditionalData
+ * NodeRole: NodeRole
+ * AttackPhase: AttackPhase
+ * Reference: Reference
+ * AdditionalData: AdditionalData
 }
 
 IndicatorID = {
- ? id: any
+ id: IDtype
  name: text
  version: text
 }
@@ -594,31 +595,31 @@ IndicatorID = {
 AlternativeIndicatorID = {
  ? restriction: restriction
  ? ext-restriction: text
- IndicatorReference: IndicatorReference
+ + IndicatorReference: IndicatorReference
 }
 
 Observable = {
  ? restriction: restriction
  ? ext-restriction: text
- ? System: any
- ? Address: any
+ ? System: System
+ ? Address: Address
  ? DomainData: DomainData
- ? EmailData: any
+ ? EmailData: EmailData
  ? Service: Service
- ? WindowsRegistryKeysModified: any
+ ? WindowsRegistryKeysModified: WindowsRegistryKeysModified
  ? FileData: FileData
  ? CertificateData: CertificateData
- ? RegistryHandle: any
- ? Record: Record
- ? EventData: any
- ? Incident: any
+ ? RegistryHandle: RegistryHandle
+ ? RecordData: RecordData
+ ? EventData: EventData
+ ? Incident: Incident
  ? Expectation: Expectation
  ? Reference: Reference
- ? Assessment: any
- ? DetectionPattern: any
- ? HistoryItem: any
- ? BulkObservable: text
- ? AdditionalData: AdditionalData
+ ? Assessment: Assessment
+ ? DetectionPattern: DetectionPattern
+ ? HistoryItem: HistoryItem
+ ? BulkObservable: BulkObservable
+ * AdditionalData: AdditionalData
 }
 
 BulkObservable = {
@@ -637,7 +638,7 @@ BulkObservableFormat = {
 IndicatorExpression = {
  ? operator: any
  ? ext-operator: text
-; * IndicatorExpression: IndicatorExpression
+; * IndicatorExpression: IndicatorExpression ; @@@ commented out due to deep recursion
  * Observable: any
  * uid-ref: any
  * IndicatorReference: IndicatorReference

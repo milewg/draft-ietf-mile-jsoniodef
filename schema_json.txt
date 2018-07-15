@@ -37,13 +37,6 @@
     "ExtensionTypeList": {
       "type": "array",
       "items": {"$ref": "#/definitions/ExtensionType"}},
-    "SoftwareType": {
-      "type": "object",
-      "properties": {
-        "SoftwareReference": {"$ref": "#/definitions/SoftwareReference"},
-        "URL": {"$ref": "#/definitions/URLtype"},
-        "Description": {"type": "array", "items": {"type":"string"}}},
-      "additionalProperties": false},
     "SoftwareReference": {
       "type": "object",
       "properties": {
@@ -53,6 +46,13 @@
         "dtype": {"type": "string"},
         "ext-dtype": {"type": "string"}},
       "required": ["spec-name"],
+      "additionalProperties": false},
+    "SoftwareType": {
+      "type": "object",
+      "properties": {
+        "SoftwareReference": {"$ref": "#/definitions/SoftwareReference"},
+        "URL": {"$ref": "#/definitions/URLtype"},
+        "Description": {"type": "array", "items": {"type":"string"}}},
       "additionalProperties": false},
     "StructuredInfo": {
       "type": "object",
