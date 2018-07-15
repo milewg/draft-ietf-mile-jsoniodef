@@ -8,11 +8,12 @@ iodef = {
  ? format-id: text
  ? private-enum-name: text
  ? private-enum-id: text
- + Incidents: Incident
+ + Incident: [+ Incident]
  * AdditionalData: ExtensionType
 }
 
-duration = "second" / "minute" / "hour" / "day" / "month" / "quarter" / "year" / "ext-value"
+duration = "second" / "minute" / "hour" / "day" / "month" / "quarter" /
+           "year" / "ext-value"
 lang = "en" / "jp"
 restriction = "public" / "partner" / "need-to-know" / "private" /
               "default" / "white" / "green" / "amber" / "red" /
@@ -21,16 +22,21 @@ DATETIME = text
 URLtype = text
 IDtype = text
 
-action = "nothing" / "contact-source-site" / "cotact-target-site" / "contact-sender" / "investigate" / "block-host" / "block-network" / "block-port" / "rate-limit-host" / "rate-limit-network" / "rate-limit-port" / "redirect-traffic" / "honeypot" / "upgrade-software" / "rebuild-asset" / "harden-asset" / "remediate-other" / "status-triage" / "status-new-info" / "watch-and-report" / "training" / "defined-coa" / "other" / "ext-value"
-
+action = "nothing" / "contact-source-site" / "cotact-target-site" /
+         "contact-sender" / "investigate" / "block-host" /
+         "block-network" / "block-port" / "rate-limit-host" /
+         "rate-limit-network" / "rate-limit-port" / "redirect-traffic" /
+         "honeypot" / "upgrade-software" / "rebuild-asset" /
+         "harden-asset" / "remediate-other" / "status-triage" /
+         "status-new-info" / "watch-and-report" / "training" /
+         "defined-coa" / "other" / "ext-value"
 
 ExtensionType  = {
  ? Name: text
  ? dtype: "boolean" / "byte" / "bytes" / "character" / "date-time" /
-          "ntpstamp" / "integer" / "portlist" / "real" / "string" / "file" /
-          "path" / "frame" / "packet" / "ipv4-packet" / "ipv6-packet" /
-"url" /
-          "csv" / "winreg" / "xml" / "ext-value"
+          "ntpstamp" / "integer" / "portlist" / "real" / "string" /
+          "file" / "path" / "frame" / "packet" / "ipv4-packet" /
+          "ipv6-packet" / "url" / "csv" / "winreg" / "xml" / "ext-value"
  ? ext-dtype: text
  ? meaning: text
  ? formatid: text
@@ -54,9 +60,11 @@ SoftwareReference = {
 }
 
 Incident = {
- purpose: "traceback" / "mitigation" / "reporting" / "watch" / "other" / "ext-value"
+ purpose: "traceback" / "mitigation" / "reporting" / "watch" / "other" /
+          "ext-value"
  ? ext-purpose: text
- ? status: "new" / "in-progress"/ "forwarded" / "resolved" / "future" / "ext-value"
+ ? status: "new" / "in-progress"/ "forwarded" / "resolved" / "future" /
+           "ext-value"
  ? ext-status: text
  ? lang: lang
  ? restriction: restriction
@@ -131,7 +139,10 @@ Campaign  = {
 }
 
 Contact = {
- role: "creator" / "reporter" / "admin" / "tech" / "provider" / "user" / "billing" / "legal" / "irt" / "abuse" / "cc" / "cc-irt" / "leo" / "vendor" / "vendor-support" / "victim" / "victim-notified" / "ext-value"
+ role: "creator" / "reporter" / "admin" / "tech" / "provider" / "user" /
+       "billing" / "legal" / "irt" / "abuse" / "cc" / "cc-irt" / "leo" /
+       "vendor" / "vendor-support" / "victim" / "victim-notified" /
+       "ext-value"
  ? ext-role: text
  type: "person" / "organization" / "ext-value"
  ? ext-type: text
@@ -148,13 +159,14 @@ Contact = {
  * Email: Email
  * Telephone: Telephone
  ? Timezone: text
-; * Contact: Contact ; @@@ commented out due to deep recursion
+ * Contact: Contact
  * AdditionalData: ExtensionType
 }
 
 RegistryHandle = {
  handle: text
- registry: "internic" / "apnic" / "arin" / "lacnic" / "ripe" / "afrinic" / "local" / "ext-value"
+ registry: "internic" / "apnic" / "arin" / "lacnic" / "ripe" / "afrinic" /
+           "local" / "ext-value"
  ? ext-registry: text
 }
 
@@ -183,7 +195,11 @@ Telephone = {
 }
 
 Discovery = {
- ? source: "nidps" / "hips" / "siem" / "av" / "third-party-monitoring" / "incident" / "os-log" / "application-log" / "device-log" / "network-flow" / "passive-dns" / "investiation" / "audit" / "international-notification" / "external-notification" / "leo" / "partner" / "actor" / "unknown" / "ext-value"
+ ? source: "nidps" / "hips" / "siem" / "av" / "third-party-monitoring" /
+           "incident" / "os-log" / "application-log" / "device-log" /
+           "network-flow" / "passive-dns" / "investiation" / "audit" /
+           "international-notification" / "external-notification" /
+           "leo" / "partner" / "actor" / "unknown" / "ext-value"
  ? ext-source: text
  ? restriction: restriction
  ? ext-restriction: text
@@ -259,7 +275,15 @@ Assessment = {
 SystemImpact = {
  ? severity: "low" / "medium" / "high"
  ? completion: "failed" / "succeeded"
- type: "takeover-account" / "takeover-service" / "takeover-system" / "cps-manipulation" / "cps-damage" / "availability-data" / "availability-account" / "availability-service" / "availability-system" / "damaged-system" / "damaged-data" / "breach-proprietary" / "breach-privacy" / "breach-credential" / "breack-configuration" / "integrity-data" / "integrity-configuration" / "integrity-hardware" / "traffic-redirection" / "monitoring-traffic" / "monitoring-host" / "policy" / "unknown" / "ext-value"
+ type: "takeover-account" / "takeover-service" / "takeover-system" /
+       "cps-manipulation" / "cps-damage" / "availability-data" /
+       "availability-account" / "availability-service" /
+       "availability-system" / "damaged-system" / "damaged-data" /
+       "breach-proprietary" / "breach-privacy" / "breach-credential" /
+       "breack-configuration" / "integrity-data" /
+       "integrity-configuration" / "integrity-hardware" /
+       "traffic-redirection" / "monitoring-traffic" / "monitoring-host" /
+       "policy" / "unknown" / "ext-value"
  ? ext-type: text
  * Description: text
  * Description_ML: text
@@ -268,7 +292,11 @@ SystemImpact = {
 BusinessImpact = {
  ? severity: "none" / "low" / "medium" / "high" / "unknown" / "ext-value"
  ? ext-severity: text
- type: "breach-proprietary" / "breach-privacy" / "breach-credential" / "loss-of-integrity" / "loss-of-service" / "theft-financial" / "theft-service" / "degraded-reputation" / "asset-damage" / "asset-manipulation" / "legal" / "extortion" / "unknown" / "ext-value"
+ type: "breach-proprietary" / "breach-privacy" / "breach-credential" /
+       "loss-of-integrity" / "loss-of-service" / "theft-financial" /
+       "theft-service" / "degraded-reputation" / "asset-damage" /
+       "asset-manipulation" / "legal" / "extortion" / "unknown" /
+       "ext-value"
  ? ext-type: text
  * Description: text
  * Description_ML: text
@@ -334,7 +362,7 @@ EventData = {
  ? System: System
  * Expectation: Expectation
  * RecordData: RecordData
-; * EventData: EventData ; @@@ commented out due to deep recursion
+ * EventData: EventData
  * AdditionalData: ExtensionType
 }
 
@@ -360,7 +388,8 @@ System = {
  ? interface: text
  ? spoofed: "unknown" / "yes" / "no"
  ? virtual: "yes" / "no" / "unknown"
- ? ownership: "organization" / "personal" / "partner" / "customer" / "no-relationship" / "unknown" / "ext-value"
+ ? ownership: "organization" / "personal" / "partner" / "customer" /
+              "no-relationship" / "unknown" / "ext-value"
  ? ext-ownership: text
  ? restriction: restriction
  ? ext-restriction: text
@@ -387,7 +416,10 @@ Node = {
 
 Address = {
  value: text
- category: "asn" / "atm" / "e-mail" / "ipv4-addr" / "ipv4-net" / "ipv4-net-masked" / "ipv4-net-mask" / "ipv6-addr" / "ipv6-net" / "ipv6-net-masked" / "mac" / "site-url" / "ext-value"
+ category: "asn" / "atm" / "e-mail" / "ipv4-addr" / "ipv4-net" /
+           "ipv4-net-masked" / "ipv4-net-mask" / "ipv6-addr" /
+           "ipv6-net" / "ipv6-net-masked" / "mac" / "site-url" /
+           "ext-value"
  ? ext-category: text
  ? vlan-name: text
  ? vlan-num: int
@@ -395,7 +427,21 @@ Address = {
 }
 
 NodeRole = {
- category: "client" / "client-enterprise" / "clent-partner" / "client-remote" / "client-kiosk" / "client-mobile" / "server-internal" / "server-public" / "www" / "mail" / "webmail" / "messaging" / "streaming" / "voice" / "file" / "ftp" / "p2p" / "name" / "directory" / "credential" / "print" / "application" / "database" / "backup" / "dhcp" / "assessment" / "source-control" / "config-management" / "monitoring" / "infra" / "infra-firewall" / "infra-router" / "infra-switch" / "camera" / "proxy" / "remote-access" / "log" / "virtualization" / "pos" /  "scada" /  "scada-supervisory" / "sinkhole" / "honeypot" / "anomyzation" / "c2-server" / "malware-distribution" / "drop-server" / "hot-point" / "reflector" / "phishing-site" / "spear-phishing-site" / "recruiting-site" / "fraudulent-site" / "ext-value"
+ category: "client" / "client-enterprise" / "clent-partner" /
+           "client-remote" / "client-kiosk" / "client-mobile" /
+           "server-internal" / "server-public" / "www" / "mail" /
+           "webmail" / "messaging" / "streaming" / "voice" / "file" /
+           "ftp" / "p2p" / "name" / "directory" / "credential" /
+           "print" / "application" / "database" / "backup" / "dhcp" /
+           "assessment" / "source-control" / "config-management" /
+           "monitoring" / "infra" / "infra-firewall" / "infra-router" /
+           "infra-switch" / "camera" / "proxy" / "remote-access" /
+           "log" / "virtualization" / "pos" /  "scada" /
+           "scada-supervisory" / "sinkhole" / "honeypot" /
+           "anomyzation" / "c2-server" / "malware-distribution" /
+           "drop-server" / "hot-point" / "reflector" /
+           "phishing-site" / "spear-phishing-site" / "recruiting-site" /
+           "fraudulent-site" / "ext-value"
  ? ext-category: text
  * Description: text
  * Description_ML: text
@@ -405,7 +451,9 @@ Counter = {
  value: text
  type: "count" / "peak" / "average" / "ext-value"
  ? ext-type: text
- unit: "byte" / "mbit" / "packet" / "flow" / "session" / "alert" / "message" / "event" / "host" / "site" / "organization" / "ext-value"
+ unit: "byte" / "mbit" / "packet" / "flow" / "session" / "alert" /
+       "message" / "event" / "host" / "site" / "organization" /
+       "ext-value"
  ? ext-unit: text
  ? meaning: text
  ? meaning_ML: text
@@ -414,9 +462,13 @@ Counter = {
 }
 
 DomainData = {
- system-status: "spoofed" / "fraudulent" / "innocent-hacked" / "innocent-hijacked" / "unknown" / "ext-value"
+ system-status: "spoofed" / "fraudulent" / "innocent-hacked" /
+                "innocent-hijacked" / "unknown" / "ext-value"
  ? ext-system-status: text
- domain-status: "reservedDelegation" / "assignedAndActive" / "assignedAndInactive" / "assignedAndOnHold" / "revoked" / "transferPending" / "registryLock" / "registrarLock" / "other" / "unknown" / "ext-value"
+ domain-status: "reservedDelegation" / "assignedAndActive" /
+                "assignedAndInactive" / "assignedAndOnHold" /
+                "revoked" / "transferPending" / "registryLock" /
+                "registrarLock" / "other" / "unknown" / "ext-value"
  ? ext-domain-status: text
  ? observable-id: IDtype
  Name: text
@@ -506,7 +558,9 @@ WindowsRegistryKeysModified = {
 }
 
 Key = {
- ? registryaction: "add-key" / "add-value" / "delete-key" / "delete-value" / "modify-key" / "modify-value" / "ext-value"
+ ? registryaction: "add-key" / "add-value" / "delete-key" /
+                   "delete-value" / "modify-key" / "modify-value" /
+                   "ext-value"
  ? ext-registryaction: text
  ? observable-id: IDtype
  KeyName: text
@@ -547,7 +601,9 @@ File = {
 }
 
 HashData = {
- scope: "file-contents" / "file-pe-section" / "file-pe-iat" / "file-pe-resource" / "file-pdf-object" / "email-hash" /  "email-hash-header" / "email-hash-body"
+ scope: "file-contents" / "file-pe-section" / "file-pe-iat" /
+        "file-pe-resource" / "file-pdf-object" / "email-hash" /
+        "email-hash-header" / "email-hash-body"
  ? HashTargetID: text
  * Hash: Hash
  * FuzzyHash: FuzzyHash
@@ -624,12 +680,19 @@ Observable = {
 }
 
 BulkObservable = {
- ? type: "asn" / "atm" / "e-mail" / "ipv4-addr" / "ipv4-net" / "ipv4-net-mask" / "ipv6-addr" / "ipv6-net" / "ipv6-net-mask" / "mac" / "site-url" / "domain-name" / "domain-to-ipv4" / "domain-to-ipv6" / "domain-to-ipv4-timestamp" / "domain-to-ipv6-timestamp" / "ipv4-port" / "ipv6-port" / "windows-reg-key" / "file-hash" / "email-x-mailer" / "email-subject" / "http-user-agent" / "http-request-uri" / "mutex" / "file-path" / "user-name" / "ext-value"
+ ? type: "asn" / "atm" / "e-mail" / "ipv4-addr" / "ipv4-net" /
+         "ipv4-net-mask" / "ipv6-addr" / "ipv6-net" / "ipv6-net-mask" /
+         "mac" / "site-url" / "domain-name" / "domain-to-ipv4" /
+         "domain-to-ipv6" / "domain-to-ipv4-timestamp" /
+         "domain-to-ipv6-timestamp" / "ipv4-port" / "ipv6-port" /
+         "windows-reg-key" / "file-hash" / "email-x-mailer" /
+         "email-subject" / "http-user-agent" / "http-request-uri" /
+         "mutex" / "file-path" / "user-name" / "ext-value"
  ? ext-type: text
  ? BulkObservableFormat: BulkObservableFormat
  BulkObservableList: text
  * AdditionalData: ExtensionType
-} 
+}
 
 BulkObservableFormat = {
  ? Hash: Hash
@@ -639,7 +702,7 @@ BulkObservableFormat = {
 IndicatorExpression = {
  ? operator: "not" / "and" / "or" / "xor"
  ? ext-operator: text
-; * IndicatorExpression: IndicatorExpression ; @@@ commented out due to deep recursion
+ * IndicatorExpression: IndicatorExpression
  * Observable: Observable
  * uid-ref: text
  * IndicatorReference: IndicatorReference
@@ -659,4 +722,3 @@ AttackPhase = {
  * Description: text
  * AdditionalData: ExtensionType
 }
-
