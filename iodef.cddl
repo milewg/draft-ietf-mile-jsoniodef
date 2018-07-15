@@ -272,44 +272,44 @@ BusinessImpact = {
 }
 
 TimeImpact = {
- value: any
- ? severity: any
- metric: any
- ? ext-metric: any
- ? duration: any
- ? ext-duration: any
+ value: int
+ ? severity: "low" / "medium" / "high"
+ metric: "labor" / "elapsed" / "downtime" / "ext-value"
+ ? ext-metric: text
+ ? duration: "second" / "minute" / "hour" / "day" / "month" / "quarter" / "year" / "ext-value"
+ ? ext-duration: text
 }
 
 MonetaryImpact = {
- value: any
- ? severity: any
- ? currency: any
+ value: int
+ ? severity: "low" / "medium" / "high"
+ ? currency: text
 }
 
 Confidence = {
- value: any
- rating: any
- ? ext-rating: any
+ value: int
+ rating: "low" / "medium" / "high" / "numeric" / "unknown" / "ext-value"
+ ? ext-rating: text
 }
 
 History = {
  ? restriction: restriction
  ? ext-restriction: text
- + HistoryItem: any
+ + HistoryItem: HistoryItem
 }
 
 HistoryItem = {
- action: any
- ? ext-action: any
+ action: "nothing" / "contact-source-site" / "cotact-target-site" / "contact-sender" / "investigate" / "block-host" / "block-network" / "block-port" / "rate-limit-host" / "rate-limit-network" / "rate-limit-port" / "redirect-traffic" / "honeypot" / "upgrade-software" / "rebuild-asset" / "harden-asset" / "remediate-other" / "status-triage" / "status-new-info" / "watch-and-report" / "training" / "defined-coa" / "other" / "ext-value"
+ ? ext-action: text
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
- DateTime: any
- ? IncidentID: any
+ DateTime: DATETIME
+ ? IncidentID: IncidentID
  ? Contact: Contact
  * Description: text
  * Description_ML: text
- * DefinedCOA: any
+ * DefinedCOA: text
  * AdditionalData: AdditionalData
 }
 
@@ -319,11 +319,11 @@ EventData = {
  ? observable-id: IDtype
  * Description: text
  * Description_ML: text
- ? DetectTime: any
- ? StartTime: any
- ? EndTime: any
- ? RecoveryTime: any
- ? ReportTime: text
+ ? DetectTime: DATETIME
+ ? StartTime: DATETIME
+ ? EndTime: DATETIME
+ ? RecoveryTime: DATETIME
+ ? ReportTime: DATETIME
  * Contact: Contact
  * Discovery: Discovery
  ? Assessment: any
