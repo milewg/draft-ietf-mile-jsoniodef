@@ -12,10 +12,12 @@ iodef = {
  * AdditionalData: AdditionalData
 }
 
+duration = "second" / "minute" / "hour" / "day" / "month" / "quarter" / "year" / "ext-value"
 lang = "en" / "jp"
 restriction = "public" / "partner" / "need-to-know" / "private" /
               "default" / "white" / "green" / "amber" / "red" /
               "ext-value"
+DATETIME = text
 URLtype = text
 IDtype = text
 
@@ -398,63 +400,60 @@ NodeRole = {
 
 Counter = {
  value: text
- type: any
- ? ext-type: any
- unit: any
- ? ext-unit: any
+ type: "count" / "peak" / "average" / "ext-value"
+ ? ext-type: text
+ unit: "byte" / "mbit" / "packet" / "flow" / "session" / "alert" / "message" / "event" / "host" / "site" / "organization" / "ext-value"
+ ? ext-unit: text
  ? meaning: text
  ? meaning_ML: text
- ? duration: any
- ? ext-duration: any
+ ? duration: duration
+ ? ext-duration: text
 }
 
 DomainData = {
- system-status: any
- ? ext-system-status: any
- domain-status: any
- ? ext-domain-status: any
+ system-status: "spoofed" / "fraudulent" / "innocent-hacked" / "innocent-hijacked" / "unknown" / "ext-value"
+ ? ext-system-status: text
+ domain-status: "reservedDelegation" / "assignedAndActive" / "assignedAndInactive" / "assignedAndOnHold" / "revoked" / "transferPending" / "registryLock" / "registrarLock" / "other" / "unknown" / "ext-value"
+ ? ext-domain-status: text
  ? observable-id: IDtype
- Name: any
- ? DateDomainWasChecked: any
- ? RegistrationDate: any
- ? ExpirationDate: any
- * RelatedDNS: any
+ Name: text
+ ? DateDomainWasChecked: DATETIME
+ ? RegistrationDate: DATETIME
+ ? ExpirationDate: DATETIME
+ * RelatedDNS: AdditionalData
  * NameServers: NameServers
  ? DomainContacts: DomainContacts
 }
 
 NameServers = {
- Server: any
+ Server: text
  * Address: Address
 }
 
 DomainContacts = {
- ? SameDomainContact: any
+ ? SameDomainContact: text
  + Contact: Contact
 }
 
 Service = {
- ? ip-protocol: any
+ ? ip-protocol: int
  ? observable-id: IDtype
- ? ServiceName: any
- ? Port: any
- ? Portlist: any
- ? ProtoCode: any
- ? ProtoType: any
- ? ProtoField: any
- ? ApplicationHeader: any
- ? EmailData: any
- ? Application: any
+ ? ServiceName: ServiceName
+ ? Port: int
+ ? Portlist: text
+ ? ProtoCode: int
+ ? ProtoType: int
+ ? ProtoField: int
+ + ApplicationHeaderField: AdditionalData
+ ? EmailData: EmailData
+ ? Application: SoftwareType
 }
 
 ServiceName = {
- ? IANAService: any
- ? URL: URLtype
- ? Description: text
-}
-
-ApplicationHeader = {
- ? ApplicationHeaderField: any
+ ? IANAService: text
+ * URL: URLtype
+ * Description: text
+ * Description_ML: text
 }
 
 EmailData = {
@@ -475,7 +474,7 @@ RecordData = {
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
- ? DateTime: any
+ ? DateTime: DATETIME
  * Description: text
  * Description_ML: text
  ? Applicadtion: SoftwareType
@@ -572,8 +571,8 @@ Indicator = {
  * AlternativeIndicatorID: AlternativeIndicatorID
  * Description: text
  * Description_ML: text
- ? StartTime: text
- ? EndTime: text
+ ? StartTime: DATETIME
+ ? EndTime: DATETIME
  ? Confidence: Confidence
  * Contact: Contact
  ? Observable: Observable
