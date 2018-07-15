@@ -279,7 +279,7 @@ TimeImpact = {
  ? severity: "low" / "medium" / "high"
  metric: "labor" / "elapsed" / "downtime" / "ext-value"
  ? ext-metric: text
- ? duration: "second" / "minute" / "hour" / "day" / "month" / "quarter" / "year" / "ext-value"
+ ? duration: duration
  ? ext-duration: text
 }
 
