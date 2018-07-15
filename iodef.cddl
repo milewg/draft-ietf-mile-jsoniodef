@@ -579,7 +579,7 @@ Indicator = {
  ? Confidence: Confidence
  * Contact: Contact
  ? Observable: Observable
- ? uid-ref: any
+ ? uid-ref: text
  ? IndicatorExpression: IndicatorExpression
  ? IndicatorReference: IndicatorReference
  * NodeRole: NodeRole
@@ -661,6 +661,3 @@ AttackPhase = {
  * AdditionalData: ExtensionType
 }
 
-anymap = {
- * text => any
-}
