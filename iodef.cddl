@@ -386,10 +386,10 @@ Node = {
 }
 
 Address = {
- value: any
- category: any
- ? ext-category: any
- ? vlan-name: any
+ value: text
+ category: "asn" / "atm" / "e-mail" / "ipv4-addr" / "ipv4-net" / "ipv4-net-masked" / "ipv4-net-mask" / "ipv6-addr" / "ipv6-net" / "ipv6-net-masked" / "mac" / "site-url" / "ext-value"
+ ? ext-category: text
+ ? vlan-name: text
  ? vlan-num: int
  ? observable-id: IDtype
 }
