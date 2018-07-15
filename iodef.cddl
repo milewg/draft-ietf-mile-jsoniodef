@@ -395,8 +395,8 @@ Address = {
 }
 
 NodeRole = {
- category: any
- ? ext-category: any
+ category: "client" / "client-enterprise" / "clent-partner" / "client-remote" / "client-kiosk" / "client-mobile" / "server-internal" / "server-public" / "www" / "mail" / "webmail" / "messaging" / "streaming" / "voice" / "file" / "ftp" / "p2p" / "name" / "directory" / "credential" / "print" / "application" / "database" / "backup" / "dhcp" / "assessment" / "source-control" / "config-management" / "monitoring" / "infra" / "infra-firewall" / "infra-router" / "infra-switch" / "camera" / "proxy" / "remote-access" / "log" / "virtualization" / "pos" /  "scada" /  "scada-supervisory" / "sinkhole" / "honeypot" / "anomyzation" / "c2-server" / "malware-distribution" / "drop-server" / "hot-point" / "reflector" / "phishing-site" / "spear-phishing-site" / "recruiting-site" / "fraudulent-site" / "ext-value"
+ ? ext-category: text
  * Description: text
  * Description_ML: text
 }
@@ -638,18 +638,18 @@ BulkObservableFormat = {
 }
 
 IndicatorExpression = {
- ? operator: any
+ ? operator: "not" / "and" / "or" / "xor"
  ? ext-operator: text
 ; * IndicatorExpression: IndicatorExpression ; @@@ commented out due to deep recursion
- * Observable: any
- * uid-ref: any
+ * Observable: Observable
+ * uid-ref: text
  * IndicatorReference: IndicatorReference
  ? Confidence: Confidence
  * AdditionalData: ExtensionType
 }
 
 IndicatorReference = {
- ? uid-ref: any
+ ? uid-ref: text
  ? euid-ref: text
  ? version: text
 }
