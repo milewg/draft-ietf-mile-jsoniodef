@@ -9,7 +9,7 @@ iodef = {
  ? private-enum-name: text
  ? private-enum-id: text
  + Incidents: Incident
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 duration = "second" / "minute" / "hour" / "day" / "month" / "quarter" / "year" / "ext-value"
@@ -21,7 +21,7 @@ DATETIME = text
 URLtype = text
 IDtype = text
 
-AdditionalData  = {
+ExtensionType  = {
  ? Name: text
  ? dtype: "boolean" / "byte" / "bytes" / "character" / "date-time" /
           "ntpstamp" / "integer" / "portlist" / "real" / "string" / "file" /
@@ -77,7 +77,7 @@ Incident = {
  * EventData: EventData
  * Indicator: Indicator
  ? History: History
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 IncidentID = {
@@ -104,7 +104,7 @@ RelatedActivity = {
  * IndicatorID: IndicatorID
  ? Confidence: Confidence
  * Description: text
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 ThreatActor = {
@@ -114,7 +114,7 @@ ThreatActor = {
  * URL: URLtype
  * Description: text
  * Description_ML: text
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 Campaign  = {
@@ -124,7 +124,7 @@ Campaign  = {
  * URL: URLtype
  * Description: text
  * Description_ML: text
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 Contact = {
@@ -146,7 +146,7 @@ Contact = {
  * Telephone: Telephone
  ? Timezone: text
 ; * Contact: Contact ; @@@ commented out due to deep recursion
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 RegistryHandle = {
@@ -209,7 +209,7 @@ Method = {
  * AttackPattern: StructuredInformation
  * Vulnerability: StructuredInformation
  * Weakness: StructuredInformation
- ? AdditionalData: AdditionalData
+ ? AdditionalData: ExtensionType
 }
 
 StructuredInformation = {
@@ -250,7 +250,7 @@ Assessment = {
  * Cause: text
  * Cause_ML: text
  ? Confidence: Confidence
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 SystemImpact = {
@@ -310,7 +310,7 @@ HistoryItem = {
  * Description: text
  * Description_ML: text
  * DefinedCOA: text
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 EventData = {
@@ -332,7 +332,7 @@ EventData = {
  * Expectation: Expectation
  * RecordData: RecordData
 ; * EventData: EventData ; @@@ commented out due to deep recursion
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 Expectation = {
@@ -370,7 +370,7 @@ System = {
  * AssetID: any
  * Description: text
  * Description_ML: text
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 Node = {
@@ -420,7 +420,7 @@ DomainData = {
  ? DateDomainWasChecked: DATETIME
  ? RegistrationDate: DATETIME
  ? ExpirationDate: DATETIME
- * RelatedDNS: AdditionalData
+ * RelatedDNS: ExtensionType
  * NameServers: NameServers
  ? DomainContacts: DomainContacts
 }
@@ -444,7 +444,7 @@ Service = {
  ? ProtoCode: int
  ? ProtoType: int
  ? ProtoField: int
- + ApplicationHeaderField: AdditionalData
+ + ApplicationHeaderField: ExtensionType
  ? EmailData: EmailData
  ? Application: SoftwareType
 }
@@ -462,7 +462,7 @@ EmailData = {
  ? EmailFrom: text
  ? EmailSubject: text
  ? EmailX-Mailer: text
- * EmailHeaderField: AdditionalData
+ * EmailHeaderField: ExtensionType
  ? EmailHeaders: text
  ? EmailBody: text
  ? EmailMessage: text
@@ -479,12 +479,12 @@ RecordData = {
  * Description_ML: text
  ? Applicadtion: SoftwareType
  * RecordPattern: RecordPattern
- * RecordItem: AdditionalData
+ * RecordItem: ExtensionType
  * URL: URLtype
  * FileData: FileData
  * WindowsRegistryKeysModified: WindowsRegistryKeysModified
  * CertificateData: CertificateData
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 RecordPattern = {
@@ -540,7 +540,7 @@ File = {
  ? HashData: HashData
  * Signature: text
  ? AssociatedSoftware: SoftwareType
- * FileProperties: AdditionalData
+ * FileProperties: ExtensionType
 }
 
 HashData = {
@@ -561,7 +561,7 @@ FuzzyHash = {
 ; FuzzyHashValue: ExtensionType ; @@@ Is it correct??
  + FuzzyHashValue: text
  ? Application: SoftwareType
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 Indicator = {
@@ -582,7 +582,7 @@ Indicator = {
  * NodeRole: NodeRole
  * AttackPhase: AttackPhase
  * Reference: Reference
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 IndicatorID = {
@@ -618,7 +618,7 @@ Observable = {
  ? DetectionPattern: DetectionPattern
  ? HistoryItem: HistoryItem
  ? BulkObservable: BulkObservable
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 BulkObservable = {
@@ -626,12 +626,12 @@ BulkObservable = {
  ? ext-type: any
  ? BulkObservableFormat: BulkObservableFormat
  BulkObservableList: text
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 } 
 
 BulkObservableFormat = {
  ? Hash: Hash
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 IndicatorExpression = {
@@ -642,7 +642,7 @@ IndicatorExpression = {
  * uid-ref: any
  * IndicatorReference: IndicatorReference
  ? Confidence: Confidence
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 IndicatorReference = {
@@ -655,7 +655,7 @@ AttackPhase = {
  * AttackPhaseID: text
  * URL: URLtype
  * Description: text
- * AdditionalData: AdditionalData
+ * AdditionalData: ExtensionType
 }
 
 anymap = {
