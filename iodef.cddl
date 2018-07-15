@@ -21,6 +21,9 @@ DATETIME = text
 URLtype = text
 IDtype = text
 
+action = "nothing" / "contact-source-site" / "cotact-target-site" / "contact-sender" / "investigate" / "block-host" / "block-network" / "block-port" / "rate-limit-host" / "rate-limit-network" / "rate-limit-port" / "redirect-traffic" / "honeypot" / "upgrade-software" / "rebuild-asset" / "harden-asset" / "remediate-other" / "status-triage" / "status-new-info" / "watch-and-report" / "training" / "defined-coa" / "other" / "ext-value"
+
+
 ExtensionType  = {
  ? Name: text
  ? dtype: "boolean" / "byte" / "bytes" / "character" / "date-time" /
@@ -299,7 +302,7 @@ History = {
 }
 
 HistoryItem = {
- action: "nothing" / "contact-source-site" / "cotact-target-site" / "contact-sender" / "investigate" / "block-host" / "block-network" / "block-port" / "rate-limit-host" / "rate-limit-network" / "rate-limit-port" / "redirect-traffic" / "honeypot" / "upgrade-software" / "rebuild-asset" / "harden-asset" / "remediate-other" / "status-triage" / "status-new-info" / "watch-and-report" / "training" / "defined-coa" / "other" / "ext-value"
+ action: action
  ? ext-action: text
  ? restriction: restriction
  ? ext-restriction: text
@@ -326,7 +329,7 @@ EventData = {
  ? ReportTime: DATETIME
  * Contact: Contact
  * Discovery: Discovery
- ? Assessment: any
+ ? Assessment: Assessment
  * Method: Method
  ? System: System
  * Expectation: Expectation
@@ -336,38 +339,38 @@ EventData = {
 }
 
 Expectation = {
- ? action: any
- ? ext-action: any
- ? severity: any
+ ? action: action
+ ? ext-action: text
+ ? severity: "low" / "medium" / "high"
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
  * Description: text
  * Description_ML: text
- * DefinedCOA: any
- ? StartTime: any
- ? EndTime: any
+ * DefinedCOA: text
+ ? StartTime: DATETIME
+ ? EndTime: DATETIME
  ? Contact: Contact
 }
 
 System = {
  ? category: "source" / "target" / "intermediate" / "sensor" /
 "infrastructure" / "ext-value"
- ? ext-category: any
- ? interface: any
- ? spoofed: any
- ? virtual: any
- ? ownership: any
- ? ext-ownership: any
+ ? ext-category: text
+ ? interface: text
+ ? spoofed: "unknown" / "yes" / "no"
+ ? virtual: "yes" / "no" / "unknown"
+ ? ownership: "organization" / "personal" / "partner" / "customer" / "no-relationship" / "unknown" / "ext-value"
+ ? ext-ownership: text
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
  Node: Node
  * NodeRole: NodeRole
  * Service: Service
- * OperatingSystem: any
+ * OperatingSystem: SoftwareType
  * Counter: Counter
- * AssetID: any
+ * AssetID: text
  * Description: text
  * Description_ML: text
  * AdditionalData: ExtensionType
@@ -376,7 +379,7 @@ System = {
 Node = {
  * DomainData: DomainData
  * Address: Address
- ? PostalAddress: any
+ ? PostalAddress: PostalAddress
  * Location: text
  * Location_ML: text
  * Counter: Counter
