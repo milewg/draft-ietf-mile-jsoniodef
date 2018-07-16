@@ -9,7 +9,7 @@ iodef = {
  ? private-enum-name: text
  ? private-enum-id: text
  Incident: [+ Incident]
- AdditionalData: [* ExtensionType]
+ ? AdditionalData: [* ExtensionType]
 }
 
 duration = "second" / "minute" / "hour" / "day" / "month" / "quarter" /
@@ -72,23 +72,23 @@ Incident = {
  ? observable-id: IDtype
  IncidentID: IncidentID
  ? AlternativeID: AlternativeID
- RelatedActivity: [* RelatedActivity]
+ ? RelatedActivity: [* RelatedActivity]
  ? DetectTime: text
  ? StartTime: text
  ? EndTime: text
  ? RecoveryTime: text
  ? ReportTime: text
  GenerationTime: text
- Description: [* text]
- Description_ML: [* text]
- Discovery: [* Discovery]
- Assessment: [* Assessment]
- Method: [* Method]
- Contacts: [+ Contact]
- EventData: [* EventData]
- Indicator: [* Indicator]
+ ? Description: [* text]
+ ? Description_ML: [* text]
+ ? Discovery: [* Discovery]
+ ? Assessment: [* Assessment]
+ ? Method: [* Method]
+ Contact: [+ Contact]
+ ? EventData: [* EventData]
+ ? Indicator: [* Indicator]
  ? History: History
- AdditionalData: [* ExtensionType]
+ ? AdditionalData: [* ExtensionType]
 }
 
 IncidentID = {
@@ -148,19 +148,19 @@ Contact = {
  ? ext-type: text
  ? restriction: restriction
  ? ext-restriction: text
- ContactName: [* text]
- ContactName_ML: [* text]
- ContactTitle: [* text]
- ContactTitle_ML: [* text]
- Description: [* text]
- Description_ML: [* text]
- RegistryHandle: [* RegistryHandle]
- PostalAddress: [* PostalAddress]
- Email: [* Email]
- Telephone: [* Telephone]
+ ? ContactName: [* text]
+ ? ContactName_ML: [* text]
+ ? ContactTitle: [* text]
+ ? ContactTitle_ML: [* text]
+ ? Description: [* text]
+ ? Description_ML: [* text]
+ ? RegistryHandle: [* RegistryHandle]
+ ? PostalAddress: [* PostalAddress]
+ ? Email: [* Email]
+ ? Telephone: [* Telephone]
  ? Timezone: text
- Contact: [* Contact]
- AdditionalData: [* ExtensionType]
+ ? Contact: [* Contact]
+ ? AdditionalData: [* ExtensionType]
 }
 
 RegistryHandle = {
@@ -182,8 +182,8 @@ Email = {
  ? type: "direct" / "hotline" / "ext-value"
  ? ext-type: text
  EmailTo: text
- Description: [* text]
- Description_ML: [* text]
+ ? Description: [* text]
+ ? Description_ML: [* text]
 }
 
 Telephone = {
