@@ -34,7 +34,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" docName="draft-ietf-mile-jsoniodef-03" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-mile-jsoniodef-04" ipr="trust200902">
  <!-- category values: std, bcp, info, exp, and historic
     ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
        or pre5378Trust200902
@@ -146,7 +146,7 @@
 
 <t>IODEF JSON provides all of the expressivity of IODEF XML.  It gives implementers and operators an alternative format to exchange the same information.</t>
 
-<t>The normative IODEF JSON data model is found in <xref target="jsonSchemaSection" />.  <xref target="dt" /> and <xref target="dm" /> describe the data types and elements of this data model.  <xref target="examples" /> provides examples. </t>
+<t>The normative IODEF JSON data model is found in <xref target="cddlSection" />.  <xref target="dt" /> and <xref target="dm" /> describe the data types and elements of this data model.  <xref target="examples" /> provides examples. </t>
 
      <section title="Requirements Language">
        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -205,7 +205,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 
 <section title="Multilingual Strings">
 
-<t>A string that needs to be represented in a human-readable language different than the default encoding of the document is represented in the information model by the ML_STRING data type. This data type is implemented as an object with "value", "lang", and "translation-id" elements as defined in <xref target="jsonSchemaSection"/>. Examples are shown below.</t>
+<t>A string that needs to be represented in a human-readable language different than the default encoding of the document is represented in the information model by the ML_STRING data type. This data type is implemented as an object with "value", "lang", and "translation-id" elements as defined in <xref target="cddlSection"/>. Examples are shown below.</t>
 
 
 <figure align="center"><artwork align="left"><![CDATA[
@@ -220,7 +220,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 
 
 <section title="Software and SoftwareReference">
-<t>A particular version of software is represented in the information model by the SOFTWARE data type. This software can be described by using a reference, a URL, or with free-form text. The SOFTWARE data type is implemented as an object with "SoftwareReference", "URL", "Description", and "Description_ML" elements as defined in <xref target="jsonSchemaSection"/>. Examples are shown below.</t>
+<t>A particular version of software is represented in the information model by the SOFTWARE data type. This software can be described by using a reference, a URL, or with free-form text. The SOFTWARE data type is implemented as an object with "SoftwareReference", "URL", "Description", and "Description_ML" elements as defined in <xref target="cddlSection"/>. Examples are shown below.</t>
 
 <figure align="center"><artwork align="left"><![CDATA[
 "SoftwareType": {
@@ -288,7 +288,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 
 <section title="Classes and Elements">
 
-<t> The following table shows the list of IODEF Classes, their elements, and the corresponding section in <xref target="RFC7970" />. Note that the complete JSON schema is defined in <xref target="jsonSchemaSection"/>.</t>
+<t> The following table shows the list of IODEF Classes, their elements, and the corresponding section in <xref target="RFC7970" />. Note that the complete JSON schema is defined in <xref target="cddlSection"/>.</t>
 
 
 
@@ -456,8 +456,8 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 |                             | MonetaryImpact*    |               |
 |                             | IntendedImpact*    |               |
 |                             | Counter*           |               |
-|                             | MitigationFactor*  |               |
-|                             | MitigationFactor_ML*|              |
+|                             | MitigatingFactor*  |               |
+|                             | MitigatingFactor_ML*|              |
 |                             | Cause*             |               |
 |                             | Cause_ML*          |               |
 |                             | Confidence?        |               |
@@ -523,8 +523,9 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 |                             | Discovery*         |               |
 |                             | Assessment?        |               |
 |                             | Method*            |               |
+|                             | System*            |               |
 |                             | Expectation*       |               |
-|                             | RecordData*        |               |
+|                             | Record*            |               |
 |                             | EventData*         |               |
 |                             | AdditionalData*    | 3.14          |
 +-----------------------------+--------------------+---------------+
@@ -596,7 +597,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 |                             | Name               |               |
 |                             | DateDomainWasChecked?|             |
 |                             | RegistrationDate?  |               |
-|                             | ExpirationDate    ?|               |
+|                             | ExpirationDate?    |               |
 |                             | RelatedDNS*        |               |
 |                             | Nameservers*       |               |
 |                             | DomainContacts?    | 3.18          |
@@ -799,6 +800,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 <t>SignatureData class is deleted, and classes with its instances now directly have instance of Signature class that used to belong to the SignatureData class.</t>
 <t>IndicatorData class is deleted, and classes with its instances now directly have the instances of Indicator class that used to belong to the IndicatorData class.</t>
 <t>ObservableReference class is deleted, and classes with its instances now directly have uid-ref as an element.</t>
+<t>Record class is replaced by RecordData class, and RecordData class is renamed to Record class.</t>
 <t>Record class is deleted, and classes with its instances now directly have the instances of RecordData class that used to belong to the Record class.</t>
 <t>The elements of ML_STRING type are prepared as two separate elements: one of STRING type and another of ML_STRING type, in order to maintain the simplicity of IODEF documents when writing with only STRING type characters.</t>
 </list>
@@ -827,26 +829,22 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 {
   "version": "2.0",
   "lang": "en",
-  "Incident": [
-    {
+  "Incident": [{
       "purpose": "reporting",
       "restriction": "private",
       "IncidentID": {
-        "id": 492382,
+        "id": "492382",
         "name": "csirt.example.com"
       },
       "GenerationTime": "2015-07-18T09:00:00-05:00",
-      "Contact": [
-        {
+      "Contact": [{
           "type": "organization",
           "role": "creator",
-          "email": {
-            "emailTo": "contact@csirt.example.com"
-          }
-        }
-      ]
-    }
-  ]
+          "Email": [{
+            "EmailTo": "contact@csirt.example.com"
+          }]
+      }]
+  }]
 }
 ]]></artwork>
 </figure>
@@ -944,28 +942,829 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 </section>
 
 
+<section title="The IODEF Data Model (CDDL)" anchor="cddlSection">
+
+<figure align="center" anchor="cddl" title="Data Model in CDDL">
+<artwork align="left"><![CDATA[
+start = iodef
+
+;;; iodef.json: IODEF-Document
+
+iodef = {
+ version: text
+ ? lang: lang
+ ? format-id: text
+ ? private-enum-name: text
+ ? private-enum-id: text
+ + Incident: [+ Incident]
+ * AdditionalData: ExtensionType
+}
+
+duration = "second" / "minute" / "hour" / "day" / "month" / "quarter" /
+           "year" / "ext-value"
+lang = "en" / "jp"
+restriction = "public" / "partner" / "need-to-know" / "private" /
+              "default" / "white" / "green" / "amber" / "red" /
+              "ext-value"
+DATETIME = text
+URLtype = text
+IDtype = text
+
+action = "nothing" / "contact-source-site" / "cotact-target-site" /
+         "contact-sender" / "investigate" / "block-host" /
+         "block-network" / "block-port" / "rate-limit-host" /
+         "rate-limit-network" / "rate-limit-port" / "redirect-traffic" /
+         "honeypot" / "upgrade-software" / "rebuild-asset" /
+         "harden-asset" / "remediate-other" / "status-triage" /
+         "status-new-info" / "watch-and-report" / "training" /
+         "defined-coa" / "other" / "ext-value"
+
+ExtensionType  = {
+ ? Name: text
+ ? dtype: "boolean" / "byte" / "bytes" / "character" / "date-time" /
+          "ntpstamp" / "integer" / "portlist" / "real" / "string" /
+          "file" / "path" / "frame" / "packet" / "ipv4-packet" /
+          "ipv6-packet" / "url" / "csv" / "winreg" / "xml" / "ext-value"
+ ? ext-dtype: text
+ ? meaning: text
+ ? formatid: text
+ ? restriction: restriction
+ ? ext-restriction: text
+ ? observable-id: IDtype
+}
+
+SoftwareType = {
+ ? SoftwareReference: SoftwareReference
+ ? URL: URLtype
+ ? Description: text
+}
+
+SoftwareReference = {
+ ? value: text
+ spec-name: text
+ ? ext-spec-name: text
+ ? dtype: text
+ ? ext-dtype: text
+}
+
+Incident = {
+ purpose: "traceback" / "mitigation" / "reporting" / "watch" / "other" /
+          "ext-value"
+ ? ext-purpose: text
+ ? status: "new" / "in-progress"/ "forwarded" / "resolved" / "future" /
+           "ext-value"
+ ? ext-status: text
+ ? lang: lang
+ ? restriction: restriction
+ ? ext-restriction: text
+ ? observable-id: IDtype
+ IncidentID: IncidentID
+ ? AlternativeID: AlternativeID
+ * RelatedActivity: RelatedActivity
+ ? DetectTime: text
+ ? StartTime: text
+ ? EndTime: text
+ ? RecoveryTime: text
+ ? ReportTime: text
+ GenerationTime: text
+ * Description: text
+ * Description_ML: text
+ * Discovery: Discovery
+ * Assessment: Assessment
+ * Method: Method
+ + Contacts: Contact
+ * EventData: EventData
+ * Indicator: Indicator
+ ? History: History
+ * AdditionalData: ExtensionType
+}
+
+IncidentID = {
+ id: text
+ name: text
+ ? instance: text
+ ? restriction: restriction
+ ? ext-restriction: text
+}
+
+AlternativeID = {
+ ? restriction: restriction
+ ? ext-restriction: text
+ + IncidentID: IncidentID
+}
+
+RelatedActivity = {
+ ? restriction: restriction
+ ? ext-restriction: text
+ * IncidentID: IncidentID
+ * URL: URLtype
+ * ThreatActor: ThreatActor
+ * Campaign: Campaign
+ * IndicatorID: IndicatorID
+ ? Confidence: Confidence
+ * Description: text
+ * AdditionalData: ExtensionType
+}
+
+ThreatActor = {
+ ? restriction: restriction
+ ? ext-restriction: text
+ * ThreatActorID: text
+ * URL: URLtype
+ * Description: text
+ * Description_ML: text
+ * AdditionalData: ExtensionType
+}
+
+Campaign  = {
+ ? restriction: restriction
+ ? ext-restriction: text
+ * CampaignID: text
+ * URL: URLtype
+ * Description: text
+ * Description_ML: text
+ * AdditionalData: ExtensionType
+}
+
+Contact = {
+ role: "creator" / "reporter" / "admin" / "tech" / "provider" / "user" /
+       "billing" / "legal" / "irt" / "abuse" / "cc" / "cc-irt" / "leo" /
+       "vendor" / "vendor-support" / "victim" / "victim-notified" /
+       "ext-value"
+ ? ext-role: text
+ type: "person" / "organization" / "ext-value"
+ ? ext-type: text
+ ? restriction: restriction
+ ? ext-restriction: text
+ * ContactName: text
+ * ContactName_ML: text
+ * ContactTitle: text
+ * ContactTitle_ML: text
+ * Description: text
+ * Description_ML: text
+ * RegistryHandle: RegistryHandle
+ * PostalAddress: PostalAddress
+ * Email: Email
+ * Telephone: Telephone
+ ? Timezone: text
+ * Contact: Contact
+ * AdditionalData: ExtensionType
+}
+
+RegistryHandle = {
+ handle: text
+ registry: "internic" / "apnic" / "arin" / "lacnic" / "ripe" / "afrinic" /
+           "local" / "ext-value"
+ ? ext-registry: text
+}
+
+PostalAddress = {
+ ? type: text
+ ? ext-type: text
+ PAddress: text
+ * Description: text
+ * Description_ML: text
+}
+
+Email = {
+ ? type: "direct" / "hotline" / "ext-value"
+ ? ext-type: text
+ EmailTo: text
+ * Description: text
+ * Description_ML: text
+}
+
+Telephone = {
+ ? type: "wired" / "mobile" / "fax" / "hotline" / "ext-value"
+ ? ext-type: text
+ TelephoneNumber: text
+ * Description: text
+ * Description_ML: text
+}
+
+Discovery = {
+ ? source: "nidps" / "hips" / "siem" / "av" / "third-party-monitoring" /
+           "incident" / "os-log" / "application-log" / "device-log" /
+           "network-flow" / "passive-dns" / "investiation" / "audit" /
+           "international-notification" / "external-notification" /
+           "leo" / "partner" / "actor" / "unknown" / "ext-value"
+ ? ext-source: text
+ ? restriction: restriction
+ ? ext-restriction: text
+ * Description: text
+ * Description_ML: text
+ * Contact: Contact
+ * DetectionPattern: DetectionPattern
+}
+
+DetectionPattern = {
+ ? restriction: restriction
+ ? ext-restriction: text
+ ? observable-id: IDtype
+ Application: SoftwareType
+ * Description: text
+ * Description_ML: text
+ * DetectionConfiguration: text
+}
+
+Method = {
+ ? restriction: restriction
+ ? ext-restriction: text
+ * Reference: Reference
+ * Description: text
+ * Description_ML: text
+ * AttackPattern: StructuredInformation
+ * Vulnerability: StructuredInformation
+ * Weakness: StructuredInformation
+ ? AdditionalData: ExtensionType
+}
+
+StructuredInformation = {
+ specID: text
+ ? ext-specID: text
+ ? contentID: text
+ ? RawData: any
+ ? URL: URLtype
+}
+
+Reference = {
+ ? observable-id: IDtype
+ ? ReferenceName: ReferenceName
+ * URL: URLtype
+ * Description: text
+ * Description_ML: text
+}
+
+ReferenceName = {
+ specIndex: int
+ ID: text
+}
+
+Assessment = {
+ ? occurrence: "actual" / "potential"
+ ? restriction: restriction
+ ? ext-restriction: text
+ ? observable-id: IDtype
+ * IncidentCategory: text
+ * SystemImpact: SystemImpact
+ * BusinessImpact: BusinessImpact
+ * TimeImpact: TimeImpact
+ * MonetaryImpact: MonetaryImpact
+ * IntendedImpact: BusinessImpact
+ * Counter: Counter
+ * MitigatingFactor: text
+ * MitigatingFactor_ML: text
+ * Cause: text
+ * Cause_ML: text
+ ? Confidence: Confidence
+ * AdditionalData: ExtensionType
+}
+
+SystemImpact = {
+ ? severity: "low" / "medium" / "high"
+ ? completion: "failed" / "succeeded"
+ type: "takeover-account" / "takeover-service" / "takeover-system" /
+       "cps-manipulation" / "cps-damage" / "availability-data" /
+       "availability-account" / "availability-service" /
+       "availability-system" / "damaged-system" / "damaged-data" /
+       "breach-proprietary" / "breach-privacy" / "breach-credential" /
+       "breack-configuration" / "integrity-data" /
+       "integrity-configuration" / "integrity-hardware" /
+       "traffic-redirection" / "monitoring-traffic" / "monitoring-host" /
+       "policy" / "unknown" / "ext-value"
+ ? ext-type: text
+ * Description: text
+ * Description_ML: text
+}
+
+BusinessImpact = {
+ ? severity: "none" / "low" / "medium" / "high" / "unknown" / "ext-value"
+ ? ext-severity: text
+ type: "breach-proprietary" / "breach-privacy" / "breach-credential" /
+       "loss-of-integrity" / "loss-of-service" / "theft-financial" /
+       "theft-service" / "degraded-reputation" / "asset-damage" /
+       "asset-manipulation" / "legal" / "extortion" / "unknown" /
+       "ext-value"
+ ? ext-type: text
+ * Description: text
+ * Description_ML: text
+}
+
+TimeImpact = {
+ value: int
+ ? severity: "low" / "medium" / "high"
+ metric: "labor" / "elapsed" / "downtime" / "ext-value"
+ ? ext-metric: text
+ ? duration: duration
+ ? ext-duration: text
+}
+
+MonetaryImpact = {
+ value: int
+ ? severity: "low" / "medium" / "high"
+ ? currency: text
+}
+
+Confidence = {
+ value: int
+ rating: "low" / "medium" / "high" / "numeric" / "unknown" / "ext-value"
+ ? ext-rating: text
+}
+
+History = {
+ ? restriction: restriction
+ ? ext-restriction: text
+ + HistoryItem: HistoryItem
+}
+
+HistoryItem = {
+ action: action
+ ? ext-action: text
+ ? restriction: restriction
+ ? ext-restriction: text
+ ? observable-id: IDtype
+ DateTime: DATETIME
+ ? IncidentID: IncidentID
+ ? Contact: Contact
+ * Description: text
+ * Description_ML: text
+ * DefinedCOA: text
+ * AdditionalData: ExtensionType
+}
+
+EventData = {
+ ? restriction: restriction
+ ? ext-restriction: text
+ ? observable-id: IDtype
+ * Description: text
+ * Description_ML: text
+ ? DetectTime: DATETIME
+ ? StartTime: DATETIME
+ ? EndTime: DATETIME
+ ? RecoveryTime: DATETIME
+ ? ReportTime: DATETIME
+ * Contact: Contact
+ * Discovery: Discovery
+ ? Assessment: Assessment
+ * Method: Method
+ ? System: System
+ * Expectation: Expectation
+ * RecordData: RecordData
+ * EventData: EventData
+ * AdditionalData: ExtensionType
+}
+
+Expectation = {
+ ? action: action
+ ? ext-action: text
+ ? severity: "low" / "medium" / "high"
+ ? restriction: restriction
+ ? ext-restriction: text
+ ? observable-id: IDtype
+ * Description: text
+ * Description_ML: text
+ * DefinedCOA: text
+ ? StartTime: DATETIME
+ ? EndTime: DATETIME
+ ? Contact: Contact
+}
+
+System = {
+ ? category: "source" / "target" / "intermediate" / "sensor" /
+"infrastructure" / "ext-value"
+ ? ext-category: text
+ ? interface: text
+ ? spoofed: "unknown" / "yes" / "no"
+ ? virtual: "yes" / "no" / "unknown"
+ ? ownership: "organization" / "personal" / "partner" / "customer" /
+              "no-relationship" / "unknown" / "ext-value"
+ ? ext-ownership: text
+ ? restriction: restriction
+ ? ext-restriction: text
+ ? observable-id: IDtype
+ Node: Node
+ * NodeRole: NodeRole
+ * Service: Service
+ * OperatingSystem: SoftwareType
+ * Counter: Counter
+ * AssetID: text
+ * Description: text
+ * Description_ML: text
+ * AdditionalData: ExtensionType
+}
+
+Node = {
+ * DomainData: DomainData
+ * Address: Address
+ ? PostalAddress: PostalAddress
+ * Location: text
+ * Location_ML: text
+ * Counter: Counter
+}
+
+Address = {
+ value: text
+ category: "asn" / "atm" / "e-mail" / "ipv4-addr" / "ipv4-net" /
+           "ipv4-net-masked" / "ipv4-net-mask" / "ipv6-addr" /
+           "ipv6-net" / "ipv6-net-masked" / "mac" / "site-url" /
+           "ext-value"
+ ? ext-category: text
+ ? vlan-name: text
+ ? vlan-num: int
+ ? observable-id: IDtype
+}
+
+NodeRole = {
+ category: "client" / "client-enterprise" / "clent-partner" /
+           "client-remote" / "client-kiosk" / "client-mobile" /
+           "server-internal" / "server-public" / "www" / "mail" /
+           "webmail" / "messaging" / "streaming" / "voice" / "file" /
+           "ftp" / "p2p" / "name" / "directory" / "credential" /
+           "print" / "application" / "database" / "backup" / "dhcp" /
+           "assessment" / "source-control" / "config-management" /
+           "monitoring" / "infra" / "infra-firewall" / "infra-router" /
+           "infra-switch" / "camera" / "proxy" / "remote-access" /
+           "log" / "virtualization" / "pos" /  "scada" /
+           "scada-supervisory" / "sinkhole" / "honeypot" /
+           "anomyzation" / "c2-server" / "malware-distribution" /
+           "drop-server" / "hot-point" / "reflector" /
+           "phishing-site" / "spear-phishing-site" / "recruiting-site" /
+           "fraudulent-site" / "ext-value"
+ ? ext-category: text
+ * Description: text
+ * Description_ML: text
+}
+
+Counter = {
+ value: text
+ type: "count" / "peak" / "average" / "ext-value"
+ ? ext-type: text
+ unit: "byte" / "mbit" / "packet" / "flow" / "session" / "alert" /
+       "message" / "event" / "host" / "site" / "organization" /
+       "ext-value"
+ ? ext-unit: text
+ ? meaning: text
+ ? meaning_ML: text
+ ? duration: duration
+ ? ext-duration: text
+}
+
+DomainData = {
+ system-status: "spoofed" / "fraudulent" / "innocent-hacked" /
+                "innocent-hijacked" / "unknown" / "ext-value"
+ ? ext-system-status: text
+ domain-status: "reservedDelegation" / "assignedAndActive" /
+                "assignedAndInactive" / "assignedAndOnHold" /
+                "revoked" / "transferPending" / "registryLock" /
+                "registrarLock" / "other" / "unknown" / "ext-value"
+ ? ext-domain-status: text
+ ? observable-id: IDtype
+ Name: text
+ ? DateDomainWasChecked: DATETIME
+ ? RegistrationDate: DATETIME
+ ? ExpirationDate: DATETIME
+ * RelatedDNS: ExtensionType
+ * NameServers: NameServers
+ ? DomainContacts: DomainContacts
+}
+
+NameServers = {
+ Server: text
+ * Address: Address
+}
+
+DomainContacts = {
+ ? SameDomainContact: text
+ + Contact: Contact
+}
+
+Service = {
+ ? ip-protocol: int
+ ? observable-id: IDtype
+ ? ServiceName: ServiceName
+ ? Port: int
+ ? Portlist: text
+ ? ProtoCode: int
+ ? ProtoType: int
+ ? ProtoField: int
+ + ApplicationHeaderField: ExtensionType
+ ? EmailData: EmailData
+ ? Application: SoftwareType
+}
+
+ServiceName = {
+ ? IANAService: text
+ * URL: URLtype
+ * Description: text
+ * Description_ML: text
+}
+
+EmailData = {
+ ? observable-id: IDtype
+ * EmailTo: text
+ ? EmailFrom: text
+ ? EmailSubject: text
+ ? EmailX-Mailer: text
+ * EmailHeaderField: ExtensionType
+ ? EmailHeaders: text
+ ? EmailBody: text
+ ? EmailMessage: text
+ * HashData: HashData
+ * Signature: text
+}
+
+RecordData = {
+ ? restriction: restriction
+ ? ext-restriction: text
+ ? observable-id: IDtype
+ ? DateTime: DATETIME
+ * Description: text
+ * Description_ML: text
+ ? Applicadtion: SoftwareType
+ * RecordPattern: RecordPattern
+ * RecordItem: ExtensionType
+ * URL: URLtype
+ * FileData: FileData
+ * WindowsRegistryKeysModified: WindowsRegistryKeysModified
+ * CertificateData: CertificateData
+ * AdditionalData: ExtensionType
+}
+
+RecordPattern = {
+ value: text
+ type: "regex" / "binary" / "xpath" / "ext-value"
+ ? ext-type: text
+ ? offset: int
+ ? offsetunit: "line" / "byte" / "ext-value"
+ ? ext-offsetunit: text
+ ? instance: int
+}
+
+WindowsRegistryKeysModified = {
+ ? observable-id: IDtype
+ + Key: Key
+}
+
+Key = {
+ ? registryaction: "add-key" / "add-value" / "delete-key" /
+                   "delete-value" / "modify-key" / "modify-value" /
+                   "ext-value"
+ ? ext-registryaction: text
+ ? observable-id: IDtype
+ KeyName: text
+ ? KeyValue: text
+}
+
+CertificateData = {
+ ? restriction: restriction
+ ? ext-restriction: text
+ ? observable-id: IDtype
+ + Certificate: Certificate
+}
+
+Certificate = {
+ ? observable-id: IDtype
+ X509Data: text
+ * Description: text
+ * Description_ML: text
+}
+
+FileData = {
+ ? restriction: restriction
+ ? ext-restriction: text
+ ? observable-id: IDtype
+ + File: File
+}
+
+File = {
+ ? observable-id: IDtype
+ ? FileName: text
+ ? FileSize: int
+ ? FileType: text
+ * URL: URLtype
+ ? HashData: HashData
+ * Signature: text
+ ? AssociatedSoftware: SoftwareType
+ * FileProperties: ExtensionType
+}
+
+HashData = {
+ scope: "file-contents" / "file-pe-section" / "file-pe-iat" /
+        "file-pe-resource" / "file-pdf-object" / "email-hash" /
+        "email-hash-header" / "email-hash-body"
+ ? HashTargetID: text
+ * Hash: Hash
+ * FuzzyHash: FuzzyHash
+}
+
+Hash = {
+ DigestMethod: text
+ DigestValue: text
+ ? CanonicalizationMethod: any
+ ? Application: SoftwareType
+}
+
+FuzzyHash = {
+ + FuzzyHashValue: text
+ ? Application: SoftwareType
+ * AdditionalData: ExtensionType
+}
+
+Indicator = {
+ ? restriction: restriction
+ ? ext-restriction: text
+ IndicatorID: IndicatorID
+ * AlternativeIndicatorID: AlternativeIndicatorID
+ * Description: text
+ * Description_ML: text
+ ? StartTime: DATETIME
+ ? EndTime: DATETIME
+ ? Confidence: Confidence
+ * Contact: Contact
+ ? Observable: Observable
+ ? uid-ref: text
+ ? IndicatorExpression: IndicatorExpression
+ ? IndicatorReference: IndicatorReference
+ * NodeRole: NodeRole
+ * AttackPhase: AttackPhase
+ * Reference: Reference
+ * AdditionalData: ExtensionType
+}
+
+IndicatorID = {
+ id: IDtype
+ name: text
+ version: text
+}
+
+AlternativeIndicatorID = {
+ ? restriction: restriction
+ ? ext-restriction: text
+ + IndicatorReference: IndicatorReference
+}
+
+Observable = {
+ ? restriction: restriction
+ ? ext-restriction: text
+ ? System: System
+ ? Address: Address
+ ? DomainData: DomainData
+ ? EmailData: EmailData
+ ? Service: Service
+ ? WindowsRegistryKeysModified: WindowsRegistryKeysModified
+ ? FileData: FileData
+ ? CertificateData: CertificateData
+ ? RegistryHandle: RegistryHandle
+ ? RecordData: RecordData
+ ? EventData: EventData
+ ? Incident: Incident
+ ? Expectation: Expectation
+ ? Reference: Reference
+ ? Assessment: Assessment
+ ? DetectionPattern: DetectionPattern
+ ? HistoryItem: HistoryItem
+ ? BulkObservable: BulkObservable
+ * AdditionalData: ExtensionType
+}
+
+BulkObservable = {
+ ? type: "asn" / "atm" / "e-mail" / "ipv4-addr" / "ipv4-net" /
+         "ipv4-net-mask" / "ipv6-addr" / "ipv6-net" / "ipv6-net-mask" /
+         "mac" / "site-url" / "domain-name" / "domain-to-ipv4" /
+         "domain-to-ipv6" / "domain-to-ipv4-timestamp" /
+         "domain-to-ipv6-timestamp" / "ipv4-port" / "ipv6-port" /
+         "windows-reg-key" / "file-hash" / "email-x-mailer" /
+         "email-subject" / "http-user-agent" / "http-request-uri" /
+         "mutex" / "file-path" / "user-name" / "ext-value"
+ ? ext-type: text
+ ? BulkObservableFormat: BulkObservableFormat
+ BulkObservableList: text
+ * AdditionalData: ExtensionType
+}
+
+BulkObservableFormat = {
+ ? Hash: Hash
+ * AdditionalData: ExtensionType
+}
+
+IndicatorExpression = {
+ ? operator: "not" / "and" / "or" / "xor"
+ ? ext-operator: text
+ * IndicatorExpression: IndicatorExpression
+ * Observable: Observable
+ * uid-ref: text
+ * IndicatorReference: IndicatorReference
+ ? Confidence: Confidence
+ * AdditionalData: ExtensionType
+}
+
+IndicatorReference = {
+ ? uid-ref: text
+ ? euid-ref: text
+ ? version: text
+}
+
+AttackPhase = {
+ * AttackPhaseID: text
+ * URL: URLtype
+ * Description: text
+ * AdditionalData: ExtensionType
+}
+]]></artwork>
+</figure>
+
+
+</section>
+
+   <section anchor="Acknowledgements" title="Acknowledgements">
+     <t>We would like to thank Henk Birkholz and Carsten Bormann for their insightful comments on CDDL.</t>
+   </section>
+
+   <section anchor="IANA" title="IANA Considerations">
+     <t> This document registers a JSON schema.</t>
+   </section>
+
+   <section anchor="Security" title="Security Considerations">
+     <t>This memo does not provide any further security considerations than the one described in <xref target="RFC7970" />.</t>
+   </section>
+
+
+
+
+
+ </middle>
+
+ <!--  *****BACK MATTER ***** -->
+
+ <back>
+   <!-- References split into informative and normative -->
+
+   <!-- There are 2 ways to insert reference entries from the citation libraries:
+    1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+    2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+       (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+
+    Both are cited textually in the same manner: by using xref elements.
+    If you use the PI option, xml2rfc will, by default, try to find included files in the same
+    directory as the including file. You can also define the XML_LIBRARY environment variable
+    with a value containing a set of directories to search.  These can be either in the local
+    filing system or remote ones accessed by http (http://domain/dir/... ).-->
+
+   <references title="Normative References">
+     <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+     &RFC2119;
+     &RFC7970;
+
+     <reference anchor="jsonschema">
+       <!-- the following is the minimum to make xml2rfc happy -->
+
+       <front>
+         <title>JSON Schema</title>
+
+         <author>
+           <organization></organization>
+         </author>
+
+         <date year="2006" />
+       </front>
+       <annotation>http://json-schema.org/</annotation>
+     </reference>
+   </references>
+
+<!--
+   <references title="Informative References">
+-->
+     <!-- Here we use entities that we defined at the beginning. -->
+
+     <!-- A reference written by by an organization not a person. -->
+
+<!--
+   </references>
+-->
+
 <section title="The IODEF Data Model (JSON Schema)" anchor="jsonSchemaSection">
+<t>This section provides a JSON schema that defines the IODEF Data Model defined in this draft.</t>
 
 <figure align="center" anchor="jsonSchema" title="JSON schema">
 <artwork align="left"><![CDATA[
 { "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
-    "action": {"enum": ["nothing","contact-source-site","contact-target-site",
-               "contact-sender", "investigate","block-host","block-network",
-               "block-port","rate-limit-host","rate-limit-network",
-               "rate-limit-port","redirect-traffic","honeypot",
-               "upgrade-software","rebuild-asset","harden-asset",
+    "action": {"enum": ["nothing","contact-source-site",
+               "contact-target-site","contact-sender","investigate",
+               "block-host","block-network","block-port","rate-limit-host",
+               "rate-limit-network","rate-limit-port","redirect-traffic",
+               "honeypot","upgrade-software","rebuild-asset","harden-asset",
                "remediate-other","status-triage","status-new-info",
                "watch-and-report","training","defined-coa","ext-value"]},
     "duration": {"enum": ["second","minute","hour","day","month","quarter",
                  "year","ext-value"]},
     "lang": {"enum": ["en","jp"]},
-    "purpose": {"enum": ["traceback","mitigation","reporting","watch","other",
-               "ext-value"]},
+    "purpose": {"enum": ["traceback","mitigation","reporting","watch",
+                "other","ext-value"]},
     "restriction": {"enum": ["public","partner","need-to-know","private",
                    "default","white","green","amber","red","ext-value"]},
-    "status": {"enum": ["new","in-progress","forwarded","resolved","future",
-              "ext-value"]},
+    "status": {"enum": ["new","in-progress","forwarded","resolved",
+               "future","ext-value"]},
     "DATETIME": {"type": "string"},
     "PORTLIST": {"type": "string"},
     "URLtype": {"type": "string"},
@@ -993,6 +1792,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "SoftwareReference": {"$ref": "#/definitions/SoftwareReference"},
         "URL": {"$ref": "#/definitions/URLtype"},
         "Description": {"type": "array", "items": {"type":"string"}}},
+      "required": [],
       "additionalProperties": false},
     "SoftwareReference": {
       "type": "object",
@@ -1030,7 +1830,8 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "IncidentID": {"$ref": "#/definitions/IncidentID"},
         "AlternativeID": {"$ref": "#/definitions/AlternativeID"},
         "RelatedActivity": {
-          "type": "array","items": {"$ref": "#/definitions/RelatedActivity"}},
+          "type": "array",
+          "items": {"$ref": "#/definitions/RelatedActivity"}},
         "DetectTime": {"type": "string"},
         "StartTime": {"type": "string"},
         "EndTime": {"type": "string"},
@@ -1101,7 +1902,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "ext-restriction": {"type": "string"},
         "ThreatActorID": {"type": "array", "items": {"type": "string"}},
         "Description": {"type": "array", "items": {"type": "string"}},
-        "URL": {"type": "array", "items": {"$ref": "#/definitions/URLtype"}},
+        "URL": {"type":"array","items":{"$ref":"#/definitions/URLtype"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "additionalProperties": false},
     "Campaign": {
@@ -1109,7 +1910,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
         "CampaignID": {"type": "array", "items": {"type": "string"}},
-        "URL": {"type": "array", "items": {"$ref": "#/definitions/URLtype"}},
+        "URL": {"type":"array", "items":{"$ref":"#/definitions/URLtype"}},
         "Description": {"type": "array", "items": {"type": "string"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}}},
     "Contact": {
@@ -1129,9 +1930,9 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "ContactTitle": {"type": "array", "items": {"type": "string"}},
         "Description": {"type": "array", "items": {"type": "string"}},
         "RegistryHandle": {
-          "type": "array", "items": {"$ref": "#/definitions/RegistryHandle"}},
+          "type":"array", "items":{"$ref":"#/definitions/RegistryHandle"}},
         "PostalAddress": {
-          "type": "array", "items": {"$ref": "#/definitions/PostalAddress"}},
+          "type":"array", "items":{"$ref":"#/definitions/PostalAddress"}},
         "Email": {"type": "array", "items": {"$ref": "#/definitions/Email"}},
         "Telephone": {
           "type": "array", "items": {"$ref": "#/definitions/Telephone"}},
@@ -1146,8 +1947,8 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
       "properties": {
         "handle": {"type": "string"},
         "registry": {
-          "enum": ["internic","apnic","arin","lacnic","ripe","afrinic","local",
-                   "ext-value"]},
+          "enum": ["internic","apnic","arin","lacnic","ripe","afrinic",
+                   "local","ext-value"]},
         "ext-registry": {"type": "string"}},
       "required": ["registry"],
       "additionalProperties": false},
@@ -1196,7 +1997,9 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "Contact": {
           "type": "array", "items": {"$ref": "#/definitions/Contact"}},
         "DetectionPattern": {
-          "type": "array", "items":{"$ref":"#/definitions/DetectionPattern"}}},
+          "type":"array",
+          "items":{"$ref":"#/definitions/DetectionPattern"}}},
+      "required": [],
       "additionalProperties": false},
     "DetectionPattern": {
       "type": "object",
@@ -1219,20 +2022,22 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
           "type": "array","items": {"$ref": "#/definitions/Reference"}},
         "Description": {"type": "array", "items": {"type": "string"}},
         "AttackPattern": {
-          "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
+          "type":"array", "items":{"$ref":"#/definitions/StructuredInfo"}},
         "Vulnerability": {
-          "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
+          "type":"array", "items":{"$ref":"#/definitions/StructuredInfo"}},
         "Weakness": {
-          "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
+          "type":"array", "items":{"$ref":"#/definitions/StructuredInfo"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false},
     "Reference": {
       "type": "object",
       "properties": {
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "ReferenceName": {"type": "string"},
-        "URL": {"type": "array", "items": {"$ref": "#/definitions/URLtype"}},
+        "URL":{"type":"array", "items":{"$ref":"#/definitions/URLtype"}},
         "Description": {"type": "array", "items": {"type": "string"}}},
+      "required": [],
       "additionalProperties": false},
     "Assessment": {
       "type": "object",
@@ -1245,13 +2050,13 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "SystemImpact": {
           "type": "array", "items": {"$ref": "#/definitions/SystemImpact"}},
         "BusinessImpact": {
-          "type": "array", "items": {"$ref": "#/definitions/BusinessImpact"}},
+          "type":"array", "items":{"$ref":"#/definitions/BusinessImpact"}},
         "TimeImpact": {
           "type": "array", "items": {"$ref": "#/definitions/TimeImpact"}},
         "MonetaryImpact": {
-          "type": "array", "items": {"$ref": "#/definitions/MonetaryImpact"}},
+          "type":"array", "items":{"$ref":"#/definitions/MonetaryImpact"}},
         "IntendedImpact": {
-          "type": "array", "items": {"$ref": "#/definitions/BusinessImpact"}},
+          "type":"array", "items":{"$ref":"#/definitions/BusinessImpact"}},
         "Counter": {
           "type": "array", "items": {"$ref": "#/definitions/Counter"}},
         "MitigatingFactor": {
@@ -1259,6 +2064,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "Cause": {"type": "array", "items": {"$type": "string"}},
         "Confidence": {"$ref": "#/definitions/Confidence"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false},
     "SystemImpact": {
       "type": "object",
@@ -1274,8 +2080,8 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
                   "breach-proprietary","breach-privacy","breach-credential",
                   "breach-configuration","integrity-data",
                   "integrity-configuration","integrity-hardware",
-                  "traffic-redirection","monitoring-traffic","monitoring-host",
-                  "policy","unknown","ext-value"]},
+                  "traffic-redirection","monitoring-traffic",
+                  "monitoring-host","policy","unknown","ext-value"]},
         "ext-type": {"type": "string"},
         "Description": {"type": "array","items": {"type": "string"}}},
       "required": ["type"],
@@ -1313,6 +2119,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "value": {"type": "number"},
         "severity": {"enum":["low","medium","high"]},
         "currency": {"type": "string"}},
+      "required": [],
       "additionalProperties": false},
     "Confidence": {
       "type": "object",
@@ -1371,7 +2178,8 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
           "type": "array","items": {"$ref": "#/definitions/System"}},
         "Expectation": {
           "type": "array","items": {"$ref": "#/definitions/Expectation"}},
-        "RecordData": {"type": "array", "items": {"$ref": "#/definitions/RecordData"}},
+        "RecordData": {"type": "array",
+                       "items": {"$ref": "#/definitions/RecordData"}},
         "EventData": {
           "type": "array","items": {"$ref": "#/definitions/EventData"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
@@ -1391,13 +2199,14 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "StartTime": {"type": "string"},
         "EndTime": {"type": "string"},
         "Contact": {"$ref": "#/definitions/Contact"}},
+      "required": [],
       "additionalProperties": false},
     "System": {
       "type": "object",
       "properties": {
         "category": {
-          "enum": ["source","target","intermediate","sensor","infrastructure",
-                   "ext-value"]},
+          "enum": ["source","target","intermediate","sensor",
+                   "infrastructure","ext-value"]},
         "ext-category": {"type": "string"},
         "interface": {"type": "string"},
         "spoofed": {"enum": ["unknown","yes","no"]},
@@ -1432,16 +2241,18 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
           "type": "array","items": {"$ref": "#/definitions/Address"}},
         "PostalAddress": {"type": "string"},
         "Location": {"type": "array","items": {"type": "string"}},
-        "Counter": {"type": "array","items":{"$ref":"#/definitions/Counter"}}},
+        "Counter": {"type":"array",
+                    "items":{"$ref":"#/definitions/Counter"}}},
+      "required": [],
       "additionalProperties": false},
     "Address": {
       "type": "object",
       "properties": {
         "value": {"type": "string"},
         "category": {
-           "enum": ["asn","atm","e-mail","ipv4-addr","ipv4-net",
-                    "ipv4-net-masked","ipv4-net-mask","ipv6-addr","ipv6-net",
-                    "ipv6-net-masked","mac","site-url","ext-value"]},
+           "enum":["asn","atm","e-mail","ipv4-addr","ipv4-net",
+                   "ipv4-net-masked","ipv4-net-mask","ipv6-addr","ipv6-net",
+                   "ipv6-net-masked","mac","site-url","ext-value"]},
         "ext-category": {"type": "string"},
         "vlan-name": {"type": "string"},
         "vlan-num": {"type": "integer"},
@@ -1452,18 +2263,19 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
       "type": "object",
       "properties": {
         "category": {
-          "enum":["client","client-enterprise","clent-partner","client-remote",
-                  "client-kiosk","client-mobile","server-internal",
-                  "server-public","www","mail","webmail","messaging",
-                  "streaming","voice","file","ftp","p2p","name","directory",
-                  "credential","print","application","database","backup",
-                  "dhcp","assessment","source-control","config-management",
-                  "monitoring","infra","infra-firewall","infra-router",
-                  "infra-switch","camera","proxy","remote-access","log",
-                  "virtualization","pos", "scada", "scada-supervisory",
-                  "sinkhole","honeypot","anomyzation","c2-server",
-                  "malware-distribution","drop-server","hot-point","reflector",
-                  "phishing-site","spear-phishing-site","recruiting-site",
+          "enum":["client","client-enterprise","clent-partner",
+                  "client-remote","client-kiosk","client-mobile",
+                  "server-internal","server-public","www","mail","webmail",
+                  "messaging","streaming","voice","file","ftp","p2p","name",
+                  "directory","credential","print","application","database",
+                  "backup","dhcp","assessment","source-control",
+                  "config-management","monitoring","infra","infra-firewall",
+                  "infra-router","infra-switch","camera","proxy",
+                  "remote-access","log","virtualization","pos", "scada",
+                  "scada-supervisory","sinkhole","honeypot","anomyzation",
+                  "c2-server","malware-distribution","drop-server",
+                  "hot-point","reflector","phishing-site",
+                  "spear-phishing-site","recruiting-site",
                   "fraudulent-site","ext-value"]},
         "ext-category": {"type": "string"},
         "Description": {"type": "array","items": {"type": "string"}}},
@@ -1476,7 +2288,8 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "type": {"enum": ["count","peak","average","ext-value"]},
         "ext-type": {"type": "string"},
         "unit": {"enum": ["byte","mbit","packet","flow","session","alert",
-                 "message","event","host","site","organization","ext-value"]},
+                 "message","event","host","site","organization",
+                 "ext-value"]},
         "ext-unit": {"type": "string"},
         "meaning": {"type": "string"},
         "duration": {"$ref":"#/definitions/duration"},
@@ -1513,14 +2326,16 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
       "type": "object",
       "properties": {
         "Server": {"type": "string"},
-        "Address": {"type": "array","items":{"$ref":"#/definitions/Address"}}},
+        "Address": {"type":"array",
+                    "items":{"$ref":"#/definitions/Address"}}},
       "required": ["Server","Address"],
       "additionalProperties": false},
     "DomainContacts": {
       "type": "object",
       "properties": {
         "SameDomainContact": {"type": "string"},
-        "Contact": {"type": "array","items":{"$ref":"#/definitions/Contact"}}},
+        "Contact": {"type":"array",
+                    "items":{"$ref":"#/definitions/Contact"}}},
       "required": ["Contact"],
       "additionalProperties": false},
     "Service": {
@@ -1534,9 +2349,10 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "ProtoCode": {"type": "integer"},
         "ProtoType": {"type": "integer"},
         "ProtoField": {"type": "integer"},
-        "ApplicationHeaderField": {"$ref":"#/definitions/ExtensionTypeList"},
+        "ApplicationHeaderField":{"$ref":"#/definitions/ExtensionTypeList"},
         "EmailData": {"$ref": "#/definitions/EmailData"},
         "Application": {"$ref": "#/definitions/SoftwareType"}},
+      "required": [],
       "additionalProperties": false},
     "ServiceName": {
       "type": "object",
@@ -1544,6 +2360,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "IANAService": {"type": "string"},
         "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array","items": {"type": "string"}}},
+      "required": [],
       "additionalProperties": false},
     "EmailData": {
       "type": "object",
@@ -1561,6 +2378,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "HashData": {
           "type": "array","items": {"$ref": "#/definitions/HashData"}},
         "Signature": {"type": "array","items": {"type": "string"}}},
+      "required": [],
       "additionalProperties": false},
     "RecordData": {
       "type": "object",
@@ -1583,8 +2401,9 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
           "type": "array",
           "items": {"$ref": "#/definitions/WindowsRegistryKeysModified"}},
         "CertificateData": {
-          "type": "array","items": {"$ref": "#/definitions/CertificateData"}},
+          "type":"array","items":{"$ref":"#/definitions/CertificateData"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false
     },
     "RecordPattern": {
@@ -1632,7 +2451,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
       "type": "object",
       "properties": {
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "X509Data": {"type": "string"},
+        "X509Data": {type: "string"},
         "Description": {"type": "array","items": {"type": "string"}}},
       "required": ["X509Data"],
       "additionalProperties": false},
@@ -1656,7 +2475,8 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "Signature": {"type": "array","items": {"type": "string"}},
         "AssociatedSoftware": {"$ref": "#/definitions/SoftwareType"},
         "FileProperties": {
-          "type": "array","items": {"$ref": "#/definitions/ExtensionType"}}},
+          "type":"array","items":{"$ref":"#/definitions/ExtensionType"}}},
+      "required": [],
       "additionalProperties": false},
     "HashData": {
       "type": "object",
@@ -1705,7 +2525,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
           "type": "array","items": {"$ref": "#/definitions/Contact"}},
         "Observable": {"$ref": "#/definitions/Observable"},
         "uid-ref": {"type": "string"},
-        "IndicatorExpression": {"$ref": "#/definitions/IndicatorExpression"},
+        "IndicatorExpression":{"$ref":"#/definitions/IndicatorExpression"},
         "IndicatorReference": {"$ref": "#/definitions/IndicatorReference"},
         "NodeRole": {
           "type": "array","items": {"$ref": "#/definitions/NodeRole"}},
@@ -1749,7 +2569,8 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "FileData": {"$ref": "#/definitions/FileData"},
         "CertificateData": {"$ref": "#/definitions/CertificateData"},
         "RegistryHandle": {"$ref": "#/definitions/RegistryHandle"},
-        "RecordData": {"type": "array", "item": {"$ref": "#/definitions/Record"}},
+        "RecordData": {"type": "array",
+                       "item": {"$ref": "#/definitions/Record"}},
         "EventData": {"$ref": "#/definitions/EventData"},
         "Incident": {"$ref": "#/definitions/Incident"},
         "Expectation": {"$ref": "#/definitions/Expectation"},
@@ -1759,28 +2580,32 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "HistoryItem": {"$ref": "#/definitions/HistoryItem"},
         "BulkObservable": {"$ref": "#/definitions/BulkObservable"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false},
     "BulkObservable": {
       "type": "object",
       "properties": {
         "type": {"enum": ["asn","atm","e-mail","ipv4-addr","ipv4-net",
-                 "ipv4-net-mask","ipv6-addr","ipv6-net","ipv6-net-mask","mac",
-                 "site-url","domain-name","domain-to-ipv4","domain-to-ipv6",
-                 "domain-to-ipv4-timestamp","domain-to-ipv6-timestamp",
-                 "ipv4-port","ipv6-port","windows-reg-key","file-hash",
-                 "email-x-mailer","email-subject","http-user-agent",
-                 "http-request-url","mutex","file-path","user-name",
-                 "ext-value"]},
+                 "ipv4-net-mask","ipv6-addr","ipv6-net","ipv6-net-mask",
+                 "mac","site-url","domain-name","domain-to-ipv4",
+                 "domain-to-ipv6","domain-to-ipv4-timestamp",
+                 "domain-to-ipv6-timestamp","ipv4-port","ipv6-port",
+                 "windows-reg-key","file-hash","email-x-mailer",
+                 "email-subject","http-user-agent","http-request-url",
+                 "mutex","file-path","user-name","ext-value"]},
         "ext-type": {"type": "string"},
-        "BulkObservableFormant":{"$ref": "#/definitions/BulkObservableFormat"},
+        "BulkObservableFormant":{
+          "$ref": "#/definitions/BulkObservableFormat"},
         "BulkObservableList": {"type": "array", "item":{"type": "string"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false},
     "BulkObservableFormat": {
       "type": "object",
       "properties": {
         "Hash": {"$ref": "#/definitions/Hash"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false},
     "IndicatorExpression": {
       "type": "object",
@@ -1797,6 +2622,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
           "type": "array",
          "items": {"$ref": "#/definitions/IndicatorReference"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false},
     "IndicatorReference": {
       "type": "object",
@@ -1804,6 +2630,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "uid-ref": {"type": "string"},
         "euid-ref": {"type": "string"},
         "version": {"type": "string"}},
+      "required": [],
       "additionalProperties": false},
     "AttackPhase": {
       "type": "object",
@@ -1812,6 +2639,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
         "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array","items": {"type": "string"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false}},
   "title": "IODEF-Document",
   "description": "JSON schema for IODEF-Document class",
@@ -1829,74 +2657,8 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
   "additionalProperties": false}
 ]]></artwork>
 </figure>
-
-
 </section>
 
-   <section anchor="Acknowledgements" title="Acknowledgements">
-     <t>TBD.</t>
-   </section>
-
-   <section anchor="IANA" title="IANA Considerations">
-     <t> This document registers a JSON schema.</t>
-   </section>
-
-   <section anchor="Security" title="Security Considerations">
-     <t>This memo does not provide any further security considerations than the one described in <xref target="RFC7970" />.</t>
-   </section>
-
-
-
-
- </middle>
-
- <!--  *****BACK MATTER ***** -->
-
- <back>
-   <!-- References split into informative and normative -->
-
-   <!-- There are 2 ways to insert reference entries from the citation libraries:
-    1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
-    2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
-       (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
-
-    Both are cited textually in the same manner: by using xref elements.
-    If you use the PI option, xml2rfc will, by default, try to find included files in the same
-    directory as the including file. You can also define the XML_LIBRARY environment variable
-    with a value containing a set of directories to search.  These can be either in the local
-    filing system or remote ones accessed by http (http://domain/dir/... ).-->
-
-   <references title="Normative References">
-     <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
-     &RFC2119;
-     &RFC7970;
-
-     <reference anchor="jsonschema">
-       <!-- the following is the minimum to make xml2rfc happy -->
-
-       <front>
-         <title>JSON Schema</title>
-
-         <author>
-           <organization></organization>
-         </author>
-
-         <date year="2006" />
-       </front>
-       <annotation>http://json-schema.org/</annotation>
-     </reference>
-   </references>
-
-<!--
-   <references title="Informative References">
--->
-     <!-- Here we use entities that we defined at the beginning. -->
-
-     <!-- A reference written by by an organization not a person. -->
-
-<!--
-   </references>
--->
 
  </back>
 </rfc>

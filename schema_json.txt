@@ -1,21 +1,21 @@
 { "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
-    "action": {"enum": ["nothing","contact-source-site","contact-target-site",
-               "contact-sender", "investigate","block-host","block-network",
-               "block-port","rate-limit-host","rate-limit-network",
-               "rate-limit-port","redirect-traffic","honeypot",
-               "upgrade-software","rebuild-asset","harden-asset",
+    "action": {"enum": ["nothing","contact-source-site",
+               "contact-target-site","contact-sender","investigate",
+               "block-host","block-network","block-port","rate-limit-host",
+               "rate-limit-network","rate-limit-port","redirect-traffic",
+               "honeypot","upgrade-software","rebuild-asset","harden-asset",
                "remediate-other","status-triage","status-new-info",
                "watch-and-report","training","defined-coa","ext-value"]},
     "duration": {"enum": ["second","minute","hour","day","month","quarter",
                  "year","ext-value"]},
     "lang": {"enum": ["en","jp"]},
-    "purpose": {"enum": ["traceback","mitigation","reporting","watch","other",
-               "ext-value"]},
+    "purpose": {"enum": ["traceback","mitigation","reporting","watch",
+                "other","ext-value"]},
     "restriction": {"enum": ["public","partner","need-to-know","private",
                    "default","white","green","amber","red","ext-value"]},
-    "status": {"enum": ["new","in-progress","forwarded","resolved","future",
-              "ext-value"]},
+    "status": {"enum": ["new","in-progress","forwarded","resolved",
+               "future","ext-value"]},
     "DATETIME": {"type": "string"},
     "PORTLIST": {"type": "string"},
     "URLtype": {"type": "string"},
@@ -37,6 +37,14 @@
     "ExtensionTypeList": {
       "type": "array",
       "items": {"$ref": "#/definitions/ExtensionType"}},
+    "SoftwareType": {
+      "type": "object",
+      "properties": {
+        "SoftwareReference": {"$ref": "#/definitions/SoftwareReference"},
+        "URL": {"$ref": "#/definitions/URLtype"},
+        "Description": {"type": "array", "items": {"type":"string"}}},
+      "required": [],
+      "additionalProperties": false},
     "SoftwareReference": {
       "type": "object",
       "properties": {
@@ -46,13 +54,6 @@
         "dtype": {"type": "string"},
         "ext-dtype": {"type": "string"}},
       "required": ["spec-name"],
-      "additionalProperties": false},
-    "SoftwareType": {
-      "type": "object",
-      "properties": {
-        "SoftwareReference": {"$ref": "#/definitions/SoftwareReference"},
-        "URL": {"$ref": "#/definitions/URLtype"},
-        "Description": {"type": "array", "items": {"type":"string"}}},
       "additionalProperties": false},
     "StructuredInfo": {
       "type": "object",
@@ -80,7 +81,8 @@
         "IncidentID": {"$ref": "#/definitions/IncidentID"},
         "AlternativeID": {"$ref": "#/definitions/AlternativeID"},
         "RelatedActivity": {
-          "type": "array","items": {"$ref": "#/definitions/RelatedActivity"}},
+          "type": "array",
+          "items": {"$ref": "#/definitions/RelatedActivity"}},
         "DetectTime": {"type": "string"},
         "StartTime": {"type": "string"},
         "EndTime": {"type": "string"},
@@ -151,7 +153,7 @@
         "ext-restriction": {"type": "string"},
         "ThreatActorID": {"type": "array", "items": {"type": "string"}},
         "Description": {"type": "array", "items": {"type": "string"}},
-        "URL": {"type": "array", "items": {"$ref": "#/definitions/URLtype"}},
+        "URL": {"type":"array","items":{"$ref":"#/definitions/URLtype"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "additionalProperties": false},
     "Campaign": {
@@ -159,7 +161,7 @@
         "restriction": {"$ref": "#/definitions/restriction"},
         "ext-restriction": {"type": "string"},
         "CampaignID": {"type": "array", "items": {"type": "string"}},
-        "URL": {"type": "array", "items": {"$ref": "#/definitions/URLtype"}},
+        "URL": {"type":"array", "items":{"$ref":"#/definitions/URLtype"}},
         "Description": {"type": "array", "items": {"type": "string"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}}},
     "Contact": {
@@ -179,9 +181,9 @@
         "ContactTitle": {"type": "array", "items": {"type": "string"}},
         "Description": {"type": "array", "items": {"type": "string"}},
         "RegistryHandle": {
-          "type": "array", "items": {"$ref": "#/definitions/RegistryHandle"}},
+          "type":"array", "items":{"$ref":"#/definitions/RegistryHandle"}},
         "PostalAddress": {
-          "type": "array", "items": {"$ref": "#/definitions/PostalAddress"}},
+          "type":"array", "items":{"$ref":"#/definitions/PostalAddress"}},
         "Email": {"type": "array", "items": {"$ref": "#/definitions/Email"}},
         "Telephone": {
           "type": "array", "items": {"$ref": "#/definitions/Telephone"}},
@@ -196,8 +198,8 @@
       "properties": {
         "handle": {"type": "string"},
         "registry": {
-          "enum": ["internic","apnic","arin","lacnic","ripe","afrinic","local",
-                   "ext-value"]},
+          "enum": ["internic","apnic","arin","lacnic","ripe","afrinic",
+                   "local","ext-value"]},
         "ext-registry": {"type": "string"}},
       "required": ["registry"],
       "additionalProperties": false},
@@ -246,7 +248,9 @@
         "Contact": {
           "type": "array", "items": {"$ref": "#/definitions/Contact"}},
         "DetectionPattern": {
-          "type": "array", "items":{"$ref":"#/definitions/DetectionPattern"}}},
+          "type":"array",
+          "items":{"$ref":"#/definitions/DetectionPattern"}}},
+      "required": [],
       "additionalProperties": false},
     "DetectionPattern": {
       "type": "object",
@@ -269,20 +273,22 @@
           "type": "array","items": {"$ref": "#/definitions/Reference"}},
         "Description": {"type": "array", "items": {"type": "string"}},
         "AttackPattern": {
-          "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
+          "type":"array", "items":{"$ref":"#/definitions/StructuredInfo"}},
         "Vulnerability": {
-          "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
+          "type":"array", "items":{"$ref":"#/definitions/StructuredInfo"}},
         "Weakness": {
-          "type": "array", "items": {"$ref": "#/definitions/StructuredInfo"}},
+          "type":"array", "items":{"$ref":"#/definitions/StructuredInfo"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false},
     "Reference": {
       "type": "object",
       "properties": {
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "ReferenceName": {"type": "string"},
-        "URL": {"type": "array", "items": {"$ref": "#/definitions/URLtype"}},
+        "URL":{"type":"array", "items":{"$ref":"#/definitions/URLtype"}},
         "Description": {"type": "array", "items": {"type": "string"}}},
+      "required": [],
       "additionalProperties": false},
     "Assessment": {
       "type": "object",
@@ -295,13 +301,13 @@
         "SystemImpact": {
           "type": "array", "items": {"$ref": "#/definitions/SystemImpact"}},
         "BusinessImpact": {
-          "type": "array", "items": {"$ref": "#/definitions/BusinessImpact"}},
+          "type":"array", "items":{"$ref":"#/definitions/BusinessImpact"}},
         "TimeImpact": {
           "type": "array", "items": {"$ref": "#/definitions/TimeImpact"}},
         "MonetaryImpact": {
-          "type": "array", "items": {"$ref": "#/definitions/MonetaryImpact"}},
+          "type":"array", "items":{"$ref":"#/definitions/MonetaryImpact"}},
         "IntendedImpact": {
-          "type": "array", "items": {"$ref": "#/definitions/BusinessImpact"}},
+          "type":"array", "items":{"$ref":"#/definitions/BusinessImpact"}},
         "Counter": {
           "type": "array", "items": {"$ref": "#/definitions/Counter"}},
         "MitigatingFactor": {
@@ -309,6 +315,7 @@
         "Cause": {"type": "array", "items": {"$type": "string"}},
         "Confidence": {"$ref": "#/definitions/Confidence"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false},
     "SystemImpact": {
       "type": "object",
@@ -324,8 +331,8 @@
                   "breach-proprietary","breach-privacy","breach-credential",
                   "breach-configuration","integrity-data",
                   "integrity-configuration","integrity-hardware",
-                  "traffic-redirection","monitoring-traffic","monitoring-host",
-                  "policy","unknown","ext-value"]},
+                  "traffic-redirection","monitoring-traffic",
+                  "monitoring-host","policy","unknown","ext-value"]},
         "ext-type": {"type": "string"},
         "Description": {"type": "array","items": {"type": "string"}}},
       "required": ["type"],
@@ -363,6 +370,7 @@
         "value": {"type": "number"},
         "severity": {"enum":["low","medium","high"]},
         "currency": {"type": "string"}},
+      "required": [],
       "additionalProperties": false},
     "Confidence": {
       "type": "object",
@@ -421,7 +429,8 @@
           "type": "array","items": {"$ref": "#/definitions/System"}},
         "Expectation": {
           "type": "array","items": {"$ref": "#/definitions/Expectation"}},
-        "RecordData": {"type": "array", "items": {"$ref": "#/definitions/RecordData"}},
+        "RecordData": {"type": "array",
+                       "items": {"$ref": "#/definitions/RecordData"}},
         "EventData": {
           "type": "array","items": {"$ref": "#/definitions/EventData"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
@@ -441,13 +450,14 @@
         "StartTime": {"type": "string"},
         "EndTime": {"type": "string"},
         "Contact": {"$ref": "#/definitions/Contact"}},
+      "required": [],
       "additionalProperties": false},
     "System": {
       "type": "object",
       "properties": {
         "category": {
-          "enum": ["source","target","intermediate","sensor","infrastructure",
-                   "ext-value"]},
+          "enum": ["source","target","intermediate","sensor",
+                   "infrastructure","ext-value"]},
         "ext-category": {"type": "string"},
         "interface": {"type": "string"},
         "spoofed": {"enum": ["unknown","yes","no"]},
@@ -482,16 +492,18 @@
           "type": "array","items": {"$ref": "#/definitions/Address"}},
         "PostalAddress": {"type": "string"},
         "Location": {"type": "array","items": {"type": "string"}},
-        "Counter": {"type": "array","items":{"$ref":"#/definitions/Counter"}}},
+        "Counter": {"type":"array",
+                    "items":{"$ref":"#/definitions/Counter"}}},
+      "required": [],
       "additionalProperties": false},
     "Address": {
       "type": "object",
       "properties": {
         "value": {"type": "string"},
         "category": {
-           "enum": ["asn","atm","e-mail","ipv4-addr","ipv4-net",
-                    "ipv4-net-masked","ipv4-net-mask","ipv6-addr","ipv6-net",
-                    "ipv6-net-masked","mac","site-url","ext-value"]},
+           "enum":["asn","atm","e-mail","ipv4-addr","ipv4-net",
+                   "ipv4-net-masked","ipv4-net-mask","ipv6-addr","ipv6-net",
+                   "ipv6-net-masked","mac","site-url","ext-value"]},
         "ext-category": {"type": "string"},
         "vlan-name": {"type": "string"},
         "vlan-num": {"type": "integer"},
@@ -502,18 +514,19 @@
       "type": "object",
       "properties": {
         "category": {
-          "enum":["client","client-enterprise","clent-partner","client-remote",
-                  "client-kiosk","client-mobile","server-internal",
-                  "server-public","www","mail","webmail","messaging",
-                  "streaming","voice","file","ftp","p2p","name","directory",
-                  "credential","print","application","database","backup",
-                  "dhcp","assessment","source-control","config-management",
-                  "monitoring","infra","infra-firewall","infra-router",
-                  "infra-switch","camera","proxy","remote-access","log",
-                  "virtualization","pos", "scada", "scada-supervisory",
-                  "sinkhole","honeypot","anomyzation","c2-server",
-                  "malware-distribution","drop-server","hot-point","reflector",
-                  "phishing-site","spear-phishing-site","recruiting-site",
+          "enum":["client","client-enterprise","clent-partner",
+                  "client-remote","client-kiosk","client-mobile",
+                  "server-internal","server-public","www","mail","webmail",
+                  "messaging","streaming","voice","file","ftp","p2p","name",
+                  "directory","credential","print","application","database",
+                  "backup","dhcp","assessment","source-control",
+                  "config-management","monitoring","infra","infra-firewall",
+                  "infra-router","infra-switch","camera","proxy",
+                  "remote-access","log","virtualization","pos", "scada",
+                  "scada-supervisory","sinkhole","honeypot","anomyzation",
+                  "c2-server","malware-distribution","drop-server",
+                  "hot-point","reflector","phishing-site",
+                  "spear-phishing-site","recruiting-site",
                   "fraudulent-site","ext-value"]},
         "ext-category": {"type": "string"},
         "Description": {"type": "array","items": {"type": "string"}}},
@@ -526,7 +539,8 @@
         "type": {"enum": ["count","peak","average","ext-value"]},
         "ext-type": {"type": "string"},
         "unit": {"enum": ["byte","mbit","packet","flow","session","alert",
-                 "message","event","host","site","organization","ext-value"]},
+                 "message","event","host","site","organization",
+                 "ext-value"]},
         "ext-unit": {"type": "string"},
         "meaning": {"type": "string"},
         "duration": {"$ref":"#/definitions/duration"},
@@ -563,14 +577,16 @@
       "type": "object",
       "properties": {
         "Server": {"type": "string"},
-        "Address": {"type": "array","items":{"$ref":"#/definitions/Address"}}},
+        "Address": {"type":"array",
+                    "items":{"$ref":"#/definitions/Address"}}},
       "required": ["Server","Address"],
       "additionalProperties": false},
     "DomainContacts": {
       "type": "object",
       "properties": {
         "SameDomainContact": {"type": "string"},
-        "Contact": {"type": "array","items":{"$ref":"#/definitions/Contact"}}},
+        "Contact": {"type":"array",
+                    "items":{"$ref":"#/definitions/Contact"}}},
       "required": ["Contact"],
       "additionalProperties": false},
     "Service": {
@@ -584,9 +600,10 @@
         "ProtoCode": {"type": "integer"},
         "ProtoType": {"type": "integer"},
         "ProtoField": {"type": "integer"},
-        "ApplicationHeaderField": {"$ref":"#/definitions/ExtensionTypeList"},
+        "ApplicationHeaderField":{"$ref":"#/definitions/ExtensionTypeList"},
         "EmailData": {"$ref": "#/definitions/EmailData"},
         "Application": {"$ref": "#/definitions/SoftwareType"}},
+      "required": [],
       "additionalProperties": false},
     "ServiceName": {
       "type": "object",
@@ -594,6 +611,7 @@
         "IANAService": {"type": "string"},
         "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array","items": {"type": "string"}}},
+      "required": [],
       "additionalProperties": false},
     "EmailData": {
       "type": "object",
@@ -611,6 +629,7 @@
         "HashData": {
           "type": "array","items": {"$ref": "#/definitions/HashData"}},
         "Signature": {"type": "array","items": {"type": "string"}}},
+      "required": [],
       "additionalProperties": false},
     "RecordData": {
       "type": "object",
@@ -633,8 +652,9 @@
           "type": "array",
           "items": {"$ref": "#/definitions/WindowsRegistryKeysModified"}},
         "CertificateData": {
-          "type": "array","items": {"$ref": "#/definitions/CertificateData"}},
+          "type":"array","items":{"$ref":"#/definitions/CertificateData"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false
     },
     "RecordPattern": {
@@ -682,7 +702,7 @@
       "type": "object",
       "properties": {
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "X509Data": {"type": "string"},
+        "X509Data": {type: "string"},
         "Description": {"type": "array","items": {"type": "string"}}},
       "required": ["X509Data"],
       "additionalProperties": false},
@@ -706,7 +726,8 @@
         "Signature": {"type": "array","items": {"type": "string"}},
         "AssociatedSoftware": {"$ref": "#/definitions/SoftwareType"},
         "FileProperties": {
-          "type": "array","items": {"$ref": "#/definitions/ExtensionType"}}},
+          "type":"array","items":{"$ref":"#/definitions/ExtensionType"}}},
+      "required": [],
       "additionalProperties": false},
     "HashData": {
       "type": "object",
@@ -755,7 +776,7 @@
           "type": "array","items": {"$ref": "#/definitions/Contact"}},
         "Observable": {"$ref": "#/definitions/Observable"},
         "uid-ref": {"type": "string"},
-        "IndicatorExpression": {"$ref": "#/definitions/IndicatorExpression"},
+        "IndicatorExpression":{"$ref":"#/definitions/IndicatorExpression"},
         "IndicatorReference": {"$ref": "#/definitions/IndicatorReference"},
         "NodeRole": {
           "type": "array","items": {"$ref": "#/definitions/NodeRole"}},
@@ -799,7 +820,8 @@
         "FileData": {"$ref": "#/definitions/FileData"},
         "CertificateData": {"$ref": "#/definitions/CertificateData"},
         "RegistryHandle": {"$ref": "#/definitions/RegistryHandle"},
-        "RecordData": {"type": "array", "item": {"$ref": "#/definitions/Record"}},
+        "RecordData": {"type": "array",
+                       "item": {"$ref": "#/definitions/Record"}},
         "EventData": {"$ref": "#/definitions/EventData"},
         "Incident": {"$ref": "#/definitions/Incident"},
         "Expectation": {"$ref": "#/definitions/Expectation"},
@@ -809,28 +831,32 @@
         "HistoryItem": {"$ref": "#/definitions/HistoryItem"},
         "BulkObservable": {"$ref": "#/definitions/BulkObservable"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false},
     "BulkObservable": {
       "type": "object",
       "properties": {
         "type": {"enum": ["asn","atm","e-mail","ipv4-addr","ipv4-net",
-                 "ipv4-net-mask","ipv6-addr","ipv6-net","ipv6-net-mask","mac",
-                 "site-url","domain-name","domain-to-ipv4","domain-to-ipv6",
-                 "domain-to-ipv4-timestamp","domain-to-ipv6-timestamp",
-                 "ipv4-port","ipv6-port","windows-reg-key","file-hash",
-                 "email-x-mailer","email-subject","http-user-agent",
-                 "http-request-url","mutex","file-path","user-name",
-                 "ext-value"]},
+                 "ipv4-net-mask","ipv6-addr","ipv6-net","ipv6-net-mask",
+                 "mac","site-url","domain-name","domain-to-ipv4",
+                 "domain-to-ipv6","domain-to-ipv4-timestamp",
+                 "domain-to-ipv6-timestamp","ipv4-port","ipv6-port",
+                 "windows-reg-key","file-hash","email-x-mailer",
+                 "email-subject","http-user-agent","http-request-url",
+                 "mutex","file-path","user-name","ext-value"]},
         "ext-type": {"type": "string"},
-        "BulkObservableFormant":{"$ref": "#/definitions/BulkObservableFormat"},
+        "BulkObservableFormant":{
+          "$ref": "#/definitions/BulkObservableFormat"},
         "BulkObservableList": {"type": "array", "item":{"type": "string"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false},
     "BulkObservableFormat": {
       "type": "object",
       "properties": {
         "Hash": {"$ref": "#/definitions/Hash"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false},
     "IndicatorExpression": {
       "type": "object",
@@ -847,6 +873,7 @@
           "type": "array",
          "items": {"$ref": "#/definitions/IndicatorReference"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false},
     "IndicatorReference": {
       "type": "object",
@@ -854,6 +881,7 @@
         "uid-ref": {"type": "string"},
         "euid-ref": {"type": "string"},
         "version": {"type": "string"}},
+      "required": [],
       "additionalProperties": false},
     "AttackPhase": {
       "type": "object",
@@ -862,6 +890,7 @@
         "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "Description": {"type": "array","items": {"type": "string"}},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
+      "required": [],
       "additionalProperties": false}},
   "title": "IODEF-Document",
   "description": "JSON schema for IODEF-Document class",
