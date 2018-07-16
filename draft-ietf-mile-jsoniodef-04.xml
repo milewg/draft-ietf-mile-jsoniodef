@@ -437,7 +437,8 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 |                             | Description_ML*    |               |
 |                             | AttackPattern*     |               |
 |                             | Vulnerability*     |               |
-|                             | Weakness*          | 3.11          |
+|                             | Weakness*          |               |
+|                             | AdditionalData*    | 3.11          |
 +-----------------------------+--------------------+---------------+
 | Reference                   | observable-id?     |               |
 |                             | ReferenceName?     |               |
@@ -525,7 +526,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 |                             | Method*            |               |
 |                             | System*            |               |
 |                             | Expectation*       |               |
-|                             | Record*            |               |
+|                             | RecordData*        |               |
 |                             | EventData*         |               |
 |                             | AdditionalData*    | 3.14          |
 +-----------------------------+--------------------+---------------+
@@ -616,7 +617,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 |                             | ProtoCode?         |               |
 |                             | ProtoType?         |               |
 |                             | ProtoField?        |               |
-|                             | ApplicationHeaderField+|           |
+|                             | ApplicationHeaderField*|           |
 |                             | EmailData?         |               |
 |                             | Application?       | 3.19          |
 +-----------------------------+--------------------+---------------+
@@ -706,7 +707,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 +-----------------------------+--------------------+---------------+
 | FuzzyHash                   | FuzzyHashValue+    |               |
 |                             | Application?       |               |
-|                             | AdditionalData?    | 3.23.2        |
+|                             | AdditionalData*    | 3.23.2        |
 +-----------------------------+--------------------+---------------+
 | Indicator                   | restriction?       |               |
 |                             | ext-restriction?   |               |
