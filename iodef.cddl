@@ -617,7 +617,7 @@ Hash = {
 }
 
 FuzzyHash = {
- FuzzyHashValue: [+ text]
+ FuzzyHashValue: [+ ExtensionType]
  ? Application: SoftwareType
  AdditionalData: [* ExtensionType]
 }
