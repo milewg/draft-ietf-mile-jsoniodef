@@ -46,27 +46,31 @@
             "duration": "minute",
             "metric": "elapsed"
           }],
-          "MonetaryImpact": [{}],
-          "Confidence": {
-            "rating": "medium"
-          },
+          "MonetaryImpact": [{
+            "value": 10000000,
+            "currency": "JPY"
+          }],
           "Counter": [{
             "value": "3",
             "type": "count",
             "unit": "packet"
-          }]
+          }],
+          "Confidence": {
+            "value": 5,
+            "rating": "medium"
+          }
         }
       ],
       "History": {
         "HistoryItem": [{
-          "DateTime": "2015-10-15T11:18:00-05:00",
-          "action": "investigate"
+          "action": "investigate",
+          "DateTime": "2015-10-15T11:18:00-05:00"
         }]
       },
-      "Methods": [
+      "Method": [
         {
           "Vulnerability": [{"specID":"cve"}],
-          "References": [
+          "Reference": [
             {
               "URL": ["http://www.nict.go.jp"]
             }
@@ -165,7 +169,7 @@
             "Discovery": [{
               "DetectionPattern": [{
                 "Application": {
-                  "Description": ["Microsoft Win"]
+                  "Description": "Microsoft Win"
                 }
               }]
             }]
@@ -190,7 +194,7 @@
           }]
         }
       ],
-      "Contacts": [
+      "Contact": [
         {
           "type": "organization",
           "role": "creator",
@@ -212,7 +216,7 @@
           }]
         }
       ],
-      "IndicatorList": [
+      "Indicator": [
         {
           "IndicatorID": {
             "id": "G90823490",

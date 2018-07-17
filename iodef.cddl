@@ -705,7 +705,7 @@ IndicatorExpression = {
  ? IndicatorExpression: [+ IndicatorExpression]
  ? Observable: [+ Observable]
  ? uid-ref: [+ text]
- IndicatorReference: [* IndicatorReference]
+ ? IndicatorReference: [+ IndicatorReference]
  ? Confidence: Confidence
  ? AdditionalData: [+ ExtensionType]
 }
