@@ -9,36 +9,36 @@
       "name": "csirt.example.com"},
     "RelatedActivity": [{
       "ThreatActor": [{
-        "ThreatActorID": "TA-12-AGGRESSIVE-BUTTERFLY",
-        "Description": "Aggressive Butterfly"}],
+        "ThreatActorID": ["TA-12-AGGRESSIVE-BUTTERFLY"],
+        "Description": ["Aggressive Butterfly"]}],
       "Campaign": [{
-        "CampaignID": "C-2015-59405",
-        "Description": "Orange Giraffe"}]}],
+        "CampaignID": ["C-2015-59405"],
+        "Description": ["Orange Giraffe"]}]}],
     "GenerationTime": "2015-10-02T11:18:00-05:00",
     "Description": [
       "Summarizes the Indicators of Compromise for the Orange Giraffe campaign of the Aggressive Butterfly crime gang."],
     "Assessment": [{
-      "BusinessImpact": {
-        "type": "breach-proprietary"}}],
+      "BusinessImpact": [{
+        "type": "breach-proprietary"}]}],
     "Contact": [{
       "type": "organization",
       "role": "creator",
-      "ContactName": "CSIRT for example.com",
-      "email": {
-        "emailTo": "contact@csirt.example.com"}}],
-    "IndicatorData": [{
-      "Indicator": {
-        "IndicatorID": {
-          "id": "G90823490",
-            "name": "csirt.example.com",
-            "version": "1"},
-          "Description": "C2 domains",
-          "StartTime": "2014-12-02T11:18:00-05:00",
-          "Observable": {
-            "BulkObservable": {
-              "type": "fqdn"},
-            "BulkObservableList": [
-              "kj290023j09r34.example.com",
-              "09ijk23jfj0k8.example.net",
-              "klknjwfjiowjefr923.example.org",
-              "oimireik79msd.example.org"]}}}]}]}
+      "ContactName": ["CSIRT for example.com"],
+      "Email": [{
+        "EmailTo": "contact@csirt.example.com"}]}],
+    "Indicator": [{
+      "IndicatorID": {
+        "id": "G90823490",
+        "name": "csirt.example.com",
+        "version": "1"},
+      "Description": ["C2 domains"],
+      "StartTime": "2014-12-02T11:18:00-05:00",
+      "Observable": {
+        "BulkObservable": {
+          "type": "ext-value",
+          "ext-type": "fqdn",
+          "BulkObservableList": [
+            "kj290023j09r34.example.com",
+            "09ijk23jfj0k8.example.net",
+            "klknjwfjiowjefr923.example.org",
+            "oimireik79msd.example.org"]}}}]}]}
