@@ -957,8 +957,8 @@ iodef = {
  ? format-id: text
  ? private-enum-name: text
  ? private-enum-id: text
- + Incident: [+ Incident]
- * AdditionalData: ExtensionType
+ Incident: [+ Incident]
+ ? AdditionalData: [+ ExtensionType]
 }
 
 duration = "second" / "minute" / "hour" / "day" / "month" / "quarter" /
@@ -1002,9 +1002,9 @@ SoftwareType = {
 
 SoftwareReference = {
  ? value: text
- spec-name: text
+ spec-name: "custom" / "cpe" / "swid" / "ext-value"
  ? ext-spec-name: text
- ? dtype: text
+ ? dtype: "bytes" / "integer" / "real" / "string" / "xml" / "ext-value"
  ? ext-dtype: text
 }
 
@@ -1021,23 +1021,23 @@ Incident = {
  ? observable-id: IDtype
  IncidentID: IncidentID
  ? AlternativeID: AlternativeID
- * RelatedActivity: RelatedActivity
+ ? RelatedActivity: [+ RelatedActivity]
  ? DetectTime: text
  ? StartTime: text
  ? EndTime: text
  ? RecoveryTime: text
  ? ReportTime: text
  GenerationTime: text
- * Description: text
- * Description_ML: text
- * Discovery: Discovery
- * Assessment: Assessment
- * Method: Method
- + Contacts: Contact
- * EventData: EventData
- * Indicator: Indicator
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
+ ? Discovery: [+ Discovery]
+ ? Assessment: [+ Assessment]
+ ? Method: [+ Method]
+ Contact: [+ Contact]
+ ? EventData: [+ EventData]
+ ? Indicator: [+ Indicator]
  ? History: History
- * AdditionalData: ExtensionType
+ ? AdditionalData: [+ ExtensionType]
 }
 
 IncidentID = {
@@ -1051,40 +1051,40 @@ IncidentID = {
 AlternativeID = {
  ? restriction: restriction
  ? ext-restriction: text
- + IncidentID: IncidentID
+ IncidentID: [+ IncidentID]
 }
 
 RelatedActivity = {
  ? restriction: restriction
  ? ext-restriction: text
- * IncidentID: IncidentID
- * URL: URLtype
- * ThreatActor: ThreatActor
- * Campaign: Campaign
- * IndicatorID: IndicatorID
+ ? IncidentID: [+ IncidentID]
+ ? URL: [+ URLtype]
+ ? ThreatActor: [+ ThreatActor]
+ ? Campaign: [+ Campaign]
+ ? IndicatorID: [+ IndicatorID]
  ? Confidence: Confidence
- * Description: text
- * AdditionalData: ExtensionType
+ ? Description: [+ text]
+ ? AdditionalData: [+ ExtensionType]
 }
 
 ThreatActor = {
  ? restriction: restriction
  ? ext-restriction: text
- * ThreatActorID: text
- * URL: URLtype
- * Description: text
- * Description_ML: text
- * AdditionalData: ExtensionType
+ ? ThreatActorID: [+ text]
+ ? URL: [+ URLtype]
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
+ ? AdditionalData: [+ ExtensionType]
 }
 
 Campaign  = {
  ? restriction: restriction
  ? ext-restriction: text
- * CampaignID: text
- * URL: URLtype
- * Description: text
- * Description_ML: text
- * AdditionalData: ExtensionType
+ ? CampaignID: [+ text]
+ ? URL: [+ URLtype]
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
+ ? AdditionalData: [+ ExtensionType]
 }
 
 Contact = {
@@ -1097,19 +1097,19 @@ Contact = {
  ? ext-type: text
  ? restriction: restriction
  ? ext-restriction: text
- * ContactName: text
- * ContactName_ML: text
- * ContactTitle: text
- * ContactTitle_ML: text
- * Description: text
- * Description_ML: text
- * RegistryHandle: RegistryHandle
- * PostalAddress: PostalAddress
- * Email: Email
- * Telephone: Telephone
+ ? ContactName: [+ text]
+ ? ContactName_ML: [+ text]
+ ? ContactTitle: [+ text]
+ ? ContactTitle_ML: [+ text]
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
+ ? RegistryHandle: [+ RegistryHandle]
+ ? PostalAddress: [+ PostalAddress]
+ ? Email: [+ Email]
+ ? Telephone: [+ Telephone]
  ? Timezone: text
- * Contact: Contact
- * AdditionalData: ExtensionType
+ ? Contact: [+ Contact]
+ ? AdditionalData: [+ ExtensionType]
 }
 
 RegistryHandle = {
@@ -1123,24 +1123,24 @@ PostalAddress = {
  ? type: text
  ? ext-type: text
  PAddress: text
- * Description: text
- * Description_ML: text
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
 }
 
 Email = {
  ? type: "direct" / "hotline" / "ext-value"
  ? ext-type: text
  EmailTo: text
- * Description: text
- * Description_ML: text
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
 }
 
 Telephone = {
  ? type: "wired" / "mobile" / "fax" / "hotline" / "ext-value"
  ? ext-type: text
  TelephoneNumber: text
- * Description: text
- * Description_ML: text
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
 }
 
 Discovery = {
@@ -1152,10 +1152,10 @@ Discovery = {
  ? ext-source: text
  ? restriction: restriction
  ? ext-restriction: text
- * Description: text
- * Description_ML: text
- * Contact: Contact
- * DetectionPattern: DetectionPattern
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
+ ? Contact: [+ Contact]
+ ? DetectionPattern: [+ DetectionPattern]
 }
 
 DetectionPattern = {
@@ -1163,21 +1163,21 @@ DetectionPattern = {
  ? ext-restriction: text
  ? observable-id: IDtype
  Application: SoftwareType
- * Description: text
- * Description_ML: text
- * DetectionConfiguration: text
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
+ ? DetectionConfiguration: [+ text]
 }
 
 Method = {
  ? restriction: restriction
  ? ext-restriction: text
- * Reference: Reference
- * Description: text
- * Description_ML: text
- * AttackPattern: StructuredInformation
- * Vulnerability: StructuredInformation
- * Weakness: StructuredInformation
- ? AdditionalData: ExtensionType
+ ? Reference: [+ Reference]
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
+ ? AttackPattern: [+ StructuredInformation]
+ ? Vulnerability: [+ StructuredInformation]
+ ? Weakness: [+ StructuredInformation]
+ ? AdditionalData: [+ ExtensionType]
 }
 
 StructuredInformation = {
@@ -1191,9 +1191,9 @@ StructuredInformation = {
 Reference = {
  ? observable-id: IDtype
  ? ReferenceName: ReferenceName
- * URL: URLtype
- * Description: text
- * Description_ML: text
+ ? URL: [+ URLtype]
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
 }
 
 ReferenceName = {
@@ -1206,19 +1206,19 @@ Assessment = {
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
- * IncidentCategory: text
- * SystemImpact: SystemImpact
- * BusinessImpact: BusinessImpact
- * TimeImpact: TimeImpact
- * MonetaryImpact: MonetaryImpact
- * IntendedImpact: BusinessImpact
- * Counter: Counter
- * MitigatingFactor: text
- * MitigatingFactor_ML: text
- * Cause: text
- * Cause_ML: text
+ ? IncidentCategory: [+ text]
+ ? SystemImpact: [+ SystemImpact]
+ ? BusinessImpact: [+ BusinessImpact]
+ ? TimeImpact: [+ TimeImpact]
+ ? MonetaryImpact: [+ MonetaryImpact]
+ ? IntendedImpact: [+ BusinessImpact]
+ ? Counter: [+ Counter]
+ ? MitigatingFactor: [+ text]
+ ? MitigatingFactor_ML: [+ text]
+ ? Cause: [+ text]
+ ? Cause_ML: [+ text]
  ? Confidence: Confidence
- * AdditionalData: ExtensionType
+ ? AdditionalData: [+ ExtensionType]
 }
 
 SystemImpact = {
@@ -1234,8 +1234,8 @@ SystemImpact = {
        "traffic-redirection" / "monitoring-traffic" / "monitoring-host" /
        "policy" / "unknown" / "ext-value"
  ? ext-type: text
- * Description: text
- * Description_ML: text
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
 }
 
 BusinessImpact = {
@@ -1247,8 +1247,8 @@ BusinessImpact = {
        "asset-manipulation" / "legal" / "extortion" / "unknown" /
        "ext-value"
  ? ext-type: text
- * Description: text
- * Description_ML: text
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
 }
 
 TimeImpact = {
@@ -1275,7 +1275,7 @@ Confidence = {
 History = {
  ? restriction: restriction
  ? ext-restriction: text
- + HistoryItem: HistoryItem
+ HistoryItem: [+ HistoryItem]
 }
 
 HistoryItem = {
@@ -1287,32 +1287,32 @@ HistoryItem = {
  DateTime: DATETIME
  ? IncidentID: IncidentID
  ? Contact: Contact
- * Description: text
- * Description_ML: text
- * DefinedCOA: text
- * AdditionalData: ExtensionType
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
+ ? DefinedCOA: [+ text]
+ ? AdditionalData: [+ ExtensionType]
 }
 
 EventData = {
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
- * Description: text
- * Description_ML: text
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
  ? DetectTime: DATETIME
  ? StartTime: DATETIME
  ? EndTime: DATETIME
  ? RecoveryTime: DATETIME
  ? ReportTime: DATETIME
- * Contact: Contact
- * Discovery: Discovery
+ ? Contact: [+ Contact]
+ ? Discovery: [+ Discovery]
  ? Assessment: Assessment
- * Method: Method
- ? System: System
- * Expectation: Expectation
- * RecordData: RecordData
- * EventData: EventData
- * AdditionalData: ExtensionType
+ ? Method: [+ Method]
+ ? System: [+ System]
+ ? Expectation: [+ Expectation]
+ ? RecordData: [+ RecordData]
+ ? EventData: [+ EventData]
+ ? AdditionalData: [+ ExtensionType]
 }
 
 Expectation = {
@@ -1322,9 +1322,9 @@ Expectation = {
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
- * Description: text
- * Description_ML: text
- * DefinedCOA: text
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
+ ? DefinedCOA: [+ text]
  ? StartTime: DATETIME
  ? EndTime: DATETIME
  ? Contact: Contact
@@ -1344,23 +1344,23 @@ System = {
  ? ext-restriction: text
  ? observable-id: IDtype
  Node: Node
- * NodeRole: NodeRole
- * Service: Service
- * OperatingSystem: SoftwareType
- * Counter: Counter
- * AssetID: text
- * Description: text
- * Description_ML: text
- * AdditionalData: ExtensionType
+ ? NodeRole: [+ NodeRole]
+ ? Service: [+ Service]
+ ? OperatingSystem: [+ SoftwareType]
+ ? Counter: [+ Counter]
+ ? AssetID: [+ text]
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
+ ? AdditionalData: [+ ExtensionType]
 }
 
 Node = {
- * DomainData: DomainData
- * Address: Address
+ ? DomainData: [+ DomainData]
+ ? Address: [+ Address]
  ? PostalAddress: PostalAddress
- * Location: text
- * Location_ML: text
- * Counter: Counter
+ ? Location: [+ text]
+ ? Location_ML: [+ text]
+ ? Counter: [+ Counter]
 }
 
 Address = {
@@ -1392,8 +1392,8 @@ NodeRole = {
            "phishing-site" / "spear-phishing-site" / "recruiting-site" /
            "fraudulent-site" / "ext-value"
  ? ext-category: text
- * Description: text
- * Description_ML: text
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
 }
 
 Counter = {
@@ -1424,19 +1424,19 @@ DomainData = {
  ? DateDomainWasChecked: DATETIME
  ? RegistrationDate: DATETIME
  ? ExpirationDate: DATETIME
- * RelatedDNS: ExtensionType
- * NameServers: NameServers
+ ? RelatedDNS: [+ ExtensionType]
+ ? NameServers: [+ NameServers]
  ? DomainContacts: DomainContacts
 }
 
 NameServers = {
  Server: text
- * Address: Address
+ ? Address: [+ Address]
 }
 
 DomainContacts = {
  ? SameDomainContact: text
- + Contact: Contact
+ Contact: [+ Contact]
 }
 
 Service = {
@@ -1448,30 +1448,30 @@ Service = {
  ? ProtoCode: int
  ? ProtoType: int
  ? ProtoField: int
- + ApplicationHeaderField: ExtensionType
+ ? ApplicationHeaderField: [+ ExtensionType]
  ? EmailData: EmailData
  ? Application: SoftwareType
 }
 
 ServiceName = {
  ? IANAService: text
- * URL: URLtype
- * Description: text
- * Description_ML: text
+ ? URL: [+ URLtype]
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
 }
 
 EmailData = {
  ? observable-id: IDtype
- * EmailTo: text
+ ? EmailTo: [+ text]
  ? EmailFrom: text
  ? EmailSubject: text
  ? EmailX-Mailer: text
- * EmailHeaderField: ExtensionType
+ ? EmailHeaderField: [+ ExtensionType]
  ? EmailHeaders: text
  ? EmailBody: text
  ? EmailMessage: text
- * HashData: HashData
- * Signature: text
+ ? HashData: [+ HashData]
+ ? Signature: [+ text]
 }
 
 RecordData = {
@@ -1479,16 +1479,16 @@ RecordData = {
  ? ext-restriction: text
  ? observable-id: IDtype
  ? DateTime: DATETIME
- * Description: text
- * Description_ML: text
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
  ? Applicadtion: SoftwareType
- * RecordPattern: RecordPattern
- * RecordItem: ExtensionType
- * URL: URLtype
- * FileData: FileData
- * WindowsRegistryKeysModified: WindowsRegistryKeysModified
- * CertificateData: CertificateData
- * AdditionalData: ExtensionType
+ ? RecordPattern: [+ RecordPattern]
+ ? RecordItem: [+ ExtensionType]
+ ? URL: [+ URLtype]
+ ? FileData: [+ FileData]
+ ? WindowsRegistryKeysModified: [+ WindowsRegistryKeysModified]
+ ? CertificateData: [+ CertificateData]
+ ? AdditionalData: [+ ExtensionType]
 }
 
 RecordPattern = {
@@ -1503,7 +1503,7 @@ RecordPattern = {
 
 WindowsRegistryKeysModified = {
  ? observable-id: IDtype
- + Key: Key
+ Key: [+ Key]
 }
 
 Key = {
@@ -1520,21 +1520,21 @@ CertificateData = {
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
- + Certificate: Certificate
+ Certificate: [+ Certificate]
 }
 
 Certificate = {
  ? observable-id: IDtype
  X509Data: text
- * Description: text
- * Description_ML: text
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
 }
 
 FileData = {
  ? restriction: restriction
  ? ext-restriction: text
  ? observable-id: IDtype
- + File: File
+ File: [+ File]
 }
 
 File = {
@@ -1542,11 +1542,11 @@ File = {
  ? FileName: text
  ? FileSize: int
  ? FileType: text
- * URL: URLtype
+ ? URL: [+ URLtype]
  ? HashData: HashData
- * Signature: text
+ ? Signature: [+ text]
  ? AssociatedSoftware: SoftwareType
- * FileProperties: ExtensionType
+ ? FileProperties: [+ ExtensionType]
 }
 
 HashData = {
@@ -1554,8 +1554,8 @@ HashData = {
         "file-pe-resource" / "file-pdf-object" / "email-hash" /
         "email-hash-header" / "email-hash-body"
  ? HashTargetID: text
- * Hash: Hash
- * FuzzyHash: FuzzyHash
+ ? Hash: [+ Hash]
+ ? FuzzyHash: [+ FuzzyHash]
 }
 
 Hash = {
@@ -1566,30 +1566,30 @@ Hash = {
 }
 
 FuzzyHash = {
- + FuzzyHashValue: text
+ FuzzyHashValue: [+ ExtensionType]
  ? Application: SoftwareType
- * AdditionalData: ExtensionType
+ ? AdditionalData: [+ ExtensionType]
 }
 
 Indicator = {
  ? restriction: restriction
  ? ext-restriction: text
  IndicatorID: IndicatorID
- * AlternativeIndicatorID: AlternativeIndicatorID
- * Description: text
- * Description_ML: text
+ ? AlternativeIndicatorID: [+ AlternativeIndicatorID]
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
  ? StartTime: DATETIME
  ? EndTime: DATETIME
  ? Confidence: Confidence
- * Contact: Contact
+ ? Contact: [+ Contact]
  ? Observable: Observable
  ? uid-ref: text
  ? IndicatorExpression: IndicatorExpression
  ? IndicatorReference: IndicatorReference
- * NodeRole: NodeRole
- * AttackPhase: AttackPhase
- * Reference: Reference
- * AdditionalData: ExtensionType
+ ? NodeRole: [+ NodeRole]
+ ? AttackPhase: [+ AttackPhase]
+ ? Reference: [+ Reference]
+ ? AdditionalData: [+ ExtensionType]
 }
 
 IndicatorID = {
@@ -1601,7 +1601,7 @@ IndicatorID = {
 AlternativeIndicatorID = {
  ? restriction: restriction
  ? ext-restriction: text
- + IndicatorReference: IndicatorReference
+ IndicatorReference: [+ IndicatorReference]
 }
 
 Observable = {
@@ -1625,7 +1625,7 @@ Observable = {
  ? DetectionPattern: DetectionPattern
  ? HistoryItem: HistoryItem
  ? BulkObservable: BulkObservable
- * AdditionalData: ExtensionType
+ ? AdditionalData: [+ ExtensionType]
 }
 
 BulkObservable = {
@@ -1639,24 +1639,24 @@ BulkObservable = {
          "mutex" / "file-path" / "user-name" / "ext-value"
  ? ext-type: text
  ? BulkObservableFormat: BulkObservableFormat
- BulkObservableList: text
- * AdditionalData: ExtensionType
+ BulkObservableList: [+ text]
+ ? AdditionalData: [+ ExtensionType]
 }
 
 BulkObservableFormat = {
  ? Hash: Hash
- * AdditionalData: ExtensionType
+ ? AdditionalData: [+ ExtensionType]
 }
 
 IndicatorExpression = {
  ? operator: "not" / "and" / "or" / "xor"
  ? ext-operator: text
- * IndicatorExpression: IndicatorExpression
- * Observable: Observable
- * uid-ref: text
- * IndicatorReference: IndicatorReference
+ ? IndicatorExpression: [+ IndicatorExpression]
+ ? Observable: [+ Observable]
+ ? uid-ref: [+ text]
+ ? IndicatorReference: [+ IndicatorReference]
  ? Confidence: Confidence
- * AdditionalData: ExtensionType
+ ? AdditionalData: [+ ExtensionType]
 }
 
 IndicatorReference = {
@@ -1666,10 +1666,11 @@ IndicatorReference = {
 }
 
 AttackPhase = {
- * AttackPhaseID: text
- * URL: URLtype
- * Description: text
- * AdditionalData: ExtensionType
+ ? AttackPhaseID: [+ text]
+ ? URL: [+ URLtype]
+ ? Description: [+ text]
+ ? Description_ML: [+ text]
+ ? AdditionalData: [+ ExtensionType]
 }
 ]]></artwork>
 </figure>
