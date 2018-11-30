@@ -7,6 +7,7 @@
     An alternate method (rfc include) is described in the references. -->
 
 <!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC7203 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7203.xml">
 <!ENTITY RFC7970 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7970.xml">
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
@@ -186,15 +187,14 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 | DATETIME        | Section 2.7       | "string" per [jsonschema]     |
 | TIMEZONE        | Section 2.8       | "string" per [jsonschema]     |
 | PORTLIST        | Section 2.9       | "string" per [jsonschema]     |
-| POSTAL          | Section 2.10      | "string" per [jsonschema]     |
-|                 |                   | / ML_STRING, Section 2.2.1    |
+| POSTAL          | Section 2.10      | ML_STRING, Section 2.2.1      |
 | PHONE           | Section 2.11      | "string" per [jsonschema]     |
 | EMAIL           | Section 2.12      | "string" per [jsonschema]     |
 | URL             | Section 2.13      | "string" per [jsonschema]     |
 | ID              | Section 2.14      | "string" per [jsonschema]     |
 | IDREF           | Section 2.14      | "string" per [jsonschema]     |
 | SOFTWARE        | Section 2.15      | see Section 2.2.2             |
-| STRUCTURED      | RFC 7213          | see Section 2.2.3             |
+| STRUCTUREDINFO  | [RFC 7203]        | see Section 2.2.3             |
 | EXTENSION       | Section 2.16      | see Section 2.2.4             |
 +-----------------+-------------------+-------------------------------+
 ]]></artwork></figure>
@@ -204,29 +204,29 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 | IODEF Data Type |  CBOR Data Type  |          CDDL prelude           |
 |                 |                  | [draft-ietf-cbor-cddl-05]       |
 +-----------------+------------------+---------------------------------+
-| INTEGER         | 6 tag 2, 6 tag 3 | integer                         |
+| INTEGER         | 0, 1, 6 tag 2,   | integer                         |
+|                 |  6 tag 3         |                                 |
 | REAL            | 7 bits 26        | float32                         |
-| CHARACTER       | 3 text string    | text                            |
-| STRING          | 3 text string    | text                            |
-| ML_STRING       | 5 map            | Maps/Structs (Section 3.5.1)    |
+| CHARACTER       | 3                | text                            |
+| STRING          | 3                | text                            |
+| ML_STRING       | 5                | Maps/Structs (Section 3.5.1)    |
 | BYTE            | 6 tag 22         | eb64legacy                      |
 | BYTE[]          | 6 tag 22         | eb64legacy                      |
-| HEXBIN          | 2 byte string    | bytes                           |
-| HEXBIN[]        | 2 byte string    | bytes                           |
+| HEXBIN          | 2                | bytes                           |
+| HEXBIN[]        | 2                | bytes                           |
 | ENUM            | -                | Choices (Section 2.2.2)         |
 | DATETIME        | 6 tag 0          | tdate                           |
-| TIMEZONE        | 3 text string    | text                            |
-| PORTLIST        | 3 text string    | text                            |
-| POSTAL          | 3 text string    | text                            |
-|                 |                  |  or Maps/Structs(Section 3.5.1) |
-| PHONE           | 3 text string    | text                            |
-| EMAIL           | 3 text string    | text                            |
+| TIMEZONE        | 3                | text                            |
+| PORTLIST        | 3                | text                            |
+| POSTAL          | 3                | ML_STRING (Section 2.2.1)       |
+| PHONE           | 3                | text                            |
+| EMAIL           | 3                | text                            |
 | URL             | 6 tag 32         | uri                             |
-| ID              | 3 text string    | text                            |
-| IDREF           | 3 text string    | text                            |
-| SOFTWARE        | 5 map            | Maps/Structs (Section 3.5.1)    |
-| STRUCTURED      | 5 map            | Maps/Structs (Section 3.5.1)    |
-| EXTENSION       | 5 map            | Maps/Structs (Section 3.5.1)    |
+| ID              | 3                | text                            |
+| IDREF           | 3                | text                            |
+| SOFTWARE        | 5                | Maps/Structs (Section 3.5.1)    |
+| STRUCTUREDINFO  | 5                | Maps/Structs (Section 3.5.1)    |
+| EXTENSION       | 5                | Maps/Structs (Section 3.5.1)    |
 +-----------------+------------------+---------------------------------+
 ]]></artwork></figure>
 
@@ -237,7 +237,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 
 <section title="Multilingual Strings">
 
-<t>A string that needs to be represented in a human-readable language different than the default encoding of the document is represented in the information model by the ML_STRING data type. This data type is implemented as an object with "value", "lang", and "translation-id" elements as defined in <xref target="cddlSection"/>. Examples are shown below.</t>
+<t>A string that needs to be represented in a human-readable language different from the default encoding of the document is represented in the information model by the ML_STRING data type. This data type is implemented as either an object with "value", "lang", and "translation-id" elements or a text string as defined in <xref target="cddlSection"/>. Examples are shown below.</t>
 
 
 <figure align="center"><artwork align="left"><![CDATA[
@@ -251,7 +251,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 </section>
 
 
-<section title="Software and SoftwareReference">
+<section title="Software and Software Reference">
 <t>A particular version of software is represented in the information model by the SOFTWARE data type. This software can be described by using a reference, a URL, or with free-form text. The SOFTWARE data type is implemented as an object with "SoftwareReference", "URL", and "Description" elements as defined in <xref target="cddlSection"/>. Examples are shown below.</t>
 
 <figure align="center"><artwork align="left"><![CDATA[
@@ -275,11 +275,11 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 
 
 
-<section title="StructuredInfo">
-<t>Information provided in a form of structured string, such as ID, or structured information, such as XML documents, is represented in the information model by the StructuredInfo data type. Note that this type was originally specified in RFC7203. The StructuredInfo data type is implemented as an object with "SpecID", "ext-SpecID", "ContentID", "RawData", "Reference" elements. An example for embedding a structured ID is shown below.</t>
+<section title="Structured Information">
+<t>Information provided in a form of structured string, such as ID, or structured information, such as XML documents, is represented in the information model by the STRUCTUREDINFO data type. Note that this type was originally specified in <xref target="RFC7203" />. The STRUCTUREDINFO data type is implemented as an object with "SpecID", "ext-SpecID", "ContentID", "dtype", "RawData", "Reference" elements. An example for embedding a structured ID is shown below.</t>
 
 <figure align="center"><artwork align="left"><![CDATA[
-"StructuredInformation": {
+"StructuredInfo": {
   "SpecID": "cve",                                          //ENUM
   "ContentID": "CVE-2007-5000"                            //STRING
 }
@@ -288,7 +288,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 <t>When embedding the raw data, base64 conversion should be used for encoding the data, as shown below.</t>
 
 <figure align="center"><artwork align="left"><![CDATA[
-"StructuredInformation": {
+"StructuredInfo": {
   "SpecID": "oval",                                         //ENUM
   "RawData": "<<<strings encoded with base64>>>"            //BYTE
 }
@@ -548,6 +548,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 |                             | severity?          |               |
 |                             | restriction?       |               |
 |                             | ext-restriction?   |               |
+|                             | observable-id?     |               |
 |                             | Description*       |               |
 |                             | DefinedCOA*        |               |
 |                             | StartTime?         |               |
@@ -806,7 +807,9 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 <t>ObservableReference class is deleted, and classes with its instances now directly have uid-ref as an element.</t>
 <t>Record class is replaced by RecordData class, and RecordData class is renamed to Record class.</t>
 <t>Record class is deleted, and classes with its instances now directly have the instances of RecordData class that used to belong to the Record class.</t>
+<t>The MLStringType were modified to support simple string by allowing the type to have not only a predefined object type but also text type, in order to allow simple descriptions of elements of the type.</t>
 <t>The elements of ML_STRING type in XML IODEF document are presented as either STRING type or ML_STRING type in CBOR/JSON IODEF document.</t>
+<t>Data models of the extension classes defined by <xref target="RFC7203" /> and referenced by <xref target="RFC7970" /> are represented by StructuredInfo class defined in this document.</t>
 <t>The order of appearances of class elements were ignored in CBOR/JSON version.</t>
 </list>
 </t>
@@ -1207,22 +1210,24 @@ action = "nothing" / "contact-source-site" / "contact-target-site" /
 
 DATETIME = tdate
 
+BYTE = eb64legacy
+
 MLStringType = {
     value: text
     ? lang: lang
     ? translation-id: text
-}
+} / text
 
 PositiveFloatType = float32 .gt 0
 
 PAddressType = MLStringType
 
 ExtensionType  = {
- ? ssvalue: text
+ value: text
  ? name: text
  dtype: "boolean" / "byte" / "bytes" / "character" / "date-time" /
           "ntpstamp" / "integer" / "portlist" / "real" / "string" /
-          "file" / "path" / "frame" / "packet" / "ipv4-packet" /
+          "file" / "path" / "frame" / "packet" / "ipv4-packet" / "json" /
           "ipv6-packet" / "url" / "csv" / "winreg" / "xml" / "ext-value"
           .default "string"
  ? ext-dtype: text
@@ -1236,7 +1241,7 @@ ExtensionType  = {
 SoftwareType = {
  ? SoftwareReference: SoftwareReference
  ? URL: [+ URLtype]
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
 }
 
 SoftwareReference = {
@@ -1268,7 +1273,7 @@ Incident = {
  ? RecoveryTime: DATETIME
  ? ReportTime: DATETIME
  GenerationTime: DATETIME
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
  ? Discovery: [+ Discovery]
  ? Assessment: [+ Assessment]
  ? Method: [+ Method]
@@ -1311,7 +1316,7 @@ ThreatActor = {
  ? ext-restriction: text
  ? ThreatActorID: [+ text]
  ? URL: [+ URLtype]
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
  ? AdditionalData: [+ ExtensionType]
 }
 
@@ -1320,7 +1325,7 @@ Campaign  = {
  ? ext-restriction: text
  ? CampaignID: [+ text]
  ? URL: [+ URLtype]
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
  ? AdditionalData: [+ ExtensionType]
 }
 
@@ -1334,9 +1339,9 @@ Contact = {
  ? ext-type: text
  ? restriction: restriction .default "private"
  ? ext-restriction: text
- ? ContactName: [+ text / MLStringType]
- ? ContactTitle: [+ text / MLStringType]
- ? Description: [+ text / MLStringType]
+ ? ContactName: [+ MLStringType]
+ ? ContactTitle: [+ MLStringType]
+ ? Description: [+ MLStringType]
  ? RegistryHandle: [+ RegistryHandle]
  ? PostalAddress: [+ PostalAddress]
  ? Email: [+ Email]
@@ -1354,24 +1359,24 @@ RegistryHandle = {
 }
 
 PostalAddress = {
- ? type: text
+ ? type: "street" / "mailing" / "ext-value"
  ? ext-type: text
  PAddress: PAddressType
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
 }
 
 Email = {
  ? type: "direct" / "hotline" / "ext-value"
  ? ext-type: text
  EmailTo: text
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
 }
 
 Telephone = {
  ? type: "wired" / "mobile" / "fax" / "hotline" / "ext-value"
  ? ext-type: text
  TelephoneNumber: text
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
 }
 
 Discovery = {
@@ -1383,7 +1388,7 @@ Discovery = {
  ? ext-source: text
  ? restriction: restriction .default "private"
  ? ext-restriction: text
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
  ? Contact: [+ Contact]
  ? DetectionPattern: [+ DetectionPattern]
 }
@@ -1393,7 +1398,7 @@ DetectionPattern = {
  ? ext-restriction: text
  ? observable-id: IDtype
  Application: SoftwareType
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
  ? DetectionConfiguration: [+ text]
 }
 
@@ -1401,41 +1406,41 @@ Method = {
  ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? Reference: [+ Reference]
- ? Description: [+ text / MLStringType]
- ? AttackPattern: [+ StructuredInformation]
- ? Vulnerability: [+ StructuredInformation]
- ? Weakness: [+ StructuredInformation]
+ ? Description: [+ MLStringType]
+ ? AttackPattern: [+ StructuredInfo]
+ ? Vulnerability: [+ StructuredInfo]
+ ? Weakness: [+ StructuredInfo]
  ? AdditionalData: [+ ExtensionType]
 }
 
-StructuredInformation = {
+StructuredInfo = {
  SpecID: SpecID
  ? ext-SpecID: text
  ? ContentID: text
- ? RawData: [+ ExtensionType]
- ? Reference:[+ Reference]
+ ? (RawData: [+ BYTE] // Reference:[+ Reference])
  ? Platform:[+ Platform]
  ? Scoring:[+ Scoring]
 }
+
 Platform = {
     SpecID: SpecID
     ? ext-SpecID: text
     ? ContentID: text
-    ? RawData: [+ ExtensionType]
+    ? RawData: [+ BYTE]
     ? Reference: [+ Reference]
 }
 Scoring = {
     SpecID: SpecID
     ? ext-SpecID: text
     ? ContentID: text
-    ? RawData: [+ ExtensionType]
+    ? RawData: [+ BYTE]
     ? Reference: [+ Reference]
 }
 Reference = {
  ? observable-id: IDtype
  ? ReferenceName: ReferenceName
  ? URL: [+ URLtype]
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
 }
 
 ReferenceName = {
@@ -1448,14 +1453,14 @@ Assessment = {
  ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? observable-id: IDtype
- ? IncidentCategory: [+ text / MLStringType]
+ ? IncidentCategory: [+ MLStringType]
  Impact: [+ {SystemImpact: SystemImpact} /
           {BusinessImpact: BusinessImpact} / {TimeImpact: TimeImpact} /
           {MonetaryImpact: MonetaryImpact} /
           {IntendedImpact: BusinessImpact}]
  ? Counter: [+ Counter]
- ? MitigatingFactor: [+ text / MLStringType]
- ? Cause: [+ text / MLStringType]
+ ? MitigatingFactor: [+ MLStringType]
+ ? Cause: [+ MLStringType]
  ? Confidence: Confidence
  ? AdditionalData: [+ ExtensionType]
 }
@@ -1470,10 +1475,10 @@ SystemImpact = {
        "breach-proprietary" / "breach-privacy" / "breach-credential" /
        "breach-configuration" / "integrity-data" /
        "integrity-configuration" / "integrity-hardware" /
-       "traffic-redirection"/"monitoring-traffic"/"monitoring-host"/
+       "traffic-redirection" / "monitoring-traffic" / "monitoring-host" /
        "policy" / "unknown" / "ext-value" .default "unknown"
  ? ext-type: text
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
 }
 
 BusinessImpact = {
@@ -1486,7 +1491,7 @@ BusinessImpact = {
        "asset-manipulation" / "legal" / "extortion" / "unknown" /
        "ext-value" .default "unknown"
  ? ext-type: text
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
 }
 
 TimeImpact = {
@@ -1525,7 +1530,7 @@ HistoryItem = {
  DateTime: DATETIME
  ? IncidentID: IncidentID
  ? Contact: Contact
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
  ? DefinedCOA: [+ text]
  ? AdditionalData: [+ ExtensionType]
 }
@@ -1534,7 +1539,7 @@ EventData = {
  ? restriction: restriction .default "default"
  ? ext-restriction: text
  ? observable-id: IDtype
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
  ? DetectTime: DATETIME
  ? StartTime: DATETIME
  ? EndTime: DATETIME
@@ -1558,7 +1563,7 @@ Expectation = {
  ? restriction: restriction .default "default"
  ? ext-restriction: text
  ? observable-id: IDtype
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
  ? DefinedCOA: [+ text]
  ? StartTime: DATETIME
  ? EndTime: DATETIME
@@ -1584,17 +1589,17 @@ System = {
  ? OperatingSystem: [+ SoftwareType]
  ? Counter: [+ Counter]
  ? AssetID: [+ text]
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
  ? AdditionalData: [+ ExtensionType]
 }
 
 Node = {
- ( DomainData:[+ DomainData]
-  ? Address:[+ Address]) /
- (? DomainData:[+ DomainData]
-  + Address:[+ Address])
+ (DomainData:[+ DomainData]
+  ? Address:[+ Address] // 
+  ? DomainData:[+ DomainData]
+  Address:[+ Address])
  ? PostalAddress: PostalAddress
- ? Location: [+ text / MLStringType]
+ ? Location: [+ MLStringType]
  ? Counter: [+ Counter]
 }
 
@@ -1602,7 +1607,7 @@ Address = {
  value: text
  category: "asn" / "atm" / "e-mail" / "ipv4-addr" / "ipv4-net" /
            "ipv4-net-masked" / "ipv4-net-mask" / "ipv6-addr" /
-           "ipv6-net" / "ipv6-net-masked" / "mac" / "site-url" /
+           "ipv6-net" / "ipv6-net-masked" / "mac" / "site-uri" /
            "ext-value" .default "ipv6-addr"
  ? ext-category: text
  ? vlan-name: text
@@ -1611,7 +1616,7 @@ Address = {
 }
 
 NodeRole = {
- category: "client" / "client-enterprise" / "clent-partner" /
+ category: "client" / "client-enterprise" / "client-partner" /
            "client-remote" / "client-kiosk" / "client-mobile" /
            "server-internal" / "server-public" / "www" / "mail" /
            "webmail" / "messaging" / "streaming" / "voice" / "file" /
@@ -1623,11 +1628,11 @@ NodeRole = {
            "log" / "virtualization" / "pos" /  "scada" /
            "scada-supervisory" / "sinkhole" / "honeypot" /
            "anomyzation" / "c2-server" / "malware-distribution" /
-           "drop-server" / "hot-point" / "reflector" /
+           "drop-server" / "hop-point" / "reflector" /
            "phishing-site" / "spear-phishing-site" / "recruiting-site" /
            "fraudulent-site" / "ext-value"
  ? ext-category: text
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
 }
 
 Counter = {
@@ -1668,8 +1673,7 @@ NameServers = {
 }
 
 DomainContacts = {
- ? SameDomainContact: text
- Contact: [+ Contact]
+ (SameDomainContact: text // Contact: [+ Contact])
 }
 
 Service = {
@@ -1689,7 +1693,7 @@ Service = {
 ServiceName = {
  ? IANAService: text
  ? URL: [+ URLtype]
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
 }
 
 EmailData = {
@@ -1753,10 +1757,10 @@ DigestMethodType = {
   Algorithm: URLtype
 }
 
-DigestValueType = eb64legacy
+DigestValueType = BYTE
 
 SignatureValueType = {
-  value: eb64legacy
+  value: BYTE
   ? id: IDtype
 }
 
@@ -1785,7 +1789,7 @@ DSAKeyValueType = {
   ? PgenCounter: CryptoBinary
 }
 
-CryptoBinary = eb64legacy
+CryptoBinary = BYTE
 
 RSAKeyValueType ={
   Modulus: CryptoBinary
@@ -1800,12 +1804,12 @@ RetrievalMethodType = {
 
 PGPDataType = {
   ? value: text
-  PGPDataProperties: {PGPKeyID: eb64legacy} / {PGPKeyPacket: eb64legacy}
+  PGPDataProperties: {PGPKeyID: BYTE} / {PGPKeyPacket: BYTE}
 }
 
 SPKIDataType = {
   ? value: text
-  SPKISexp: [+ eb64legacy]
+  SPKISexp: [+ BYTE]
 }
 
 ObjectType = {
@@ -1821,7 +1825,7 @@ RecordData = {
  ? ext-restriction: text
  ? observable-id: IDtype
  ? DateTime: DATETIME
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
  ? Application: SoftwareType
  ? RecordPattern: [+ RecordPattern]
  ? RecordItem: [+ ExtensionType]
@@ -1867,14 +1871,14 @@ CertificateData = {
 Certificate = {
  ? observable-id: IDtype
  X509Data: X509DataType
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
 }
 
 X509DataType = {
   X509DataProperties: [+ {X509IssuerSerial: X509IssuerSerialType} / 
-                       {X509SKI: eb64legacy} / {X509SubjectName: text} /
-                       {X509Certificate: eb64legacy} / 
-                       {X509CRL: eb64legacy}]
+                       {X509SKI: BYTE} / {X509SubjectName: text} /
+                       {X509Certificate: BYTE} / 
+                       {X509CRL: BYTE}]
 }
 
 X509IssuerSerialType = {
@@ -1904,7 +1908,7 @@ File = {
 HashData = {
  scope: "file-contents" / "file-pe-section" / "file-pe-iat" /
         "file-pe-resource" / "file-pdf-object" / "email-hash" /
-        "email-hash-header" / "email-hash-body"
+        "email-headers-hash" / "email-body-hash" / "ext-value"
  ? HashTargetID: text
  ? Hash: [+ Hash]
  ? FuzzyHash: [+ FuzzyHash]
@@ -1934,15 +1938,14 @@ Indicator = {
  ? ext-restriction: text
  IndicatorID: IndicatorID
  ? AlternativeIndicatorID: [+ AlternativeIndicatorID]
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
  ? StartTime: DATETIME
  ? EndTime: DATETIME
  ? Confidence: Confidence
  ? Contact: [+ Contact]
- ? Observable: Observable
- ? uid-ref: IDREFType
- ? IndicatorExpression: IndicatorExpression
- ? IndicatorReference: IndicatorReference
+ (Observable: Observable // uid-ref: IDREFType // 
+  IndicatorExpression: IndicatorExpression // 
+  IndicatorReference: IndicatorReference)
  ? NodeRole: [+ NodeRole]
  ? AttackPhase: [+ AttackPhase]
  ? Reference: [+ Reference]
@@ -1964,31 +1967,21 @@ AlternativeIndicatorID = {
 Observable = {
  ? restriction: restriction .default "private"
  ? ext-restriction: text
- ? System: System
- ? Address: Address
- ? DomainData: DomainData
- ? EmailData: EmailData
- ? Service: Service
- ? WindowsRegistryKeysModified: WindowsRegistryKeysModified
- ? FileData: FileData
- ? CertificateData: CertificateData
- ? RegistryHandle: RegistryHandle
- ? RecordData: RecordData
- ? EventData: EventData
- ? Incident: Incident
- ? Expectation: Expectation
- ? Reference: Reference
- ? Assessment: Assessment
- ? DetectionPattern: DetectionPattern
- ? HistoryItem: HistoryItem
- ? BulkObservable: BulkObservable
- ? AdditionalData: [+ ExtensionType]
+ ? (System: System // Address: Address // DomainData: DomainData // 
+  EmailData: EmailData // Service: Service // 
+  WindowsRegistryKeysModified: WindowsRegistryKeysModified // 
+  FileData: FileData // CertificateData: CertificateData // 
+  RegistryHandle: RegistryHandle // RecordData: RecordData //
+  EventData: EventData // Incident: Incident // Expectation: Expectation //
+  Reference: Reference // Assessment: Assessment // 
+  DetectionPattern: DetectionPattern // HistoryItem: HistoryItem // 
+  BulkObservable: BulkObservable // AdditionalData: [+ ExtensionType])
 }
 
 BulkObservable = {
  ? type: "asn" / "atm" / "e-mail" / "ipv4-addr" / "ipv4-net" /
          "ipv4-net-mask" / "ipv6-addr" / "ipv6-net" / "ipv6-net-mask" /
-         "mac" / "site-url" / "domain-name" / "domain-to-ipv4" /
+         "mac" / "site-uri" / "domain-name" / "domain-to-ipv4" /
          "domain-to-ipv6" / "domain-to-ipv4-timestamp" /
          "domain-to-ipv6-timestamp" / "ipv4-port" / "ipv6-port" /
          "windows-reg-key" / "file-hash" / "email-x-mailer" /
@@ -2025,7 +2018,7 @@ IndicatorReference = {
 AttackPhase = {
  ? AttackPhaseID: [+ text]
  ? URL: [+ URLtype]
- ? Description: [+ text / MLStringType]
+ ? Description: [+ MLStringType]
  ? AdditionalData: [+ ExtensionType]
 }
 ]]></artwork>
@@ -2071,6 +2064,7 @@ AttackPhase = {
    <references title="Normative References">
      <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
      &RFC2119;
+     &RFC7203;
      &RFC7970;
 
      <reference anchor="cddlspec">
@@ -2172,6 +2166,7 @@ AttackPhase = {
     "status": {"enum": ["new","in-progress","forwarded","resolved",
       "future","ext-value"]},
     "DATETIME": {"type": "string","format": "date-time"},
+    "BYTE": {"type": "string"},
     "PortlistType": {
       "type": "string","pattern": "\\d+(\\-\\d+)?(,\\d+(\\-\\d+)?)*"},
     "TimeZonetype": {
@@ -2182,23 +2177,24 @@ AttackPhase = {
         "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?"},
     "IDtype": {"type": "string","pattern": "[a-zA-Z_][a-zA-Z0-9_.-]*"},
     "IDREFType": {"$ref": "#/definitions/IDtype"},
-    "CryptoBinary": {"type": "string"},
+    "CryptoBinary": {"$ref": "#/definitions/BYTE"},
     "MLStringType": {
-      "type": "object",
-      "properties": {
-        "value": {"type": "string"},
-        "lang": {"$ref": "#/definitions/lang"},
-        "translation-id": {"type": "string"}},
-      "required": ["value"],
-      "additionalProperties":false},
+      "oneOf": [{"type": "string"},
+                {"type": "object",
+                  "properties": {
+                    "value": {"type": "string"},
+                    "lang": {"$ref": "#/definitions/lang"},
+                    "translation-id": {"type": "string"}},
+                   "required": ["value"],
+                   "additionalProperties":false}]},
     "PositiveFloatType": {"type": "number","minimum": 0},
     "PAddressType": {"$ref": "#/definitions/MLStringType"},
     "ExtensionType": {
       "type": "object",
       "properties": {
         "value": {"type": "string"},
-        "Name": {"type": "string"},
-        "dtype":{"enum":["boolean","byte","bytes","character",
+        "name": {"type": "string"},
+        "dtype":{"enum":["boolean","byte","bytes","character", "json",
           "date-time","ntpstamp","integer","portlist","real","string",
           "file","path","frame","packet","ipv4-packet","ipv6-packet",
           "url", "csv","winreg","xml","ext-value"],"default": "string"},
@@ -2225,8 +2221,7 @@ AttackPhase = {
           "minItems": 1}},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1 }},
       "required": [],
       "additionalProperties": false},
@@ -2241,13 +2236,17 @@ AttackPhase = {
         "ext-dtype": {"type": "string"}},
       "required": ["spec-name"],
       "additionalProperties": false},
-    "StructuredInformation": {
+    "StructuredInfo": {
       "type": "object",
       "properties": {
         "SpecID": {"$ref":"#/definitions/SpecID"},
         "ext-SpecID": {"type": "string"},
         "ContentID": {"type": "string"},
-        "RawData": {"$ref": "#/definitions/ExtensionTypeList"},
+        "RawData": {
+           "type": "array",
+           "items": {"$ref":"#/definitions/BYTE"},
+           "minItems": 1
+        },
         "Reference": {
           "type": "array",
           "items": {"$ref": "#/definitions/Reference"},
@@ -2262,15 +2261,25 @@ AttackPhase = {
           "type": "array",
           "items": {"$ref": "#/definitions/Scoring"},
           "minItems": 1}},
-      "required": ["SpecID"],
-      "additionalProperties": false}, 
+      "allOf": [
+         {"required": ["SpecID"]},
+         {"anyOf": [
+           {"oneOf": [
+             {"required":["Reference"]},
+             {"required":["RawData"]}]},
+           { "not" : {"required":["Reference", "RawData"]}}]}],
+      "additionalProperties": false},
     "Platform": {
       "type": "object",
       "properties": {
         "SpecID": {"$ref":"#/definitions/SpecID"},
         "ext-SpecID": {"type": "string"},
         "ContentID": {"type": "string"},
-        "RawData": {"$ref": "#/definitions/ExtensionTypeList"},
+        "RawData": {
+           "type": "array",
+           "items": {"$ref":"#/definitions/BYTE"},
+           "minItems": 1
+        },
         "Reference": {
           "type": "array",
           "items": {"$ref": "#/definitions/Reference"},
@@ -2283,7 +2292,11 @@ AttackPhase = {
         "SpecID": {"$ref":"#/definitions/SpecID"},
         "ext-SpecID": {"type": "string"},
         "ContentID": {"type": "string"},
-        "RawData": {"$ref": "#/definitions/ExtensionTypeList"},
+        "RawData": {
+           "type": "array",
+           "items": {"$ref":"#/definitions/BYTE"},
+           "minItems": 1
+        },
         "Reference": {
           "type": "array",
           "items": {"$ref": "#/definitions/Reference"},
@@ -2318,8 +2331,7 @@ AttackPhase = {
         "GenerationTime": {"$ref": "#/definitions/DATETIME"},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "Discovery": {
           "type": "array",
@@ -2419,8 +2431,7 @@ AttackPhase = {
           "minItems": 1},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "URL": {
           "type":"array",
@@ -2443,8 +2454,7 @@ AttackPhase = {
           "minItems": 1},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}}},
     "Contact": {
@@ -2463,18 +2473,15 @@ AttackPhase = {
         "ext-restriction": {"type": "string"},
         "ContactName": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "ContactTitle": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "RegistryHandle": {
           "type":"array",
@@ -2513,13 +2520,13 @@ AttackPhase = {
     "PostalAddress": {
       "type": "object",
       "properties": {
-        "type": {"type": "string"},
+        "type": {
+          "enum": ["street","mailing","ext-value"]},
         "ext-type": {"type": "string"},
         "PAddress": {"$ref": "#/definitions/PAddressType"},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1}},
       "required": ["PAddress"],
       "additionalProperties": false},
@@ -2532,8 +2539,7 @@ AttackPhase = {
         "EmailTo": {"type": "string"},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1}},
       "required": ["EmailTo"],
       "additionalProperties": false},
@@ -2546,8 +2552,7 @@ AttackPhase = {
         "TelephoneNumber": {"type": "string"},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1}},
       "required": ["TelephoneNumber"],
       "additionalProperties": false},
@@ -2566,8 +2571,7 @@ AttackPhase = {
         "ext-restriction": {"type": "string"},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "Contact": {
           "type": "array",
@@ -2589,8 +2593,7 @@ AttackPhase = {
         "Application": {"$ref": "#/definitions/SoftwareType"},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "DetectionConfiguration": {
           "type": "array",
@@ -2610,20 +2613,19 @@ AttackPhase = {
           "minItems": 1},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "AttackPattern": {
           "type":"array",
-          "items":{"$ref":"#/definitions/StructuredInformation"},
+          "items":{"$ref":"#/definitions/StructuredInfo"},
           "minItems": 1},
         "Vulnerability": {
           "type":"array",
-          "items":{"$ref":"#/definitions/StructuredInformation"},
+          "items":{"$ref":"#/definitions/StructuredInfo"},
           "minItems": 1},
         "Weakness": {
           "type":"array",
-          "items":{"$ref":"#/definitions/StructuredInformation"},
+          "items":{"$ref":"#/definitions/StructuredInfo"},
           "minItems": 1},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
@@ -2639,8 +2641,7 @@ AttackPhase = {
           "minItems": 1},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1}},
       "required": [],
       "additionalProperties": false},
@@ -2661,8 +2662,7 @@ AttackPhase = {
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "IncidentCategory": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "Impact": {
          "type": "array",
@@ -2682,13 +2682,11 @@ AttackPhase = {
           "minItems": 1},
         "MitigatingFactor": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "Cause": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "Confidence": {"$ref": "#/definitions/Confidence"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
@@ -2713,8 +2711,7 @@ AttackPhase = {
         "ext-type": {"type": "string"},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1}},
       "required": ["type"],
       "additionalProperties": false},
@@ -2732,8 +2729,7 @@ AttackPhase = {
         "ext-type": {"type": "string"},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1}},
       "required": ["type"],
       "additionalProperties": false},
@@ -2791,8 +2787,7 @@ AttackPhase = {
         "Contact": {"$ref": "#/definitions/Contact"},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "DefinedCOA": {
           "type": "array",
@@ -2809,8 +2804,7 @@ AttackPhase = {
         "ext-restriction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "Description": {"type": "array",
-          "items": { "type":"string",
-                    "$ref":"#/definitions/MLStringType"}},
+          "items": { "$ref":"#/definitions/MLStringType"}},
         "DetectTime": {"$ref": "#/definitions/DATETIME"},
         "StartTime": {"$ref": "#/definitions/DATETIME"},
         "EndTime": {"$ref": "#/definitions/DATETIME"},
@@ -2860,8 +2854,7 @@ AttackPhase = {
         "observable-id": {"$ref": "#/definitions/IDtype"},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "DefinedCOA": {
           "type": "array",
@@ -2913,8 +2906,7 @@ AttackPhase = {
           "minItems": 1},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["Node"],
@@ -2933,14 +2925,16 @@ AttackPhase = {
         "PostalAddress": {"$ref": "#/definitions/PostalAddress"},
         "Location": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "Counter": {
           "type":"array",
           "items":{"$ref":"#/definitions/Counter"},
           "minItems": 1}},
-      "required": [],
+      "anyOf": [
+         {"required": ["DomainData"]},
+         {"required": ["Address"]}
+      ],
       "additionalProperties": false},
     "Address": {
       "type": "object",
@@ -2949,7 +2943,7 @@ AttackPhase = {
         "category": {
           "enum":["asn","atm","e-mail","ipv4-addr","ipv4-net",
             "ipv4-net-masked","ipv4-net-mask","ipv6-addr","ipv6-net",
-            "ipv6-net-masked","mac","site-url","ext-value"],
+            "ipv6-net-masked","mac","site-uri","ext-value"],
             "default": "ipv6-addr"},
         "ext-category": {"type": "string"},
         "vlan-name": {"type": "string"},
@@ -2961,7 +2955,7 @@ AttackPhase = {
       "type": "object",
       "properties": {
         "category": {
-          "enum":["client","client-enterprise","clent-partner",
+          "enum":["client","client-enterprise","client-partner",
             "client-remote","client-kiosk","client-mobile",
             "server-internal","server-public","www","mail","webmail",
             "messaging","streaming","voice","file","ftp","p2p","name",
@@ -2972,14 +2966,13 @@ AttackPhase = {
             "remote-access","log","virtualization","pos", "scada",
             "scada-supervisory","sinkhole","honeypot","anomyzation",
             "c2-server","malware-distribution","drop-server",
-            "hot-point","reflector","phishing-site",
+            "hop-point","reflector","phishing-site",
             "spear-phishing-site","recruiting-site","fraudulent-site",
             "ext-value"]},
         "ext-category": {"type": "string"},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1}},
       "required": ["category"],
       "additionalProperties": false},
@@ -3044,7 +3037,9 @@ AttackPhase = {
           "type":"array",
           "items":{"$ref":"#/definitions/Contact"},
           "minItems": 1}},
-      "required": ["Contact"],
+      "oneOf": [
+         {"required": ["SameDomainContact"]},
+         {"required": ["Contact"]}],
       "additionalProperties": false},
     "Service": {
       "type": "object",
@@ -3067,12 +3062,10 @@ AttackPhase = {
       "type": "object",
       "properties": {
         "IANAService": {"type": "string"},
-        "URL": {"type": "array",
-                "items": {"$ref": "#/definitions/URLtype"}},
+        "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1}},
       "required": [],
       "additionalProperties": false},
@@ -3121,7 +3114,7 @@ AttackPhase = {
     "SignatureValueType": {
       "type": "object",
       "properties": {
-        "value": {"type": "string"},
+        "value": {"$ref": "#/definitions/BYTE"},
         "id": {"$ref": "#/definitions/IDtype"}
       },
       "required": ["value"],
@@ -3200,7 +3193,7 @@ AttackPhase = {
       "required": ["Algorithm"],
       "additionalProperties": false
     },
-    "DigestValueType": {"type": "string"},
+    "DigestValueType": {"$ref": "#/definitions/BYTE"},
     "KeyInfoType": {
       "type": "object",
       "properties": {
@@ -3280,8 +3273,8 @@ AttackPhase = {
           "items": {
             "type": "object",
             "properties": {
-              "PGPKeyID": {"type": "string"},
-              "PGPKeyPacket": {"type": "string"}},
+              "PGPKeyID": {"$ref": "#/definitions/BYTE"},
+              "PGPKeyPacket": {"$ref": "#/definitions/BYTE"}},
             "additionalProperties": false}}},
       "required": ["PGPDataProperties"],
       "additionalProperties": false
@@ -3292,7 +3285,7 @@ AttackPhase = {
         "value": {"type": "string"},
         "SPKISexp": {
           "type": "array",
-          "items": {"type": "string"},
+          "items": {"$ref": "#/definitions/BYTE"},
           "minItems": 1}
       },
       "required": ["SPKISexp"],
@@ -3318,8 +3311,7 @@ AttackPhase = {
         "DateTime": {"$ref": "#/definitions/DATETIME"},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "Application": {"$ref": "#/definitions/SoftwareType"},
         "RecordPattern": {
@@ -3405,8 +3397,7 @@ AttackPhase = {
         "X509Data": {"$ref": "#/definitions/X509DataType"},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1}},
       "required": ["X509Data"],
       "additionalProperties": false},
@@ -3420,10 +3411,10 @@ AttackPhase = {
             "properties": {
               "X509IssuerSerial": 
                 {"$ref": "#/definitions/X509IssuerSerialType"},
-              "X509SKI": {"type": "string"},
+              "X509SKI": {"$ref": "#/definitions/BYTE"},
               "X509SubjectName": {"type": "string"},
-              "X509Certificate": {"type": "string"},
-              "X509CRL": {"type": "string"}},
+              "X509Certificate": {"$ref": "#/definitions/BYTE"},
+              "X509CRL": {"$ref": "#/definitions/BYTE"}},
             "additionalProperties": false},
           "minItems" : 1}},
       "required": ["X509DataProperties"],
@@ -3478,7 +3469,7 @@ AttackPhase = {
       "properties": {
         "scope": {"enum": ["file-contents","file-pe-section",
           "file-pe-iat","file-pe-resource","file-pdf-object",
-          "email-hash","email-hash-header","email-hash-body"]},
+          "email-hash","email-headers-hash","email-body-hash","ext-value"]},
         "HashTargetID": {"type": "string"},
         "Hash": {
           "type": "array",
@@ -3533,8 +3524,7 @@ AttackPhase = {
           "minItems": 1},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "StartTime": {"$ref": "#/definitions/DATETIME"},
         "EndTime": {"$ref": "#/definitions/DATETIME"},
@@ -3562,7 +3552,13 @@ AttackPhase = {
           "items": {"$ref": "#/definitions/Reference"},
           "minItems": 1},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": ["IndicatorID"],
+      "allOf": [
+        {"required": ["IndicatorID"]},
+        {"oneOf": [
+          {"required":["Observable"]},
+          {"required":["uid-ref"]},
+          {"required":["IndicatorExpression"]},
+          {"required":["IndicatorReference"]}]}],
       "additionalProperties": false},
     "IndicatorID": {
       "type": "object",
@@ -3610,14 +3606,33 @@ AttackPhase = {
         "HistoryItem": {"$ref": "#/definitions/HistoryItem"},
         "BulkObservable": {"$ref": "#/definitions/BulkObservable"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
+        "oneOf": [
+          {"required":["System"]},
+          {"required":["Address"]},
+          {"required":["DomainData"]},
+          {"required":["EmailData"]},
+          {"required":["Service"]},
+          {"required":["WindowsRegistryKeysModified"]},
+          {"required":["FileData"]},
+          {"required":["CertificateData"]},
+          {"required":["RegistryHandle"]},
+          {"required":["RecordData"]},
+          {"required":["EventData"]},
+          {"required":["Incident"]},
+          {"required":["Expectation"]},
+          {"required":["Reference"]},
+          {"required":["Assessment"]},
+          {"required":["DetectionPattern"]},
+          {"required":["HistoryItem"]},
+          {"required":["BulkObservable"]},
+          {"required":["AdditionalData"]}],
       "additionalProperties": false},
     "BulkObservable": {
       "type": "object",
       "properties": {
         "type": {"enum": ["asn","atm","e-mail","ipv4-addr","ipv4-net",
           "ipv4-net-mask","ipv6-addr","ipv6-net","ipv6-net-mask",
-          "mac","site-url","domain-name","domain-to-ipv4",
+          "mac","site-uri","domain-name","domain-to-ipv4",
           "domain-to-ipv6","domain-to-ipv4-timestamp",
           "domain-to-ipv6-timestamp","ipv4-port","ipv6-port",
           "windows-reg-key","file-hash","email-x-mailer",
@@ -3683,8 +3698,7 @@ AttackPhase = {
           "minItems": 1},
         "Description": {
           "type": "array",
-          "items": {"oneOf":[{"type": "string"},
-                             {"$ref": "#/definitions/MLStringType"}]},
+          "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": [],
