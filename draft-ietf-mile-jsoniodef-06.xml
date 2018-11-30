@@ -304,7 +304,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 "ExtensionType": {
   "value": "xxxxxxx",                                      //String
   "name": "Syslog",                                        //String
-  "dtype": "string",                                       //String
+  "dtype": "string",                                         //ENUM
   "meaning": "Syslog from the security appliance X",       //String
 }
 ]]></artwork></figure>
