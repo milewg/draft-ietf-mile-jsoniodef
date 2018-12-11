@@ -810,7 +810,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 <t>The MLStringType were modified to support simple string by allowing the type to have not only a predefined object type but also text type, in order to allow simple descriptions of elements of the type.</t>
 <t>The elements of ML_STRING type in XML IODEF document are presented as either STRING type or ML_STRING type in CBOR/JSON IODEF document.</t>
 <t>Data models of the extension classes defined by <xref target="RFC7203" /> and referenced by <xref target="RFC7970" /> are represented by StructuredInfo class defined in this document.</t>
-<t>The order of appearances of class elements were ignored in CBOR/JSON version.</t>
+<t>Signature, X509Data, and RawData are encoded with base64 and are reprensetend as string (BYTE type) in CBOR/JSON IODEF documents.</t>
 </list>
 </t>
 
@@ -1397,9 +1397,8 @@ DetectionPattern = {
  ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? observable-id: IDtype
+ (Description: [+ MLStringType] // DetectionConfiguration: [+ text])
  Application: SoftwareType
- ? Description: [+ MLStringType]
- ? DetectionConfiguration: [+ text]
 }
 
 Method = {
@@ -1707,118 +1706,8 @@ EmailData = {
  ? EmailBody: text
  ? EmailMessage: text
  ? HashData: [+ HashData]
- ? Signature: [+ SignatureType]
+ ? Signature: [+ BYTE]
 }
-
-SignatureType = {
-  ? id: IDtype
-  SignedInfo: SignedInfoType
-  SignatureValue: SignatureValueType
-  ? KeyInfo: KeyInfoType
-  ? Object: [+ ObjectType]
-}
-
-SignedInfoType = {
-  ? id: IDtype
-  CanonicalizationMethod: CanonicalizationMethodType
-  SignatureMethod: SignatureMethodType
-  Reference: [+ ReferenceType]
-}
-
-SignatureMethodType = {
-  ? value: text
-  Algorithm: URLtype
-  ? HMACOutputLength: HMACOutputLengthType
-}
-
-HMACOutputLengthType = integer
-
-ReferenceType = {
-  ? id: IDtype
-  ? URI: URLtype
-  ? Type: URLtype
-  ? Transforms: TransformsType
-  DigestMethod: DigestMethodType
-  DigestValue: DigestValueType
-}
-
-TransformsType = {
-  Transform: [+ TransformType]
-}
-
-TransformType = {
-  ? value: text
-  Algorithm: URLtype
-  ? XPath: [+ text]
-}
-
-DigestMethodType = {
-  ? value: text
-  Algorithm: URLtype
-}
-
-DigestValueType = BYTE
-
-SignatureValueType = {
-  value: BYTE
-  ? id: IDtype
-}
-
-KeyInfoType = {
-  ? value: text
-  ? id: IDtype
-  KeyProperties: [+ {KeyName: text} / {KeyValue: KeyValueType} / 
-                  {RetrievalMethod: RetrievalMethodType} / 
-                  {X509Data: X509DataType} / {PGPData: PGPDataType} / 
-                  {SPKIData: SPKIDataType} / {MgmtData: text}]
-}
-
-KeyValueType = {
-  ? value: text
-  KeyValueProperties: {DSAKeyValue: DSAKeyValueType} / 
-                      {RSAKeyValue: RSAKeyValueType}
-}
-
-DSAKeyValueType = {
-  ? P: CryptoBinary
-  ? Q: CryptoBinary
-  ? G: CryptoBinary
-  Y: CryptoBinary
-  ? J: CryptoBinary
-  ? Seed: CryptoBinary
-  ? PgenCounter: CryptoBinary
-}
-
-CryptoBinary = BYTE
-
-RSAKeyValueType ={
-  Modulus: CryptoBinary
-  Exponent: CryptoBinary
-}
-
-RetrievalMethodType = {
-  URI: URLtype
-  ? Type: URLtype
-  ? Transforms: TransformsType
-}
-
-PGPDataType = {
-  ? value: text
-  PGPDataProperties: {PGPKeyID: BYTE} / {PGPKeyPacket: BYTE}
-}
-
-SPKIDataType = {
-  ? value: text
-  SPKISexp: [+ BYTE]
-}
-
-ObjectType = {
-  ? value: text
-  ? id: IDtype
-  ? MimeType: text
-  ? Encoding: URLtype
-}
-
 
 RecordData = {
  ? restriction: restriction .default "private"
@@ -1870,20 +1759,8 @@ CertificateData = {
 
 Certificate = {
  ? observable-id: IDtype
- X509Data: X509DataType
+ X509Data: BYTE
  ? Description: [+ MLStringType]
-}
-
-X509DataType = {
-  X509DataProperties: [+ {X509IssuerSerial: X509IssuerSerialType} / 
-                       {X509SKI: BYTE} / {X509SubjectName: text} /
-                       {X509Certificate: BYTE} / 
-                       {X509CRL: BYTE}]
-}
-
-X509IssuerSerialType = {
-  X509IssuerName: text
-  X509SerialNumber: integer
 }
 
 FileData = {
@@ -1900,7 +1777,7 @@ File = {
  ? FileType: text
  ? URL: [+ URLtype]
  ? HashData: HashData
- ? Signature: [+ SignatureType]
+ ? Signature: [+ BYTE]
  ? AssociatedSoftware: SoftwareType
  ? FileProperties: [+ ExtensionType]
 }
@@ -1915,16 +1792,10 @@ HashData = {
 }
 
 Hash = {
- DigestMethod: DigestMethodType
- DigestValue: DigestValueType
- ? CanonicalizationMethod: CanonicalizationMethodType
+ DigestMethod: BYTE
+ DigestValue: BYTE
+ ? CanonicalizationMethod: BYTE
  ? Application: SoftwareType
-}
-
-
-CanonicalizationMethodType = {
-  ? value: text
-  Algorithm: URLtype
 }
 
 FuzzyHash = {
@@ -1994,8 +1865,7 @@ BulkObservable = {
 }
 
 BulkObservableFormat = {
- ? Hash: Hash
- ? AdditionalData: [+ ExtensionType]
+ (Hash: Hash // AdditionalData: [+ ExtensionType])
 }
 
 IndicatorExpression = {
@@ -2010,8 +1880,7 @@ IndicatorExpression = {
 }
 
 IndicatorReference = {
- ? uid-ref: IDREFType
- ? euid-ref: text
+ (uid-ref: IDREFType // euid-ref: text)
  ? version: text
 }
 
@@ -2177,7 +2046,6 @@ AttackPhase = {
         "^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?"},
     "IDtype": {"type": "string","pattern": "[a-zA-Z_][a-zA-Z0-9_.-]*"},
     "IDREFType": {"$ref": "#/definitions/IDtype"},
-    "CryptoBinary": {"$ref": "#/definitions/BYTE"},
     "MLStringType": {
       "oneOf": [{"type": "string"},
                 {"type": "object",
@@ -2599,7 +2467,11 @@ AttackPhase = {
           "type": "array",
           "items": {"type": "string"},
           "minItems": 1}},
-      "required": ["Application"],
+      "allOf": [
+        {"required": ["Application"]},
+        {"oneOf": [
+          {"required":["Description"]},
+          {"required":["DetectionConfiguration"]}]}],
       "additionalProperties": false},
     "Method": {
       "type": "object",
@@ -3093,214 +2965,10 @@ AttackPhase = {
           "minItems": 1},
         "Signature": {
           "type": "array",
-          "items": {"$ref": "#/definitions/SignatureType"},
+          "items": {"$ref": "#/definitions/BYTE"},
           "minItems": 1}},
       "required": [],
       "additionalProperties": false},
-    "SignatureType": {  
-      "type": "object",
-      "properties": {
-        "id": {"$ref": "#/definitions/IDtype"},
-        "SignedInfo": {"$ref": "#/definitions/SignedInfoType"},
-        "SignatureValue": {"$ref": "#/definitions/SignatureValueType"},
-        "KeyInfo": {"$ref": "#/definitions/KeyInfoType"},
-        "Object": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/ObjectType"},
-          "minItems": 1}},
-      "required": ["SignedInfo","SignatureValue"],
-      "additionalProperties": false
-    },
-    "SignatureValueType": {
-      "type": "object",
-      "properties": {
-        "value": {"$ref": "#/definitions/BYTE"},
-        "id": {"$ref": "#/definitions/IDtype"}
-      },
-      "required": ["value"],
-      "additionalProperties": false
-    },
-    "SignedInfoType": {
-      "type": "object",
-      "properties": {
-        "id": {"$ref": "#/definitions/IDtype"},
-        "CanonicalizationMethod": 
-          {"$ref": "#/definitions/CanonicalizationMethodType"},
-        "SignatureMethod": {"$ref":"#/definitions/SignatureMethodType"},
-        "Reference": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/ReferenceType"},
-          "minItems": 1}
-      },
-      "required": ["CanonicalizationMethod","SignatureMethod",
-        "Reference"],
-      "additionalProperties": false
-    },
-    "SignatureMethodType": {
-      "type": "object",
-      "properties": {
-        "value": {"type": "string"},
-        "Algorithm": {"$ref": "#/definitions/URLtype"},
-        "HMACOutputLength":{"$ref":"#/definitions/HMACOutputLengthType"}
-      },
-      "required": ["Algorithm"],
-      "additionalProperties": false
-    },
-    "HMACOutputLengthType": {"type": "number"},
-    "ReferenceType": {
-      "type": "object",
-      "properties": {
-        "id": {"$ref": "#/definitions/IDtype"},
-        "URI": {"$ref": "#/definitions/URLtype"},
-        "Type": {"$ref": "#/definitions/URLtype"},
-        "Transforms": {"$ref": "#/definitions/TransformsType"},
-        "DigestMethod": {"$ref": "#/definitions/DigestMethodType"},
-        "DigestValue": {"$ref": "#/definitions/DigestValueType"}
-      },
-      "required": ["DigestMethod","DigestValue"],
-      "additionalProperties": false
-    },
-    "TransformsType": {
-      "type": "object",
-      "properties": {
-        "Transform": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/TransformType"},
-          "minItems": 1}
-      },
-      "required": ["Transform"],
-      "additionalProperties": false
-    },
-    "TransformType": {
-      "type": "object",
-      "properties": {
-        "value": {"type": "string"},
-        "Algorithm": {"$ref": "#/definitions/URLtype"},
-        "XPath": {
-          "type": "array",
-          "items": {"type": "string"},
-          "minItems": 1}
-      },
-      "required": ["Algorithm"],
-      "additionalProperties": false
-    },
-    "DigestMethodType": {
-      "type": "object",
-      "properties": {
-        "value": {"type": "string"},
-        "Algorithm": {"$ref": "#/definitions/URLtype"}
-      },
-      "required": ["Algorithm"],
-      "additionalProperties": false
-    },
-    "DigestValueType": {"$ref": "#/definitions/BYTE"},
-    "KeyInfoType": {
-      "type": "object",
-      "properties": {
-        "value": {"type": "string"},
-        "id": {"$ref": "#/definitions/IDtype"},
-        "KeyProperties": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "KeyName": {"type": "string"},
-              "KeyValue": {"$ref": "#/definitions/KeyValueType"},
-              "RetrievalMethod": 
-                {"$ref": "#/definitions/RetrievalMethodType"},
-              "X509Data": {"$ref": "#/definitions/X509DataType"},
-              "PGPData": {"$ref": "#/definitions/PGPDataType"},
-              "SPKIData": {"$ref": "#/definitions/SPKIDataType"},
-              "MgmtData": {"type": "string"}},
-            "additionalProperties": false},
-           "minItems" : 1}},
-      "required": ["KeyProperties"],
-      "additionalProperties": false
-    },
-    "KeyValueType": {
-      "type": "object",
-      "properties": {
-        "value": {"type": "string"},
-        "KeyValueProperties": {
-          "items": {
-            "type": "object",
-            "properties": {
-              "DSAKeyValue": {"$ref": "#/definitions/DSAKeyValueType"},
-              "RSAKeyValue": {"$ref": "#/definitions/RSAKeyValueType"}},
-            "additionalProperties": false}}
-      },
-      "required": ["KeyValueProperties"],
-      "additionalProperties": false
-    },
-    "DSAKeyValueType": {
-      "type": "object",
-      "properties": {
-        "P": {"$ref": "#/definitions/CryptoBinary"},
-        "Q": {"$ref": "#/definitions/CryptoBinary"},
-        "G": {"$ref": "#/definitions/CryptoBinary"},
-        "Y": {"$ref": "#/definitions/CryptoBinary"},
-        "J": {"$ref": "#/definitions/CryptoBinary"},
-        "Seed": {"$ref": "#/definitions/CryptoBinary"},
-        "PgenCounter": {"$ref": "#/definitions/CryptoBinary"}
-      },
-      "required": ["Y"],
-      "additionalProperties": false
-    },
-    "RSAKeyValueType":{
-      "type": "object",
-      "properties": {
-        "Modulus": {"$ref": "#/definitions/CryptoBinary"},
-        "Exponent": {"$ref": "#/definitions/CryptoBinary"}
-      },
-      "required": ["Modulus","Exponent"],
-      "additionalProperties": false
-    },
-    "RetrievalMethodType": {
-      "type": "object",
-      "properties": {
-        "URI": {"$ref": "#/definitions/URLtype"},
-        "Type": {"$ref": "#/definitions/URLtype"},
-        "Transforms": {"$ref": "#/definitions/TransformsType"}
-      },
-      "required": ["URI"],
-      "additionalProperties": false
-    },
-    "PGPDataType": {
-      "type": "object",
-      "properties": {
-        "value": {"type": "string"},
-        "PGPDataProperties": {
-          "items": {
-            "type": "object",
-            "properties": {
-              "PGPKeyID": {"$ref": "#/definitions/BYTE"},
-              "PGPKeyPacket": {"$ref": "#/definitions/BYTE"}},
-            "additionalProperties": false}}},
-      "required": ["PGPDataProperties"],
-      "additionalProperties": false
-    },
-    "SPKIDataType": {
-      "type": "object",
-      "properties": {
-        "value": {"type": "string"},
-        "SPKISexp": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/BYTE"},
-          "minItems": 1}
-      },
-      "required": ["SPKISexp"],
-      "additionalProperties": false
-    },
-    "ObjectType": {
-      "type": "object",
-      "properties": {
-        "value": {"type": "string"},
-        "id": {"$ref": "#/definitions/IDtype"},
-        "MimeType": {"type": "string"},
-        "Encoding": {"$ref": "#/definitions/URLtype"}
-      },
-      "additionalProperties": false
-    },
     "RecordData": {
       "type": "object",
       "properties": {
@@ -3394,41 +3062,13 @@ AttackPhase = {
       "type": "object",
       "properties": {
         "observable-id": {"$ref": "#/definitions/IDtype"},
-        "X509Data": {"$ref": "#/definitions/X509DataType"},
+        "X509Data": {"$ref": "#/definitions/BYTE"},
         "Description": {
           "type": "array",
           "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1}},
       "required": ["X509Data"],
       "additionalProperties": false},
-    "X509DataType": {
-      "type": "object",
-      "properties": {
-        "X509DataProperties": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "X509IssuerSerial": 
-                {"$ref": "#/definitions/X509IssuerSerialType"},
-              "X509SKI": {"$ref": "#/definitions/BYTE"},
-              "X509SubjectName": {"type": "string"},
-              "X509Certificate": {"$ref": "#/definitions/BYTE"},
-              "X509CRL": {"$ref": "#/definitions/BYTE"}},
-            "additionalProperties": false},
-          "minItems" : 1}},
-      "required": ["X509DataProperties"],
-      "additionalProperties": false
-    },
-    "X509IssuerSerialType": {
-      "type": "object",
-      "properties": {
-        "X509IssuerName": {"type": "string"},
-        "X509SerialNumber": {"type": "number"}
-      },
-      "required": ["X509IssuerName","X509SerialNumber"],
-      "additionalProperties": false
-    },
     "FileData": {
       "type": "object",
       "properties": {
@@ -3455,7 +3095,7 @@ AttackPhase = {
         "HashData": {"$ref": "#/definitions/HashData"},
         "Signature": {
           "type": "array",
-          "items": {"$ref": "#/definitions/SignatureType"},
+          "items": {"$ref": "#/definitions/BYTE"},
           "minItems": 1},
         "AssociatedSoftware": {"$ref": "#/definitions/SoftwareType"},
         "FileProperties": {
@@ -3484,22 +3124,12 @@ AttackPhase = {
     "Hash": {
       "type": "object",
       "properties": {
-        "DigestMethod": {"$ref": "#/definitions/DigestMethodType"},
-        "DigestValue": {"$ref": "#/definitions/DigestValueType"},
-        "CanonicalizationMethod": 
-          {"$ref": "#/definitions/CanonicalizationMethodType"},
+        "DigestMethod": {"$ref": "#/definitions/BYTE"},
+        "DigestValue": {"$ref": "#/definitions/BYTE"},
+        "CanonicalizationMethod": {"$ref": "#/definitions/BYTE"},
         "Application": {"$ref": "#/definitions/SoftwareType"}},
       "required": ["DigestMethod","DigestValue"],
       "additionalProperties": false},
-    "CanonicalizationMethodType": {
-      "type": "object",
-      "properties": {
-        "value": {"type": "string"},
-        "Algorithm": {"$ref": "#/definitions/URLtype"}
-      },
-      "required": ["Algorithm"],
-      "additionalProperties": false
-    },
     "FuzzyHash": {
       "type": "object",
       "properties": {
@@ -3650,7 +3280,10 @@ AttackPhase = {
       "properties": {
         "Hash": {"$ref": "#/definitions/Hash"},
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
-      "required": [],
+      "oneOf": [
+         {"required": ["Hash"]},
+         {"required": ["AdditionalData"]}
+      ],
       "additionalProperties": false},
     "IndicatorExpression": {
       "type": "object",
@@ -3683,7 +3316,10 @@ AttackPhase = {
         "uid-ref": {"$ref":"#/definitions/IDREFType"},
         "euid-ref": {"type": "string"},
         "version": {"type": "string"}},
-      "required": [],
+      "oneOf": [
+         {"required": ["uid-ref"]},
+         {"required": ["euid-ref"]}
+      ],
       "additionalProperties": false},
     "AttackPhase": {
       "type": "object",
