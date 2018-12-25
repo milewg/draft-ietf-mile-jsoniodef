@@ -739,7 +739,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 +-----------------------------+--------------------+---------------+
 | AlternativeIndicatorID      | restriction?       |               |
 |                             | ext-restriction?   |               |
-|                             | IndicatorReference+| 3.24.2        |
+|                             | IndicatorID+       | 3.24.2        |
 +-----------------------------+--------------------+---------------+
 | Observable                  | restriction?       |               |
 |                             | ext-restriction?   |               |
@@ -1832,7 +1832,7 @@ IndicatorID = {
 AlternativeIndicatorID = {
  ? restriction: restriction .default "private"
  ? ext-restriction: text
- IndicatorReference: [+ IndicatorReference]
+ IndicatorID: [+ IndicatorID]
 }
 
 Observable = {
@@ -3204,11 +3204,11 @@ AttackPhase = {
         "restriction": {"$ref": "#/definitions/restriction",
           "default": "private"},
         "ext-restriction": {"type": "string"},
-        "IndicatorReference": {
+        "IndicatorID": {
           "type": "array",
-          "items": {"$ref": "#/definitions/IndicatorReference"},
+          "items": {"$ref": "#/definitions/IndicatorID"},
           "minItems": 1}},
-      "required": ["IndicatorReference"],
+      "required": ["IndicatorID"],
       "additionalProperties": false},
     "Observable": {
       "type": "object",
