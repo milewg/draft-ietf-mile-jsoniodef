@@ -1,205 +1,231 @@
-<?xml version="1.0" encoding="US-ASCII"?>
-<!-- This template is for creating an Internet Draft using xml2rfc,
-    which is available here: http://xml.resource.org. -->
-<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
-<!-- One method to get references from the online citation libraries.
-    There has to be one entity for each item to be referenced.
-    An alternate method (rfc include) is described in the references. -->
-
-<!ENTITY RFC2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
-<!ENTITY RFC7203 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7203.xml">
-<!ENTITY RFC7970 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7970.xml">
-]>
-<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
-<!-- used by XSLT processors -->
-<!-- For a complete list and description of processing instructions (PIs),
-    please see http://xml.resource.org/authoring/README.html. -->
-<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
-    (Here they are set differently than their defaults in xml2rfc v1.32) -->
-<?rfc strict="yes" ?>
-<!-- give errors regarding ID-nits and DTD validation -->
-<!-- control the table of contents (ToC) -->
-<?rfc toc="yes"?>
-<!-- generate a ToC -->
-<?rfc tocdepth="4"?>
-<!-- the number of levels of subsections in ToC. default: 3 -->
-<!-- control references -->
-<?rfc symrefs="yes"?>
-<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
-<?rfc sortrefs="yes" ?>
-<!-- sort the reference entries alphabetically -->
-<!-- control vertical white space
-    (using these PIs as follows is recommended by the RFC Editor) -->
-<?rfc compact="yes" ?>
-<!-- do not start each main section on a new page -->
-<?rfc subcompact="no" ?>
-<!-- keep one blank line between list items -->
-<!-- end of list of popular I-D processing instructions -->
-<rfc category="std" docName="draft-ietf-mile-jsoniodef-06" ipr="trust200902">
- <!-- category values: std, bcp, info, exp, and historic
-    ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
-       or pre5378Trust200902
-    you can add the attributes updates="NNNN" and obsoletes="NNNN"
-    they will automatically be output with "(if approved)" -->
-
- <!-- ***** FRONT MATTER ***** -->
-
- <front>
-   <!-- The abbreviated title is used in the page header - it is only necessary if the
-        full title is longer than 39 characters -->
-
-   <title abbrev="JSON-IODEF">CBOR/JSON binding of IODEF</title>
-
-   <!-- add 'role="editor"' below for the editors if appropriate -->
-
-   <!-- Another author who claims to be an editor -->
-
-   <author fullname="Takeshi Takahashi" initials="T.T." surname="Takahashi">
-     <organization abbrev="NICT"> National Institute of Information and Communications Technology</organization>
-     <address>
-       <postal>
-         <street>4-2-1 Nukui-Kitamachi</street>
-         <city>Koganei</city>
-         <region>Tokyo</region>
-         <code>184-8795</code>
-         <country>Japan</country>
-       </postal>
-
-       <phone>+81 42 327 5862</phone>
-
-       <email>takeshi_takahashi@nict.go.jp</email>
-
-       <!-- uri and facsimile elements may also be added -->
-     </address>
-   </author>
-   <author fullname="Roman Danyliw" initials="R.D." surname="Danyliw">
-     <organization abbrev="CERT">CERT, Software Engineering Institute, Carnegie Mellon University</organization>
-     <address>
-       <postal>
-         <street>4500 Fifth Avenue</street>
-         <city>Pittsburgh</city>
-         <region>PA</region>
-         <country>USA</country>
-       </postal>
-
-       <email>rdd@cert.org</email>
-
-       <!-- uri and facsimile elements may also be added -->
-     </address>
-   </author>
-   <author fullname="Mio Suzuki" initials="M.S." surname="Suzuki">
-     <organization abbrev="NICT"> National Institute of Information and Communications Technology</organization>
-     <address>
-       <postal>
-         <street>4-2-1 Nukui-Kitamachi</street>
-         <city>Koganei</city>
-         <region>Tokyo</region>
-         <code>184-8795</code>
-         <country>Japan</country>
-       </postal>
-
-       <email>mio@nict.go.jp</email>
-
-       <!-- uri and facsimile elements may also be added -->
-     </address>
-   </author>
 
 
-   <date year="2018" />
-
-   <!-- If the month and year are both specified and are the current ones, xml2rfc will fill
-        in the current day for you. If only the current year is specified, xml2rfc will fill
-	 in the current day and month for you. If the year is not the current one, it is
-	 necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the
-	 purpose of calculating the expiry date).  With drafts it is normally sufficient to
-	 specify just the year. -->
-
-   <!-- Meta-data Declarations -->
-
-   <area>Security</area>
-
-   <workgroup>MILE</workgroup>
-
-   <!-- WG name at the upperleft corner of the doc,
-        IETF is fine for individual submissions.
-	 If this element is not present, the default is "Network Working Group",
-        which is used by the RFC Editor as a nod to the history of the IETF. -->
-
-   <keyword>CBOR, JSON, IODEF</keyword>
-
-   <!-- Keywords will be incorporated into HTML output
-        files in a meta tag but they have no effect on text or nroff
-        output. If you submit your draft to the RFC Editor, the
-        keywords will be used for the search engine. -->
-
-   <abstract>
-   <t>
-RFC7970 specified an information model and a corresponding XML data model for exchanging incident and indicator information.  This draft provides an alternative data model implementation in CBOR/JSON.
-   </t>
-   </abstract>
- </front>
-
- <middle>
-   <section title="Introduction">
-     <t><xref target="RFC7970" /> defines a data representation for security incident reports and indicators commonly exchanged by operational security teams.  It facilitates the automated exchange of this information to enable mitigation and watch-and-warning. Section 3 of <xref target="RFC7970" /> defined an information model using Unified Modeling Language (UML) and a corresponding Extensible Markup Language (XML) schema data model in Section 8.  This UML-based information model and XML-based data model are referred to as IODEF UML and IODEF XML, respectively in this document.</t>
-
-<t>This document defines an alternate implementation of the IODEF UML information model by specifying a JavaScript Object Notation (JSON) data model using CDDL and JSON Schema <xref target="jsonschema"/>.  This JSON data model is referred to as IODEF JSON in this document.</t>
-
-<t>IODEF JSON provides all of the expressivity of IODEF XML.  It gives implementers and operators an alternative format to exchange the same information.</t>
-
-<t>The normative IODEF JSON data model is found in <xref target="cddlSection" />.  <xref target="dt" /> and <xref target="dm" /> describe the data types and elements of this data model.  <xref target="examples" /> provides examples. </t>
-
-     <section title="Requirements Language">
-       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-       document are to be interpreted as described in <xref
-       target="RFC2119">RFC 2119</xref>.</t>
-     </section>
-   </section>
 
 
-<section title="IODEF Data Types" anchor="dt">
-
-<t>The abstract 
-IODEF JSON implements the abstract data types specified in Section 2 of <xref target="RFC7970" />.</t>
-
-
-  <section title="Abstract Data Type to JSON Data Type Mapping">
-
-<t>IODEF JSON uses native and derived JSON data types. <xref target="dtmap" /> describes the mapping between the abstract data types in Section 2 of <xref target="RFC7970" /> and their corresponding implementations in IODEF JSON.</t>
+MILE                                                        T. Takahashi
+Internet-Draft                                                      NICT
+Intended status: Standards Track                              R. Danyliw
+Expires: July 6, 2019                                               CERT
+                                                               M. Suzuki
+                                                                    NICT
+                                                         January 2, 2019
 
 
-<figure align="center" anchor="dtmap" title="JSON Data Types"><artwork align="left"><![CDATA[
-+-----------------+-------------------+-------------------------------+
-| IODEF Data Type |      [RFC7970]    |       JSON Data Type          |
-|                 |      Reference    |                               |
-+-----------------+-------------------+-------------------------------+
-| INTEGER         | Section 2.1       | "integer" per [jsonschema]    |
-| REAL            | Section 2.2       | "number" per [jsonschema]     |
-| CHARACTER       | Section 2.3       | "string" per [jsonschema]     |
-| STRING          | Section 2.3       | "string" per [jsonschema]     |
-| ML_STRING       | Section 2.4       | see Section 2.2.1             |
-| BYTE            | Section 2.5.1     | "string" per [jsonschema]     |
-| BYTE[]          | Section 2.5.1     | "string" per [jsonschema]     |
-| HEXBIN          | Section 2.5.2     | "string" per [jsonschema]     |
-| HEXBIN[]        | Section 2.5.2     | "string" per [jsonschema]     |
-| ENUM            | Section 2.6       | "enum" array per [jsonschema] |
-| DATETIME        | Section 2.7       | "string" per [jsonschema]     |
-| TIMEZONE        | Section 2.8       | "string" per [jsonschema]     |
-| PORTLIST        | Section 2.9       | "string" per [jsonschema]     |
-| POSTAL          | Section 2.10      | ML_STRING, Section 2.2.1      |
-| PHONE           | Section 2.11      | "string" per [jsonschema]     |
-| EMAIL           | Section 2.12      | "string" per [jsonschema]     |
-| URL             | Section 2.13      | "string" per [jsonschema]     |
-| ID              | Section 2.14      | "string" per [jsonschema]     |
-| IDREF           | Section 2.14      | "string" per [jsonschema]     |
-| SOFTWARE        | Section 2.15      | see Section 2.2.2             |
-| STRUCTUREDINFO  | [RFC 7203]        | see Section 2.2.3             |
-| EXTENSION       | Section 2.16      | see Section 2.2.4             |
-+-----------------+-------------------+-------------------------------+
-]]></artwork></figure>
+                       CBOR/JSON binding of IODEF
+                      draft-ietf-mile-jsoniodef-07
 
-<figure align="center" anchor="dtmap_cbor" title="CBOR Data Types"><artwork align="left"><![CDATA[
+Abstract
+
+   RFC7970 specified an information model and a corresponding XML data
+   model for exchanging incident and indicator information.  This draft
+   provides an alternative data model implementation in CBOR/JSON.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on July 6, 2019.
+
+Copyright Notice
+
+   Copyright (c) 2019 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (https://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+
+
+
+
+Takahashi, et al.         Expires July 6, 2019                  [Page 1]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+     1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   3
+   2.  IODEF Data Types  . . . . . . . . . . . . . . . . . . . . . .   3
+     2.1.  Abstract Data Type to JSON Data Type Mapping  . . . . . .   3
+     2.2.  Complex JSON Types  . . . . . . . . . . . . . . . . . . .   5
+       2.2.1.  Multilingual Strings  . . . . . . . . . . . . . . . .   5
+       2.2.2.  Software and Software Reference . . . . . . . . . . .   6
+       2.2.3.  Structured Information  . . . . . . . . . . . . . . .   6
+       2.2.4.  EXTENSION . . . . . . . . . . . . . . . . . . . . . .   7
+   3.  IODEF JSON Data Model . . . . . . . . . . . . . . . . . . . .   7
+     3.1.  Classes and Elements  . . . . . . . . . . . . . . . . . .   7
+     3.2.  Mapping between CBOR/JSON and XML IODEF . . . . . . . . .  17
+   4.  Examples  . . . . . . . . . . . . . . . . . . . . . . . . . .  18
+     4.1.  Minimal Example . . . . . . . . . . . . . . . . . . . . .  18
+     4.2.  Indicators from a Campaign  . . . . . . . . . . . . . . .  20
+   5.  The IODEF Data Model (CDDL) . . . . . . . . . . . . . . . . .  25
+   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  40
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .  40
+   8.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  40
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  40
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  40
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .  41
+   Appendix A.  Data Types used in this document . . . . . . . . . .  41
+   Appendix B.  The IODEF Data Model (JSON Schema) . . . . . . . . .  41
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  69
+
+1.  Introduction
+
+   [RFC7970] defines a data representation for security incident reports
+   and indicators commonly exchanged by operational security teams.  It
+   facilitates the automated exchange of this information to enable
+   mitigation and watch-and-warning.  Section 3 of [RFC7970] defined an
+   information model using Unified Modeling Language (UML) and a
+   corresponding Extensible Markup Language (XML) schema data model in
+   Section 8.  This UML-based information model and XML-based data model
+   are referred to as IODEF UML and IODEF XML, respectively in this
+   document.
+
+   This document defines an alternate implementation of the IODEF UML
+   information model by specifying a JavaScript Object Notation (JSON)
+   data model using CDDL and JSON Schema [jsonschema].  This JSON data
+   model is referred to as IODEF JSON in this document.
+
+
+
+
+Takahashi, et al.         Expires July 6, 2019                  [Page 2]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+   IODEF JSON provides all of the expressivity of IODEF XML.  It gives
+   implementers and operators an alternative format to exchange the same
+   information.
+
+   The normative IODEF JSON data model is found in Section 5.  Section 2
+   and Section 3 describe the data types and elements of this data
+   model.  Section 4 provides examples.
+
+1.1.  Requirements Language
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119][RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+2.  IODEF Data Types
+
+   The abstract IODEF JSON implements the abstract data types specified
+   in Section 2 of [RFC7970].
+
+2.1.  Abstract Data Type to JSON Data Type Mapping
+
+   IODEF JSON uses native and derived JSON data types.  Figure 1
+   describes the mapping between the abstract data types in Section 2 of
+   [RFC7970] and their corresponding implementations in IODEF JSON.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Takahashi, et al.         Expires July 6, 2019                  [Page 3]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+ +-----------------+-------------------+-------------------------------+
+ | IODEF Data Type |      [RFC7970]    |       JSON Data Type          |
+ |                 |      Reference    |                               |
+ +-----------------+-------------------+-------------------------------+
+ | INTEGER         | Section 2.1       | "integer" per [jsonschema]    |
+ | REAL            | Section 2.2       | "number" per [jsonschema]     |
+ | CHARACTER       | Section 2.3       | "string" per [jsonschema]     |
+ | STRING          | Section 2.3       | "string" per [jsonschema]     |
+ | ML_STRING       | Section 2.4       | see Section 2.2.1             |
+ | BYTE            | Section 2.5.1     | "string" per [jsonschema]     |
+ | BYTE[]          | Section 2.5.1     | "string" per [jsonschema]     |
+ | HEXBIN          | Section 2.5.2     | "string" per [jsonschema]     |
+ | HEXBIN[]        | Section 2.5.2     | "string" per [jsonschema]     |
+ | ENUM            | Section 2.6       | "enum" array per [jsonschema] |
+ | DATETIME        | Section 2.7       | "string" per [jsonschema]     |
+ | TIMEZONE        | Section 2.8       | "string" per [jsonschema]     |
+ | PORTLIST        | Section 2.9       | "string" per [jsonschema]     |
+ | POSTAL          | Section 2.10      | ML_STRING, Section 2.2.1      |
+ | PHONE           | Section 2.11      | "string" per [jsonschema]     |
+ | EMAIL           | Section 2.12      | "string" per [jsonschema]     |
+ | URL             | Section 2.13      | "string" per [jsonschema]     |
+ | ID              | Section 2.14      | "string" per [jsonschema]     |
+ | IDREF           | Section 2.14      | "string" per [jsonschema]     |
+ | SOFTWARE        | Section 2.15      | see Section 2.2.2             |
+ | STRUCTUREDINFO  | [RFC 7203]        | see Section 2.2.3             |
+ | EXTENSION       | Section 2.16      | see Section 2.2.4             |
+ +-----------------+-------------------+-------------------------------+
+
+                         Figure 1: JSON Data Types
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Takahashi, et al.         Expires July 6, 2019                  [Page 4]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
 +-----------------+------------------+---------------------------------+
 | IODEF Data Type |  CBOR Data Type  |          CDDL prelude           |
 |                 |                  | [draft-ietf-cbor-cddl-05]       |
@@ -228,711 +254,836 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 | STRUCTUREDINFO  | 5                | Maps/Structs (Section 3.5.1)    |
 | EXTENSION       | 5                | Maps/Structs (Section 3.5.1)    |
 +-----------------+------------------+---------------------------------+
-]]></artwork></figure>
 
+                         Figure 2: CBOR Data Types
 
-</section>
+2.2.  Complex JSON Types
 
-  <section title="Complex JSON Types">
+2.2.1.  Multilingual Strings
 
-<section title="Multilingual Strings">
+   A string that needs to be represented in a human-readable language
+   different from the default encoding of the document is represented in
+   the information model by the ML_STRING data type.  This data type is
+   implemented as either an object with "value", "lang", and
+   "translation-id" elements or a text string as defined in Section 5.
+   Examples are shown below.
 
-<t>A string that needs to be represented in a human-readable language different from the default encoding of the document is represented in the information model by the ML_STRING data type. This data type is implemented as either an object with "value", "lang", and "translation-id" elements or a text string as defined in <xref target="cddlSection"/>. Examples are shown below.</t>
-
-
-<figure align="center"><artwork align="left"><![CDATA[
-"MLStringType": {
-  "value": "free-form text",                              //STRING
-  "lang": "en",                                             //ENUM
-  "translation-id": "jp2en0023"                           //STRING
-}
-]]></artwork></figure>
-
-</section>
-
-
-<section title="Software and Software Reference">
-<t>A particular version of software is represented in the information model by the SOFTWARE data type. This software can be described by using a reference, a URL, or with free-form text. The SOFTWARE data type is implemented as an object with "SoftwareReference", "URL", and "Description" elements as defined in <xref target="cddlSection"/>. Examples are shown below.</t>
-
-<figure align="center"><artwork align="left"><![CDATA[
-"SoftwareType": {
-  "SoftwareReference": {...},          //SoftwareReference
-  "Description": ["MS Windows"]        //STRING
-}
-]]></artwork></figure>
-
-<t>SoftwareReference class is a reference to a particular version of software. Examples are shown below.</t>
-
-<figure align="center"><artwork align="left"><![CDATA[
-"SoftwareReference": {
-  "value": "cpe:/a:google:chrome:59.0.3071.115 ",   //STRING
-  "spec-name": "cpe",                                 //ENUM
-  "dtype": "string",                                  //ENUM
-}
-]]></artwork></figure>
-
-</section>
-
-
-
-<section title="Structured Information">
-<t>Information provided in a form of structured string, such as ID, or structured information, such as XML documents, is represented in the information model by the STRUCTUREDINFO data type. Note that this type was originally specified in <xref target="RFC7203" />. The STRUCTUREDINFO data type is implemented as an object with "SpecID", "ext-SpecID", "ContentID", "dtype", "RawData", "Reference" elements. An example for embedding a structured ID is shown below.</t>
-
-<figure align="center"><artwork align="left"><![CDATA[
-"StructuredInfo": {
-  "SpecID": "cve",                                          //ENUM
-  "ContentID": "CVE-2007-5000"                            //STRING
-}
-]]></artwork></figure>
-
-<t>When embedding the raw data, base64 conversion should be used for encoding the data, as shown below.</t>
-
-<figure align="center"><artwork align="left"><![CDATA[
-"StructuredInfo": {
-  "SpecID": "oval",                                         //ENUM
-  "RawData": "<<<strings encoded with base64>>>"            //BYTE
-}
-]]></artwork></figure>
-
-</section>
-
-
-<section title="EXTENSION">
-<t>Information not otherwise represented in the IODEF can be added using the EXTENSION data type.  This data type is a generic extension mechanism. The EXTENSION data type is implemented as an ExtensionType object with "value", "name", "dtype", "ext-dtype", "meaning", "formatid", "restriction", "ext-restriction", and "observable-id" elements. An example for embedding a structured ID is shown below.</t>
-
-<figure align="center"><artwork align="left"><![CDATA[
-"ExtensionType": {
-  "value": "xxxxxxx",                                      //String
-  "name": "Syslog",                                        //String
-  "dtype": "string",                                         //ENUM
-  "meaning": "Syslog from the security appliance X",       //String
-}
-]]></artwork></figure>
-
-</section>
-
-
-</section>
-  </section>
-
-
-<section title="IODEF JSON Data Model" anchor="dm">
-
-<section title="Classes and Elements">
-
-<t> The following table shows the list of IODEF Classes, their elements, and the corresponding section in <xref target="RFC7970" />. Note that the complete JSON schema is defined in <xref target="cddlSection"/> usind CDDL.</t>
-
-
-
-<figure align="center" title="IODEF Classes"><artwork align="left"><![CDATA[
-+-----------------------------+--------------------+---------------+
-| IODEF Class                 | Class              | Corresponding |
-|                             | Elements and       | Section       |
-|                             | Attribute          | in [RFC7970]  |
-+-----------------------------+--------------------+---------------+
-| IODEF-Document              | version            | 3.1           |
-|                             | lang?              |               |
-|                             | format-id?         |               |
-|                             | private-enum-name? |               |
-|                             | private-enum-id?   |               |
-|                             | Incident+          |               |
-|                             | AdditionalData*    |               |
-+-----------------------------+--------------------+---------------+
-| Incident                    | purpose            | 3.2           |
-|                             | ext-purpose?       |               |
-|                             | status?            |               |
-|                             | ext-status?        |               |
-|                             | lang?              |               |
-|                             | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | observable-id?     |               |
-|                             | IncidentID         |               |
-|                             | AlternativeID?     |               |
-|                             | RelatedActivity*   |               |
-|                             | DetectTime?        |               |
-|                             | StartTime?         |               |
-|                             | EndTime?           |               |
-|                             | RecoveryTime?      |               |
-|                             | ReportTime?        |               |
-|                             | GenerationTime     |               |
-|                             | Description*       |               |
-|                             | Discovery*         |               |
-|                             | Assessment*        |               |
-|                             | Method*            |               |
-|                             | Contact+           |               |
-|                             | EventData*         |               |
-|                             | Indicator*         |               |
-|                             | History?           |               |
-|                             | AdditionalData*    |               |
-+-----------------------------+--------------------+---------------+
-| IncidentID                  | id                 | 3.4           |
-|                             | name               |               |
-|                             | instance?          |               |
-|                             | restriction?       |               |
-|                             | ext-restriction?   |               |
-+-----------------------------+--------------------+---------------+
-| AlternativeID               | restriction?       | 3.5           |
-|                             | ext-restriction?   |               |
-|                             | IncidentID+        |               |
-+-----------------------------+--------------------+---------------+
-| RelatedActivity             | restriction?       | 3.6           |
-|                             | ext-restriction?   |               |
-|                             | IncidentID*        |               |
-|                             | URL*               |               |
-|                             | ThreatActor*       |               |
-|                             | Campaign*          |               |
-|                             | IndicatorID*       |               |
-|                             | Confidence?        |               |
-|                             | Description*       |               |
-|                             | AdditionalData*    |               |
-+-----------------------------+--------------------+---------------+
-| ThreatActor                 | restriction?       | 3.7           |
-|                             | ext-restriction?   |               |
-|                             | ThreatActorID*     |               |
-|                             | URL*               |               |
-|                             | Description*       |               |
-|                             | AdditionalData*    |               |
-+-----------------------------+--------------------+---------------+
-| Campaign                    | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | CampaignID*        |               |
-|                             | URL*               |               |
-|                             | Description*       |               |
-|                             | AdditionalData*    | 3.8           |
-+-----------------------------+--------------------+---------------+
-| Contact                     | role               |               |
-|                             | ext-role?          |               |
-|                             | type               |               |
-|                             | ext-type?          |               |
-|                             | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | ContactName*,      |               |
-|                             | ContactTitle*      |               |
-|                             | Description*       |               |
-|                             | RegistryHandle*    |               |
-|                             | PostalAddress*     |               |
-|                             | Email*             |               |
-|                             | Telephone*         |               |
-|                             | Timezone?          |               |
-|                             | Contact*           |               |
-|                             | AdditionalData*    | 3.9           |
-+-----------------------------+--------------------+---------------+
-| RegistryHandle              | handle             |               |
-|                             | registry           |               |
-|                             | ext-registry?      | 3.9.1         |
-+-----------------------------+--------------------+---------------+
-| PostalAddress               | type?              |               |
-|                             | ext-type?          |               |
-|                             | PAddress           |               |
-|                             | Description*       | 3.9.2         |
-+-----------------------------+--------------------+---------------+
-| Email                       | type?              |               |
-|                             | ext-type?          |               |
-|                             | EmailTo            |               |
-|                             | Description*       | 3.9.3         |
-+-----------------------------+--------------------+---------------+
-| Telephone                   | type?              |               |
-|                             | ext-type?          |               |
-|                             | TelephoneNumber    |               |
-|                             | Description*       | 3.9.4         |
-+-----------------------------+--------------------+---------------+
-| Discovery                   | source?            |               |
-|                             | ext-source?        |               |
-|                             | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | Description*       |               |
-|                             | Contact*           |               |
-|                             | DetectionPattern*  | 3.10          |
-+-----------------------------+--------------------+---------------+
-| DetectionPattern            | restriction?       | 3.10.1        |
-|                             | ext-restriction?   |               |
-|                             | observable-id?     |               |
-|                             | Application        |               |
-|                             | Description*       |               |
-|                             | DetectionConfiguration*  |         |
-+-----------------------------+--------------------+---------------+
-| Method                      | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | Reference*         |               |
-|                             | Description*       |               |
-|                             | AttackPattern*     |               |
-|                             | Vulnerability*     |               |
-|                             | Weakness*          |               |
-|                             | AdditionalData*    | 3.11          |
-+-----------------------------+--------------------+---------------+
-| Reference                   | observable-id?     |               |
-|                             | ReferenceName?     |               |
-|                             | URL*               |               |
-|                             | Description*       | 3.11.1        |
-+-----------------------------+--------------------+---------------+
-| Assessment                  | occurence?         |               |
-|                             | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | observable-id?     |               |
-|                             | IncidentCategory*  |               |
-|                             | SystemImpact*      |               |
-|                             | BusinessImpact*    |               |
-|                             | TimeImpact*        |               |
-|                             | MonetaryImpact*    |               |
-|                             | IntendedImpact*    |               |
-|                             | Counter*           |               |
-|                             | MitigatingFactor*  |               |
-|                             | Cause*             |               |
-|                             | Confidence?        |               |
-|                             | AdditionalData*    | 3.12          |
-+-----------------------------+--------------------+---------------+
-| SystemImpact                | severity?          |               |
-|                             | completion?        |               |
-|                             | type               |               |
-|                             | ext-type?          |               |
-|                             | Description*       | 3.12.1        |
-+-----------------------------+--------------------+---------------+
-| BusinessImpact              | severity?          |               |
-|                             | ext-severity?      |               |
-|                             | type               |               |
-|                             | ext-type?          |               |
-|                             | Description*       | 3.12.2        |
-+-----------------------------+--------------------+---------------+
-| TimeImpact                  | value              |               |
-|                             | severity?          |               |
-|                             | metric             |               |
-|                             | ext-metric?        |               |
-|                             | duration?          |               |
-|                             | ext-duration?      | 3.12.3        |
-+-----------------------------+--------------------+---------------+
-| MonetaryImpact              | value              |               |
-|                             | severity?          |               |
-|                             | currency?          | 3.12.4        |
-+-----------------------------+--------------------+---------------+
-| Confidence                  | value              |               |
-|                             | rating             |               |
-|                             | ext-rating?        | 3.12.5        |
-+-----------------------------+--------------------+---------------+
-| History                     | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | HistoryItem+       | 3.13          |
-+-----------------------------+--------------------+---------------+
-| HistoryItem                 | action             |               |
-|                             | ext-action?        |               |
-|                             | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | observable-id?     |               |
-|                             | DateTime           |               |
-|                             | IncidentID?        |               |
-|                             | Contact?           |               |
-|                             | Description*       |               |
-|                             | DefinedCOA*        |               |
-|                             | AdditionalData*    | 3.13.1        |
-+-----------------------------+--------------------+---------------+
-| EventData                   | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | observable-id?     |               |
-|                             | Description*       |               |
-|                             | DetectTime?        |               |
-|                             | StartTime?         |               |
-|                             | EndTime?           |               |
-|                             | RecoveryTime?      |               |
-|                             | ReportTime?        |               |
-|                             | Contact*           |               |
-|                             | Discovery*         |               |
-|                             | Assessment?        |               |
-|                             | Method*            |               |
-|                             | System*            |               |
-|                             | Expectation*       |               |
-|                             | RecordData*        |               |
-|                             | EventData*         |               |
-|                             | AdditionalData*    | 3.14          |
-+-----------------------------+--------------------+---------------+
-| Expectation                 | action?            |               |
-|                             | ext-action?        |               |
-|                             | severity?          |               |
-|                             | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | observable-id?     |               |
-|                             | Description*       |               |
-|                             | DefinedCOA*        |               |
-|                             | StartTime?         |               |
-|                             | EndTime?           |               |
-|                             | Contact?           | 3.15          |
-+-----------------------------+--------------------+---------------+
-| System                      | category?          |               |
-|                             | ext-category?      |               |
-|                             | interface?         |               |
-|                             | spoofed?           |               |
-|                             | virtual?           |               |
-|                             | ownership?         |               |
-|                             | ext-ownership?     |               |
-|                             | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | Node               |               |
-|                             | NodeRole*          |               |
-|                             | Service*           |               |
-|                             | OperatingSystem*   |               |
-|                             | Counter*           |               |
-|                             | AssetID*           |               |
-|                             | Description*       |               |
-|                             | AdditionalData*    | 3.16          |
-+-----------------------------+--------------------+---------------+
-| Node                        | DomainData*        |               |
-|                             | Address*           |               |
-|                             | PostalAddress?     |               |
-|                             | Location*          |               |
-|                             | Counter*           | 3.17          |
-+-----------------------------+--------------------+---------------+
-| Address                     | value              |               |
-|                             | category           |               |
-|                             | ext-category?      |               |
-|                             | vlan-name?         |               |
-|                             | vlan-num?          |               |
-|                             | observable-id?     | 3.17.1        |
-+-----------------------------+--------------------+---------------+
-| NodeRole                    | category           |               |
-|                             | ext-category?      |               |
-|                             | Description*       | 3.17.2        |
-+-----------------------------+--------------------+---------------+
-| Counter                     | value              |               |
-|                             | type               |               |
-|                             | ext-type?          |               |
-|                             | unit               |               |
-|                             | ext-unit?          |               |
-|                             | meaning?           |               |
-|                             | duration?          |               |
-|                             | ext-duration?      | 3.17.3        |
-+-----------------------------+--------------------+---------------+
-| DomainData                  | system-status      |               |
-|                             | ext-system-status? |               |
-|                             | domain-status      |               |
-|                             | ext-domain-status? |               |
-|                             | observable-id?     |               |
-|                             | Name               |               |
-|                             | DateDomainWasChecked?|             |
-|                             | RegistrationDate?  |               |
-|                             | ExpirationDate?    |               |
-|                             | RelatedDNS*        |               |
-|                             | Nameservers*       |               |
-|                             | DomainContacts?    | 3.18          |
-+-----------------------------+--------------------+---------------+
-| Nameserver                  | Server             |               |
-|                             | Address*           | 3.18.1        |
-+-----------------------------+--------------------+---------------+
-| DomainContacts              | SameDomainContact? |               |
-|                             | Contact+           | 3.18.2        |
-+-----------------------------+--------------------+---------------+
-| Service                     | ip-protocol?       |               |
-|                             | observable-id?     |               |
-|                             | ServiceName?       |               |
-|                             | Port?              |               |
-|                             | Portlist?          |               |
-|                             | ProtoCode?         |               |
-|                             | ProtoType?         |               |
-|                             | ProtoField?        |               |
-|                             | ApplicationHeaderField*|           |
-|                             | EmailData?         |               |
-|                             | Application?       | 3.19          |
-+-----------------------------+--------------------+---------------+
-| ServiceName                 | IANAService?       |               |
-|                             | URL*               |               |
-|                             | Description*       | 3.19.1        |
-+-----------------------------+--------------------+---------------+
-| EmailData                   | observable-id?     |               |
-|                             | EmailTo*           |               |
-|                             | EmailFrom?         |               |
-|                             | EmailSubject?      |               |
-|                             | EmailX-Mailer?     |               |
-|                             | EmailHeaderField*  |               |
-|                             | EmailHeaders?      |               |
-|                             | EmailBody?         |               |
-|                             | EmailMessage?      |               |
-|                             | HashData*          |               |
-|                             | Signature*         | 3.19.2        |
-+-----------------------------+--------------------+---------------+
-| RecordData                  | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | observable-id?     |               |
-|                             | DateTime?          |               |
-|                             | Description*       |               |
-|                             | Application?       |               |
-|                             | RecordPattern*     |               |
-|                             | RecordItem*        |               |
-|                             | URL*               |               |
-|                             | FileData*          |               |
-|                             | WindowsRegistryKeysModified*|      |
-|                             | CertificateData*   |               |
-|                             | AdditionalData*    | 3.19.3        |
-+-----------------------------+--------------------+---------------+
-| RecordPattern               | type               |               |
-|                             | ext-type?          |               |
-|                             | offset?            |               |
-|                             | offsetunit?        |               |
-|                             | ext-offsetunit?    |               |
-|                             | instance?          |               |
-|                             | value              | 3.19.4        |
-+-----------------------------+--------------------+---------------+
-| WindowsRegistryKeysModified | observable-id?     | 3.20          |
-|                             | Key+               |               |
-+-----------------------------+--------------------+---------------+
-| Key                         | registryaction?    |               |
-|                             | ext-registryaction?|               |
-|                             | observable-id?     |               |
-|                             | KeyName            |               |
-|                             | KeyValue?          | 3.20.1        |
-+-----------------------------+--------------------+---------------+
-| CertificateData             | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | observable-id?     |               |
-|                             | Certificate+       | 3.21          |
-+-----------------------------+--------------------+---------------+
-| Certificate                 | observable-id?     |               |
-|                             | X509Data           |               |
-|                             | Description*       | 3.21.1        |
-+-----------------------------+--------------------+---------------+
-| FileData                    | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | observable-id?     |               |
-|                             | File+              | 3.22          |
-+-----------------------------+--------------------+---------------+
-| File                        | observable-id?     |               |
-|                             | FileName?          |               |
-|                             | FileSize?          |               |
-|                             | FileType?          |               |
-|                             | URL*               |               |
-|                             | HashData?          |               |
-|                             | Signature*         |               |
-|                             | AssociatedSoftware?|               |
-|                             | FileProperties*    | 3.22.1        |
-+-----------------------------+--------------------+---------------+
-| HashData                    | scope              |               |
-|                             | HashTargetID?      |               |
-|                             | Hash*              |               |
-|                             | FuzzyHash*         | 3.23          |
-+-----------------------------+--------------------+---------------+
-| Hash                        | DigestMethod       |               |
-|                             | DigestValue        |               |
-|                             | CanonicalizationMethod?|           |
-|                             | Application?       | 3.23.1        |
-+-----------------------------+--------------------+---------------+
-| FuzzyHash                   | FuzzyHashValue+    |               |
-|                             | Application?       |               |
-|                             | AdditionalData*    | 3.23.2        |
-+-----------------------------+--------------------+---------------+
-| Indicator                   | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | IndicatorID        |               |
-|                             | AlternativeIndicatorID*|           |
-|                             | Description*       |               |
-|                             | StartTime?         |               |
-|                             | EndTime?           |               |
-|                             | Confidence?        |               |
-|                             | Contact*           |               |
-|                             | Observable?        |               |
-|                             | uid-ref?           |               |
-|                             | IndicatorExpression?|              |
-|                             | IndicatorReference?|               |
-|                             | NodeRole*          |               |
-|                             | AttackPhase*       |               |
-|                             | Reference*         |               |
-|                             | AdditionalData*    | 3.24          |
-+-----------------------------+--------------------+---------------+
-| IndicatorID                 | id                 |               |
-|                             | name               |               |
-|                             | version            | 3.24.1        |
-+-----------------------------+--------------------+---------------+
-| AlternativeIndicatorID      | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | IndicatorID+       | 3.24.2        |
-+-----------------------------+--------------------+---------------+
-| Observable                  | restriction?       |               |
-|                             | ext-restriction?   |               |
-|                             | System?            |               |
-|                             | Address?           |               |
-|                             | DomainData?        |               |
-|                             | Service?           |               |
-|                             | EmailData?         |               |
-|                             | WindowsRegistryKeysModified?|      |
-|                             | FileData?          |               |
-|                             | CertificateData?   |               |
-|                             | RegistryHandle?    |               |
-|                             | RecordData?        |               |
-|                             | EventData?         |               |
-|                             | Incident?          |               |
-|                             | Expectation?       |               |
-|                             | Reference?         |               |
-|                             | Assessment?        |               |
-|                             | DetectionPattern?  |               |
-|                             | HistoryItem?       |               |
-|                             | BulkObservable?    |               |
-|                             | AdditionalData*    | 3.24.3        |
-+-----------------------------+--------------------+---------------+
-| BulkObservable              | type?              |               |
-|                             | ext-type?          |               |
-|                             | BulkObservableFormat?|             |
-|                             | BulkObservableList |               |
-|                             | AdditionalData*    | 3.24.4        |
-+-----------------------------+--------------------+---------------+
-| BulkObservableFormat        | Hash?              |               |
-|                             | AdditionalData*    | 3.24.5        |
-+-----------------------------+--------------------+---------------+
-| IndicatorExpression         | operator?          |               |
-|                             | ext-operator?      |               |
-|                             | IndicatorExpression*|              |
-|                             | Observable*        |               |
-|                             | uid-ref*           |               |
-|                             | IndicatorReference*|               |
-|                             | Confidence?        |               |
-|                             | AdditionalData*    | 3.24.6        |
-+-----------------------------+--------------------+---------------+
-| IndicatorReference          | uid-ref?           |               |
-|                             | euid-ref?          |               |
-|                             | version?           | 3.24.7        |
-+-----------------------------+--------------------+---------------+
-| AttackPhase                 | AttackPhaseID*     |               |
-|                             | URL*               |               |
-|                             | Description*       |               |
-|                             | AdditionalData*    | 3.24.8        |
-+-----------------------------+--------------------+---------------+
-]]></artwork></figure>
-
-</section>
-
-
-<section title="Mapping between CBOR/JSON and XML IODEF">
-
-<t>
-<list style="symbols">
-<t>This document treats attributes and elements of each class defined in <xref target="RFC7970" /> equally and is agnostic on the order of their appearances.</t>
-<t>Flow class is deleted, and classes with its instances now directly have instances of EventData class that used to belong to the Flow classs.</t>
-<t>ApplicationHeader class is deleted, and classes with its instances now directly have instances of ApplicationHeaderField class that used to belong to the ApplicationHeader class.</t>
-<t>SignatureData class is deleted, and classes with its instances now directly have instance of Signature class that used to belong to the SignatureData class.</t>
-<t>IndicatorData class is deleted, and classes with its instances now directly have the instances of Indicator class that used to belong to the IndicatorData class.</t>
-<t>ObservableReference class is deleted, and classes with its instances now directly have uid-ref as an element.</t>
-<t>Record class is replaced by RecordData class, and RecordData class is renamed to Record class.</t>
-<t>Record class is deleted, and classes with its instances now directly have the instances of RecordData class that used to belong to the Record class.</t>
-<t>The MLStringType were modified to support simple string by allowing the type to have not only a predefined object type but also text type, in order to allow simple descriptions of elements of the type.</t>
-<t>The elements of ML_STRING type in XML IODEF document are presented as either STRING type or ML_STRING type in CBOR/JSON IODEF document.</t>
-<t>Data models of the extension classes defined by <xref target="RFC7203" /> and referenced by <xref target="RFC7970" /> are represented by StructuredInfo class defined in this document.</t>
-<t>Signature, X509Data, and RawData are encoded with base64 and are reprensetend as string (BYTE type) in CBOR/JSON IODEF documents.</t>
-</list>
-</t>
-
-</section>
-</section>
-
-<section title="Examples" anchor="examples">
-
-<t>
-   This section provides example of IODEF documents.  These examples do
-   not represent the full capabilities of the data model or the the only
-   way to encode particular information.
-</t>
-
-
-<section title="Minimal Example">
-
-<t>A document containing only the mandatory elements and attributes is shown below in JSON and CBOR, respectively.</t>
-
-
-<figure align="center" anchor="minimal_example_json" title="A Minimal Example in JSON">
-<artwork align="left"><![CDATA[
-{
-  "version": "2.0",
-  "lang": "en",
-  "Incident": [{
-      "purpose": "reporting",
-      "restriction": "private",
-      "IncidentID": {
-        "id": "492382",
-        "name": "csirt.example.com"
-      },
-      "GenerationTime": "2015-07-18T09:00:00-05:00",
-      "Contact": [{
-          "type": "organization",
-          "role": "creator",
-          "Email": [{"EmailTo": "contact@csirt.example.com"}]
-      }]
-  }]
-}
-]]></artwork>
-</figure>
-
-
-<figure align="center" anchor="minimal_example_cbor" title="A Minimal Example in CBOR">
-<artwork align="left"><![CDATA[
-A3                                      # map(3)
-  67                                    # text(7)
-    76657273696F6E                      # "version"
-  63                                    # text(3)
-    322E30                              # "2.0"
-  64                                    # text(4)
-    6C616E67                            # "lang"
-  62                                    # text(2)
-    656E                                # "en"
-  68                                    # text(8)
-    496E636964656E74                    # "Incident"
-  81                                    # array(1)
-    A5                                  # map(5)
-      67                                # text(7)
-        707572706F7365                  # "purpose"
-      69                                # text(9)
-        7265706F7274696E67              # "reporting"
-      6B                                # text(11)
-        7265737472696374696F6E          # "restriction"
-      67                                # text(7)
-        70726976617465                  # "private"
-      6A                                # text(10)
-        496E636964656E744944            # "IncidentID"
-      A2                                # map(2)
-        62                              # text(2)
-          6964                          # "id"
-        66                              # text(6)
-          343932333832                  # "492382"
-        64                              # text(4)
-          6E616D65                      # "name"
-        71                              # text(17)
-          63736972742E6578616D706C652E636F6D # "csirt.example.com"
-      6E                                # text(14)
-        47656E65726174696F6E54696D65    # "GenerationTime"
-      C0                                # tag(0)
-        78 19                           # text(25)
-          323031352D30372D31385430393A30303A30302D30353A3030 
-                                        # "2015-07-18T09:00:00-05:00"
-      67                                # text(7)
-        436F6E74616374                  # "Contact"
-      81                                # array(1)
-        A3                              # map(3)
-          64                            # text(4)
-            74797065                    # "type"
-          6C                            # text(12)
-            6F7267616E697A6174696F6E    # "organization"
-          64                            # text(4)
-            726F6C65                    # "role"
-          67                            # text(7)
-            63726561746F72              # "creator"
-          65                            # text(5)
-            456D61696C                  # "Email"
-          81                            # array(1)
-            A1                          # map(1)
-              67                        # text(7)
-                456D61696C546F          # "EmailTo"
-              78 19                     # text(25)
-                636F6E746163744063736972742E6578616D706C652E636F6D
-                                        # "contact@csirt.example.com"
-
-]]></artwork>
-</figure>
+   "MLStringType": {
+     "value": "free-form text",                              //STRING
+     "lang": "en",                                             //ENUM
+     "translation-id": "jp2en0023"                           //STRING
+   }
 
 
 
 
-</section>
+Takahashi, et al.         Expires July 6, 2019                  [Page 5]
+
+Internet-Draft                 JSON-IODEF                   January 2019
 
 
-<section title="Indicators from a Campaign">
+2.2.2.  Software and Software Reference
 
-<t>An example of C2 domains from a given campaign is shwon below in JSON and CBOR, respectively.</t>
+   A particular version of software is represented in the information
+   model by the SOFTWARE data type.  This software can be described by
+   using a reference, a URL, or with free-form text.  The SOFTWARE data
+   type is implemented as an object with "SoftwareReference", "URL", and
+   "Description" elements as defined in Section 5.  Examples are shown
+   below.
+
+   "SoftwareType": {
+     "SoftwareReference": {...},          //SoftwareReference
+     "Description": ["MS Windows"]        //STRING
+   }
+
+   SoftwareReference class is a reference to a particular version of
+   software.  Examples are shown below.
+
+   "SoftwareReference": {
+     "value": "cpe:/a:google:chrome:59.0.3071.115 ",   //STRING
+     "spec-name": "cpe",                                 //ENUM
+     "dtype": "string"                                   //ENUM
+   }
+
+2.2.3.  Structured Information
+
+   Information provided in a form of structured string, such as ID, or
+   structured information, such as XML documents, is represented in the
+   information model by the STRUCTUREDINFO data type.  Note that this
+   type was originally specified in [RFC7203].  The STRUCTUREDINFO data
+   type is implemented as an object with "SpecID", "ext-SpecID",
+   "ContentID", "dtype", "RawData", "Reference" elements.  An example
+   for embedding a structured ID is shown below.
+
+   "StructuredInfo": {
+     "SpecID": "cve",                                          //ENUM
+     "ContentID": "CVE-2007-5000"                            //STRING
+   }
+
+   When embedding the raw data, base64 conversion should be used for
+   encoding the data, as shown below.
+
+   "StructuredInfo": {
+     "SpecID": "oval",                                         //ENUM
+     "RawData": "<<<strings encoded with base64>>>"            //BYTE
+   }
 
 
-<figure align="center" anchor="campaign_example_json" title="Indicators from a Campaign in JSON">
-<artwork align="left"><![CDATA[
+
+
+
+
+Takahashi, et al.         Expires July 6, 2019                  [Page 6]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+2.2.4.  EXTENSION
+
+   Information not otherwise represented in the IODEF can be added using
+   the EXTENSION data type.  This data type is a generic extension
+   mechanism.  The EXTENSION data type is implemented as an
+   ExtensionType object with "value", "name", "dtype", "ext-dtype",
+   "meaning", "formatid", "restriction", "ext-restriction", and
+   "observable-id" elements.  An example for embedding a structured ID
+   is shown below.
+
+   "ExtensionType": {
+     "value": "xxxxxxx",                                      //STRING
+     "name": "Syslog",                                        //STRING
+     "dtype": "string",                                         //ENUM
+     "meaning": "Syslog from the security appliance X"        //STRING
+   }
+
+3.  IODEF JSON Data Model
+
+3.1.  Classes and Elements
+
+   The following table shows the list of IODEF Classes, their elements,
+   and the corresponding section in [RFC7970].  Note that the complete
+   JSON schema is defined in Section 5 usind CDDL.
+
+   +-----------------------------+--------------------+---------------+
+   | IODEF Class                 | Class              | Corresponding |
+   |                             | Elements and       | Section       |
+   |                             | Attribute          | in [RFC7970]  |
+   +-----------------------------+--------------------+---------------+
+   | IODEF-Document              | version            | 3.1           |
+   |                             | lang?              |               |
+   |                             | format-id?         |               |
+   |                             | private-enum-name? |               |
+   |                             | private-enum-id?   |               |
+   |                             | Incident+          |               |
+   |                             | AdditionalData*    |               |
+   +-----------------------------+--------------------+---------------+
+   | Incident                    | purpose            | 3.2           |
+   |                             | ext-purpose?       |               |
+   |                             | status?            |               |
+   |                             | ext-status?        |               |
+   |                             | lang?              |               |
+   |                             | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | observable-id?     |               |
+   |                             | IncidentID         |               |
+   |                             | AlternativeID?     |               |
+
+
+
+Takahashi, et al.         Expires July 6, 2019                  [Page 7]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+   |                             | RelatedActivity*   |               |
+   |                             | DetectTime?        |               |
+   |                             | StartTime?         |               |
+   |                             | EndTime?           |               |
+   |                             | RecoveryTime?      |               |
+   |                             | ReportTime?        |               |
+   |                             | GenerationTime     |               |
+   |                             | Description*       |               |
+   |                             | Discovery*         |               |
+   |                             | Assessment*        |               |
+   |                             | Method*            |               |
+   |                             | Contact+           |               |
+   |                             | EventData*         |               |
+   |                             | Indicator*         |               |
+   |                             | History?           |               |
+   |                             | AdditionalData*    |               |
+   +-----------------------------+--------------------+---------------+
+   | IncidentID                  | id                 | 3.4           |
+   |                             | name               |               |
+   |                             | instance?          |               |
+   |                             | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   +-----------------------------+--------------------+---------------+
+   | AlternativeID               | restriction?       | 3.5           |
+   |                             | ext-restriction?   |               |
+   |                             | IncidentID+        |               |
+   +-----------------------------+--------------------+---------------+
+   | RelatedActivity             | restriction?       | 3.6           |
+   |                             | ext-restriction?   |               |
+   |                             | IncidentID*        |               |
+   |                             | URL*               |               |
+   |                             | ThreatActor*       |               |
+   |                             | Campaign*          |               |
+   |                             | IndicatorID*       |               |
+   |                             | Confidence?        |               |
+   |                             | Description*       |               |
+   |                             | AdditionalData*    |               |
+   +-----------------------------+--------------------+---------------+
+   | ThreatActor                 | restriction?       | 3.7           |
+   |                             | ext-restriction?   |               |
+   |                             | ThreatActorID*     |               |
+   |                             | URL*               |               |
+   |                             | Description*       |               |
+   |                             | AdditionalData*    |               |
+   +-----------------------------+--------------------+---------------+
+   | Campaign                    | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | CampaignID*        |               |
+
+
+
+Takahashi, et al.         Expires July 6, 2019                  [Page 8]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+   |                             | URL*               |               |
+   |                             | Description*       |               |
+   |                             | AdditionalData*    | 3.8           |
+   +-----------------------------+--------------------+---------------+
+   | Contact                     | role               |               |
+   |                             | ext-role?          |               |
+   |                             | type               |               |
+   |                             | ext-type?          |               |
+   |                             | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | ContactName*,      |               |
+   |                             | ContactTitle*      |               |
+   |                             | Description*       |               |
+   |                             | RegistryHandle*    |               |
+   |                             | PostalAddress*     |               |
+   |                             | Email*             |               |
+   |                             | Telephone*         |               |
+   |                             | Timezone?          |               |
+   |                             | Contact*           |               |
+   |                             | AdditionalData*    | 3.9           |
+   +-----------------------------+--------------------+---------------+
+   | RegistryHandle              | handle             |               |
+   |                             | registry           |               |
+   |                             | ext-registry?      | 3.9.1         |
+   +-----------------------------+--------------------+---------------+
+   | PostalAddress               | type?              |               |
+   |                             | ext-type?          |               |
+   |                             | PAddress           |               |
+   |                             | Description*       | 3.9.2         |
+   +-----------------------------+--------------------+---------------+
+   | Email                       | type?              |               |
+   |                             | ext-type?          |               |
+   |                             | EmailTo            |               |
+   |                             | Description*       | 3.9.3         |
+   +-----------------------------+--------------------+---------------+
+   | Telephone                   | type?              |               |
+   |                             | ext-type?          |               |
+   |                             | TelephoneNumber    |               |
+   |                             | Description*       | 3.9.4         |
+   +-----------------------------+--------------------+---------------+
+   | Discovery                   | source?            |               |
+   |                             | ext-source?        |               |
+   |                             | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | Description*       |               |
+   |                             | Contact*           |               |
+   |                             | DetectionPattern*  | 3.10          |
+   +-----------------------------+--------------------+---------------+
+
+
+
+Takahashi, et al.         Expires July 6, 2019                  [Page 9]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+   | DetectionPattern            | restriction?       | 3.10.1        |
+   |                             | ext-restriction?   |               |
+   |                             | observable-id?     |               |
+   |                             | Application        |               |
+   |                             | Description*       |               |
+   |                             | DetectionConfiguration*  |         |
+   +-----------------------------+--------------------+---------------+
+   | Method                      | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | Reference*         |               |
+   |                             | Description*       |               |
+   |                             | AttackPattern*     |               |
+   |                             | Vulnerability*     |               |
+   |                             | Weakness*          |               |
+   |                             | AdditionalData*    | 3.11          |
+   +-----------------------------+--------------------+---------------+
+   | Reference                   | observable-id?     |               |
+   |                             | ReferenceName?     |               |
+   |                             | URL*               |               |
+   |                             | Description*       | 3.11.1        |
+   +-----------------------------+--------------------+---------------+
+   | Assessment                  | occurence?         |               |
+   |                             | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | observable-id?     |               |
+   |                             | IncidentCategory*  |               |
+   |                             | SystemImpact*      |               |
+   |                             | BusinessImpact*    |               |
+   |                             | TimeImpact*        |               |
+   |                             | MonetaryImpact*    |               |
+   |                             | IntendedImpact*    |               |
+   |                             | Counter*           |               |
+   |                             | MitigatingFactor*  |               |
+   |                             | Cause*             |               |
+   |                             | Confidence?        |               |
+   |                             | AdditionalData*    | 3.12          |
+   +-----------------------------+--------------------+---------------+
+   | SystemImpact                | severity?          |               |
+   |                             | completion?        |               |
+   |                             | type               |               |
+   |                             | ext-type?          |               |
+   |                             | Description*       | 3.12.1        |
+   +-----------------------------+--------------------+---------------+
+   | BusinessImpact              | severity?          |               |
+   |                             | ext-severity?      |               |
+   |                             | type               |               |
+   |                             | ext-type?          |               |
+   |                             | Description*       | 3.12.2        |
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 10]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+   +-----------------------------+--------------------+---------------+
+   | TimeImpact                  | value              |               |
+   |                             | severity?          |               |
+   |                             | metric             |               |
+   |                             | ext-metric?        |               |
+   |                             | duration?          |               |
+   |                             | ext-duration?      | 3.12.3        |
+   +-----------------------------+--------------------+---------------+
+   | MonetaryImpact              | value              |               |
+   |                             | severity?          |               |
+   |                             | currency?          | 3.12.4        |
+   +-----------------------------+--------------------+---------------+
+   | Confidence                  | value              |               |
+   |                             | rating             |               |
+   |                             | ext-rating?        | 3.12.5        |
+   +-----------------------------+--------------------+---------------+
+   | History                     | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | HistoryItem+       | 3.13          |
+   +-----------------------------+--------------------+---------------+
+   | HistoryItem                 | action             |               |
+   |                             | ext-action?        |               |
+   |                             | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | observable-id?     |               |
+   |                             | DateTime           |               |
+   |                             | IncidentID?        |               |
+   |                             | Contact?           |               |
+   |                             | Description*       |               |
+   |                             | DefinedCOA*        |               |
+   |                             | AdditionalData*    | 3.13.1        |
+   +-----------------------------+--------------------+---------------+
+   | EventData                   | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | observable-id?     |               |
+   |                             | Description*       |               |
+   |                             | DetectTime?        |               |
+   |                             | StartTime?         |               |
+   |                             | EndTime?           |               |
+   |                             | RecoveryTime?      |               |
+   |                             | ReportTime?        |               |
+   |                             | Contact*           |               |
+   |                             | Discovery*         |               |
+   |                             | Assessment?        |               |
+   |                             | Method*            |               |
+   |                             | System*            |               |
+   |                             | Expectation*       |               |
+   |                             | RecordData*        |               |
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 11]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+   |                             | EventData*         |               |
+   |                             | AdditionalData*    | 3.14          |
+   +-----------------------------+--------------------+---------------+
+   | Expectation                 | action?            |               |
+   |                             | ext-action?        |               |
+   |                             | severity?          |               |
+   |                             | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | observable-id?     |               |
+   |                             | Description*       |               |
+   |                             | DefinedCOA*        |               |
+   |                             | StartTime?         |               |
+   |                             | EndTime?           |               |
+   |                             | Contact?           | 3.15          |
+   +-----------------------------+--------------------+---------------+
+   | System                      | category?          |               |
+   |                             | ext-category?      |               |
+   |                             | interface?         |               |
+   |                             | spoofed?           |               |
+   |                             | virtual?           |               |
+   |                             | ownership?         |               |
+   |                             | ext-ownership?     |               |
+   |                             | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | Node               |               |
+   |                             | NodeRole*          |               |
+   |                             | Service*           |               |
+   |                             | OperatingSystem*   |               |
+   |                             | Counter*           |               |
+   |                             | AssetID*           |               |
+   |                             | Description*       |               |
+   |                             | AdditionalData*    | 3.17          |
+   +-----------------------------+--------------------+---------------+
+   | Node                        | DomainData*        |               |
+   |                             | Address*           |               |
+   |                             | PostalAddress?     |               |
+   |                             | Location*          |               |
+   |                             | Counter*           | 3.18          |
+   +-----------------------------+--------------------+---------------+
+   | Address                     | value              |               |
+   |                             | category           |               |
+   |                             | ext-category?      |               |
+   |                             | vlan-name?         |               |
+   |                             | vlan-num?          |               |
+   |                             | observable-id?     | 3.18.1        |
+   +-----------------------------+--------------------+---------------+
+   | NodeRole                    | category           |               |
+   |                             | ext-category?      |               |
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 12]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+   |                             | Description*       | 3.18.2        |
+   +-----------------------------+--------------------+---------------+
+   | Counter                     | value              |               |
+   |                             | type               |               |
+   |                             | ext-type?          |               |
+   |                             | unit               |               |
+   |                             | ext-unit?          |               |
+   |                             | meaning?           |               |
+   |                             | duration?          |               |
+   |                             | ext-duration?      | 3.18.3        |
+   +-----------------------------+--------------------+---------------+
+   | DomainData                  | system-status      |               |
+   |                             | ext-system-status? |               |
+   |                             | domain-status      |               |
+   |                             | ext-domain-status? |               |
+   |                             | observable-id?     |               |
+   |                             | Name               |               |
+   |                             | DateDomainWasChecked?|             |
+   |                             | RegistrationDate?  |               |
+   |                             | ExpirationDate?    |               |
+   |                             | RelatedDNS*        |               |
+   |                             | Nameservers*       |               |
+   |                             | DomainContacts?    | 3.19          |
+   +-----------------------------+--------------------+---------------+
+   | Nameserver                  | Server             |               |
+   |                             | Address*           | 3.19.1        |
+   +-----------------------------+--------------------+---------------+
+   | DomainContacts              | SameDomainContact? |               |
+   |                             | Contact+           | 3.19.2        |
+   +-----------------------------+--------------------+---------------+
+   | Service                     | ip-protocol?       |               |
+   |                             | observable-id?     |               |
+   |                             | ServiceName?       |               |
+   |                             | Port?              |               |
+   |                             | Portlist?          |               |
+   |                             | ProtoCode?         |               |
+   |                             | ProtoType?         |               |
+   |                             | ProtoField?        |               |
+   |                             | ApplicationHeaderField*|           |
+   |                             | EmailData?         |               |
+   |                             | Application?       | 3.20          |
+   +-----------------------------+--------------------+---------------+
+   | ServiceName                 | IANAService?       |               |
+   |                             | URL*               |               |
+   |                             | Description*       | 3.20.1        |
+   +-----------------------------+--------------------+---------------+
+   | EmailData                   | observable-id?     |               |
+   |                             | EmailTo*           |               |
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 13]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+   |                             | EmailFrom?         |               |
+   |                             | EmailSubject?      |               |
+   |                             | EmailX-Mailer?     |               |
+   |                             | EmailHeaderField*  |               |
+   |                             | EmailHeaders?      |               |
+   |                             | EmailBody?         |               |
+   |                             | EmailMessage?      |               |
+   |                             | HashData*          |               |
+   |                             | Signature*         | 3.21          |
+   +-----------------------------+--------------------+---------------+
+   | RecordData                  | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | observable-id?     |               |
+   |                             | DateTime?          |               |
+   |                             | Description*       |               |
+   |                             | Application?       |               |
+   |                             | RecordPattern*     |               |
+   |                             | RecordItem*        |               |
+   |                             | URL*               |               |
+   |                             | FileData*          |               |
+   |                             | WindowsRegistryKeysModified*|      |
+   |                             | CertificateData*   |               |
+   |                             | AdditionalData*    | 3.22.1        |
+   +-----------------------------+--------------------+---------------+
+   | RecordPattern               | type               |               |
+   |                             | ext-type?          |               |
+   |                             | offset?            |               |
+   |                             | offsetunit?        |               |
+   |                             | ext-offsetunit?    |               |
+   |                             | instance?          |               |
+   |                             | value              | 3.22.2        |
+   +-----------------------------+--------------------+---------------+
+   | WindowsRegistryKeysModified | observable-id?     | 3.23          |
+   |                             | Key+               |               |
+   +-----------------------------+--------------------+---------------+
+   | Key                         | registryaction?    |               |
+   |                             | ext-registryaction?|               |
+   |                             | observable-id?     |               |
+   |                             | KeyName            |               |
+   |                             | KeyValue?          | 3.23.1        |
+   +-----------------------------+--------------------+---------------+
+   | CertificateData             | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | observable-id?     |               |
+   |                             | Certificate+       | 3.24          |
+   +-----------------------------+--------------------+---------------+
+   | Certificate                 | observable-id?     |               |
+   |                             | X509Data           |               |
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 14]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+   |                             | Description*       | 3.24.1        |
+   +-----------------------------+--------------------+---------------+
+   | FileData                    | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | observable-id?     |               |
+   |                             | File+              | 3.25          |
+   +-----------------------------+--------------------+---------------+
+   | File                        | observable-id?     |               |
+   |                             | FileName?          |               |
+   |                             | FileSize?          |               |
+   |                             | FileType?          |               |
+   |                             | URL*               |               |
+   |                             | HashData?          |               |
+   |                             | Signature*         |               |
+   |                             | AssociatedSoftware?|               |
+   |                             | FileProperties*    | 3.25.1        |
+   +-----------------------------+--------------------+---------------+
+   | HashData                    | scope              |               |
+   |                             | HashTargetID?      |               |
+   |                             | Hash*              |               |
+   |                             | FuzzyHash*         | 3.26          |
+   +-----------------------------+--------------------+---------------+
+   | Hash                        | DigestMethod       |               |
+   |                             | DigestValue        |               |
+   |                             | CanonicalizationMethod?|           |
+   |                             | Application?       | 3.26.1        |
+   +-----------------------------+--------------------+---------------+
+   | FuzzyHash                   | FuzzyHashValue+    |               |
+   |                             | Application?       |               |
+   |                             | AdditionalData*    | 3.26.2        |
+   +-----------------------------+--------------------+---------------+
+   | Indicator                   | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | IndicatorID        |               |
+   |                             | AlternativeIndicatorID*|           |
+   |                             | Description*       |               |
+   |                             | StartTime?         |               |
+   |                             | EndTime?           |               |
+   |                             | Confidence?        |               |
+   |                             | Contact*           |               |
+   |                             | Observable?        |               |
+   |                             | uid-ref?           |               |
+   |                             | IndicatorExpression?|              |
+   |                             | IndicatorReference?|               |
+   |                             | NodeRole*          |               |
+   |                             | AttackPhase*       |               |
+   |                             | Reference*         |               |
+   |                             | AdditionalData*    | 3.29          |
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 15]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+   +-----------------------------+--------------------+---------------+
+   | IndicatorID                 | id                 |               |
+   |                             | name               |               |
+   |                             | version            | 3.29.1        |
+   +-----------------------------+--------------------+---------------+
+   | AlternativeIndicatorID      | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | IndicatorID+       | 3.29.2        |
+   +-----------------------------+--------------------+---------------+
+   | Observable                  | restriction?       |               |
+   |                             | ext-restriction?   |               |
+   |                             | System?            |               |
+   |                             | Address?           |               |
+   |                             | DomainData?        |               |
+   |                             | Service?           |               |
+   |                             | EmailData?         |               |
+   |                             | WindowsRegistryKeysModified?|      |
+   |                             | FileData?          |               |
+   |                             | CertificateData?   |               |
+   |                             | RegistryHandle?    |               |
+   |                             | RecordData?        |               |
+   |                             | EventData?         |               |
+   |                             | Incident?          |               |
+   |                             | Expectation?       |               |
+   |                             | Reference?         |               |
+   |                             | Assessment?        |               |
+   |                             | DetectionPattern?  |               |
+   |                             | HistoryItem?       |               |
+   |                             | BulkObservable?    |               |
+   |                             | AdditionalData*    | 3.29.3        |
+   +-----------------------------+--------------------+---------------+
+   | BulkObservable              | type?              |               |
+   |                             | ext-type?          |               |
+   |                             | BulkObservableFormat?|             |
+   |                             | BulkObservableList |               |
+   |                             | AdditionalData*    | 3.29.4        |
+   +-----------------------------+--------------------+---------------+
+   | BulkObservableFormat        | Hash?              |               |
+   |                             | AdditionalData*    | 3.29.5        |
+   +-----------------------------+--------------------+---------------+
+   | IndicatorExpression         | operator?          |               |
+   |                             | ext-operator?      |               |
+   |                             | IndicatorExpression*|              |
+   |                             | Observable*        |               |
+   |                             | uid-ref*           |               |
+   |                             | IndicatorReference*|               |
+   |                             | Confidence?        |               |
+   |                             | AdditionalData*    | 3.29.6        |
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 16]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+   +-----------------------------+--------------------+---------------+
+   | IndicatorReference          | uid-ref?           |               |
+   |                             | euid-ref?          |               |
+   |                             | version?           | 3.29.7        |
+   +-----------------------------+--------------------+---------------+
+   | AttackPhase                 | AttackPhaseID*     |               |
+   |                             | URL*               |               |
+   |                             | Description*       |               |
+   |                             | AdditionalData*    | 3.29.8        |
+   +-----------------------------+--------------------+---------------+
+
+                          Figure 3: IODEF Classes
+
+3.2.  Mapping between CBOR/JSON and XML IODEF
+
+   o  This document treats attributes and elements of each class defined
+      in [RFC7970] equally and is agnostic on the order of their
+      appearances.
+
+   o  Flow class is deleted, and classes with its instances now directly
+      have instances of EventData class that used to belong to the Flow
+      classs.
+
+   o  ApplicationHeader class is deleted, and classes with its instances
+      now directly have instances of ApplicationHeaderField class that
+      used to belong to the ApplicationHeader class.
+
+   o  SignatureData class is deleted, and classes with its instances now
+      directly have instance of Signature class that used to belong to
+      the SignatureData class.
+
+   o  IndicatorData class is deleted, and classes with its instances now
+      directly have the instances of Indicator class that used to belong
+      to the IndicatorData class.
+
+   o  ObservableReference class is deleted, and classes with its
+      instances now directly have uid-ref as an element.
+
+   o  Record class is replaced by RecordData class, and RecordData class
+      is renamed to Record class.
+
+   o  Record class is deleted, and classes with its instances now
+      directly have the instances of RecordData class that used to
+      belong to the Record class.
+
+   o  The MLStringType were modified to support simple string by
+      allowing the type to have not only a predefined object type but
+
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 17]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+      also text type, in order to allow simple descriptions of elements
+      of the type.
+
+   o  The elements of ML_STRING type in XML IODEF document are presented
+      as either STRING type or ML_STRING type in CBOR/JSON IODEF
+      document.
+
+   o  Data models of the extension classes defined by [RFC7203] and
+      referenced by [RFC7970] are represented by StructuredInfo class
+      defined in this document.
+
+   o  Signature, X509Data, and RawData are encoded with base64 and are
+      reprensetend as string (BYTE type) in CBOR/JSON IODEF documents.
+
+4.  Examples
+
+   This section provides examples of IODEF documents.  These examples do
+   not represent the full capabilities of the data model or the only way
+   to encode particular information.
+
+4.1.  Minimal Example
+
+   A document containing only the mandatory elements and attributes is
+   shown below in JSON and CBOR, respectively.
+
+   {
+     "version": "2.0",
+     "lang": "en",
+     "Incident": [{
+         "purpose": "reporting",
+         "restriction": "private",
+         "IncidentID": {
+           "id": "492382",
+           "name": "csirt.example.com"
+         },
+         "GenerationTime": "2015-07-18T09:00:00-05:00",
+         "Contact": [{
+             "type": "organization",
+             "role": "creator",
+             "Email": [{"EmailTo": "contact@csirt.example.com"}]
+         }]
+     }]
+   }
+
+                    Figure 4: A Minimal Example in JSON
+
+   A3                                      # map(3)
+     67                                    # text(7)
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 18]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+       76657273696F6E                      # "version"
+     63                                    # text(3)
+       322E30                              # "2.0"
+     64                                    # text(4)
+       6C616E67                            # "lang"
+     62                                    # text(2)
+       656E                                # "en"
+     68                                    # text(8)
+       496E636964656E74                    # "Incident"
+     81                                    # array(1)
+       A5                                  # map(5)
+         67                                # text(7)
+           707572706F7365                  # "purpose"
+         69                                # text(9)
+           7265706F7274696E67              # "reporting"
+         6B                                # text(11)
+           7265737472696374696F6E          # "restriction"
+         67                                # text(7)
+           70726976617465                  # "private"
+         6A                                # text(10)
+           496E636964656E744944            # "IncidentID"
+         A2                                # map(2)
+           62                              # text(2)
+             6964                          # "id"
+           66                              # text(6)
+             343932333832                  # "492382"
+           64                              # text(4)
+             6E616D65                      # "name"
+           71                              # text(17)
+             63736972742E6578616D706C652E636F6D # "csirt.example.com"
+         6E                                # text(14)
+           47656E65726174696F6E54696D65    # "GenerationTime"
+         C0                                # tag(0)
+           78 19                           # text(25)
+             323031352D30372D31385430393A30303A30302D30353A3030
+                                           # "2015-07-18T09:00:00-05:00"
+         67                                # text(7)
+           436F6E74616374                  # "Contact"
+         81                                # array(1)
+           A3                              # map(3)
+             64                            # text(4)
+               74797065                    # "type"
+             6C                            # text(12)
+               6F7267616E697A6174696F6E    # "organization"
+             64                            # text(4)
+               726F6C65                    # "role"
+             67                            # text(7)
+               63726561746F72              # "creator"
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 19]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+             65                            # text(5)
+               456D61696C                  # "Email"
+             81                            # array(1)
+               A1                          # map(1)
+                 67                        # text(7)
+                   456D61696C546F          # "EmailTo"
+                 78 19                     # text(25)
+                   636F6E746163744063736972742E6578616D706C652E636F6D
+                                           # "contact@csirt.example.com"
+
+
+                    Figure 5: A Minimal Example in CBOR
+
+4.2.  Indicators from a Campaign
+
+   An example of C2 domains from a given campaign is shwon below in JSON
+   and CBOR, respectively.
+
 {
   "version": "2.0",
   "lang": "en",
@@ -961,9 +1112,17 @@ A3                                      # map(3)
     "Contact": [{
       "type": "organization",
       "role": "creator",
-      "ContactName": ["CSIRT for example.com"],    
-      "Email": [{                           
-        "EmailTo": "contact@csirt.example.com"  
+      "ContactName": ["CSIRT for example.com"],
+      "Email": [{
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 20]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+        "EmailTo": "contact@csirt.example.com"
       }]
     }],
     "Indicator": [{
@@ -977,16 +1136,14 @@ A3                                      # map(3)
       "Observable": {
         "BulkObservable": {
           "type": "ipv6-addr",
-          "BulkObservableList": "kj290023j09r34.example.com"}  
+          "BulkObservableList": "kj290023j09r34.example.com"}
       }
     }]
   }]
-}]]></artwork>
-</figure>
+}
 
+               Figure 6: Indicators from a Campaign in JSON
 
-<figure align="center" anchor="campaign_example_cbor" title="Indicators from a Campaign in CBOR">
-<artwork align="left"><![CDATA[
 A3                                      # map(3)
   67                                    # text(7)
     76657273696F6E                      # "version"
@@ -1013,6 +1170,14 @@ A3                                      # map(3)
       A2                                # map(2)
         62                              # text(2)
           6964                          # "id"
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 21]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
         66                              # text(6)
           383937393233                  # "897923"
         64                              # text(4)
@@ -1057,10 +1222,18 @@ A3                                      # map(3)
         47656E65726174696F6E54696D65    # "GenerationTime"
       C0                                # tag(0)
         78 19                           # text(25)
-          323031352D31302D30325431313A31383A30302D30353A3030 
+          323031352D31302D30325431313A31383A30302D30353A3030
                                         # "2015-10-02T11:18:00-05:00"
       6B                                # text(11)
         4465736372697074696F6E          # "Description"
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 22]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
       81                                # array(1)
         78 6F                           # text(111)
           53756D6D6172697A65732074686520496E64696361746F7273206F6620436
@@ -1109,6 +1282,14 @@ A3                                      # map(3)
             A1                          # map(1)
               67                        # text(7)
                 456D61696C546F          # "EmailTo"
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 23]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
               78 19                     # text(25)
                 636F6E746163744063736972742E6578616D706C652E636F6D
                                       # "contact@csirt.example.com"
@@ -1126,7 +1307,7 @@ A3                                      # map(3)
             64                          # text(4)
               6E616D65                  # "name"
             71                          # text(17)
-              63736972742E6578616D706C652E636F6D 
+              63736972742E6578616D706C652E636F6D
                                         # "csirt.example.com"
             67                          # text(7)
               76657273696F6E            # "version"
@@ -1157,21 +1338,21 @@ A3                                      # map(3)
                 42756C6B4F627365727661626C654C697374
                                         # "BulkObservableList"
               78 1A                     # text(26)
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 24]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
                 6B6A3239303032336A30397233342E6578616D706C652E636F6D
                                         # "kj290023j09r34.example.com"
-]]></artwork>
-</figure>
 
+               Figure 7: Indicators from a Campaign in CBOR
 
-</section>
+5.  The IODEF Data Model (CDDL)
 
-</section>
-
-
-<section title="The IODEF Data Model (CDDL)" anchor="cddlSection">
-
-<figure align="center" anchor="cddl" title="Data Model in CDDL">
-<artwork align="left"><![CDATA[
 start = iodef
 
 ;;; iodef.json: IODEF-Document
@@ -1213,6 +1394,14 @@ DATETIME = tdate
 BYTE = eb64legacy
 
 MLStringType = {
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 25]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
     value: text
     ? lang: lang
     ? translation-id: text
@@ -1227,7 +1416,7 @@ ExtensionType  = {
  ? name: text
  dtype: "boolean" / "byte" / "bytes" / "character" / "date-time" /
           "ntpstamp" / "integer" / "portlist" / "real" / "string" /
-          "file" / "path" / "frame" / "packet" / "ipv4-packet" / "json" /
+          "file" / "path" / "frame" / "packet" / "ipv4-packet" / "json"/
           "ipv6-packet" / "url" / "csv" / "winreg" / "xml" / "ext-value"
           .default "string"
  ? ext-dtype: text
@@ -1261,6 +1450,14 @@ Incident = {
            "ext-value"
  ? ext-status: text
  ? lang: lang
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 26]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
  ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? observable-id: IDtype
@@ -1309,6 +1506,14 @@ RelatedActivity = {
  ? Confidence: Confidence
  ? Description: [+ text]
  ? AdditionalData: [+ ExtensionType]
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 27]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
 }
 
 ThreatActor = {
@@ -1358,6 +1563,13 @@ RegistryHandle = {
  ? ext-registry: text
 }
 
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 28]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
 PostalAddress = {
  ? type: "street" / "mailing" / "ext-value"
  ? ext-type: text
@@ -1406,6 +1618,14 @@ Method = {
  ? ext-restriction: text
  ? Reference: [+ Reference]
  ? Description: [+ MLStringType]
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 29]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
  ? AttackPattern: [+ StructuredInfo]
  ? Vulnerability: [+ StructuredInfo]
  ? Weakness: [+ StructuredInfo]
@@ -1454,6 +1674,14 @@ Assessment = {
  ? observable-id: IDtype
  ? IncidentCategory: [+ MLStringType]
  Impact: [+ {SystemImpact: SystemImpact} /
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 30]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
           {BusinessImpact: BusinessImpact} / {TimeImpact: TimeImpact} /
           {MonetaryImpact: MonetaryImpact} /
           {IntendedImpact: BusinessImpact}]
@@ -1474,7 +1702,7 @@ SystemImpact = {
        "breach-proprietary" / "breach-privacy" / "breach-credential" /
        "breach-configuration" / "integrity-data" /
        "integrity-configuration" / "integrity-hardware" /
-       "traffic-redirection" / "monitoring-traffic" / "monitoring-host" /
+       "traffic-redirection" / "monitoring-traffic" / "monitoring-host"/
        "policy" / "unknown" / "ext-value" .default "unknown"
  ? ext-type: text
  ? Description: [+ MLStringType]
@@ -1501,6 +1729,14 @@ TimeImpact = {
  ? duration: duration .default "hour"
  ? ext-duration: text
 }
+
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 31]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
 
 MonetaryImpact = {
  value: PositiveFloatType
@@ -1550,6 +1786,14 @@ EventData = {
  ? Method: [+ Method]
  ? System: [+ System]
  ? Expectation: [+ Expectation]
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 32]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
  ? RecordData: [+ RecordData]
  ? EventData: [+ EventData]
  ? AdditionalData: [+ ExtensionType]
@@ -1594,10 +1838,18 @@ System = {
 
 Node = {
  (DomainData:[+ DomainData]
-  ? Address:[+ Address] // 
+  ? Address:[+ Address] //
   ? DomainData:[+ DomainData]
   Address:[+ Address])
  ? PostalAddress: PostalAddress
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 33]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
  ? Location: [+ MLStringType]
  ? Counter: [+ Counter]
 }
@@ -1647,6 +1899,13 @@ Counter = {
  ? ext-duration: text
 }
 
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 34]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
 DomainData = {
  system-status: "spoofed" / "fraudulent" / "innocent-hacked" /
                 "innocent-hijacked" / "unknown" / "ext-value"
@@ -1694,6 +1953,14 @@ ServiceName = {
  ? URL: [+ URLtype]
  ? Description: [+ MLStringType]
 }
+
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 35]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
 
 EmailData = {
  ? observable-id: IDtype
@@ -1743,6 +2010,14 @@ WindowsRegistryKeysModified = {
 Key = {
  ? registryaction: "add-key" / "add-value" / "delete-key" /
                    "delete-value" / "modify-key" / "modify-value" /
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 36]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
                    "ext-value"
  ? ext-registryaction: text
  ? observable-id: IDtype
@@ -1791,6 +2066,14 @@ HashData = {
  ? FuzzyHash: [+ FuzzyHash]
 }
 
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 37]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
 Hash = {
  DigestMethod: BYTE
  DigestValue: BYTE
@@ -1814,8 +2097,8 @@ Indicator = {
  ? EndTime: DATETIME
  ? Confidence: Confidence
  ? Contact: [+ Contact]
- (Observable: Observable // uid-ref: IDREFType // 
-  IndicatorExpression: IndicatorExpression // 
+ (Observable: Observable // uid-ref: IDREFType //
+  IndicatorExpression: IndicatorExpression //
   IndicatorReference: IndicatorReference)
  ? NodeRole: [+ NodeRole]
  ? AttackPhase: [+ AttackPhase]
@@ -1838,15 +2121,24 @@ AlternativeIndicatorID = {
 Observable = {
  ? restriction: restriction .default "private"
  ? ext-restriction: text
- ? (System: System // Address: Address // DomainData: DomainData // 
-  EmailData: EmailData // Service: Service // 
-  WindowsRegistryKeysModified: WindowsRegistryKeysModified // 
-  FileData: FileData // CertificateData: CertificateData // 
+ ? (System: System // Address: Address // DomainData: DomainData //
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 38]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+  EmailData: EmailData // Service: Service //
+  WindowsRegistryKeysModified: WindowsRegistryKeysModified //
+  FileData: FileData // CertificateData: CertificateData //
   RegistryHandle: RegistryHandle // RecordData: RecordData //
-  EventData: EventData // Incident: Incident // Expectation: Expectation //
-  Reference: Reference // Assessment: Assessment // 
-  DetectionPattern: DetectionPattern // HistoryItem: HistoryItem // 
-  BulkObservable: BulkObservable // AdditionalData: [+ ExtensionType])
+  EventData: EventData // Incident: Incident //
+  Expectation: Expectation // Reference: Reference //
+  Assessment: Assessment // DetectionPattern: DetectionPattern //
+  HistoryItem: HistoryItem // BulkObservable: BulkObservable //
+  AdditionalData: [+ ExtensionType])
 }
 
 BulkObservable = {
@@ -1886,132 +2178,104 @@ IndicatorReference = {
 
 AttackPhase = {
  ? AttackPhaseID: [+ text]
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 39]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
  ? URL: [+ URLtype]
  ? Description: [+ MLStringType]
  ? AdditionalData: [+ ExtensionType]
 }
-]]></artwork>
-</figure>
 
+                       Figure 8: Data Model in CDDL
 
-</section>
+6.  IANA Considerations
 
-   <section anchor="Acknowledgements" title="Acknowledgements">
-     <t>We would like to thank Henk Birkholz, Carsten Bormann, Yasuaki Morita, and Takahiko Nagata for their insightful comments on CDDL.</t>
-   </section>
+   This document registers an IODEF data model in CDDL.  See Section 5.
 
-   <section anchor="IANA" title="IANA Considerations">
-     <t> This document registers a JSON schema.</t>
-   </section>
+7.  Security Considerations
 
-   <section anchor="Security" title="Security Considerations">
-     <t>This memo does not provide any further security considerations than the one described in <xref target="RFC7970" />.</t>
-   </section>
+   This memo does not provide any further security considerations than
+   the one described in [RFC7970].
 
+8.  Acknowledgements
 
+   We would like to thank Henk Birkholz, Carsten Bormann, Yasuaki
+   Morita, and Takahiko Nagata for their insightful comments on CDDL.
 
+9.  References
 
+9.1.  Normative References
 
- </middle>
+   [cddlspec]
+              Henk Birkholz, Christoph Vigano, and Carsten Bormann,
+              "Concise data definition language (CDDL): a notational
+              convention to express CBOR and JSON data structuresy",
+              2018.
 
- <!--  *****BACK MATTER ***** -->
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
 
- <back>
-   <!-- References split into informative and normative -->
+   [RFC7203]  Takahashi, T., Landfield, K., and Y. Kadobayashi, "An
+              Incident Object Description Exchange Format (IODEF)
+              Extension for Structured Cybersecurity Information",
+              RFC 7203, DOI 10.17487/RFC7203, April 2014,
+              <https://www.rfc-editor.org/info/rfc7203>.
 
-   <!-- There are 2 ways to insert reference entries from the citation libraries:
-    1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
-    2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
-       (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
-
-    Both are cited textually in the same manner: by using xref elements.
-    If you use the PI option, xml2rfc will, by default, try to find included files in the same
-    directory as the including file. You can also define the XML_LIBRARY environment variable
-    with a value containing a set of directories to search.  These can be either in the local
-    filing system or remote ones accessed by http (http://domain/dir/... ).-->
-
-   <references title="Normative References">
-     <!--?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
-     &RFC2119;
-     &RFC7203;
-     &RFC7970;
-
-     <reference anchor="cddlspec">
-        <front>
-          <title>Concise data definition language (CDDL): a notational convention to express CBOR and JSON data structuresy</title>
-          <author>
-            <organization>Henk Birkholz, Christoph Vigano, and Carsten Bormann</organization>
-          </author>
-          <date year="2018" />
-        </front>
-        <format type="TXT" target="https://tools.ietf.org/html/draft-ietf-cbor-cddl-05" />
-     </reference>
-
-<!--
-     <reference anchor="jsonschema">
-
-       <front>
-         <title>JSON Schema</title>
-
-         <author>
-           <organization></organization>
-         </author>
-
-         <date year="2006" />
-       </front>
-       <annotation>http://json-schema.org/</annotation>
-     </reference>
--->
-   </references>
-
-   <references title="Informative References">
-     <!-- Here we use entities that we defined at the beginning. -->
-
-     <reference anchor="jsonschema">
-        <front>
-          <title>JSON Schema: core definitions and terminology</title>
-          <author>
-            <organization> Francis Galiegue, Kris Zyp, and Gary Court</organization>
-          </author>
-          <date year="2013" />
-        </front>
-        <format type="TXT" target="https://tools.ietf.org/html/draft-zyp-json-schema-04" />
-     </reference>
-
-     <!-- A reference written by by an organization not a person. -->
-
-   </references>
+   [RFC7970]  Danyliw, R., "The Incident Object Description Exchange
+              Format Version 2", RFC 7970, DOI 10.17487/RFC7970,
+              November 2016, <https://www.rfc-editor.org/info/rfc7970>.
 
 
 
-<section title="Data Types used in this document" anchor="supportedCborDataType">
-
-
-<t>The CDDL prelude used in this document is mapped to JSON as shown in the table below.</t>
-
-<figure align="center" anchor="cborDataType"><artwork align="left"><![CDATA[
-+-----------------+-------------------+----------------------------+
-| CDDL Prelude    | Use of JSON   |  Instance | Validation         |
-+-----------------+-------------------+----------------------------+
-| bytes           | n/a           | string    | tool available     |
-| text            | string        | string    | unnecessary        |
-| tdate           | n/a           | string    | 7.3.1 date-time    |
-| integer         | n/a           | number    | integer            |
-| eb64legacy      | n/a           | string    | tool available     |
-| uri             | n/a           | string    | 7.3.6 uri          |
-| float32         | float32       | number    | unnecessary        |
-+-----------------+-------------------+----------------------------+
-]]></artwork></figure>
-
-</section>
 
 
 
-<section title="The IODEF Data Model (JSON Schema)" anchor="jsonSchemaSection">
-<t>This section provides a JSON schema that defines the IODEF Data Model defined in this draft.</t>
+Takahashi, et al.         Expires July 6, 2019                 [Page 40]
+
+Internet-Draft                 JSON-IODEF                   January 2019
 
-<figure align="center" anchor="jsonSchema" title="JSON schema">
-<artwork align="left"><![CDATA[
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+9.2.  Informative References
+
+   [jsonschema]
+              Francis Galiegue, Kris Zyp, and Gary Court, "JSON Schema:
+              core definitions and terminology", 2013.
+
+Appendix A.  Data Types used in this document
+
+   The CDDL prelude used in this document is mapped to JSON as shown in
+   the table below.
+
+   +-----------------+-------------------+----------------------------+
+   | CDDL Prelude    | Use of JSON   |  Instance | Validation         |
+   +-----------------+-------------------+----------------------------+
+   | bytes           | n/a           | string    | tool available     |
+   | text            | string        | string    | unnecessary        |
+   | tdate           | n/a           | string    | 7.3.1 date-time    |
+   | integer         | n/a           | number    | integer            |
+   | eb64legacy      | n/a           | string    | tool available     |
+   | uri             | n/a           | string    | 7.3.6 uri          |
+   | float32         | float32       | number    | unnecessary        |
+   +-----------------+-------------------+----------------------------+
+
+                  Figure 9: CDDL Prelude mapping in JSON
+
+Appendix B.  The IODEF Data Model (JSON Schema)
+
+   This section provides a JSON schema that defines the IODEF Data Model
+   defined in this draft.
+
 { "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
     "action": {"enum": ["nothing","contact-source-site",
@@ -2026,6 +2290,14 @@ AttackPhase = {
        "quarter","year","ext-value"]},
     "SpecID":{
       "enum":["urn:ietf:params:xml:ns:mile:mmdef:1.2","private"]},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 41]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
     "lang": {
       "type":"string","pattern":"^$|[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*"},
     "purpose": {"enum": ["traceback","mitigation","reporting","watch",
@@ -2074,6 +2346,14 @@ AttackPhase = {
         "ext-restriction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"}},
       "required": ["value","dtype"],
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 42]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
       "additionalProperties":false},
     "ExtensionTypeList": {
       "type": "array",
@@ -2122,6 +2402,14 @@ AttackPhase = {
         },
         "Platform": {
           "type": "array",
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 43]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
           "items": {"$ref": "#/definitions/Platform"},
           "minItems": 1
         },
@@ -2170,7 +2458,15 @@ AttackPhase = {
           "items": {"$ref": "#/definitions/Reference"},
           "minItems": 1}},
       "required": ["SpecID"],
-      "additionalProperties": false}, 
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 44]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+      "additionalProperties": false},
     "Incident": {
       "title": "Incident",
       "description": "JSON schema for Incident class",
@@ -2218,6 +2514,14 @@ AttackPhase = {
           "items": {"$ref": "#/definitions/Contact"},
           "minItems": 1},
         "EventData": {
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 45]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
           "type": "array",
           "items": {"$ref": "#/definitions/EventData"},
           "minItems": 1},
@@ -2237,7 +2541,7 @@ AttackPhase = {
         "id": {"type": "string"},
         "name": {"type": "string"},
         "instance": {"type": "string"},
-        "restriction": {"$ref": "#/definitions/restriction", 
+        "restriction": {"$ref": "#/definitions/restriction",
                         "default": "private"},
         "ext-restriction": {"type": "string"}},
       "required": ["id","name"],
@@ -2266,6 +2570,14 @@ AttackPhase = {
           "items": {"$ref": "#/definitions/IncidentID"},
           "minItems": 1},
         "URL": {
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 46]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
           "type": "array",
           "items": {"$ref": "#/definitions/URLtype"},
           "minItems": 1},
@@ -2314,6 +2626,14 @@ AttackPhase = {
         "ext-restriction": {"type": "string"},
         "CampaignID": {
           "type": "array",
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 47]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
           "items": {"type": "string"},
           "minItems": 1},
         "URL": {
@@ -2362,6 +2682,14 @@ AttackPhase = {
         "Email": {
           "type": "array",
           "items": {"$ref": "#/definitions/Email"},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 48]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
           "minItems": 1},
         "Telephone": {
           "type": "array",
@@ -2410,6 +2738,14 @@ AttackPhase = {
           "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1}},
       "required": ["EmailTo"],
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 49]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
       "additionalProperties": false},
     "Telephone": {
       "type": "object",
@@ -2458,6 +2794,14 @@ AttackPhase = {
                         "default": "private"},
         "ext-restriction": {"type": "string"},
         "observable-id": {"$ref": "#/definitions/IDtype"},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 50]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
         "Application": {"$ref": "#/definitions/SoftwareType"},
         "Description": {
           "type": "array",
@@ -2506,6 +2850,14 @@ AttackPhase = {
       "type": "object",
       "properties": {
         "observable-id": {"$ref": "#/definitions/IDtype"},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 51]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
         "ReferenceName": {"$ref":"#/definitions/ReferenceName"},
         "URL":{
           "type":"array",
@@ -2546,7 +2898,7 @@ AttackPhase = {
              "MonetaryImpact":{"$ref":"#/definitions/MonetaryImpact"},
              "IntendedImpact":{"$ref":"#/definitions/BusinessImpact"}},
            "additionalProperties":false},
-         "minItems" : 1       
+         "minItems" : 1
         },
         "Counter": {
           "type": "array",
@@ -2554,6 +2906,14 @@ AttackPhase = {
           "minItems": 1},
         "MitigatingFactor": {
           "type": "array",
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 52]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
           "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1},
         "Cause": {
@@ -2602,6 +2962,14 @@ AttackPhase = {
         "Description": {
           "type": "array",
           "items": {"$ref": "#/definitions/MLStringType"},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 53]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
           "minItems": 1}},
       "required": ["type"],
       "additionalProperties": false},
@@ -2650,6 +3018,14 @@ AttackPhase = {
       "properties": {
         "action": {"$ref": "#/definitions/action","default": "other"},
         "ext-action": {"type": "string"},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 54]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
         "restriction": {"$ref": "#/definitions/restriction",
                         "default": "private"},
         "ext-restriction": {"type": "string"},
@@ -2698,6 +3074,14 @@ AttackPhase = {
         "System": {
           "type": "array",
           "items": {"$ref": "#/definitions/System"},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 55]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
           "minItems": 1},
         "Expectation": {
           "type": "array",
@@ -2746,6 +3130,14 @@ AttackPhase = {
         "ext-category": {"type": "string"},
         "interface": {"type": "string"},
         "spoofed": {"enum": ["unknown","yes","no"],"default":"unknown"},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 56]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
         "virtual": {"enum": ["yes","no","unknown"],"default":"unknown"},
         "ownership": {
           "enum":["organization","personal","partner","customer",
@@ -2794,6 +3186,14 @@ AttackPhase = {
           "type": "array",
           "items": {"$ref": "#/definitions/Address"},
           "minItems": 1},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 57]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
         "PostalAddress": {"$ref": "#/definitions/PostalAddress"},
         "Location": {
           "type": "array",
@@ -2842,6 +3242,14 @@ AttackPhase = {
             "spear-phishing-site","recruiting-site","fraudulent-site",
             "ext-value"]},
         "ext-category": {"type": "string"},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 58]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
         "Description": {
           "type": "array",
           "items": {"$ref": "#/definitions/MLStringType"},
@@ -2890,6 +3298,14 @@ AttackPhase = {
           "minItems": 1},
         "DomainContacts": {"$ref": "#/definitions/DomainContacts"}},
       "required": ["Name","system-status","domain-status"],
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 59]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
       "additionalProperties": false},
     "NameServers": {
       "type": "object",
@@ -2934,9 +3350,18 @@ AttackPhase = {
       "type": "object",
       "properties": {
         "IANAService": {"type": "string"},
-        "URL": {"type": "array","items": {"$ref": "#/definitions/URLtype"}},
+        "URL": {
+          "type": "array","items": {"$ref": "#/definitions/URLtype"}},
         "Description": {
           "type": "array",
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 60]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
           "items": {"$ref": "#/definitions/MLStringType"},
           "minItems": 1}},
       "required": [],
@@ -2985,6 +3410,14 @@ AttackPhase = {
         "RecordPattern": {
           "type": "array",
           "items": {"$ref": "#/definitions/RecordPattern"},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 61]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
           "minItems": 1},
         "RecordItem": {
           "type": "array",
@@ -3033,6 +3466,14 @@ AttackPhase = {
           "minItems": 1}},
       "required": ["Key"],
       "additionalProperties": false},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 62]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
     "Key": {
       "type": "object",
       "properties": {
@@ -3081,6 +3522,14 @@ AttackPhase = {
           "minItems": 1}},
       "required": ["File"],
       "additionalProperties": false},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 63]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
     "File": {
       "type": "object",
       "properties": {
@@ -3109,7 +3558,8 @@ AttackPhase = {
       "properties": {
         "scope": {"enum": ["file-contents","file-pe-section",
           "file-pe-iat","file-pe-resource","file-pdf-object",
-          "email-hash","email-headers-hash","email-body-hash","ext-value"]},
+          "email-hash","email-headers-hash","email-body-hash",
+          "ext-value"]},
         "HashTargetID": {"type": "string"},
         "Hash": {
           "type": "array",
@@ -3128,6 +3578,14 @@ AttackPhase = {
         "DigestValue": {"$ref": "#/definitions/BYTE"},
         "CanonicalizationMethod": {"$ref": "#/definitions/BYTE"},
         "Application": {"$ref": "#/definitions/SoftwareType"}},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 64]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
       "required": ["DigestMethod","DigestValue"],
       "additionalProperties": false},
     "FuzzyHash": {
@@ -3176,6 +3634,14 @@ AttackPhase = {
         "AttackPhase": {
           "type": "array",
           "items": {"$ref": "#/definitions/AttackPhase"},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 65]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
           "minItems": 1},
         "Reference": {
           "type": "array",
@@ -3224,6 +3690,14 @@ AttackPhase = {
         "WindowsRegistryKeysModified": {
           "$ref": "#/definitions/WindowsRegistryKeysModified"},
         "FileData": {"$ref": "#/definitions/FileData"},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 66]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
         "CertificateData": {"$ref": "#/definitions/CertificateData"},
         "RegistryHandle": {"$ref": "#/definitions/RegistryHandle"},
         "RecordData":  {"$ref": "#/definitions/RecordData"},
@@ -3272,6 +3746,14 @@ AttackPhase = {
         "BulkObservableFormat":{
           "$ref": "#/definitions/BulkObservableFormat"},
         "BulkObservableList": {"type": "string"},
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 67]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
         "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
       "required": ["BulkObservableList"],
       "additionalProperties": false},
@@ -3320,6 +3802,14 @@ AttackPhase = {
          {"required": ["uid-ref"]},
          {"required": ["euid-ref"]}
       ],
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 68]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
       "additionalProperties": false},
     "AttackPhase": {
       "type": "object",
@@ -3355,10 +3845,76 @@ AttackPhase = {
     "AdditionalData": {"$ref":"#/definitions/ExtensionTypeList"}},
   "required": ["version","Incident"],
   "additionalProperties": false}
-]]></artwork>
-</figure>
-</section>
+
+                          Figure 10: JSON schema
+
+Authors' Addresses
+
+   Takeshi Takahashi
+   National Institute of Information and Communications Technology
+   4-2-1 Nukui-Kitamachi
+   Koganei, Tokyo  184-8795
+   Japan
+
+   Phone: +81 42 327 5862
+   Email: takeshi_takahashi@nict.go.jp
 
 
- </back>
-</rfc>
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 69]
+
+Internet-Draft                 JSON-IODEF                   January 2019
+
+
+   Roman Danyliw
+   CERT, Software Engineering Institute, Carnegie Mellon University
+   4500 Fifth Avenue
+   Pittsburgh, PA
+   USA
+
+   Email: rdd@cert.org
+
+
+   Mio Suzuki
+   National Institute of Information and Communications Technology
+   4-2-1 Nukui-Kitamachi
+   Koganei, Tokyo  184-8795
+   Japan
+
+   Email: mio@nict.go.jp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Takahashi, et al.         Expires July 6, 2019                 [Page 70]
