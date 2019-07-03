@@ -12,6 +12,7 @@
 <!ENTITY RFC7203 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7203.xml">
 <!ENTITY RFC7970 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7970.xml">
 <!ENTITY RFC8174 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8174.xml">
+<!ENTITY RFC8259 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8259.xml">
 <!ENTITY RFC8610 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.8610.xml">
 ]>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
@@ -177,35 +178,35 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 | IODEF Data Type |      [RFC7970]    |       JSON Data Type          |
 |                 |      Reference    |                               |
 +-----------------+-------------------+-------------------------------+
-| INTEGER         | Section 2.1       | "integer" per [jsonschema]    |
-| REAL            | Section 2.2       | "number" per [jsonschema]     |
-| CHARACTER       | Section 2.3       | "string" per [jsonschema]     |
-| STRING          | Section 2.3       | "string" per [jsonschema]     |
-| ML_STRING       | Section 2.4       | see Section 2.2.1             |
-| BYTE            | Section 2.5.1     | "string" per [jsonschema]     |
-| BYTE[]          | Section 2.5.1     | "string" per [jsonschema]     |
-| HEXBIN          | Section 2.5.2     | "string" per [jsonschema]     |
-| HEXBIN[]        | Section 2.5.2     | "string" per [jsonschema]     |
-| ENUM            | Section 2.6       | "enum" array per [jsonschema] |
-| DATETIME        | Section 2.7       | "string" per [jsonschema]     |
-| TIMEZONE        | Section 2.8       | "string" per [jsonschema]     |
-| PORTLIST        | Section 2.9       | "string" per [jsonschema]     |
-| POSTAL          | Section 2.10      | ML_STRING, Section 2.2.1      |
-| PHONE           | Section 2.11      | "string" per [jsonschema]     |
-| EMAIL           | Section 2.12      | "string" per [jsonschema]     |
-| URL             | Section 2.13      | "string" per [jsonschema]     |
-| ID              | Section 2.14      | "string" per [jsonschema]     |
-| IDREF           | Section 2.14      | "string" per [jsonschema]     |
-| SOFTWARE        | Section 2.15      | see Section 2.2.2             |
-| STRUCTUREDINFO  | [RFC 7203]        | see Section 2.2.3             |
-| EXTENSION       | Section 2.16      | see Section 2.2.4             |
+| INTEGER         | Section 2.1       | integer, see Section 2.2.1    |
+| REAL            | Section 2.2       | "number" per [RFC8259]        |
+| CHARACTER       | Section 2.3       | "string" per [RFC8259]        |
+| STRING          | Section 2.3       | "string" per [RFC8259]        |
+| ML_STRING       | Section 2.4       | see Section 2.2.2             |
+| BYTE            | Section 2.5.1     | "string" per [RFC8259]        |
+| BYTE[]          | Section 2.5.1     | "string" per [RFC8259]        |
+| HEXBIN          | Section 2.5.2     | "string" per [RFC8259]        |
+| HEXBIN[]        | Section 2.5.2     | "string" per [RFC8259]        |
+| ENUM            | Section 2.6       | see Section 2.2.3             |
+| DATETIME        | Section 2.7       | "string" per [RFC8259]        |
+| TIMEZONE        | Section 2.8       | "string" per [RFC8259]        |
+| PORTLIST        | Section 2.9       | "string" per [RFC8259]        |
+| POSTAL          | Section 2.10      | ML_STRING, Section 2.2.2      |
+| PHONE           | Section 2.11      | "string" per [RFC8259]        |
+| EMAIL           | Section 2.12      | "string" per [RFC8259]        |
+| URL             | Section 2.13      | "string" per [RFC8259]        |
+| ID              | Section 2.14      | "string" per [RFC8259]        |
+| IDREF           | Section 2.14      | "string" per [RFC8259]        |
+| SOFTWARE        | Section 2.15      | see Section 2.2.4             |
+| STRUCTUREDINFO  | [RFC 7203]        | see Section 2.2.5             |
+| EXTENSION       | Section 2.16      | see Section 2.2.6             |
 +-----------------+-------------------+-------------------------------+
 ]]></artwork></figure>
 
 <figure align="center" anchor="dtmap_cbor" title="CBOR Data Types"><artwork align="left"><![CDATA[
 +-----------------+------------------+---------------------------------+
 | IODEF Data Type |  CBOR Data Type  |          CDDL prelude           |
-|                 |                  | [draft-ietf-cbor-cddl-05]       |
+|                 |                  |            [RFC8610]            |
 +-----------------+------------------+---------------------------------+
 | INTEGER         | 0, 1, 6 tag 2,   | integer                         |
 |                 |  6 tag 3         |                                 |
@@ -238,6 +239,10 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 
   <section title="Complex JSON Types">
 
+<section title="Integer">
+<t>An integer is a subset of "number" type of JSON, which represents signed digits encoded in Base 10. The definition of this integer is "[ minus ] int" in [RFC7159] Section 6 manner.</t>
+</section>
+
 <section title="Multilingual Strings">
 
 <t>A string that needs to be represented in a human-readable language different from the default encoding of the document is represented in the information model by the ML_STRING data type. This data type is implemented as either an object with "value", "lang", and "translation-id" elements or a text string as defined in <xref target="cddlSection"/>. Examples are shown below.</t>
@@ -253,6 +258,9 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 
 </section>
 
+<section title="Enum">
+<t>Enum is an ordered list of acceptable string values. Each value has a representative keyword.  Within the data model, the enumerated type keywords are used as attribute values.</t>
+</section>
 
 <section title="Software and Software Reference">
 <t>A particular version of software is represented in the information model by the SOFTWARE data type. This software can be described by using a reference, <xref target="RFC3986">a Uniform Resource Locator (URL)</xref>, or with free-form text. The SOFTWARE data type is implemented as an object with "SoftwareReference", "URL", and "Description" elements as defined in <xref target="cddlSection"/>. Examples are shown below.</t>
@@ -813,6 +821,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 <t>The elements of ML_STRING type in XML IODEF document are presented as either STRING type or ML_STRING type in CBOR/JSON IODEF document.</t>
 <t>Data models of the extension classes defined by <xref target="RFC7203" /> and referenced by <xref target="RFC7970" /> are represented by StructuredInfo class defined in this document.</t>
 <t>Signature, X509Data, and RawData are encoded with base64 and are represented as string (BYTE type) in CBOR/JSON IODEF documents.</t>
+<t>EmailBody represents an whole message body including MIME structure in the same manner defined in <xref target="RFC7970" />. In case of an email composed of MIME multipart, the EmailBody contains multiple body parts separated by boundary strings.</t>
 </list>
 </t>
 
