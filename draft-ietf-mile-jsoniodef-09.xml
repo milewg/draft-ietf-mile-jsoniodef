@@ -40,7 +40,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" docName="draft-ietf-mile-jsoniodef-08" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-mile-jsoniodef-09" ipr="trust200902">
  <!-- category values: std, bcp, info, exp, and historic
     ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
        or pre5378Trust200902
@@ -144,11 +144,13 @@
 
  <middle>
    <section title="Introduction">
-     <t><xref target="RFC7970" /> defines a data representation for security incident reports and indicators commonly exchanged by operational security teams.  It facilitates the automated exchange of this information to enable mitigation and watch-and-warning. Section 3 of <xref target="RFC7970" /> defined an information model using Unified Modeling Language (UML) and a corresponding Extensible Markup Language (XML) schema data model in Section 8.  This UML-based information model and XML-based data model are referred to as IODEF UML and IODEF XML, respectively in this document.</t>
+     <t><xref target="RFC7970">The Incident Object Description Exchange Format (IODEF)</xref> defines a data representation for security incident reports and indicators commonly exchanged by operational security teams.  It facilitates the automated exchange of this information to enable mitigation and watch-and-warning. Section 3 of <xref target="RFC7970" /> defined an information model using Unified Modeling Language (UML) and a corresponding Extensible Markup Language (XML) schema data model in Section 8.  This UML-based information model and XML-based data model are referred to as IODEF UML and IODEF XML, respectively in this document.</t>
 
-<t>This document defines an alternate implementation of the IODEF UML information model by specifying a JavaScript Object Notation (JSON) data model using <xref target="RFC8610">CDDL</xref> and JSON Schema <xref target="jsonschema"/>.  This JSON data model is referred to as IODEF JSON in this document.</t>
+<t>IODEF documents are structured and thus suitable for machine processing. They will streamline incident response operations.
+Another well-used and structured format that is suitable for machine processing is JSON.
+To facilitate the automation of incident response operations, IODEF documents should support JSON representation.</t>
 
-<t>IODEF JSON provides all of the expressivity of IODEF XML.  It gives implementers and operators an alternative format to exchange the same information.</t>
+<t>This document defines an alternate implementation of the IODEF UML information model by specifying a JavaScript Object Notation (JSON) data model using <xref target="RFC8610">CDDL</xref> and JSON Schema <xref target="jsonschema"/>.  This JSON data model is referred to as IODEF JSON in this document. IODEF JSON provides all of the expressivity of IODEF XML.  It gives implementers and operators an alternative format to exchange the same information.</t>
 
 <t>The normative IODEF JSON data model is found in <xref target="cddlSection" />.  <xref target="dt" /> and <xref target="dm" /> describe the data types and elements of this data model.  <xref target="examples" /> provides examples. </t>
 
