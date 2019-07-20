@@ -1166,7 +1166,7 @@ A3                                      # map(3)
               64                        # text(4)
                 74797065                # "type"
               6B                        # text(11)
-                646F6D61696E2D6E616D65  # “domain-name”
+                646F6D61696E2D6E616D65  # "domain-name"
               72                        # text(18)
                 42756C6B4F627365727661626C654C697374
                                         # "BulkObservableList"
