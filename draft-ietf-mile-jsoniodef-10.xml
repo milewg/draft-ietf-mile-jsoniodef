@@ -53,7 +53,7 @@
    <!-- The abbreviated title is used in the page header - it is only necessary if the
         full title is longer than 39 characters -->
 
-   <title abbrev="JSON-IODEF">CBOR/JSON binding of IODEF</title>
+   <title abbrev="JSON-IODEF">JSON binding of IODEF</title>
 
    <!-- add 'role="editor"' below for the editors if appropriate -->
 
@@ -138,7 +138,7 @@
         keywords will be used for the search engine. -->
 
    <abstract>
-   <t>The Incident Object Description Exchange Format defined in RFC 7970 provides an information model and a corresponding XML data model for exchanging incident and indicator information. This draft gives implementers and operators an alternative format to exchange the same information by defining an alternative data model implementation in CBOR/JSON.</t>
+   <t>The Incident Object Description Exchange Format defined in RFC 7970 provides an information model and a corresponding XML data model for exchanging incident and indicator information. This draft gives implementers and operators an alternative format to exchange the same information by defining an alternative data model implementation in JSON and its encoding in CBOR.</t>
    </abstract>
  </front>
 
@@ -166,8 +166,7 @@ To facilitate the automation of incident response operations, IODEF documents sh
 
 <section title="IODEF Data Types" anchor="dt">
 
-<t>The abstract 
-IODEF JSON implements the abstract data types specified in Section 2 of <xref target="RFC7970" />.</t>
+<t>IODEF JSON implements the abstract data types specified in Section 2 of <xref target="RFC7970" />.</t>
 
 
   <section title="Abstract Data Type to JSON Data Type Mapping">
@@ -289,7 +288,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 
 
 <section title="Structured Information">
-<t>Information provided in a form of structured string, such as ID, or structured information, such as XML documents, is represented in the information model by the STRUCTUREDINFO data type. Note that this type was originally specified in <xref target="RFC7203" />. The STRUCTUREDINFO data type is implemented as an object with "SpecID", "ext-SpecID", "ContentID", "RawData", "Reference" elements. An example for embedding a structured ID is shown below.</t>
+<t>Information provided in a form of structured string, such as ID, or structured information, such as XML documents, is represented in the information model by the STRUCTUREDINFO data type. Note that this type was originally specified in <xref target="RFC7203" />. The STRUCTUREDINFO data type is implemented as an object with "SpecID", "ext-SpecID", "ContentID", "RawData", and "Reference" elements. An example for embedding a structured ID is shown below.</t>
 
 <figure align="center"><artwork align="left"><![CDATA[
 "StructuredInfo": {
@@ -298,7 +297,7 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 }
 ]]></artwork></figure>
 
-<t>When embedding the raw data, base64 encoding defined in Section 4 of <xref target="RFC4648"/> should be used for encoding the data, as shown below.</t>
+<t>When embedding the raw data, base64 encoding defined in Section 4 of <xref target="RFC4648"/> SHOULD be used for encoding the data, as shown below.</t>
 
 <figure align="center"><artwork align="left"><![CDATA[
 "StructuredInfo": {
@@ -471,6 +470,9 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 |                             | Vulnerability*     |               |
 |                             | Weakness*          |               |
 |                             | AdditionalData*    | 3.11          |
++-----------------------------+--------------------+---------------+
+| Weakness (TBD)              | restriction?       |               |
+|                             | ext-restriction?   |               |
 +-----------------------------+--------------------+---------------+
 | Reference                   | observable-id?     |               |
 |                             | ReferenceName?     |               |
@@ -807,22 +809,21 @@ IODEF JSON implements the abstract data types specified in Section 2 of <xref ta
 </section>
 
 
-<section title="Mapping between CBOR/JSON and XML IODEF">
+<section title="Mapping between JSON and XML IODEF">
 
 <t>
 <list style="symbols">
-<t>This document treats attributes and elements of each class defined in <xref target="RFC7970" /> with no distinction and is agnostic on the order of their appearances.</t>
+<t>Attributes and elements of each class in XML IODEF document are both presented as JSON attributes in JSON IODEF document, and the order of their appearances is ignored.</t>
 <t>Flow class is deleted, and classes with its instances now directly have instances of EventData class that used to belong to the Flow class.</t>
 <t>ApplicationHeader class is deleted, and classes with its instances now directly have instances of ApplicationHeaderField class that used to belong to the ApplicationHeader class.</t>
 <t>SignatureData class is deleted, and classes with its instances now directly have instance of Signature class that used to belong to the SignatureData class.</t>
 <t>IndicatorData class is deleted, and classes with its instances now directly have the instances of Indicator class that used to belong to the IndicatorData class.</t>
 <t>ObservableReference class is deleted, and classes with its instances now directly have uid-ref as an element.</t>
-<t>Record class is replaced by RecordData class, and RecordData class is renamed to Record class.</t>
 <t>Record class is deleted, and classes with its instances now directly have the instances of RecordData class that used to belong to the Record class.</t>
 <t>The MLStringType were modified to support simple string by allowing the type to have not only a predefined object type but also text type, in order to allow simple descriptions of elements of the type.</t>
-<t>The elements of ML_STRING type in XML IODEF document are presented as either STRING type or ML_STRING type in CBOR/JSON IODEF document.</t>
+<t>The elements of ML_STRING type in XML IODEF document are presented as either STRING type or ML_STRING type in JSON IODEF document.</t>
 <t>Data models of the extension classes defined by <xref target="RFC7203" /> and referenced by <xref target="RFC7970" /> are represented by StructuredInfo class defined in this document.</t>
-<t>Signature, X509Data, and RawData are encoded with base64 and are represented as string (BYTE type) in CBOR/JSON IODEF documents.</t>
+<t>Signature, X509Data, and RawData are encoded with base64 and are represented as string (BYTE type) in JSON IODEF documents.</t>
 <t>EmailBody represents an whole message body including MIME structure in the same manner defined in <xref target="RFC7970" />. In case of an email composed of MIME multipart, the EmailBody contains multiple body parts separated by boundary strings.</t>
 </list>
 </t>
@@ -989,7 +990,7 @@ A3                                      # map(3)
       "StartTime": "2014-12-02T11:18:00-05:00",
       "Observable": {
         "BulkObservable": {
-          "type": "ipv6-addr",
+          "type": "domain-name",
           "BulkObservableList": "kj290023j09r34.example.com"}  
       }
     }]
