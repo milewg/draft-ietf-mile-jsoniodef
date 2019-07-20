@@ -1165,8 +1165,8 @@ A3                                      # map(3)
             A2                          # map(2)
               64                        # text(4)
                 74797065                # "type"
-              69                        # text(9)
-                697076362D61646472      # "ipv6-addr"
+              6B                        # text(11)
+                646F6D61696E2D6E616D65  # “domain-name”
               72                        # text(18)
                 42756C6B4F627365727661626C654C697374
                                         # "BulkObservableList"
