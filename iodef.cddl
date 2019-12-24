@@ -14,15 +14,18 @@ iodef = {
 
 duration = "second" / "minute" / "hour" / "day" / "month" / "quarter" /
            "year" / "ext-value"
-lang = "en" / "jp"
+lang = "" / text .regexp "[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*"
+
 restriction = "public" / "partner" / "need-to-know" / "private" /
               "default" / "white" / "green" / "amber" / "red" /
               "ext-value"
-DATETIME = text
-URLtype = text
-IDtype = text
-
-action = "nothing" / "contact-source-site" / "cotact-target-site" /
+SpecID = "urn:ietf:params:xml:ns:mile:mmdef:1.2" /  "private"
+IDtype = text .regexp "[a-zA-Z_][a-zA-Z0-9_.-]*"
+IDREFType = IDtype
+URLtype = uri
+TimeZonetype = text .regexp "Z|[\\+\\-](0[0-9]|1[0-4]):[0-5][0-9]"
+PortlistType = text .regexp "[0-9]+(\\-[0-9]+)?(,[0-9]+(\\-[0-9]+)?)*"
+action = "nothing" / "contact-source-site" / "contact-target-site" /
          "contact-sender" / "investigate" / "block-host" /
          "block-network" / "block-port" / "rate-limit-host" /
          "rate-limit-network" / "rate-limit-port" / "redirect-traffic" /
@@ -31,24 +34,40 @@ action = "nothing" / "contact-source-site" / "cotact-target-site" /
          "status-new-info" / "watch-and-report" / "training" /
          "defined-coa" / "other" / "ext-value"
 
+DATETIME = tdate
+
+BYTE = eb64legacy
+
+MLStringType = {
+    value: text
+    ? lang: lang
+    ? translation-id: text
+} / text
+
+PositiveFloatType = float32 .gt 0
+
+PAddressType = MLStringType
+
 ExtensionType  = {
- ? Name: text
- ? dtype: "boolean" / "byte" / "bytes" / "character" / "date-time" /
+ value: text
+ ? name: text
+ dtype: "boolean" / "byte" / "bytes" / "character" / "date-time" /
           "ntpstamp" / "integer" / "portlist" / "real" / "string" /
-          "file" / "path" / "frame" / "packet" / "ipv4-packet" /
+          "file" / "path" / "frame" / "packet" / "ipv4-packet" / "json" /
           "ipv6-packet" / "url" / "csv" / "winreg" / "xml" / "ext-value"
+          .default "string"
  ? ext-dtype: text
  ? meaning: text
  ? formatid: text
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? observable-id: IDtype
 }
 
 SoftwareType = {
  ? SoftwareReference: SoftwareReference
- ? URL: URLtype
- ? Description: text
+ ? URL: [+ URLtype]
+ ? Description: [+ MLStringType]
 }
 
 SoftwareReference = {
@@ -56,6 +75,7 @@ SoftwareReference = {
  spec-name: "custom" / "cpe" / "swid" / "ext-value"
  ? ext-spec-name: text
  ? dtype: "bytes" / "integer" / "real" / "string" / "xml" / "ext-value"
+          .default "string"
  ? ext-dtype: text
 }
 
@@ -67,20 +87,19 @@ Incident = {
            "ext-value"
  ? ext-status: text
  ? lang: lang
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? observable-id: IDtype
  IncidentID: IncidentID
  ? AlternativeID: AlternativeID
  ? RelatedActivity: [+ RelatedActivity]
- ? DetectTime: text
- ? StartTime: text
- ? EndTime: text
- ? RecoveryTime: text
- ? ReportTime: text
- GenerationTime: text
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? DetectTime: DATETIME
+ ? StartTime: DATETIME
+ ? EndTime: DATETIME
+ ? RecoveryTime: DATETIME
+ ? ReportTime: DATETIME
+ GenerationTime: DATETIME
+ ? Description: [+ MLStringType]
  ? Discovery: [+ Discovery]
  ? Assessment: [+ Assessment]
  ? Method: [+ Method]
@@ -95,18 +114,18 @@ IncidentID = {
  id: text
  name: text
  ? instance: text
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
 }
 
 AlternativeID = {
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  IncidentID: [+ IncidentID]
 }
 
 RelatedActivity = {
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? IncidentID: [+ IncidentID]
  ? URL: [+ URLtype]
@@ -119,22 +138,20 @@ RelatedActivity = {
 }
 
 ThreatActor = {
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? ThreatActorID: [+ text]
  ? URL: [+ URLtype]
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
  ? AdditionalData: [+ ExtensionType]
 }
 
 Campaign  = {
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? CampaignID: [+ text]
  ? URL: [+ URLtype]
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
  ? AdditionalData: [+ ExtensionType]
 }
 
@@ -146,128 +163,129 @@ Contact = {
  ? ext-role: text
  type: "person" / "organization" / "ext-value"
  ? ext-type: text
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
- ? ContactName: [+ text]
- ? ContactName_ML: [+ text]
- ? ContactTitle: [+ text]
- ? ContactTitle_ML: [+ text]
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? ContactName: [+ MLStringType]
+ ? ContactTitle: [+ MLStringType]
+ ? Description: [+ MLStringType]
  ? RegistryHandle: [+ RegistryHandle]
  ? PostalAddress: [+ PostalAddress]
  ? Email: [+ Email]
  ? Telephone: [+ Telephone]
- ? Timezone: text
+ ? Timezone: TimeZonetype
  ? Contact: [+ Contact]
  ? AdditionalData: [+ ExtensionType]
 }
 
 RegistryHandle = {
  handle: text
- registry: "internic" / "apnic" / "arin" / "lacnic" / "ripe" / "afrinic" /
-           "local" / "ext-value"
+ registry: "internic" / "apnic" / "arin" / "lacnic" / "ripe" /
+           "afrinic" / "local" / "ext-value"
  ? ext-registry: text
 }
 
 PostalAddress = {
- ? type: text
+ ? type: "street" / "mailing" / "ext-value"
  ? ext-type: text
- PAddress: text
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ PAddress: PAddressType
+ ? Description: [+ MLStringType]
 }
 
 Email = {
  ? type: "direct" / "hotline" / "ext-value"
  ? ext-type: text
  EmailTo: text
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
 }
 
 Telephone = {
  ? type: "wired" / "mobile" / "fax" / "hotline" / "ext-value"
  ? ext-type: text
  TelephoneNumber: text
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
 }
 
 Discovery = {
  ? source: "nidps" / "hips" / "siem" / "av" / "third-party-monitoring" /
            "incident" / "os-log" / "application-log" / "device-log" /
-           "network-flow" / "passive-dns" / "investiation" / "audit" /
-           "international-notification" / "external-notification" /
+           "network-flow" / "passive-dns" / "investigation" / "audit" /
+           "internal-notification" / "external-notification" /
            "leo" / "partner" / "actor" / "unknown" / "ext-value"
  ? ext-source: text
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
  ? Contact: [+ Contact]
  ? DetectionPattern: [+ DetectionPattern]
 }
 
 DetectionPattern = {
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? observable-id: IDtype
+ (Description: [+ MLStringType] // DetectionConfiguration: [+ text])
  Application: SoftwareType
- ? Description: [+ text]
- ? Description_ML: [+ text]
- ? DetectionConfiguration: [+ text]
 }
 
 Method = {
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? Reference: [+ Reference]
- ? Description: [+ text]
- ? Description_ML: [+ text]
- ? AttackPattern: [+ StructuredInformation]
- ? Vulnerability: [+ StructuredInformation]
- ? Weakness: [+ StructuredInformation]
+ ? Description: [+ MLStringType]
+ ? AttackPattern: [+ StructuredInfo]
+ ? Vulnerability: [+ StructuredInfo]
+ ? Weakness: [+ StructuredInfo]
  ? AdditionalData: [+ ExtensionType]
 }
 
-StructuredInformation = {
- specID: text
- ? ext-specID: text
- ? contentID: text
- ? RawData: any
- ? URL: URLtype
+StructuredInfo = {
+ SpecID: SpecID
+ ? ext-SpecID: text
+ ? ContentID: text
+ ? (RawData: [+ BYTE] // Reference:[+ Reference])
+ ? Platform:[+ Platform]
+ ? Scoring:[+ Scoring]
 }
 
+Platform = {
+    SpecID: SpecID
+    ? ext-SpecID: text
+    ? ContentID: text
+    ? RawData: [+ BYTE]
+    ? Reference: [+ Reference]
+}
+Scoring = {
+    SpecID: SpecID
+    ? ext-SpecID: text
+    ? ContentID: text
+    ? RawData: [+ BYTE]
+    ? Reference: [+ Reference]
+}
 Reference = {
  ? observable-id: IDtype
  ? ReferenceName: ReferenceName
  ? URL: [+ URLtype]
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
 }
 
 ReferenceName = {
- specIndex: int
- ID: text
+ specIndex: integer
+ ID: IDtype
 }
 
 Assessment = {
  ? occurrence: "actual" / "potential"
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? observable-id: IDtype
- ? IncidentCategory: [+ text]
- ? SystemImpact: [+ SystemImpact]
- ? BusinessImpact: [+ BusinessImpact]
- ? TimeImpact: [+ TimeImpact]
- ? MonetaryImpact: [+ MonetaryImpact]
- ? IntendedImpact: [+ BusinessImpact]
+ ? IncidentCategory: [+ MLStringType]
+ Impact: [+ {SystemImpact: SystemImpact} /
+          {BusinessImpact: BusinessImpact} / {TimeImpact: TimeImpact} /
+          {MonetaryImpact: MonetaryImpact} /
+          {IntendedImpact: BusinessImpact}]
  ? Counter: [+ Counter]
- ? MitigatingFactor: [+ text]
- ? MitigatingFactor_ML: [+ text]
- ? Cause: [+ text]
- ? Cause_ML: [+ text]
+ ? MitigatingFactor: [+ MLStringType]
+ ? Cause: [+ MLStringType]
  ? Confidence: Confidence
  ? AdditionalData: [+ ExtensionType]
 }
@@ -280,76 +298,73 @@ SystemImpact = {
        "availability-account" / "availability-service" /
        "availability-system" / "damaged-system" / "damaged-data" /
        "breach-proprietary" / "breach-privacy" / "breach-credential" /
-       "breack-configuration" / "integrity-data" /
+       "breach-configuration" / "integrity-data" /
        "integrity-configuration" / "integrity-hardware" /
        "traffic-redirection" / "monitoring-traffic" / "monitoring-host" /
-       "policy" / "unknown" / "ext-value"
+       "policy" / "unknown" / "ext-value" .default "unknown"
  ? ext-type: text
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
 }
 
 BusinessImpact = {
- ? severity: "none" / "low" / "medium" / "high" / "unknown" / "ext-value"
+ ? severity:"none" / "low" / "medium" / "high" / "unknown" / "ext-value"
+            .default "unknown"
  ? ext-severity: text
  type: "breach-proprietary" / "breach-privacy" / "breach-credential" /
        "loss-of-integrity" / "loss-of-service" / "theft-financial" /
        "theft-service" / "degraded-reputation" / "asset-damage" /
        "asset-manipulation" / "legal" / "extortion" / "unknown" /
-       "ext-value"
+       "ext-value" .default "unknown"
  ? ext-type: text
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
 }
 
 TimeImpact = {
- value: int
+ value: PositiveFloatType
  ? severity: "low" / "medium" / "high"
  metric: "labor" / "elapsed" / "downtime" / "ext-value"
  ? ext-metric: text
- ? duration: duration
+ ? duration: duration .default "hour"
  ? ext-duration: text
 }
 
 MonetaryImpact = {
- value: int
+ value: PositiveFloatType
  ? severity: "low" / "medium" / "high"
  ? currency: text
 }
 
 Confidence = {
- value: int
+ value: float32
  rating: "low" / "medium" / "high" / "numeric" / "unknown" / "ext-value"
  ? ext-rating: text
 }
 
 History = {
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  HistoryItem: [+ HistoryItem]
 }
 
 HistoryItem = {
- action: action
+ action: action .default "other"
  ? ext-action: text
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? observable-id: IDtype
  DateTime: DATETIME
  ? IncidentID: IncidentID
  ? Contact: Contact
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
  ? DefinedCOA: [+ text]
  ? AdditionalData: [+ ExtensionType]
 }
 
 EventData = {
- ? restriction: restriction
+ ? restriction: restriction .default "default"
  ? ext-restriction: text
  ? observable-id: IDtype
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
  ? DetectTime: DATETIME
  ? StartTime: DATETIME
  ? EndTime: DATETIME
@@ -367,14 +382,13 @@ EventData = {
 }
 
 Expectation = {
- ? action: action
+ ? action: action .default "other"
  ? ext-action: text
  ? severity: "low" / "medium" / "high"
- ? restriction: restriction
+ ? restriction: restriction .default "default"
  ? ext-restriction: text
  ? observable-id: IDtype
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
  ? DefinedCOA: [+ text]
  ? StartTime: DATETIME
  ? EndTime: DATETIME
@@ -383,15 +397,15 @@ Expectation = {
 
 System = {
  ? category: "source" / "target" / "intermediate" / "sensor" /
-"infrastructure" / "ext-value"
+             "infrastructure" / "ext-value"
  ? ext-category: text
  ? interface: text
- ? spoofed: "unknown" / "yes" / "no"
- ? virtual: "yes" / "no" / "unknown"
+ ? spoofed: "unknown" / "yes" / "no" .default "unknown"
+ ? virtual: "yes" / "no" / "unknown" .default "unknown"
  ? ownership: "organization" / "personal" / "partner" / "customer" /
               "no-relationship" / "unknown" / "ext-value"
  ? ext-ownership: text
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? observable-id: IDtype
  Node: Node
@@ -400,17 +414,17 @@ System = {
  ? OperatingSystem: [+ SoftwareType]
  ? Counter: [+ Counter]
  ? AssetID: [+ text]
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
  ? AdditionalData: [+ ExtensionType]
 }
 
 Node = {
- ? DomainData: [+ DomainData]
- ? Address: [+ Address]
+ (DomainData:[+ DomainData]
+  ? Address:[+ Address] // 
+  ? DomainData:[+ DomainData]
+  Address:[+ Address])
  ? PostalAddress: PostalAddress
- ? Location: [+ text]
- ? Location_ML: [+ text]
+ ? Location: [+ MLStringType]
  ? Counter: [+ Counter]
 }
 
@@ -418,16 +432,16 @@ Address = {
  value: text
  category: "asn" / "atm" / "e-mail" / "ipv4-addr" / "ipv4-net" /
            "ipv4-net-masked" / "ipv4-net-mask" / "ipv6-addr" /
-           "ipv6-net" / "ipv6-net-masked" / "mac" / "site-url" /
-           "ext-value"
+           "ipv6-net" / "ipv6-net-masked" / "mac" / "site-uri" /
+           "ext-value" .default "ipv6-addr"
  ? ext-category: text
  ? vlan-name: text
- ? vlan-num: int
+ ? vlan-num: integer
  ? observable-id: IDtype
 }
 
 NodeRole = {
- category: "client" / "client-enterprise" / "clent-partner" /
+ category: "client" / "client-enterprise" / "client-partner" /
            "client-remote" / "client-kiosk" / "client-mobile" /
            "server-internal" / "server-public" / "www" / "mail" /
            "webmail" / "messaging" / "streaming" / "voice" / "file" /
@@ -439,16 +453,15 @@ NodeRole = {
            "log" / "virtualization" / "pos" /  "scada" /
            "scada-supervisory" / "sinkhole" / "honeypot" /
            "anomyzation" / "c2-server" / "malware-distribution" /
-           "drop-server" / "hot-point" / "reflector" /
+           "drop-server" / "hop-point" / "reflector" /
            "phishing-site" / "spear-phishing-site" / "recruiting-site" /
            "fraudulent-site" / "ext-value"
  ? ext-category: text
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
 }
 
 Counter = {
- value: text
+ value: float32
  type: "count" / "peak" / "average" / "ext-value"
  ? ext-type: text
  unit: "byte" / "mbit" / "packet" / "flow" / "session" / "alert" /
@@ -456,8 +469,7 @@ Counter = {
        "ext-value"
  ? ext-unit: text
  ? meaning: text
- ? meaning_ML: text
- ? duration: duration
+ ? duration: duration .default "hour"
  ? ext-duration: text
 }
 
@@ -482,23 +494,22 @@ DomainData = {
 
 NameServers = {
  Server: text
- ? Address: [+ Address]
+ Address: [+ Address]
 }
 
 DomainContacts = {
- ? SameDomainContact: text
- Contact: [+ Contact]
+ (SameDomainContact: text // Contact: [+ Contact])
 }
 
 Service = {
- ? ip-protocol: int
+ ? ip-protocol: integer
  ? observable-id: IDtype
  ? ServiceName: ServiceName
- ? Port: int
- ? Portlist: text
- ? ProtoCode: int
- ? ProtoType: int
- ? ProtoField: int
+ ? Port: integer
+ ? Portlist: PortlistType
+ ? ProtoCode: integer
+ ? ProtoType: integer
+ ? ProtoField: integer
  ? ApplicationHeaderField: [+ ExtensionType]
  ? EmailData: EmailData
  ? Application: SoftwareType
@@ -507,8 +518,7 @@ Service = {
 ServiceName = {
  ? IANAService: text
  ? URL: [+ URLtype]
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
 }
 
 EmailData = {
@@ -522,17 +532,16 @@ EmailData = {
  ? EmailBody: text
  ? EmailMessage: text
  ? HashData: [+ HashData]
- ? Signature: [+ text]
+ ? Signature: [+ BYTE]
 }
 
 RecordData = {
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? observable-id: IDtype
  ? DateTime: DATETIME
- ? Description: [+ text]
- ? Description_ML: [+ text]
- ? Applicadtion: SoftwareType
+ ? Description: [+ MLStringType]
+ ? Application: SoftwareType
  ? RecordPattern: [+ RecordPattern]
  ? RecordItem: [+ ExtensionType]
  ? URL: [+ URLtype]
@@ -544,12 +553,12 @@ RecordData = {
 
 RecordPattern = {
  value: text
- type: "regex" / "binary" / "xpath" / "ext-value"
+ type: "regex" / "binary" / "xpath" / "ext-value"  .default "regex"
  ? ext-type: text
- ? offset: int
- ? offsetunit: "line" / "byte" / "ext-value"
+ ? offset: integer
+ ? offsetunit: "line" / "byte" / "ext-value" .default "line"
  ? ext-offsetunit: text
- ? instance: int
+ ? instance: integer
 }
 
 WindowsRegistryKeysModified = {
@@ -568,7 +577,7 @@ Key = {
 }
 
 CertificateData = {
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? observable-id: IDtype
  Certificate: [+ Certificate]
@@ -576,13 +585,12 @@ CertificateData = {
 
 Certificate = {
  ? observable-id: IDtype
- X509Data: text
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ X509Data: BYTE
+ ? Description: [+ MLStringType]
 }
 
 FileData = {
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  ? observable-id: IDtype
  File: [+ File]
@@ -591,11 +599,11 @@ FileData = {
 File = {
  ? observable-id: IDtype
  ? FileName: text
- ? FileSize: int
+ ? FileSize: integer
  ? FileType: text
  ? URL: [+ URLtype]
  ? HashData: HashData
- ? Signature: [+ text]
+ ? Signature: [+ BYTE]
  ? AssociatedSoftware: SoftwareType
  ? FileProperties: [+ ExtensionType]
 }
@@ -603,16 +611,16 @@ File = {
 HashData = {
  scope: "file-contents" / "file-pe-section" / "file-pe-iat" /
         "file-pe-resource" / "file-pdf-object" / "email-hash" /
-        "email-hash-header" / "email-hash-body"
+        "email-headers-hash" / "email-body-hash" / "ext-value"
  ? HashTargetID: text
  ? Hash: [+ Hash]
  ? FuzzyHash: [+ FuzzyHash]
 }
 
 Hash = {
- DigestMethod: text
- DigestValue: text
- ? CanonicalizationMethod: any
+ DigestMethod: BYTE
+ DigestValue: BYTE
+ ? CanonicalizationMethod: BYTE
  ? Application: SoftwareType
 }
 
@@ -623,20 +631,18 @@ FuzzyHash = {
 }
 
 Indicator = {
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
  IndicatorID: IndicatorID
  ? AlternativeIndicatorID: [+ AlternativeIndicatorID]
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
  ? StartTime: DATETIME
  ? EndTime: DATETIME
  ? Confidence: Confidence
  ? Contact: [+ Contact]
- ? Observable: Observable
- ? uid-ref: text
- ? IndicatorExpression: IndicatorExpression
- ? IndicatorReference: IndicatorReference
+ (Observable: Observable // uid-ref: IDREFType // 
+  IndicatorExpression: IndicatorExpression // 
+  IndicatorReference: IndicatorReference)
  ? NodeRole: [+ NodeRole]
  ? AttackPhase: [+ AttackPhase]
  ? Reference: [+ Reference]
@@ -650,39 +656,29 @@ IndicatorID = {
 }
 
 AlternativeIndicatorID = {
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
- IndicatorReference: [+ IndicatorReference]
+ IndicatorID: [+ IndicatorID]
 }
 
 Observable = {
- ? restriction: restriction
+ ? restriction: restriction .default "private"
  ? ext-restriction: text
- ? System: System
- ? Address: Address
- ? DomainData: DomainData
- ? EmailData: EmailData
- ? Service: Service
- ? WindowsRegistryKeysModified: WindowsRegistryKeysModified
- ? FileData: FileData
- ? CertificateData: CertificateData
- ? RegistryHandle: RegistryHandle
- ? RecordData: RecordData
- ? EventData: EventData
- ? Incident: Incident
- ? Expectation: Expectation
- ? Reference: Reference
- ? Assessment: Assessment
- ? DetectionPattern: DetectionPattern
- ? HistoryItem: HistoryItem
- ? BulkObservable: BulkObservable
- ? AdditionalData: [+ ExtensionType]
+ ? (System: System // Address: Address // DomainData: DomainData // 
+  EmailData: EmailData // Service: Service // 
+  WindowsRegistryKeysModified: WindowsRegistryKeysModified // 
+  FileData: FileData // CertificateData: CertificateData // 
+  RegistryHandle: RegistryHandle // RecordData: RecordData //
+  EventData: EventData // Incident: Incident // Expectation: Expectation //
+  Reference: Reference // Assessment: Assessment // 
+  DetectionPattern: DetectionPattern // HistoryItem: HistoryItem // 
+  BulkObservable: BulkObservable // AdditionalData: [+ ExtensionType])
 }
 
 BulkObservable = {
  ? type: "asn" / "atm" / "e-mail" / "ipv4-addr" / "ipv4-net" /
          "ipv4-net-mask" / "ipv6-addr" / "ipv6-net" / "ipv6-net-mask" /
-         "mac" / "site-url" / "domain-name" / "domain-to-ipv4" /
+         "mac" / "site-uri" / "domain-name" / "domain-to-ipv4" /
          "domain-to-ipv6" / "domain-to-ipv4-timestamp" /
          "domain-to-ipv6-timestamp" / "ipv4-port" / "ipv6-port" /
          "windows-reg-key" / "file-hash" / "email-x-mailer" /
@@ -690,36 +686,33 @@ BulkObservable = {
          "mutex" / "file-path" / "user-name" / "ext-value"
  ? ext-type: text
  ? BulkObservableFormat: BulkObservableFormat
- BulkObservableList: [+ text]
+ BulkObservableList: text
  ? AdditionalData: [+ ExtensionType]
 }
 
 BulkObservableFormat = {
- ? Hash: Hash
- ? AdditionalData: [+ ExtensionType]
+ (Hash: Hash // AdditionalData: [+ ExtensionType])
 }
 
 IndicatorExpression = {
- ? operator: "not" / "and" / "or" / "xor"
+ ? operator: "not" / "and" / "or" / "xor" .default "and"
  ? ext-operator: text
  ? IndicatorExpression: [+ IndicatorExpression]
  ? Observable: [+ Observable]
- ? uid-ref: [+ text]
+ ? uid-ref: [+ IDREFType]
  ? IndicatorReference: [+ IndicatorReference]
  ? Confidence: Confidence
  ? AdditionalData: [+ ExtensionType]
 }
 
 IndicatorReference = {
- ? uid-ref: text
- ? euid-ref: text
+ (uid-ref: IDREFType // euid-ref: text)
  ? version: text
 }
 
 AttackPhase = {
  ? AttackPhaseID: [+ text]
  ? URL: [+ URLtype]
- ? Description: [+ text]
- ? Description_ML: [+ text]
+ ? Description: [+ MLStringType]
  ? AdditionalData: [+ ExtensionType]
 }
