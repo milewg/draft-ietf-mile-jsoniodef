@@ -149,7 +149,7 @@
 
 <t>IODEF documents are structured and thus suitable for machine processing. They will streamline incident response operations.
 Another well-used and structured format that is suitable for machine processing is <xref target="RFC8259">JavaScript Object Notation (JSON)</xref>.
-To facilitate the automation of incident response operations, IODEF documents should support JSON representation and it encoding in <xref target="RFC7049">Concise Binary Object Representation (CBOR)</xref>.</t>
+To facilitate the automation of incident response operations, IODEF documents and implementations should support JSON representation and it encoding in <xref target="RFC7049">Concise Binary Object Representation (CBOR)</xref>.</t>
 
 <t>This document defines an alternate implementation of the IODEF UML information model by specifying a JavaScript Object Notation (JSON) data model using <xref target="RFC8610">Concise Data Definition Language (CDDL)</xref> and JSON Schema <xref target="jsonschema"/>.  This JSON data model is referred to as IODEF JSON in this document. IODEF JSON provides all of the expressivity of IODEF XML.  It gives implementers and operators an alternative format to exchange the same information.</t>
 
@@ -247,7 +247,7 @@ To facilitate the automation of incident response operations, IODEF documents sh
 
 <section title="Multilingual Strings">
 
-<t>A string that needs to be represented in a human-readable language different from the default encoding of the document is represented in the information model by the ML_STRING data type. This data type is implemented as either an object with "value", "lang", and "translation-id" elements or a text string as defined in <xref target="cddlSection"/>. Examples are shown below.</t>
+<t>A string that needs to be represented in a human-readable language different from the default encoding of the document is represented in the information model by the ML_STRING data type. This data type is implemented as either an object with "value", "lang", and "translation-id" elements or a text string as defined in <xref target="cddlSection"/>. An example is shown below.</t>
 
 
 <figure align="center"><artwork align="left"><![CDATA[
@@ -258,7 +258,7 @@ To facilitate the automation of incident response operations, IODEF documents sh
 }
 ]]></artwork></figure>
 
-<t>Note that some pieces of supplementary information are provided folloedb by "#" in figures throughout this document, but these are not a valid syntax in JSON.</t>
+<t>Note that in figures throughout this document, some supplementary information follows "#", but these are not valid syntax in JSON, but are intended to facilitate reader understanding.</t>
 
 </section>
 
@@ -291,7 +291,7 @@ To facilitate the automation of incident response operations, IODEF documents sh
 
 
 <section title="Structured Information">
-<t>Information provided in a form of structured string, such as ID, or structured information, such as XML documents, is represented in the information model by the STRUCTUREDINFO data type. Note that this type was originally specified in <xref target="RFC7203" />. The STRUCTUREDINFO data type is implemented as an object with "SpecID", "ext-SpecID", "ContentID", "RawData", and "Reference" elements. An example for embedding a structured ID is shown below.</t>
+<t>Information provided in a form of structured string, such as ID, or structured information, such as XML documents, is represented in the information model by the STRUCTUREDINFO data type. Note that this type was originally specified in Section 4.4 of <xref target="RFC7203" /> as a basic structure of its extension classes. The STRUCTUREDINFO data type is implemented as an object with "SpecID", "ext-SpecID", "ContentID", "RawData", and "Reference" elements. An example for embedding a structured ID is shown below.</t>
 
 <figure align="center"><artwork align="left"><![CDATA[
 "StructuredInfo": {
@@ -309,6 +309,7 @@ To facilitate the automation of incident response operations, IODEF documents sh
 }
 ]]></artwork></figure>
 
+<t>Note that the structure of this information is not interpreted in the IODEF JSON, and the word 'structured' indicates that the data item has internal structure that is intended to be processed outside of the IODEF framework.</t>
 </section>
 
 
@@ -829,6 +830,7 @@ To facilitate the automation of incident response operations, IODEF documents sh
 <t>Signature, X509Data, and RawData are encoded with base64 and are represented as string (BYTE type) in JSON IODEF documents.</t>
 <t>EmailBody represents an whole message body including MIME structure in the same manner defined in <xref target="RFC7970" />. In case of an email composed of MIME multipart, the EmailBody contains multiple body parts separated by boundary strings.</t>
 <t>The "ipv6-net-mask" type attribute of BulkObservable class remains available for the backward compatibility purpose, but the use of this attribute is not recommended because IPV6 does not use netmask any more.</t>
+<t>ENUM values in this document is extensible and is managed by IANA, as with <xref target="RFC7970" />.</t>
 </list>
 </t>
 
@@ -2024,7 +2026,7 @@ AttackPhase = {
 
 <section title="The IODEF Data Model (JSON Schema)" anchor="jsonSchemaSection">
 
-<t>This section provides a JSON schema that defines the IODEF Data Model defined in this draft. Note that this section is Informative.</t>
+<t>This section provides a <xref target="jsonschema">JSON schema</xref> that defines the IODEF Data Model defined in this draft. Note that this section is Informative.</t>
 
 <figure align="center" anchor="jsonSchema" title="JSON schema">
 <artwork align="left"><![CDATA[
