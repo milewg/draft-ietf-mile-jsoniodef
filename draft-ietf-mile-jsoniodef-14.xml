@@ -41,7 +41,7 @@
 <?rfc subcompact="no" ?>
 <!-- keep one blank line between list items -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" docName="draft-ietf-mile-jsoniodef-13" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-mile-jsoniodef-14" ipr="trust200902">
  <!-- category values: std, bcp, info, exp, and historic
     ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
        or pre5378Trust200902
@@ -309,7 +309,7 @@ To facilitate the automation of incident response operations, IODEF documents an
 }
 ]]></artwork></figure>
 
-<t>When embedding the raw data, base64 encoding defined in Section 4 of <xref target="RFC4648"/> SHOULD be used for JSON IODEF while binary representation SHOULD be used for CBOR IODEF.</t>
+<t>When embedding the raw data, base64 encoding defined in Section 4 of <xref target="RFC4648"/> MUST be used for JSON IODEF while binary representation MUST be used for CBOR IODEF.</t>
 
 </section>
 
@@ -326,7 +326,7 @@ To facilitate the automation of incident response operations, IODEF documents an
 }
 ]]></artwork></figure>
 
-<t>Note that this data type is prepared in <xref target="RFC7970" /> as its generic extension mechanism. If a data item has internal structure that is intended to be processed outside of the IODEF framework, one may consider using StructuredInfo data type mentioned in <xref target="StructuredInfo"/>.</t>
+<t>Note that this data type is specified in <xref target="RFC7970" /> as its generic extension mechanism. If a data item has internal structure that is intended to be processed outside of the IODEF framework, one may consider using StructuredInfo data type mentioned in <xref target="StructuredInfo"/>.</t>
 </section>
 
 
@@ -835,8 +835,7 @@ To facilitate the automation of incident response operations, IODEF documents an
 <t>The MLStringType were modified to support simple string by allowing the type to have not only a predefined object type but also text type, in order to allow simple descriptions of elements of the type. Implementations need to be capable of parsing MLStringType that could take form of both text and object.</t>
 <t>The elements of ML_STRING type in XML IODEF document are presented as either STRING type or ML_STRING type in JSON IODEF document.
 When converting from XML IODEF document to JSON one or vice versa, the information contained in the original data of ML_STRING type must be preserved.
-When STRING is used instead of ML_STRING, parsers can assume that its xml:lang is set to "en".
-Otherwise it is expected that both receiver and sender have some external methods to agree upon the language used in this field.</t>
+When STRING is used instead of ML_STRING, parsers can assume that its "xml:lang" is set to "en".</t>
 <t>Data models of the extension classes defined by <xref target="RFC7203" /> and referenced by <xref target="RFC7970" /> are represented by StructuredInfo class defined in this document.</t>
 <t>Signature, X509Data, and RawData are encoded using base64 encoding for JSON IODEF and binary representation for CBOR IODEF to represent them as BYTE object.</t>
 <t>EmailBody represents an whole message body including MIME structure in the same manner defined in <xref target="RFC7970" />. In case of an email composed of MIME multipart, the EmailBody contains multiple body parts separated by boundary strings.</t>
@@ -2321,7 +2320,7 @@ Though it does not provide any further security considerations than the one desc
    </section>
 
    <section anchor="Acknowledgments" title="Acknowledgments">
-     <t>We would like to thank Henk Birkholz, Carsten Bormann, Benjamin Kaduk, Yasuaki Morita, and Takahiko Nagata for their insightful comments on this document and CDDL.</t>
+     <t>We would like to thank Henk Birkholz, Carsten Bormann, Benjamin Kaduk, Alexey Melnikov, Yasuaki Morita, and Takahiko Nagata for their insightful comments on this document and CDDL.</t>
    </section>
 
 
