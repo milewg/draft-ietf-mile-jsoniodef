@@ -238,8 +238,8 @@ Internet-Draft                 JSON-IODEF                  February 2019
 | ML_STRING       | 5                | Maps/Structs (Section 3.5.1)    |
 | BYTE            | 6 tag 22         | eb64legacy                      |
 | BYTE[]          | 6 tag 22         | eb64legacy                      |
-| HEXBIN          | 2                | eb16                            |
-| HEXBIN[]        | 2                | eb16                            |
+| HEXBIN          | 6 tag 23         | eb16                            |
+| HEXBIN[]        | 6 tag 23         | eb16                            |
 | ENUM            | -                | Choices (Section 2.2.2)         |
 | DATETIME        | 6 tag 0          | tdate                           |
 | TIMEZONE        | 3                | text                            |
