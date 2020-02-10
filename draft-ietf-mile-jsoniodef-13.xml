@@ -300,16 +300,17 @@ To facilitate the automation of incident response operations, IODEF documents an
 }
 ]]></artwork></figure>
 
-<t>When embedding the raw data, base64 encoding defined in Section 4 of <xref target="RFC4648"/> SHOULD be used for encoding the data, as shown below.</t>
+<t>When embedding the raw data, it should be encoded as a BYTE type object, as shown below.</t>
 
 <figure align="center"><artwork align="left"><![CDATA[
 "StructuredInfo": {
   "SpecID": "urn:ietf:params:xml:ns:mile:mmdef:1.2",        # ENUM
-  "RawData": "<<<strings encoded with base64>>>"            # BYTE
+  "RawData": "<<< encoded structured data >>>"              # BYTE
 }
 ]]></artwork></figure>
 
-<t>Note that the structure of this information is not interpreted in the IODEF JSON, and the word 'structured' indicates that the data item has internal structure that is intended to be processed outside of the IODEF framework.</t>
+<t>When embedding the raw data, base64 encoding defined in Section 4 of <xref target="RFC4648"/> SHOULD be used for JSON IODEF while binary representation SHOULD be used for CBOR IODEF.</t>
+
 </section>
 
 
@@ -837,7 +838,7 @@ When converting from XML IODEF document to JSON one or vice versa, the informati
 When STRING is used instead of ML_STRING, parsers can assume that its xml:lang is set to "en".
 Otherwise it is expected that both receiver and sender have some external methods to agree upon the language used in this field.</t>
 <t>Data models of the extension classes defined by <xref target="RFC7203" /> and referenced by <xref target="RFC7970" /> are represented by StructuredInfo class defined in this document.</t>
-<t>Signature, X509Data, and RawData are encoded as BYTE in JSON IODEF documents.</t>
+<t>Signature, X509Data, and RawData are encoded using base64 encoding for JSON IODEF and binary representation for CBOR IODEF to represent them as BYTE object.</t>
 <t>EmailBody represents an whole message body including MIME structure in the same manner defined in <xref target="RFC7970" />. In case of an email composed of MIME multipart, the EmailBody contains multiple body parts separated by boundary strings.</t>
 <t>The "ipv6-net-mask" type attribute of BulkObservable class remains available for the backward compatibility purpose, but the use of this attribute is not recommended because IPV6 does not use netmask any more.</t>
 <t>ENUM values in this document is extensible and is managed by IANA, as with <xref target="RFC7970" />. The values in the table are used both by <xref target="RFC7970" /> implementations and by their JSON (and CBOR) bindings as specified by this document.</t>
@@ -2320,7 +2321,7 @@ Though it does not provide any further security considerations than the one desc
    </section>
 
    <section anchor="Acknowledgments" title="Acknowledgments">
-     <t>We would like to thank Henk Birkholz, Carsten Bormann, Yasuaki Morita, and Takahiko Nagata for their insightful comments on CDDL.</t>
+     <t>We would like to thank Henk Birkholz, Carsten Bormann, Benjamin Kaduk, Yasuaki Morita, and Takahiko Nagata for their insightful comments on this document and CDDL.</t>
    </section>
 
 
