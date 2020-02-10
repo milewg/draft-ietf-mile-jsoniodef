@@ -1028,7 +1028,8 @@ A3                                      # map(3)
                383937393233             # "897923"
             0A                          # unsigned(10)
             71                          # text(17)
-               63736972742E6578616D706C652E636F6D # "csirt.example.com"
+               63736972742E6578616D706C652E636F6D
+                                        # "csirt.example.com"
          18 1D                          # unsigned(29)
          81                             # array(1)
             A2                          # map(2)
@@ -1066,7 +1067,10 @@ A3                                      # map(3)
          81                             # array(1)
             78 70                       # text(112)
                53756D6D6172697A65732074686520496E64696361746F7273206F6620436F6D70726F6D69736520666F72207468650D0A4F72616E676520476972616666652063616D706169676E206F6620746865204167677265737369766520427574746572666C79206372696D652067616E672E
-                                        # "Summarizes the Indicators of Compromise for the\r\nOrange Giraffe campaign of the Aggressive Butterfly crime gang."
+                                        # "Summarizes the Indicators of
+                                        # Compromise for the Orange Giraffe
+                                        # campaign of the Aggressive
+                                        # Butterfly crime gang."
          18 25                          # unsigned(37)
          81                             # array(1)
             A1                          # map(1)

@@ -1266,7 +1266,8 @@ A3                                      # map(3)
                383937393233             # "897923"
             0A                          # unsigned(10)
             71                          # text(17)
-               63736972742E6578616D706C652E636F6D # "csirt.example.com"
+               63736972742E6578616D706C652E636F6D
+                                        # "csirt.example.com"
          18 1D                          # unsigned(29)
          81                             # array(1)
             A2                          # map(2)
@@ -1281,7 +1282,6 @@ A3                                      # map(3)
                      14                 # unsigned(20)
                      81                 # array(1)
                         74              # text(20)
-                           4167677265737369766520427574746572666C79
 
 
 
@@ -1290,6 +1290,7 @@ Takahashi, et al.        Expires August 13, 2020               [Page 23]
 Internet-Draft                 JSON-IODEF                  February 2020
 
 
+                           4167677265737369766520427574746572666C79
                                         # "Aggressive Butterfly"
                18 2E                    # unsigned(46)
                81                       # array(1)
@@ -1312,7 +1313,10 @@ Internet-Draft                 JSON-IODEF                  February 2020
          81                             # array(1)
             78 70                       # text(112)
                53756D6D6172697A65732074686520496E64696361746F7273206F6620436F6D70726F6D69736520666F72207468650D0A4F72616E676520476972616666652063616D706169676E206F6620746865204167677265737369766520427574746572666C79206372696D652067616E672E
-                                        # "Summarizes the Indicators of Compromise for the\r\nOrange Giraffe campaign of the Aggressive Butterfly crime gang."
+                                        # "Summarizes the Indicators of
+                                        # Compromise for the Orange Giraffe
+                                        # campaign of the Aggressive
+                                        # Butterfly crime gang."
          18 25                          # unsigned(37)
          81                             # array(1)
             A1                          # map(1)
@@ -1334,10 +1338,6 @@ Internet-Draft                 JSON-IODEF                  February 2020
                18 33                    # unsigned(51)
                67                       # text(7)
                   63726561746F72        # "creator"
-               18 37                    # unsigned(55)
-               81                       # array(1)
-                  75                    # text(21)
-                     435349525420666F72206578616D706C652E636F6D
 
 
 
@@ -1346,6 +1346,10 @@ Takahashi, et al.        Expires August 13, 2020               [Page 24]
 Internet-Draft                 JSON-IODEF                  February 2020
 
 
+               18 37                    # unsigned(55)
+               81                       # array(1)
+                  75                    # text(21)
+                     435349525420666F72206578616D706C652E636F6D
                                         # "CSIRT for example.com"
                18 3B                    # unsigned(59)
                81                       # array(1)
@@ -1390,10 +1394,6 @@ Internet-Draft                 JSON-IODEF                  February 2020
                                         # "kj290023j09r34.example.com"
 
                Figure 7: Indicators from a Campaign in CBOR
-
-
-
-
 
 
 
